@@ -1,0 +1,6 @@
+{
+  "environment": "local",
+  "baseUrlRead": "http://192.168.0.230:3000/api/",
+  "baseUrlWrite": "http://192.168.0.230:3000/api/",
+  "version": "1.2.21"
+}

@@ -1,0 +1,6 @@
+{
+  "environment": "beta",
+  "baseUrlRead": "https://test.ddverp.com/web-tester/v1/api/",
+  "baseUrlWrite": "https://test.ddverp.com/web-tester/v1/api/",
+  "version": "1.2.8"
+}

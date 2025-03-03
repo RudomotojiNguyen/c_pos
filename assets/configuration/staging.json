@@ -1,0 +1,6 @@
+{
+  "environment": "beta",
+  "baseUrlRead": "https://staging.ddverp.com/web-staging-api/v1/api/",
+  "baseUrlWrite": "https://staging.ddverp.com/web-staging-api/v1/api/",
+  "version": "1.2.46"
+}

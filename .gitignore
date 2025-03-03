@@ -24,12 +24,14 @@ migrate_working_dir/
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
+**/ios/build/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
 /build/
+pubspec.lock
 
 # Symbolication related
 app.*.symbols
@@ -38,6 +40,16 @@ app.*.symbols
 app.*.map.json
 
 # Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+#/android/app/debug
+#/android/app/profile
+#/android/app/release
+
+# Ignore Firebase configuration files
+#lib/firebase_options.dart
+#lib/firebase_options_*.dart
+#ios/Runner/GoogleService-Info.plist
+#ios/flavors/*/GoogleService-Info.plist
+#macos/Runner/GoogleService-Info.plist
+#macos/flavors/*/GoogleService-Info.plist
+#android/app/google-services.json
+#android/app/src/*/google-services.json
