@@ -9,6 +9,7 @@ export 'status_enum.dart';
 export 'payment_transaction.dart';
 export 'support_ticket_status.dart';
 export 'ticket_type.dart';
+export 'x_expression.dart';
 
 enum XMomentTimeEnum { morning, evening }
 

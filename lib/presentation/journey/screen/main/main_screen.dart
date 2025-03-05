@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/constants/go_router.dart';
 import '../../../../common/di/injection/injection.dart';
-import '../../../../gen/gen.dart';
 import '../../../mixins/dialog_mixins.dart';
-import '../../../theme/themes.dart';
 import '../../../widgets/button/btn_create_bill.dart';
 import '../../../widgets/widgets.dart';
 import '../../router.dart';
@@ -14,7 +11,6 @@ import '../global_bloc/global_core_bloc.dart';
 import '../home/home_screen.dart';
 import '../login/bloc/auth_bloc.dart';
 import '../setting/bloc/setting_bloc.dart';
-import '../setting/setting_screen.dart';
 import '../store/bloc/store_bloc.dart';
 import 'bloc/main_bloc.dart';
 

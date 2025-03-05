@@ -15,6 +15,8 @@ extension ColorExtension on TextStyle {
   TextStyle get neutral2 => copyWith(color: AppColors.neutral2Color);
 
   TextStyle get neutral => copyWith(color: AppColors.neutralColor);
+
+  TextStyle get information => copyWith(color: AppColors.informationColor);
 }
 
 extension MyFontWeight on TextStyle {
@@ -31,6 +33,8 @@ extension MyFontWeight on TextStyle {
   TextStyle get w300 => copyWith(fontWeight: FontWeight.w300);
 
   TextStyle get w900 => copyWith(fontWeight: FontWeight.w900);
+
+  TextStyle get w800 => copyWith(fontWeight: FontWeight.w800);
 }
 
 extension MyFontStyle on TextStyle {

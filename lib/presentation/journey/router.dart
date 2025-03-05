@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/configs/configurations.dart';
 import '../../common/constants/go_router.dart';
 import '../../common/di/injection/injection.dart';
 import '../../common/utils/navigator_service.dart';
@@ -10,6 +9,7 @@ import '../../data/datasources/local_data/local_storage.dart';
 import '../../data/models/image_detail_model.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
+import 'screen/commission/overview/affiliate_commission_screen.dart';
 import 'screen/login/login_screen.dart';
 import 'screen/main/main_screen.dart';
 import 'screen/splash/splash_screen.dart';
@@ -42,7 +42,13 @@ class MainRouter {
           builder: (BuildContext context, GoRouterState state) =>
               const MainScreen(),
           routes: [
-            //
+            GoRoute(
+              path: RouteName.affiliateCommission,
+              name: RouteName.affiliateCommission,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const AffiliateCommissionScreen(),
+              routes: const [],
+            ),
           ],
         ),
         GoRoute(

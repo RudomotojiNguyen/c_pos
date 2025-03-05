@@ -8,6 +8,8 @@ export 'dialog/confirm_dialog.dart';
 export 'dialog/header_dialog.dart';
 export 'dialog/internet_dialog.dart';
 export 'dialog/select_image_dialog.dart';
+export 'dialog/condition/condition_detail_dialog.dart';
+export 'dialog/commission_detail_dialog.dart';
 export 'dropdown/x_basic_drop_down.dart';
 export 'empty/empty_data_widget.dart';
 export 'loading/bottom_load_widget.dart';

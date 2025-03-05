@@ -6,7 +6,6 @@ import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/extensions/extension.dart';
 import '../../../../../gen/gen.dart';
-import '../../../../theme/themes.dart';
 import '../../login/bloc/auth_bloc.dart';
 
 class ProfileWidget extends StatefulWidget {
@@ -21,46 +20,52 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Assets.svg.person.svg(width: 40.sp),
-        BoxSpacer.s24,
-        Expanded(
-          child: BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: buildWhen,
-            bloc: _authBloc,
-            builder: (context, state) {
-              if (state.userInfo == null) return BoxSpacer.blank;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    state.userInfo?.getFullName ?? '',
-                    style: AppFont.t.s(14),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                  if (state.userInfo!.getUserCode.isNotNullOrEmpty) ...[
-                    BoxSpacer.s4,
-                    Text(
-                      'MNV: ${state.userInfo?.getUserCode ?? ''}',
-                      style: AppFont.t.s(12),
-                    ),
-                  ],
-                  if (state.userInfo!.getStoreName.isNotNullOrEmpty) ...[
-                    BoxSpacer.s4,
-                    Text(
-                      'CH:  ${state.userInfo?.getStoreName ?? ''}',
-                      style: AppFont.t.s(12),
-                    ),
-                  ],
-                ],
-              );
-            },
-          ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.sp),
+      color: Colors.white,
+      child: SafeArea(
+        child: Row(
+          children: [
+            Assets.svg.person.svg(width: 40.sp),
+            BoxSpacer.s24,
+            Expanded(
+              child: BlocBuilder<AuthBloc, AuthState>(
+                buildWhen: buildWhen,
+                bloc: _authBloc,
+                builder: (context, state) {
+                  if (state.userInfo == null) return BoxSpacer.blank;
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.userInfo?.getFullName ?? '',
+                        style: AppFont.t.s(14),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      if (state.userInfo!.getUserCode.isNotNullOrEmpty) ...[
+                        BoxSpacer.s4,
+                        Text(
+                          'MNV: ${state.userInfo?.getUserCode ?? ''}',
+                          style: AppFont.t.s(12),
+                        ),
+                      ],
+                      if (state.userInfo!.getStoreName.isNotNullOrEmpty) ...[
+                        BoxSpacer.s4,
+                        Text(
+                          'CH:  ${state.userInfo?.getStoreName ?? ''}',
+                          style: AppFont.t.s(12),
+                        ),
+                      ],
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

@@ -1,10 +1,12 @@
 import 'package:c_pos/common/configs/box.dart';
 import 'package:c_pos/gen/gen.dart';
+import 'package:c_pos/presentation/journey/router.dart';
 import 'package:c_pos/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../common/constants/go_router.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/extensions/extension.dart';
 import '../login/bloc/auth_bloc.dart';
@@ -18,29 +20,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final MainRouter _mainRouter = MainRouter.instance;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 64.sp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-              child: const ProfileWidget(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const ProfileWidget(),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: 64.sp),
+            child: Column(
+              children: [
+                BoxSpacer.s16,
+                _userInfo(),
+                BoxSpacer.s16,
+                _retailWidget(),
+                BoxSpacer.s16,
+                _customerWidget(),
+                BoxSpacer.s16,
+                _stockWidget(),
+              ],
             ),
-            BoxSpacer.s16,
-            _userInfo(),
-            BoxSpacer.s16,
-            _retailWidget(),
-            BoxSpacer.s16,
-            _customerWidget(),
-            BoxSpacer.s16,
-            _stockWidget(),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -64,6 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
               _operationItem(
                 title: 'Hoa hồng',
                 icon: Assets.svg.savingMoney.svg(width: 32.sp),
+                onPressed: () => _mainRouter.pushNamed(
+                  context,
+                  routeName: RouteName.affiliateCommission,
+                ),
               ),
               BoxSpacer.s8,
               _operationItem(

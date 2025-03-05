@@ -48,4 +48,7 @@ extension NumberExtensions on num {
   SupportTicketStatus get getSupportTicketStatus =>
       SupportTicketStatusExtension.mapSupportTicketStatus[this] ??
       SupportTicketStatus.none;
+
+  XExpression get getOperatorType =>
+      XExpressionExtension.mapOperatorType[this] ?? XExpression.none;
 }

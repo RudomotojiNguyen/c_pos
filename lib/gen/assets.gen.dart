@@ -87,6 +87,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/bill.svg
   SvgGenImage get bill => const SvgGenImage('assets/svg/bill.svg');
 
+  /// File path: assets/svg/cash.svg
+  SvgGenImage get cash => const SvgGenImage('assets/svg/cash.svg');
+
   /// File path: assets/svg/customer.svg
   SvgGenImage get customer => const SvgGenImage('assets/svg/customer.svg');
 
@@ -135,6 +138,7 @@ class $AssetsSvgGen {
         addToCart,
         barcode,
         bill,
+        cash,
         customer,
         homeDisable,
         homeEnanle,

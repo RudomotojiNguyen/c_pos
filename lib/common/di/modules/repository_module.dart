@@ -1,8 +1,10 @@
+import '../../../data/repository/affiliate_commission_repositories.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/order_repository.dart';
 import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
+import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
 import '../../../data/services/order_services.dart';
 import '../../../data/services/store_services.dart';
@@ -25,6 +27,10 @@ class RepositoryModule extends DIModule {
           () => OrderRepositoryImpl(orderServices: getIt.get<OrderServices>()))
       ..registerLazySingleton<SupportRepositories>(() =>
           SupportRepositoriesImpl(
-              supportServices: getIt.get<SupportServices>()));
+              supportServices: getIt.get<SupportServices>()))
+      ..registerLazySingleton<AffiliateCommissionRepositories>(() =>
+          AffiliateCommissionRepositoriesImpl(
+              affiliateCommissionServices:
+                  getIt.get<AffiliateCommissionServices>()));
   }
 }
