@@ -1,8 +1,8 @@
+import 'package:c_pos/gen/gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../mixins/mixins.dart';
-import '../../theme/themes.dart';
 import '../dialog/operation_create_dialog.dart';
 import 'base_button.dart';
 
@@ -24,14 +24,7 @@ class BtnCreateBill extends StatelessWidget with DialogHelper {
           },
         );
       },
-      child: CircleAvatar(
-        radius: 18.sp,
-        backgroundColor: AppColors.primaryColor,
-        child: const Icon(
-          Icons.add,
-          color: AppColors.white,
-        ),
-      ),
+      child: Assets.svg.addToCart.svg(width: 42.sp),
     );
   }
 }

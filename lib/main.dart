@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'common/configs/configurations.dart';
 import 'common/di/injection/injection.dart';
 import 'common/utils/database_utils.dart';
+import 'data/datasources/local_data/user_storage.dart';
 import 'presentation/common_bloc/supervisor_bloc.dart';
 import 'presentation/journey/app.dart';
 import 'presentation/widgets/widgets.dart';
@@ -57,9 +58,8 @@ Future<void> main() async {
     Bloc.observer = SupervisorBloc();
   }
 
-  ///lấy và set địa chỉ lưu trữ
-  // final dir = await Utils.getAppDocumentDirectory();
-  // await getIt.get<CartStorage>().initStorage(dir);
+  /// lấy và set địa chỉ lưu trữ
+  await getIt.get<UserStorage>().initUserLocalDb();
 
   // if (configurations.isProduct) {
   //   // await SentryFlutter.init(

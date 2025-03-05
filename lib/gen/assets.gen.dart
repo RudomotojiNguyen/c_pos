@@ -34,11 +34,20 @@ class $AssetsConfigurationGen {
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
+  /// File path: assets/lottie/cash-on-delivery.json
+  String get cashOnDelivery => 'assets/lottie/cash-on-delivery.json';
+
+  /// File path: assets/lottie/customer-support.json
+  String get customerSupport => 'assets/lottie/customer-support.json';
+
   /// File path: assets/lottie/driver.json
   String get driver => 'assets/lottie/driver.json';
 
   /// File path: assets/lottie/empty_data.json
   String get emptyData => 'assets/lottie/empty_data.json';
+
+  /// File path: assets/lottie/inventory.json
+  String get inventory => 'assets/lottie/inventory.json';
 
   /// File path: assets/lottie/maintaine.json
   String get maintaine => 'assets/lottie/maintaine.json';
@@ -53,21 +62,93 @@ class $AssetsLottieGen {
   String get transfer => 'assets/lottie/transfer.json';
 
   /// List of all assets
-  List<String> get values =>
-      [driver, emptyData, maintaine, notconnected, pickpackage, transfer];
+  List<String> get values => [
+        cashOnDelivery,
+        customerSupport,
+        driver,
+        emptyData,
+        inventory,
+        maintaine,
+        notconnected,
+        pickpackage,
+        transfer
+      ];
 }
 
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/add-to-cart.svg
+  SvgGenImage get addToCart => const SvgGenImage('assets/svg/add-to-cart.svg');
+
+  /// File path: assets/svg/barcode.svg
+  SvgGenImage get barcode => const SvgGenImage('assets/svg/barcode.svg');
+
+  /// File path: assets/svg/bill.svg
+  SvgGenImage get bill => const SvgGenImage('assets/svg/bill.svg');
+
+  /// File path: assets/svg/customer.svg
+  SvgGenImage get customer => const SvgGenImage('assets/svg/customer.svg');
+
+  /// File path: assets/svg/home-disable.svg
+  SvgGenImage get homeDisable =>
+      const SvgGenImage('assets/svg/home-disable.svg');
+
+  /// File path: assets/svg/home-enanle.svg
+  SvgGenImage get homeEnanle => const SvgGenImage('assets/svg/home-enanle.svg');
+
   /// File path: assets/svg/img_logo.svg
   SvgGenImage get imgLogo => const SvgGenImage('assets/svg/img_logo.svg');
+
+  /// File path: assets/svg/inventory.svg
+  SvgGenImage get inventory => const SvgGenImage('assets/svg/inventory.svg');
+
+  /// File path: assets/svg/invoice.svg
+  SvgGenImage get invoice => const SvgGenImage('assets/svg/invoice.svg');
 
   /// File path: assets/svg/ios-link.svg
   SvgGenImage get iosLink => const SvgGenImage('assets/svg/ios-link.svg');
 
+  /// File path: assets/svg/logout.svg
+  SvgGenImage get logout => const SvgGenImage('assets/svg/logout.svg');
+
+  /// File path: assets/svg/person.svg
+  SvgGenImage get person => const SvgGenImage('assets/svg/person.svg');
+
+  /// File path: assets/svg/saving-money.svg
+  SvgGenImage get savingMoney =>
+      const SvgGenImage('assets/svg/saving-money.svg');
+
+  /// File path: assets/svg/setting-disable.svg
+  SvgGenImage get settingDisable =>
+      const SvgGenImage('assets/svg/setting-disable.svg');
+
+  /// File path: assets/svg/setting-enable.svg
+  SvgGenImage get settingEnable =>
+      const SvgGenImage('assets/svg/setting-enable.svg');
+
+  /// File path: assets/svg/shopping.svg
+  SvgGenImage get shopping => const SvgGenImage('assets/svg/shopping.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [imgLogo, iosLink];
+  List<SvgGenImage> get values => [
+        addToCart,
+        barcode,
+        bill,
+        customer,
+        homeDisable,
+        homeEnanle,
+        imgLogo,
+        inventory,
+        invoice,
+        iosLink,
+        logout,
+        person,
+        savingMoney,
+        settingDisable,
+        settingEnable,
+        shopping
+      ];
 }
 
 class Assets {

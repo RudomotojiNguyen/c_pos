@@ -1,3 +1,4 @@
+import 'package:c_pos/common/configs/box.dart';
 import 'package:c_pos/gen/gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,9 +44,10 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Assets.svg.imgLogo.svg(width: 240.sp),
+              BoxSpacer.s32,
               Text(
                 'Đang tải dữ liệu bạn chờ chút nhé!',
-                style: AppFont.t.s(18),
+                style: AppFont.t.s(16).w500,
               ),
             ],
           ),

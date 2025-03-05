@@ -12,14 +12,13 @@ class _ContentPageWidgetState extends State<ContentPageWidget> {
   Widget build(BuildContext context) {
     final List<Widget> tabs = [
       // const ToolScreen(),
-      // const SettingScreen(),
-      Container(),
-      Container(),
+      HomeScreen(),
+      // SettingScreen(),
     ];
 
     final List<TabIndex> indexTab = [
       TabIndex.tool,
-      TabIndex.profile,
+      // TabIndex.profile,
     ];
 
     return BlocBuilder<MainBloc, MainState>(

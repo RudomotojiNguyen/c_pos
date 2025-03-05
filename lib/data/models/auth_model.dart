@@ -1,3 +1,4 @@
+import '../datasources/local_db/table/user_table.dart';
 import 'employee_model.dart';
 
 class AuthModel {
@@ -49,4 +50,17 @@ class AuthModel {
   int get getStoreId => storeId ?? 0;
 
   int get getUserId => userId ?? 0;
+
+  UserTable get convertToUserTable => UserTable()
+    ..userId = userId
+    ..username = username
+    ..storeId = storeId
+    ..storeName = storeName
+    ..employeeId = employeeId
+    ..isActive = isActive
+    ..accessToken = accessToken
+    ..listFeature = listFeature
+    ..jobTitleId = jobTitleId
+    ..fullName = employee?.fullName
+    ..userCode = employee?.code;
 }

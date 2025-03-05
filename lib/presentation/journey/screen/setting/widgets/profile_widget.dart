@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/extensions/extension.dart';
+import '../../../../../gen/gen.dart';
 import '../../../../theme/themes.dart';
 import '../../login/bloc/auth_bloc.dart';
 
@@ -22,57 +23,41 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          padding: EdgeInsets.all(20.sp),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50.sp),
-              border: Border.all(
-                color: AppColors.primaryColor,
-                width: 1.sp,
-              )),
-          child: Icon(Icons.person, size: 40.sp),
-        ),
+        Assets.svg.person.svg(width: 40.sp),
         BoxSpacer.s24,
         Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<AuthBloc, AuthState>(
-                buildWhen: buildWhen,
-                bloc: _authBloc,
-                builder: (context, state) {
-                  return Text(
+          child: BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: buildWhen,
+            bloc: _authBloc,
+            builder: (context, state) {
+              if (state.userInfo == null) return BoxSpacer.blank;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     state.userInfo?.getFullName ?? '',
                     style: AppFont.t.s(14),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                  );
-                },
-              ),
-              BoxSpacer.s4,
-              BlocBuilder<AuthBloc, AuthState>(
-                buildWhen: buildWhen,
-                bloc: _authBloc,
-                builder: (context, state) {
-                  return Text(
-                    'MNV: ${state.userInfo?.getUserCode ?? ''}',
-                    style: AppFont.t.s(12),
-                  );
-                },
-              ),
-              BoxSpacer.s4,
-              BlocBuilder<AuthBloc, AuthState>(
-                buildWhen: buildWhen,
-                bloc: _authBloc,
-                builder: (context, state) {
-                  return Text(
-                    'CH:  ${state.userInfo?.getStoreName ?? ''}',
-                    style: AppFont.t.s(12),
-                  );
-                },
-              ),
-            ],
+                  ),
+                  if (state.userInfo!.getUserCode.isNotNullOrEmpty) ...[
+                    BoxSpacer.s4,
+                    Text(
+                      'MNV: ${state.userInfo?.getUserCode ?? ''}',
+                      style: AppFont.t.s(12),
+                    ),
+                  ],
+                  if (state.userInfo!.getStoreName.isNotNullOrEmpty) ...[
+                    BoxSpacer.s4,
+                    Text(
+                      'CH:  ${state.userInfo?.getStoreName ?? ''}',
+                      style: AppFont.t.s(12),
+                    ),
+                  ],
+                ],
+              );
+            },
           ),
         ),
       ],

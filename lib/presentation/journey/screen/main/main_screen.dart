@@ -11,8 +11,10 @@ import '../../../widgets/button/btn_create_bill.dart';
 import '../../../widgets/widgets.dart';
 import '../../router.dart';
 import '../global_bloc/global_core_bloc.dart';
+import '../home/home_screen.dart';
 import '../login/bloc/auth_bloc.dart';
 import '../setting/bloc/setting_bloc.dart';
+import '../setting/setting_screen.dart';
 import '../store/bloc/store_bloc.dart';
 import 'bloc/main_bloc.dart';
 
@@ -63,19 +65,10 @@ class _MainScreenState extends XStateWidget<MainScreen> {
       bloc: _authBloc,
       listener: (context, state) {
         if (state is LogoutSuccess) {
-          MainRouter.instance.pushNamed(context, routeName: RouteName.login);
+          MainRouter.instance.pushReplace(context, routeName: RouteName.login);
         }
       },
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          const ContentPageWidget(),
-          Positioned(
-            bottom: 28.sp,
-            child: const BottomBarWidget(),
-          ),
-        ],
-      ),
+      child: const ContentPageWidget(),
     );
   }
 }

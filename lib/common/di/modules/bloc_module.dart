@@ -1,6 +1,7 @@
 import 'package:c_pos/common/di/injection/injection.dart';
 
 import '../../../data/datasources/local_data/local_storage.dart';
+import '../../../data/datasources/local_data/user_storage.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/order_repository.dart';
 import '../../../data/repository/store_repository.dart';
@@ -19,8 +20,7 @@ class BlocModule extends DIModule {
       ..registerLazySingleton(() => AuthBloc(
             authRepository: getIt.get<AuthRepository>(),
             localStorage: getIt.get<LocalStorage>(),
-            // userLocalDataSource: getIt.get<UserLocalDataSource>(),
-            // cartStorage: getIt.get<CartStorage>(),
+            userStorage: getIt.get<UserStorage>(),
             userRepositories: getIt.get<UserRepositories>(),
           ))
       ..registerLazySingleton(() => StoreBloc(

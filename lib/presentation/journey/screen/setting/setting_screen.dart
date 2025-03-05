@@ -1,13 +1,11 @@
 import 'package:c_pos/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/configs/box.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/extensions/extension.dart';
 import '../../../../data/datasources/local_data/local_storage.dart';
-import '../../../../gen/gen.dart';
 import '../../../widgets/widgets.dart';
 import '../login/bloc/auth_bloc.dart';
 import 'bloc/setting_bloc.dart';

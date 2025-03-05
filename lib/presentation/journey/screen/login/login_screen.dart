@@ -29,8 +29,6 @@ class _LoginScreenState extends XStateWidget<LoginScreen> {
 
   final Configurations configurations = getIt.get<Configurations>();
 
-  // final LocalStorage localStorage = getItAppCore.get<LocalStorage>();
-
   @override
   void dispose() {
     _userNameController.dispose();
@@ -153,7 +151,7 @@ class _LoginScreenState extends XStateWidget<LoginScreen> {
         ]);
 
         if (res.first != null) {
-          _mainRouter.goNamed(_mainRouter.ctx!, routeName: RouteName.mainCore);
+          _mainRouter.goNamed(context, routeName: RouteName.mainCore);
         }
       } catch (e) {
         XToast.showNegativeMessage(message: e.toString());
