@@ -9,6 +9,7 @@ import '../../data/datasources/local_data/local_storage.dart';
 import '../../data/models/image_detail_model.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
+import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
 import 'screen/login/login_screen.dart';
 import 'screen/main/main_screen.dart';
@@ -47,6 +48,13 @@ class MainRouter {
               name: RouteName.affiliateCommission,
               builder: (BuildContext context, GoRouterState state) =>
                   const AffiliateCommissionScreen(),
+              routes: const [],
+            ),
+            GoRoute(
+              path: RouteName.bills,
+              name: RouteName.bills,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const BillsScreen(),
               routes: const [],
             ),
           ],

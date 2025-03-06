@@ -51,4 +51,10 @@ extension NumberExtensions on num {
 
   XExpression get getOperatorType =>
       XExpressionExtension.mapOperatorType[this] ?? XExpression.none;
+
+  XDiscountType get getDiscountType =>
+      XDiscountTypeExtension.map[this] ?? XDiscountType.none;
+
+  BillType get getBillType =>
+      BillTypeExtension.mapBillType[this] ?? BillType.undefine;
 }

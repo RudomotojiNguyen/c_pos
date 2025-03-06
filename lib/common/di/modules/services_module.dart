@@ -1,4 +1,5 @@
 import '../../../data/datasources/remote/auth_api.dart';
+import '../../../data/datasources/remote/bill_api.dart';
 import '../../../data/datasources/remote/commission_api.dart';
 import '../../../data/datasources/remote/order_api.dart';
 import '../../../data/datasources/remote/store_api.dart';
@@ -6,6 +7,7 @@ import '../../../data/datasources/remote/support_api.dart';
 import '../../../data/datasources/remote/user_api.dart';
 import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
+import '../../../data/services/bill_services.dart';
 import '../../../data/services/order_services.dart';
 import '../../../data/services/store_services.dart';
 import '../../../data/services/support_services.dart';
@@ -29,6 +31,8 @@ class ServicesModule extends DIModule {
           () => SupportServicesImpl(supportApi: getIt.get<SupportApi>()))
       ..registerLazySingleton<AffiliateCommissionServices>(() =>
           AffiliateCommissionServicesImpl(
-              commissionApi: getIt.get<CommissionApi>()));
+              commissionApi: getIt.get<CommissionApi>()))
+      ..registerLazySingleton<BillServices>(
+          () => BillServicesImpl(billApi: getIt.get<BillApi>()));
   }
 }

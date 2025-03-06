@@ -20,10 +20,8 @@ class AppConstants {
   static const timeSearchValue = 400;
 
   static const noImage = 'https://didongviet.vn/NoImage.png';
-}
 
-class DateFormatter {
-  static const String defaultFormat = 'yyyy-MM-dd';
+  static const defaultNullValue = '--';
 }
 
 enum XSearchType { all, ddv, sisMobifone }
@@ -33,8 +31,6 @@ enum XVoucherType { all, redeem, promotion }
 enum XRatingType { ugly, bad, normal, good, excellent }
 
 enum XNotificationType { all, me, promotion }
-
-enum XGenderType { male, female, other }
 
 class CacheKeys {
   static const token = 'ddv_token';

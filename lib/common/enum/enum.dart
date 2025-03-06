@@ -10,6 +10,11 @@ export 'payment_transaction.dart';
 export 'support_ticket_status.dart';
 export 'ticket_type.dart';
 export 'x_expression.dart';
+export 'filter_bill_and_order_type.dart';
+export 'bill_type.dart';
+export 'x_gender_type.dart';
+export 'x_discount_type.dart';
+export 'search_type.dart';
 
 enum XMomentTimeEnum { morning, evening }
 

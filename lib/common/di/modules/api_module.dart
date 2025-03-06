@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import '../../../data/datasources/remote/auth_api.dart';
+import '../../../data/datasources/remote/bill_api.dart';
 import '../../../data/datasources/remote/commission_api.dart';
 import '../../../data/datasources/remote/order_api.dart';
 import '../../../data/datasources/remote/store_api.dart';
@@ -31,6 +32,7 @@ class ApiModule extends DIModule {
       ..registerLazySingleton(() => StoreApi(dio))
       ..registerLazySingleton(() => OrderApi(dio))
       ..registerLazySingleton(() => SupportApi(dio))
-      ..registerLazySingleton(() => CommissionApi(dio));
+      ..registerLazySingleton(() => CommissionApi(dio))
+      ..registerLazySingleton(() => BillApi(dio));
   }
 }

@@ -4,10 +4,12 @@ import '../../../data/datasources/local_data/local_storage.dart';
 import '../../../data/datasources/local_data/user_storage.dart';
 import '../../../data/repository/affiliate_commission_repositories.dart';
 import '../../../data/repository/auth_repository.dart';
+import '../../../data/repository/bill_repository.dart';
 import '../../../data/repository/order_repository.dart';
 import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
+import '../../../presentation/journey/screen/bill/list/bloc/bill_bloc.dart';
 import '../../../presentation/journey/screen/commission/bloc/affiliate_bloc.dart';
 import '../../../presentation/journey/screen/global_bloc/global_core_bloc.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
@@ -35,6 +37,10 @@ class BlocModule extends DIModule {
             orderRepository: getIt.get<OrderRepository>(),
           ))
       ..registerFactory(
-          () => AffiliateBloc(getIt.get<AffiliateCommissionRepositories>()));
+          () => AffiliateBloc(getIt.get<AffiliateCommissionRepositories>()))
+      ..registerFactory(() => BillBloc(
+            billRepository: getIt.get<BillRepository>(),
+            authBloc: getIt.get<AuthBloc>(),
+          ));
   }
 }

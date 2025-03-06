@@ -125,6 +125,9 @@ extension StringExtensions on String {
       TicketTypeExtension.mapTicketType[this] ?? TicketType.none;
 
   String get toStrSearch => removeUtf8.toLowerCase();
+
+  XDiscountType get getDiscountType =>
+      XDiscountTypeExtension.mapStr[this] ?? XDiscountType.none;
 }
 
 extension StringValidator on String {

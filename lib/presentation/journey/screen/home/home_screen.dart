@@ -125,6 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _operationItem(
                         title: 'Hóa đơn',
                         icon: Assets.svg.invoice.svg(width: 32.sp),
+                        onPressed: () => _mainRouter.pushNamed(
+                          context,
+                          routeName: RouteName.bills,
+                        ),
                       ),
                       BoxSpacer.s8,
                       _operationItem(
