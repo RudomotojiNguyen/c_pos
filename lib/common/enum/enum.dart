@@ -15,6 +15,9 @@ export 'bill_type.dart';
 export 'x_gender_type.dart';
 export 'x_discount_type.dart';
 export 'search_type.dart';
+export 'filter_time.dart';
+export 'x_product_operation_action.dart';
+export 'expression.dart';
 
 enum XMomentTimeEnum { morning, evening }
 

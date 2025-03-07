@@ -13,6 +13,7 @@ import '../../../presentation/journey/screen/bill/list/bloc/bill_bloc.dart';
 import '../../../presentation/journey/screen/commission/bloc/affiliate_bloc.dart';
 import '../../../presentation/journey/screen/global_bloc/global_core_bloc.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
+import '../../../presentation/journey/screen/order/bloc/order_bloc.dart';
 import '../../../presentation/journey/screen/setting/bloc/setting_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';
 import '../../base/di_module.dart';
@@ -41,6 +42,8 @@ class BlocModule extends DIModule {
       ..registerFactory(() => BillBloc(
             billRepository: getIt.get<BillRepository>(),
             authBloc: getIt.get<AuthBloc>(),
-          ));
+          ))
+      ..registerFactory(
+          () => OrderBloc(orderRepository: getIt.get<OrderRepository>()));
   }
 }

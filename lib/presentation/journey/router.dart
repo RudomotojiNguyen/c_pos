@@ -9,10 +9,14 @@ import '../../data/datasources/local_data/local_storage.dart';
 import '../../data/models/image_detail_model.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
+import 'screen/bill/detail/bill_detail.dart';
 import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
 import 'screen/login/login_screen.dart';
 import 'screen/main/main_screen.dart';
+import 'screen/order/detail/order_detail_screen.dart';
+import 'screen/order/list/order_list_screen.dart';
+import 'screen/product/product_screen.dart';
 import 'screen/splash/splash_screen.dart';
 
 class MainRouter {
@@ -55,7 +59,39 @@ class MainRouter {
               name: RouteName.bills,
               builder: (BuildContext context, GoRouterState state) =>
                   const BillsScreen(),
-              routes: const [],
+              routes: [
+                GoRoute(
+                  path: RouteName.billDetail,
+                  name: RouteName.billDetail,
+                  builder: (BuildContext context, GoRouterState state) {
+                    String billId = state.uri.queryParameters['billId'] ?? '';
+                    return BillDetail(billId: billId);
+                  },
+                  routes: const [],
+                ),
+              ],
+            ),
+            GoRoute(
+              path: RouteName.orders,
+              name: RouteName.orders,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const OrderListScreen(),
+              routes: [
+                GoRoute(
+                  path: RouteName.orderDetail,
+                  name: RouteName.orderDetail,
+                  builder: (BuildContext context, GoRouterState state) {
+                    String orderId = state.uri.queryParameters['orderId'] ?? '';
+                    return OrderDetailScreen(orderId: orderId);
+                  },
+                ),
+              ],
+            ),
+            GoRoute(
+              path: RouteName.productDetail,
+              name: RouteName.productDetail,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const ProductDetailScreen(),
             ),
           ],
         ),

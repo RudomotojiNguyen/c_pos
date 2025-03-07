@@ -133,6 +133,13 @@ class $AssetsSvgGen {
   /// File path: assets/svg/shopping.svg
   SvgGenImage get shopping => const SvgGenImage('assets/svg/shopping.svg');
 
+  /// File path: assets/svg/sticky-notes.svg
+  SvgGenImage get stickyNotes =>
+      const SvgGenImage('assets/svg/sticky-notes.svg');
+
+  /// File path: assets/svg/wallet.svg
+  SvgGenImage get wallet => const SvgGenImage('assets/svg/wallet.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
         addToCart,
@@ -151,7 +158,9 @@ class $AssetsSvgGen {
         savingMoney,
         settingDisable,
         settingEnable,
-        shopping
+        shopping,
+        stickyNotes,
+        wallet
       ];
 }
 
