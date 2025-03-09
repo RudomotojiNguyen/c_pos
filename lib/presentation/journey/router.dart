@@ -1,3 +1,4 @@
+import 'package:c_pos/common/extensions/string_extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,8 @@ import '../widgets/widgets.dart';
 import 'screen/bill/detail/bill_detail.dart';
 import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
+import 'screen/customer/customer_history/customer_history_screen.dart';
+import 'screen/customer/list_customer/customers_screen.dart';
 import 'screen/login/login_screen.dart';
 import 'screen/main/main_screen.dart';
 import 'screen/order/detail/order_detail_screen.dart';
@@ -52,46 +55,50 @@ class MainRouter {
               name: RouteName.affiliateCommission,
               builder: (BuildContext context, GoRouterState state) =>
                   const AffiliateCommissionScreen(),
-              routes: const [],
             ),
             GoRoute(
               path: RouteName.bills,
               name: RouteName.bills,
-              builder: (BuildContext context, GoRouterState state) =>
-                  const BillsScreen(),
-              routes: [
-                GoRoute(
-                  path: RouteName.billDetail,
-                  name: RouteName.billDetail,
-                  builder: (BuildContext context, GoRouterState state) {
-                    String billId = state.uri.queryParameters['billId'] ?? '';
-                    return BillDetail(billId: billId);
-                  },
-                  routes: const [],
-                ),
-              ],
+              builder: (BuildContext context, GoRouterState state) {
+                String billId = state.uri.queryParameters['billId'] ?? '';
+                if (billId.isNotNullOrEmpty) {
+                  return BillDetail(billId: billId);
+                } else {
+                  return const BillsScreen();
+                }
+              },
             ),
             GoRoute(
               path: RouteName.orders,
               name: RouteName.orders,
-              builder: (BuildContext context, GoRouterState state) =>
-                  const OrderListScreen(),
-              routes: [
-                GoRoute(
-                  path: RouteName.orderDetail,
-                  name: RouteName.orderDetail,
-                  builder: (BuildContext context, GoRouterState state) {
-                    String orderId = state.uri.queryParameters['orderId'] ?? '';
-                    return OrderDetailScreen(orderId: orderId);
-                  },
-                ),
-              ],
+              builder: (BuildContext context, GoRouterState state) {
+                String orderId = state.uri.queryParameters['orderId'] ?? '';
+                if (orderId.isNotNullOrEmpty) {
+                  return OrderDetailScreen(orderId: orderId);
+                } else {
+                  return const OrderListScreen();
+                }
+              },
             ),
             GoRoute(
               path: RouteName.productDetail,
               name: RouteName.productDetail,
               builder: (BuildContext context, GoRouterState state) =>
                   const ProductDetailScreen(),
+            ),
+            GoRoute(
+              path: RouteName.customer,
+              name: RouteName.customer,
+              builder: (BuildContext context, GoRouterState state) {
+                String customerId =
+                    state.uri.queryParameters['customerId'] ?? '';
+                if (customerId.isNotNullOrEmpty) {
+                  return CustomerHistoryScreen(
+                      customerId: int.parse(customerId));
+                } else {
+                  return const CustomersScreen();
+                }
+              },
             ),
           ],
         ),

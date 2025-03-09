@@ -11,7 +11,7 @@ class ConditionBillItem extends StatelessWidget {
       onPressed: () {
         MainRouter.instance.pushNamed(
           context,
-          routeName: RouteName.billDetail,
+          routeName: RouteName.bills,
           queryParameters: {
             'billId': billCondition.id,
           },

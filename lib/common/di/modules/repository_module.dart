@@ -1,6 +1,7 @@
 import '../../../data/repository/affiliate_commission_repositories.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/bill_repository.dart';
+import '../../../data/repository/customer_repository.dart';
 import '../../../data/repository/order_repository.dart';
 import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
@@ -8,6 +9,7 @@ import '../../../data/repository/user_repositories.dart';
 import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
 import '../../../data/services/bill_services.dart';
+import '../../../data/services/customer_services.dart';
 import '../../../data/services/order_services.dart';
 import '../../../data/services/store_services.dart';
 import '../../../data/services/support_services.dart';
@@ -35,6 +37,8 @@ class RepositoryModule extends DIModule {
               affiliateCommissionServices:
                   getIt.get<AffiliateCommissionServices>()))
       ..registerLazySingleton<BillRepository>(
-          () => BillRepositoryImpl(billServices: getIt.get<BillServices>()));
+          () => BillRepositoryImpl(billServices: getIt.get<BillServices>()))
+      ..registerLazySingleton<CustomerRepository>(() => CustomerRepositoryImpl(
+          customerServices: getIt.get<CustomerServices>()));
   }
 }

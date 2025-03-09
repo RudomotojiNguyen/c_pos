@@ -44,7 +44,7 @@ class _InfoIdUpdateWidgetState extends State<InfoIdUpdateWidget> {
           XBaseButton(
             onPressed: () {
               MainRouter.instance.pushNamed(context,
-                  routeName: RouteName.orderDetail,
+                  routeName: RouteName.orders,
                   queryParameters: {
                     'orderId': widget.orderId.toString(),
                   });

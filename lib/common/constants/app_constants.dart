@@ -22,6 +22,9 @@ class AppConstants {
   static const noImage = 'https://didongviet.vn/NoImage.png';
 
   static const defaultNullValue = '--';
+
+  /// key
+  static const selectBillTypeDialogKey = ValueKey('selectBillTypeDialogKey');
 }
 
 enum XSearchType { all, ddv, sisMobifone }

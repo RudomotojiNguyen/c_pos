@@ -94,7 +94,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                 onPressed: () {
                   MainRouter.instance.pushNamed(
                     context,
-                    routeName: RouteName.orderDetail,
+                    routeName: RouteName.orders,
                     queryParameters: {
                       'orderId': item.id?.toString(),
                     },

@@ -184,6 +184,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _operationItem(
                         title: 'Tìm khách',
                         icon: Assets.svg.customer.svg(width: 32.sp),
+                        onPressed: () => _mainRouter.pushNamed(
+                          context,
+                          routeName: RouteName.customer,
+                        ),
                       ),
                     ],
                   ),

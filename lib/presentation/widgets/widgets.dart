@@ -62,3 +62,4 @@ export 'product/short_product_item_loading_widget.dart';
 export 'product/product_item_detail_widget.dart';
 export 'info_id_update_widget.dart';
 export 'x_summery_payment_info.dart';
+export 'loading/customer_loading.dart';
