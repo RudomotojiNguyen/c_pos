@@ -3,10 +3,12 @@ import 'package:dio/dio.dart';
 
 import '../../../data/datasources/remote/auth_api.dart';
 import '../../../data/datasources/remote/bill_api.dart';
+import '../../../data/datasources/remote/category_api.dart';
 import '../../../data/datasources/remote/commission_api.dart';
 import '../../../data/datasources/remote/customer_api.dart';
 import '../../../data/datasources/remote/order_api.dart';
 import '../../../data/datasources/remote/product_api.dart';
+import '../../../data/datasources/remote/stock_api.dart';
 import '../../../data/datasources/remote/store_api.dart';
 import '../../../data/datasources/remote/support_api.dart';
 import '../../../data/datasources/remote/user_api.dart';
@@ -37,6 +39,8 @@ class ApiModule extends DIModule {
       ..registerLazySingleton(() => CommissionApi(dio))
       ..registerLazySingleton(() => BillApi(dio))
       ..registerLazySingleton(() => CustomerApi(dio))
-      ..registerLazySingleton(() => ProductApi(dio));
+      ..registerLazySingleton(() => ProductApi(dio))
+      ..registerLazySingleton(() => StockApi(dio))
+      ..registerLazySingleton(() => CategoryApi(dio));
   }
 }

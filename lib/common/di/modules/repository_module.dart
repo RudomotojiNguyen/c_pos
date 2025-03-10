@@ -1,18 +1,22 @@
 import '../../../data/repository/affiliate_commission_repositories.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/bill_repository.dart';
+import '../../../data/repository/category_repository.dart';
 import '../../../data/repository/customer_repository.dart';
 import '../../../data/repository/order_repository.dart';
 import '../../../data/repository/product_repository.dart';
+import '../../../data/repository/stock_repository.dart';
 import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
 import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
 import '../../../data/services/bill_services.dart';
+import '../../../data/services/category_service.dart';
 import '../../../data/services/customer_services.dart';
 import '../../../data/services/order_services.dart';
 import '../../../data/services/product_services.dart';
+import '../../../data/services/stock_services.dart';
 import '../../../data/services/store_services.dart';
 import '../../../data/services/support_services.dart';
 import '../../../data/services/user_services.dart';
@@ -43,6 +47,10 @@ class RepositoryModule extends DIModule {
       ..registerLazySingleton<CustomerRepository>(() => CustomerRepositoryImpl(
           customerServices: getIt.get<CustomerServices>()))
       ..registerLazySingleton<ProductRepository>(() =>
-          ProductRepositoryImpl(productServices: getIt.get<ProductServices>()));
+          ProductRepositoryImpl(productServices: getIt.get<ProductServices>()))
+      ..registerLazySingleton<StockRepository>(
+          () => StockRepositoryImpl(stockServices: getIt.get<StockServices>()))
+      ..registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
+          categoryServices: getIt.get<CategoryServices>()));
   }
 }

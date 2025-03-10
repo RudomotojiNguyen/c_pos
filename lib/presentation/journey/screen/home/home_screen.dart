@@ -251,6 +251,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _operationItem(
                         title: 'Tra tồn',
                         icon: Assets.svg.inventory.svg(width: 32.sp),
+                        onPressed: () => _mainRouter.pushNamed(
+                          context,
+                          routeName: RouteName.stock,
+                        ),
                       ),
                       BoxSpacer.s8,
                       _operationItem(

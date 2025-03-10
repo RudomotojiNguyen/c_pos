@@ -14,6 +14,8 @@ extension ColorExtension on TextStyle {
 
   TextStyle get neutral2 => copyWith(color: AppColors.neutral2Color);
 
+  TextStyle get neutral3 => copyWith(color: AppColors.neutral3Color);
+
   TextStyle get neutral => copyWith(color: AppColors.neutralColor);
 
   TextStyle get information => copyWith(color: AppColors.informationColor);
@@ -41,6 +43,8 @@ extension MyFontStyle on TextStyle {
   TextStyle get italic => copyWith(fontStyle: FontStyle.italic);
 
   TextStyle get underline => copyWith(decoration: TextDecoration.underline);
+
+  TextStyle get lineThrough => copyWith(decoration: TextDecoration.lineThrough);
 }
 
 extension MyFontSize on TextStyle {

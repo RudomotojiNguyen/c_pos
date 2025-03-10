@@ -8,4 +8,5 @@ class RouteName {
   static const String productDetail = 'productDetail';
   static const String customer = 'customer';
   static const String imeiHistory = 'imeiHistory';
+  static const String stock = 'stock';
 }

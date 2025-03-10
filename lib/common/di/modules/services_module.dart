@@ -1,18 +1,22 @@
 import '../../../data/datasources/remote/auth_api.dart';
 import '../../../data/datasources/remote/bill_api.dart';
+import '../../../data/datasources/remote/category_api.dart';
 import '../../../data/datasources/remote/commission_api.dart';
 import '../../../data/datasources/remote/customer_api.dart';
 import '../../../data/datasources/remote/order_api.dart';
 import '../../../data/datasources/remote/product_api.dart';
+import '../../../data/datasources/remote/stock_api.dart';
 import '../../../data/datasources/remote/store_api.dart';
 import '../../../data/datasources/remote/support_api.dart';
 import '../../../data/datasources/remote/user_api.dart';
 import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
 import '../../../data/services/bill_services.dart';
+import '../../../data/services/category_service.dart';
 import '../../../data/services/customer_services.dart';
 import '../../../data/services/order_services.dart';
 import '../../../data/services/product_services.dart';
+import '../../../data/services/stock_services.dart';
 import '../../../data/services/store_services.dart';
 import '../../../data/services/support_services.dart';
 import '../../../data/services/user_services.dart';
@@ -41,6 +45,10 @@ class ServicesModule extends DIModule {
       ..registerLazySingleton<CustomerServices>(
           () => CustomerServicesImpl(customerApi: getIt.get<CustomerApi>()))
       ..registerLazySingleton<ProductServices>(
-          () => ProductServicesImpl(productApi: getIt.get<ProductApi>()));
+          () => ProductServicesImpl(productApi: getIt.get<ProductApi>()))
+      ..registerLazySingleton<StockServices>(
+          () => StockServicesImpl(stockApi: getIt.get<StockApi>()))
+      ..registerLazySingleton<CategoryServices>(
+          () => CategoryServicesImpl(categoryApi: getIt.get<CategoryApi>()));
   }
 }

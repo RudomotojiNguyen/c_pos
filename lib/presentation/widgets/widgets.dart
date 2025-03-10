@@ -65,3 +65,5 @@ export 'x_summery_payment_info.dart';
 export 'loading/customer_loading.dart';
 export 'loading/imei_history_item_loading.dart';
 export 'loading/product_item_loading.dart';
+export 'loading/product_item_search_loading.dart';
+export 'dialog/stock_dialog.dart';
