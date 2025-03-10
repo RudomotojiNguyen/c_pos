@@ -57,4 +57,10 @@ extension NumberExtensions on num {
 
   BillType get getBillType =>
       BillTypeExtension.mapBillType[this] ?? BillType.undefine;
+
+  ImeiStatus get getImeiStatus =>
+      ImeiStatusExtension.mapImeiStatus[this] ?? ImeiStatus.none;
+
+  TradeInType get getTradeInType =>
+      TradeInTypeExtension.mapTradeInType[this] ?? TradeInType.undefine;
 }

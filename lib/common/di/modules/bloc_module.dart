@@ -7,6 +7,7 @@ import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/bill_repository.dart';
 import '../../../data/repository/customer_repository.dart';
 import '../../../data/repository/order_repository.dart';
+import '../../../data/repository/product_repository.dart';
 import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
@@ -16,6 +17,7 @@ import '../../../presentation/journey/screen/customer/bloc/customer_bloc.dart';
 import '../../../presentation/journey/screen/global_bloc/global_core_bloc.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
 import '../../../presentation/journey/screen/order/bloc/order_bloc.dart';
+import '../../../presentation/journey/screen/product/bloc/product_bloc.dart';
 import '../../../presentation/journey/screen/setting/bloc/setting_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';
 import '../../base/di_module.dart';
@@ -48,6 +50,7 @@ class BlocModule extends DIModule {
       ..registerFactory(() =>
           CustomerBloc(customerRepository: getIt.get<CustomerRepository>()))
       ..registerFactory(
-          () => OrderBloc(orderRepository: getIt.get<OrderRepository>()));
+          () => OrderBloc(orderRepository: getIt.get<OrderRepository>()))
+      ..registerFactory(() => ProductBloc(getIt.get<ProductRepository>()));
   }
 }

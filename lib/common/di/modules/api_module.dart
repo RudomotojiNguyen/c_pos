@@ -6,6 +6,7 @@ import '../../../data/datasources/remote/bill_api.dart';
 import '../../../data/datasources/remote/commission_api.dart';
 import '../../../data/datasources/remote/customer_api.dart';
 import '../../../data/datasources/remote/order_api.dart';
+import '../../../data/datasources/remote/product_api.dart';
 import '../../../data/datasources/remote/store_api.dart';
 import '../../../data/datasources/remote/support_api.dart';
 import '../../../data/datasources/remote/user_api.dart';
@@ -35,6 +36,7 @@ class ApiModule extends DIModule {
       ..registerLazySingleton(() => SupportApi(dio))
       ..registerLazySingleton(() => CommissionApi(dio))
       ..registerLazySingleton(() => BillApi(dio))
-      ..registerLazySingleton(() => CustomerApi(dio));
+      ..registerLazySingleton(() => CustomerApi(dio))
+      ..registerLazySingleton(() => ProductApi(dio));
   }
 }

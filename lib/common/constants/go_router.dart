@@ -7,4 +7,5 @@ class RouteName {
   static const String affiliateCommission = 'affiliateCommission';
   static const String productDetail = 'productDetail';
   static const String customer = 'customer';
+  static const String imeiHistory = 'imeiHistory';
 }

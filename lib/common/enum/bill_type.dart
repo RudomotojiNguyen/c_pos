@@ -10,7 +10,7 @@ enum BillType {
   shipping, // hóa đơn giao hàng
   importStockFromTransfer, // enum này dùng cho phiếu nhập kho từ phiếu chuyển kho
   guarantee, // bảo hành
-  // tradeIn, //Thu cũ
+  tradeIn, //Thu cũ
   order, //Đơn hàng
 
   ///phần này sẽ không dùng cho check BE

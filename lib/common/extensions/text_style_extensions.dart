@@ -39,6 +39,8 @@ extension MyFontWeight on TextStyle {
 
 extension MyFontStyle on TextStyle {
   TextStyle get italic => copyWith(fontStyle: FontStyle.italic);
+
+  TextStyle get underline => copyWith(decoration: TextDecoration.underline);
 }
 
 extension MyFontSize on TextStyle {

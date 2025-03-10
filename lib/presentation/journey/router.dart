@@ -15,6 +15,8 @@ import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
 import 'screen/customer/customer_history/customer_history_screen.dart';
 import 'screen/customer/list_customer/customers_screen.dart';
+import 'screen/imei_history/detail/imei_detail_screen.dart';
+import 'screen/imei_history/search_list/product_imei_history_screen.dart';
 import 'screen/login/login_screen.dart';
 import 'screen/main/main_screen.dart';
 import 'screen/order/detail/order_detail_screen.dart';
@@ -100,6 +102,17 @@ class MainRouter {
                 }
               },
             ),
+            GoRoute(
+                path: RouteName.imeiHistory,
+                name: RouteName.imeiHistory,
+                builder: (BuildContext context, GoRouterState state) {
+                  String imei = state.uri.queryParameters['imei'] ?? '';
+                  if (imei.isNotNullOrEmpty) {
+                    return ImeiDetailScreen(imei: imei);
+                  } else {
+                    return const ProductImeiHistoryScreen();
+                  }
+                }),
           ],
         ),
         GoRoute(

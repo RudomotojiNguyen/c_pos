@@ -256,6 +256,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _operationItem(
                         title: 'Tra Imei',
                         icon: Assets.svg.barcode.svg(width: 32.sp),
+                        onPressed: () => _mainRouter.pushNamed(
+                          context,
+                          routeName: RouteName.imeiHistory,
+                        ),
                       ),
                     ],
                   ),
