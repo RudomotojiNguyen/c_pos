@@ -34,6 +34,7 @@ class _ListImeiWidgetState extends State<ListImeiWidget> {
 
   @override
   Widget build(BuildContext context) {
+    int crossAxisCount = context.isSmallScreen ? 1 : 2;
     return BlocConsumer<ProductBloc, ProductState>(
       bloc: widget.productBloc,
       listener: (context, state) {
@@ -79,28 +80,35 @@ class _ListImeiWidgetState extends State<ListImeiWidget> {
           onLoading: () {
             widget.productBloc.add(GetMoreImeiHistoryEvent());
           },
-          child: ListView.separated(
-            itemCount: data.length,
-            padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
-            itemBuilder: (context, index) {
-              final ImeiHistoryModel item = data[index];
-              return ImeiHistoryItemWidget(
-                imei: item.getImei,
-                status: item.getStatus,
-                colorStatus: item.status?.getColorImeiStatus,
-                productImage: item.getProductImage,
-                productName: item.getProductName,
-                sellingPrice: item.getSellingPrice,
-                onPressed: () {
-                  MainRouter.instance.pushNamed(context,
-                      routeName: RouteName.imeiHistory,
-                      queryParameters: {
-                        'imei': item.imeiNo,
-                      });
-                },
-              );
-            },
-            separatorBuilder: (context, index) => BoxSpacer.s16,
+          child: SingleChildScrollView(
+            child: XGridView(
+              type: XGridViewType.aligned,
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 16.sp,
+              crossAxisSpacing: 16.sp,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final ImeiHistoryModel item = data[index];
+                return ImeiHistoryItemWidget(
+                  imei: item.getImei,
+                  status: item.getStatus,
+                  colorStatus: item.status?.getColorImeiStatus,
+                  productImage: item.getProductImage,
+                  productName: item.getProductName,
+                  sellingPrice: item.getSellingPrice,
+                  onPressed: () {
+                    MainRouter.instance.pushNamed(context,
+                        routeName: RouteName.imeiHistory,
+                        queryParameters: {
+                          'imei': item.imeiNo,
+                        });
+                  },
+                );
+              },
+            ),
           ),
         );
       },

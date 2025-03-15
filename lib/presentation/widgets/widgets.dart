@@ -67,3 +67,4 @@ export 'loading/imei_history_item_loading.dart';
 export 'loading/product_item_loading.dart';
 export 'loading/product_item_search_loading.dart';
 export 'dialog/stock_dialog.dart';
+export 'x_grid_view.dart';

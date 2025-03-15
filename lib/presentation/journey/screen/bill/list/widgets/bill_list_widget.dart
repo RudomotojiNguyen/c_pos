@@ -1,10 +1,10 @@
 import 'package:c_pos/common/enum/enum.dart';
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/constants/go_router.dart';
 import '../../../../../../data/models/bill_model.dart';
 import '../../../../../widgets/widgets.dart';
@@ -35,6 +35,7 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    int crossAxisCount = context.isSmallScreen ? 1 : 2;
     return BlocConsumer<BillBloc, BillState>(
       bloc: widget.billBloc,
       listener: (context, state) {
@@ -80,32 +81,39 @@ class _BillListWidgetState extends State<BillListWidget> {
           onLoading: () {
             widget.billBloc.add(GetMoreBillListEvent());
           },
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
-            separatorBuilder: (context, index) => BoxSpacer.s16,
-            itemCount: state.bills.length,
-            itemBuilder: (BuildContext context, int index) {
-              final BillModel item = state.bills[index];
-              return TransactionItem(
-                id: item.getBillNumber,
-                amount: item.getTotalAmount,
-                customerName: item.getCustomerName,
-                customerPhone: item.getCustomerPhone,
-                dateTime: item.getCreateDate,
-                status: item.type?.getTitle,
-                color: item.type?.getColor,
-                customerRank: item.getCustomerRankName,
-                onPressed: () {
-                  MainRouter.instance.pushNamed(
-                    context,
-                    routeName: RouteName.bills,
-                    queryParameters: {
-                      'billId': item.getBillId,
-                    },
-                  );
-                },
-              );
-            },
+          child: SingleChildScrollView(
+            child: XGridView(
+              type: XGridViewType.aligned,
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 16.sp,
+              crossAxisSpacing: 16.sp,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
+              itemCount: state.bills.length,
+              itemBuilder: (context, index) {
+                final BillModel item = state.bills[index];
+                return TransactionItem(
+                  id: item.getBillNumber,
+                  amount: item.getTotalAmount,
+                  customerName: item.getCustomerName,
+                  customerPhone: item.getCustomerPhone,
+                  dateTime: item.getCreateDate,
+                  status: item.type?.getTitle,
+                  color: item.type?.getColor,
+                  customerRank: item.getCustomerRankName,
+                  onPressed: () {
+                    MainRouter.instance.pushNamed(
+                      context,
+                      routeName: RouteName.bills,
+                      queryParameters: {
+                        'billId': item.getBillId,
+                      },
+                    );
+                  },
+                );
+              },
+            ),
           ),
         );
       },

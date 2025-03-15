@@ -31,17 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.only(bottom: 64.sp),
-            child: Column(
-              children: [
-                BoxSpacer.s16,
-                _userInfo(),
-                BoxSpacer.s16,
-                _retailWidget(),
-                BoxSpacer.s16,
-                _customerWidget(),
-                BoxSpacer.s16,
-                _stockWidget(),
-              ],
+            child: XResponsive(
+              small: _renderSmallScreen(),
+              normal: _renderSmallScreen(),
+              large: _renderLargeScreen(),
+              extraLarge: _renderLargeScreen(),
             ),
           ),
         ),
@@ -50,6 +44,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   ///------ Widget ------///
+
+  Widget _renderSmallScreen() {
+    return Column(
+      children: [
+        BoxSpacer.s16,
+        _userInfo(),
+        BoxSpacer.s16,
+        _retailWidget(),
+        BoxSpacer.s16,
+        _customerWidget(),
+        BoxSpacer.s16,
+        _stockWidget(),
+      ],
+    );
+  }
+
+  Widget _renderLargeScreen() {
+    return Column(
+      children: [
+        BoxSpacer.s16,
+        _userInfo(),
+        BoxSpacer.s16,
+        Row(
+          children: [
+            Expanded(child: _customerWidget()),
+            Expanded(child: _retailWidget()),
+          ],
+        ),
+        BoxSpacer.s16,
+        Row(
+          children: [
+            Expanded(child: _stockWidget()),
+            Expanded(child: Container()),
+          ],
+        ),
+      ],
+    );
+  }
 
   // widget cho user
   Widget _userInfo() {

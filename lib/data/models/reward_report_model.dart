@@ -194,7 +194,7 @@ class ListDetailCommission {
       // Cập nhật lại listDetail với những phần tử đã lọc
       listDetail = filteredDetails;
     } catch (e) {
-      print('Error in formatListDetail: $e');
+      debugPrint('Error in formatListDetail: $e');
     }
   }
 }

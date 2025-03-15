@@ -1,3 +1,4 @@
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,6 +57,7 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
   /// WIDGET
   ///
   Widget _listCustomer() {
+    int crossAxisCount = context.isSmallScreen ? 1 : 2;
     return BlocBuilder<CustomerBloc, CustomerState>(
       bloc: _customerBloc,
       builder: (context, state) {
@@ -98,13 +100,20 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
           onLoading: () {
             // widget.orderBloc.add(GetMoreOrderEvent());
           },
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
-            itemBuilder: (context, index) {
-              return CustomerInfo(customer: customers[index]);
-            },
-            separatorBuilder: (context, index) => BoxSpacer.s8,
-            itemCount: customers.length,
+          child: SingleChildScrollView(
+            child: XGridView(
+              type: XGridViewType.aligned,
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 16.sp,
+              crossAxisSpacing: 16.sp,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
+              itemCount: customers.length,
+              itemBuilder: (context, index) {
+                return CustomerInfo(customer: customers[index]);
+              },
+            ),
           ),
         );
       },

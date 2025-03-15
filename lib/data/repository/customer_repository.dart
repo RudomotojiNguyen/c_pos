@@ -1,5 +1,4 @@
 import '../models/customer_model.dart';
-import '../models/customer_type_model.dart';
 import '../services/customer_services.dart';
 
 part 'impl/customer_repository_impl.dart';

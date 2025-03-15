@@ -69,7 +69,10 @@ class _LoginScreenState extends XStateWidget<LoginScreen> {
   }
 
   Widget renderFormLogin() {
-    return Padding(
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: 500.sp,
+      ),
       padding: EdgeInsets.symmetric(horizontal: 40.sp),
       child: Column(
         mainAxisSize: MainAxisSize.min,

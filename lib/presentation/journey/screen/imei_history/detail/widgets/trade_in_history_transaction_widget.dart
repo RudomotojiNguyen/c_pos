@@ -5,13 +5,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timelines/timelines.dart';
 
 import '../../../../../../common/configs/box.dart';
-import '../../../../../../common/constants/go_router.dart';
 import '../../../../../../common/di/injection/injection.dart';
 import '../../../../../../common/extensions/extension.dart';
 import '../../../../../../data/models/trade_in_transaction_model.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
-import '../../../../router.dart';
 import '../../../product/bloc/product_bloc.dart';
 import 'imei_transaction_loading.dart';
 

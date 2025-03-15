@@ -6,7 +6,6 @@ import '../../../common/configs/box.dart';
 import '../../../common/di/injection/injection.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/models/stock_model.dart';
-import '../../../gen/assets.gen.dart' as core_assets;
 import '../../journey/screen/stock/bloc/stock_bloc.dart';
 import '../widgets.dart';
 

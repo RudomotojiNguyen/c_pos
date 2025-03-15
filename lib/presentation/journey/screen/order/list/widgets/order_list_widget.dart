@@ -1,10 +1,10 @@
 import 'package:c_pos/common/enum/enum.dart';
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/constants/go_router.dart';
 import '../../../../../../data/models/order_model.dart';
 import '../../../../../widgets/widgets.dart';
@@ -32,6 +32,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    int crossAxisCount = context.isSmallScreen ? 1 : 2;
     return BlocConsumer<OrderBloc, OrderState>(
       bloc: widget.orderBloc,
       buildWhen: (previous, current) =>
@@ -78,31 +79,38 @@ class _OrderListWidgetState extends State<OrderListWidget> {
           onLoading: () {
             widget.orderBloc.add(GetMoreOrderEvent());
           },
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
-            itemCount: state.orders.length,
-            itemBuilder: (context, index) {
-              final OrderModel item = state.orders[index];
-              return TransactionItem(
-                id: item.getBillNumber,
-                amount: item.getTotalAmount,
-                customerName: item.getCustomerName,
-                customerPhone: item.getCustomerPhone,
-                dateTime: item.getCreateDate,
-                status: item.getOrderStatus.getTitle,
-                color: item.getOrderStatus.getColorStatus,
-                onPressed: () {
-                  MainRouter.instance.pushNamed(
-                    context,
-                    routeName: RouteName.orders,
-                    queryParameters: {
-                      'orderId': item.id?.toString(),
-                    },
-                  );
-                },
-              );
-            },
-            separatorBuilder: (context, index) => BoxSpacer.s16,
+          child: SingleChildScrollView(
+            child: XGridView(
+              type: XGridViewType.aligned,
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 16.sp,
+              crossAxisSpacing: 16.sp,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
+              itemCount: state.orders.length,
+              itemBuilder: (context, index) {
+                final OrderModel item = state.orders[index];
+                return TransactionItem(
+                  id: item.getBillNumber,
+                  amount: item.getTotalAmount,
+                  customerName: item.getCustomerName,
+                  customerPhone: item.getCustomerPhone,
+                  dateTime: item.getCreateDate,
+                  status: item.getOrderStatus.getTitle,
+                  color: item.getOrderStatus.getColorStatus,
+                  onPressed: () {
+                    MainRouter.instance.pushNamed(
+                      context,
+                      routeName: RouteName.orders,
+                      queryParameters: {
+                        'orderId': item.id?.toString(),
+                      },
+                    );
+                  },
+                );
+              },
+            ),
           ),
         );
       },
