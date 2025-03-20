@@ -151,7 +151,7 @@ mixin DialogHelper {
     await showWidgetDialog(
       context,
       barrierDismissible: true,
-      key: AppConstants.internetDialogKey,
+      key: GlobalAppKey.internetDialogKey,
       alignment: Alignment.bottomCenter,
       content: const InternetDialog(),
     );

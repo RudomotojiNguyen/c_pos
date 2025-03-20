@@ -1,13 +1,12 @@
 import 'package:isar/isar.dart';
 
-import '../../../presentation/utils/utils.dart';
 import '../local_db/table/user_table.dart';
 
 part 'impl/user_storage_impl.dart';
 
 abstract class UserStorage<T> {
   // init user local db
-  Future<void> initUserLocalDb();
+  Future<void> initUserLocalDb(Isar isar);
   // lưu user vào local db
   Future<void> saveUser(T user);
   // xóa user khỏi local db

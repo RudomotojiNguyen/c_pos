@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../gen/gen.dart';
 import '../configs/box.dart';
 
 enum CartType {
@@ -54,9 +55,9 @@ extension CartTypeExtension on CartType {
   }) {
     switch (this) {
       case CartType.retail:
-        return Icon(Icons.inventory_outlined, size: width ?? 30.sp);
+        return Assets.svg.invoice.svg(width: width ?? 30.sp);
       case CartType.order:
-        return Icon(Icons.receipt_outlined, size: width ?? 32.sp);
+        return Assets.svg.bill.svg(width: width ?? 32.sp);
       case CartType.tradeIn:
         return Icon(Icons.phone_outlined, size: width ?? 30.sp);
       case CartType.warranty:

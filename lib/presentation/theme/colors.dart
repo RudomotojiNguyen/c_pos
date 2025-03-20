@@ -29,4 +29,6 @@ class AppColors {
   static const shimmerHighlightColor = Color(0x99EEEEEE);
 
   static const greenLightColor = Color(0xFFE3F9F0);
+
+  static final shadowColor = Colors.grey.withOpacity(0.2);
 }

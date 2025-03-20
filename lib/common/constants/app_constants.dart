@@ -9,12 +9,8 @@ class AppConstants {
   static const avatarSize = 512.0;
   static const imageQuality = 30;
   static const dsnSentry =
-      'https://028c7c6038364e13a5d7f0f606c7affe@sentry.ddverp.com/7';
+      'https://178c08c15a654258607b889c5aee3c39@o440638.ingest.us.sentry.io/4508979448250368';
   static const prevDeepLink = 'https://ddvloyalty.page.link';
-
-  ///key
-  static const updateDialogKey = ValueKey('updateDialogKey');
-  static const internetDialogKey = ValueKey('internetDialogKey');
 
   //
   static const timeSearchValue = 400;
@@ -23,40 +19,24 @@ class AppConstants {
 
   static const defaultNullValue = '--';
 
-  /// key
-  static const selectBillTypeDialogKey = ValueKey('selectBillTypeDialogKey');
+  static const defaultTimeCountDown = 120; // tính theo giây
 }
-
-enum XSearchType { all, ddv, sisMobifone }
-
-enum XVoucherType { all, redeem, promotion }
-
-enum XRatingType { ugly, bad, normal, good, excellent }
-
-enum XNotificationType { all, me, promotion }
 
 class CacheKeys {
   static const token = 'ddv_token';
   static const refreshToken = 'refresh_token';
 }
 
-class DdvConfig {
-  static int otpExpiredTime = 5 * 60;
-
-  // static String customerSupportPhoneNumber = '18006018';
-  // static String guaranteeConditions =
-  //     'https://didongviet.vn/chinh-sach/chinh-sach-bao-hanh';
-  // static String termAndConditions = 'https://didongviet.vn/chinh-sach/chinh-sach-su-dung';
-  //
-  // static String refundProduct = 'https://didongviet.vn/chinh-sach/chinh-sach-doi-tra';
-  // static String customerSupportEmail = 'lienhe@didongviet.vn';
-
-  // static String checkUpdate = 'https://didongviet.page.link/checkUpdate';
-  static String checkUpdate = 'https://flutter.dev';
-}
-
-class DdvGlobalKey {
+class GlobalAppKey {
   static final rootScaffoldKey = GlobalKey<ScaffoldMessengerState>();
+
+  static const updateDialogKey = ValueKey('updateDialogKey');
+  static const internetDialogKey = ValueKey('internetDialogKey');
+  static const selectBillTypeDialogKey = ValueKey('selectBillTypeDialogKey');
+  static const methodDialogKey = ValueKey('methodDialogKey');
+  static const addImeiDialogKey = ValueKey('addImeiDialogKey');
+  static const productNoteDialogKey = ValueKey('productNoteDialogKey');
+  static const imeiAttachDialogKey = ValueKey('imeiAttachDialogKey');
 }
 
 enum TextStyleEnum {

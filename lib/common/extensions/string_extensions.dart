@@ -8,6 +8,15 @@ import '../../common/extensions/extension.dart';
 import '../enum/enum.dart';
 
 extension StringExtensions on String {
+  double get convertToNum {
+    try {
+      String value = replaceAll(',', '');
+      return value.toDouble();
+    } catch (e) {
+      return 0;
+    }
+  }
+
   bool get isUtcFormat {
     return endsWith('Z') || contains('+00:00');
   }
@@ -128,6 +137,10 @@ extension StringExtensions on String {
 
   XDiscountType get getDiscountType =>
       XDiscountTypeExtension.mapStr[this] ?? XDiscountType.none;
+
+  XFinanceRecipientObjectTypeEnum get getXFinanceRecipientObjectTypeEnum =>
+      XFinanceRecipientObjectTypeEnumExtension.map[this] ??
+      XFinanceRecipientObjectTypeEnum.none;
 }
 
 extension StringValidator on String {

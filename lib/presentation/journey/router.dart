@@ -15,6 +15,8 @@ import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
 import 'screen/customer/customer_history/customer_history_screen.dart';
 import 'screen/customer/list_customer/customers_screen.dart';
+import 'screen/drafting_invoice/detail/drafting_detail_screen.dart';
+import 'screen/drafting_invoice/list/drafts_screen.dart';
 import 'screen/imei_history/detail/imei_detail_screen.dart';
 import 'screen/imei_history/search_list/product_imei_history_screen.dart';
 import 'screen/login/login_screen.dart';
@@ -59,6 +61,16 @@ class MainRouter {
               builder: (BuildContext context, GoRouterState state) =>
                   const AffiliateCommissionScreen(),
             ),
+            GoRoute(
+                path: RouteName.drafts,
+                name: RouteName.drafts,
+                builder: (BuildContext context, GoRouterState state) {
+                  String id = state.uri.queryParameters['draftId'] ?? '';
+                  if (id.isNotNullOrEmpty) {
+                    return DraftingDetailScreen(id: id);
+                  }
+                  return const DraftsScreen();
+                }),
             GoRoute(
               path: RouteName.bills,
               name: RouteName.bills,

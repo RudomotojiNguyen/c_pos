@@ -3,12 +3,8 @@ part of '../user_storage.dart';
 class UserStorageImpl extends UserStorage {
   late Isar isar;
   @override
-  Future<void> initUserLocalDb() async {
-    final dir = await Utils.getAppDocumentDirectory();
-    isar = await Isar.open(
-      [UserTableSchema],
-      directory: dir,
-    );
+  Future<void> initUserLocalDb(Isar isar) async {
+    this.isar = isar;
   }
 
   @override

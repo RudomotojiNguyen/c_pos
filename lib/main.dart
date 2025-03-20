@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:isar/isar.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'common/configs/configurations.dart';
+import 'common/constants/app_constants.dart';
 import 'common/di/injection/injection.dart';
 import 'common/utils/database_utils.dart';
-import 'data/datasources/local_data/user_storage.dart';
+import 'data/datasources/local_data/local_data.dart';
+import 'data/datasources/local_db/local_db.dart';
 import 'presentation/common_bloc/supervisor_bloc.dart';
 import 'presentation/journey/app.dart';
+import 'presentation/utils/utils.dart';
 import 'presentation/widgets/widgets.dart';
 
 Future<void> main() async {
@@ -58,26 +63,45 @@ Future<void> main() async {
     Bloc.observer = SupervisorBloc();
   }
 
-  /// lấy và set địa chỉ lưu trữ
-  await getIt.get<UserStorage>().initUserLocalDb();
+  /// khởi tạo isar để lưu trữ user
+  final dir = await Utils.getAppDocumentDirectory();
+  Isar isar = await Isar.open(
+    [
+      UserTableSchema,
+      DraftingInvoiceTableSchema,
+      CustomerTableSchema,
+      ProductTableSchema,
+      PaymentMethodTableSchema,
+    ],
+    directory: dir,
+  );
 
-  // if (configurations.isProduct) {
-  //   // await SentryFlutter.init(
-  //   //   (options) {
-  //   //     options.dsn = AppConstant.dsnSentry;
-  //   //     options.tracesSampleRate = 1.0;
-  //   //     options.enableUserInteractionTracing = true;
-  //   //   },
-  //   // );
-  //   runApp(
-  //     DefaultAssetBundle(
-  //       bundle: SentryAssetBundle(enableStructuredDataTracing: true),
-  //       child: SentryUserInteractionWidget(child: const MainRunner()),
-  //     ),
-  //   );
-  // } else {
-  runApp(const MainRunner());
-  // }
+  /// lấy và set địa chỉ lưu trữ
+  await getIt.get<UserStorage>().initUserLocalDb(isar);
+  await getIt.get<DraftingStorage>().initDraftingLocalDb(isar);
+
+  if (configurations.isProduct) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = AppConstants.dsnSentry;
+        options.tracesSampleRate = 1.0;
+        options.enableUserInteractionTracing = true;
+      },
+      appRunner: () => runApp(
+        SentryWidget(
+          child: const MainRunner(),
+        ),
+      ),
+    );
+    // runApp(
+    //   DefaultAssetBundle(
+    //     bundle: SentryAssetBundle(enableStructuredDataTracing: true),
+    //     child: SentryUserInteractionWidget(child: const MainRunner()),
+    //   ),
+    // );
+  } else {
+    runApp(const MainRunner());
+  }
 }
 
 class MainRunner extends StatelessWidget {

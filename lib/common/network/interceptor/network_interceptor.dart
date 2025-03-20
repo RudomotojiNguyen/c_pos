@@ -289,7 +289,7 @@ class NetworkInterceptor extends InterceptorsWrapper with DialogHelper {
         );
       case 900:
         showWidgetDialog(
-          key: AppConstants.updateDialogKey,
+          key: GlobalAppKey.updateDialogKey,
           NavigatorService.instance.context!,
           barrierDismissible: false,
           content: Container(),

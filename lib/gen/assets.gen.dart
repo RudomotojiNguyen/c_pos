@@ -100,8 +100,21 @@ class $AssetsSvgGen {
   /// File path: assets/svg/cash.svg
   SvgGenImage get cash => const SvgGenImage('assets/svg/cash.svg');
 
+  /// File path: assets/svg/checklist.svg
+  SvgGenImage get checklist => const SvgGenImage('assets/svg/checklist.svg');
+
   /// File path: assets/svg/customer.svg
   SvgGenImage get customer => const SvgGenImage('assets/svg/customer.svg');
+
+  /// File path: assets/svg/discount-coupon.svg
+  SvgGenImage get discountCoupon =>
+      const SvgGenImage('assets/svg/discount-coupon.svg');
+
+  /// File path: assets/svg/discount.svg
+  SvgGenImage get discount => const SvgGenImage('assets/svg/discount.svg');
+
+  /// File path: assets/svg/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/svg/edit.svg');
 
   /// File path: assets/svg/home-disable.svg
   SvgGenImage get homeDisable =>
@@ -128,9 +141,16 @@ class $AssetsSvgGen {
   /// File path: assets/svg/person.svg
   SvgGenImage get person => const SvgGenImage('assets/svg/person.svg');
 
+  /// File path: assets/svg/remove.svg
+  SvgGenImage get remove => const SvgGenImage('assets/svg/remove.svg');
+
   /// File path: assets/svg/saving-money.svg
   SvgGenImage get savingMoney =>
       const SvgGenImage('assets/svg/saving-money.svg');
+
+  /// File path: assets/svg/scooter-delivery.svg
+  SvgGenImage get scooterDelivery =>
+      const SvgGenImage('assets/svg/scooter-delivery.svg');
 
   /// File path: assets/svg/setting-disable.svg
   SvgGenImage get settingDisable =>
@@ -156,7 +176,11 @@ class $AssetsSvgGen {
         barcode,
         bill,
         cash,
+        checklist,
         customer,
+        discountCoupon,
+        discount,
+        edit,
         homeDisable,
         homeEnanle,
         imgLogo,
@@ -165,7 +189,9 @@ class $AssetsSvgGen {
         iosLink,
         logout,
         person,
+        remove,
         savingMoney,
+        scooterDelivery,
         settingDisable,
         settingEnable,
         shopping,

@@ -2,6 +2,8 @@ import 'package:c_pos/gen/gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/di/injection/injection.dart';
+import '../../journey/screen/drafting_invoice/bloc/drafting_invoice_bloc.dart';
 import '../../mixins/mixins.dart';
 import '../dialog/operation_create_dialog.dart';
 import 'base_button.dart';
@@ -20,7 +22,7 @@ class BtnCreateBill extends StatelessWidget with DialogHelper {
           body: const OperationCreateDialog(),
         ).then(
           (value) {
-            // getIt.get<DraftBloc>().add(GetAllDraftBillEvent());
+            getIt.get<DraftingInvoiceBloc>().add(GetDraftingInvoiceListEvent());
           },
         );
       },

@@ -21,6 +21,8 @@ export 'expression.dart';
 export 'discount_member_type.dart';
 export 'imei_status.dart';
 export 'trade_in_type.dart';
+export 'x_finance_recipient_object_type_enum.dart';
+export 'x_sort_enum.dart';
 
 enum XMomentTimeEnum { morning, evening }
 

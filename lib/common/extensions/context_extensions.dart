@@ -30,6 +30,8 @@ extension ContextExtensions on BuildContext {
     return 2;
   }
 
+  double get maxWidthDialog => isSmallScreen ? double.infinity : 300;
+
   bool get hasDynamicIsland {
     Map<String, List<int>> supportedMachineCodes = {
       'iPhone15': [2, 3],

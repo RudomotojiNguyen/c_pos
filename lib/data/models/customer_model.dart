@@ -2,6 +2,7 @@ import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/enum/enum.dart';
+import '../datasources/local_db/local_db.dart';
 
 class CustomerModel {
   int? id;
@@ -145,21 +146,18 @@ class CustomerModel {
     return XGenderType.none;
   }
 
-  // CustomerTable get convertToTable => CustomerTable()
-  //   ..customerId = id
-  //   ..fullName = fullName
-  //   ..lastName = lastName
-  //   ..appellation = getGender
-  //   ..gender = getGender
-  //   ..phoneNo = phoneNo
-  //   ..email = email
-  //   ..dateOfBirth = dateOfBirth
-  //   ..city = city
-  //   ..district = district
-  //   ..ward = ward
-  //   ..address = address
-  //   ..type = type
-  //   ..point = point;
+  CustomerTable get convertToTable => CustomerTable()
+    ..customerId = id
+    ..fullName = fullName
+    ..lastName = lastName
+    ..appellation = getGender
+    ..phoneNo = phoneNo
+    ..dateOfBirth = dateOfBirth
+    ..city = city
+    ..district = district
+    ..ward = ward
+    ..address = address
+    ..point = point;
 
   DateTime? get getCustomerBirthDay =>
       dateOfBirth.isNullOrEmpty ? null : DateTime.parse(dateOfBirth!);

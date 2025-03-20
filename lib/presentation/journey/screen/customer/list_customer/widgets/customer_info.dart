@@ -108,7 +108,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
             onPressed: () {
               showXBottomSheet(
                 context,
-                key: AppConstants.selectBillTypeDialogKey,
+                key: GlobalAppKey.selectBillTypeDialogKey,
                 body: const OperationCreateDialog(),
               );
             },

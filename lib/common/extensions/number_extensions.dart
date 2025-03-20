@@ -24,6 +24,9 @@ extension NumberExtensions on num {
 
   String get formatNumber => NumberFormat.decimalPattern().format(this);
 
+  XDiscountType get getDiscountType =>
+      XDiscountTypeExtension.map[this] ?? XDiscountType.none;
+
   DiscountType get convertDiscountType =>
       this == 2 ? DiscountType.percent : DiscountType.amount;
 
@@ -51,9 +54,6 @@ extension NumberExtensions on num {
 
   XExpression get getOperatorType =>
       XExpressionExtension.mapOperatorType[this] ?? XExpression.none;
-
-  XDiscountType get getDiscountType =>
-      XDiscountTypeExtension.map[this] ?? XDiscountType.none;
 
   BillType get getBillType =>
       BillTypeExtension.mapBillType[this] ?? BillType.undefine;

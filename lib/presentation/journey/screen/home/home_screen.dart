@@ -179,6 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _operationItem(
                         title: 'Đơn nháp',
                         icon: Assets.svg.shopping.svg(width: 32.sp),
+                        onPressed: () => _mainRouter.pushNamed(
+                          context,
+                          routeName: RouteName.drafts,
+                        ),
                       ),
                     ],
                   ),
