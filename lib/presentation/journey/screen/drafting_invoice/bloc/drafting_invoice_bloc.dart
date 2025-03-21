@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:c_pos/presentation/mixins/logger_helper.dart';
 import 'package:c_pos/presentation/widgets/widgets.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/datasources/local_data/local_data.dart';
@@ -430,6 +431,8 @@ class DraftingInvoiceBloc
           paymentByTransfer: result.paymentByTransfer,
           paymentByCredit: result.paymentByCredit,
           paymentByInstallment: result.paymentByInstallment,
+          saleInfo: result.saleInfo,
+          technicalInfo: result.technicalInfo,
           //
           tradeInType: result.tradeInType,
           productBuyingPrice: 0,

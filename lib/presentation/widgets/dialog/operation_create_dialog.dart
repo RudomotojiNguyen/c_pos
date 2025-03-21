@@ -35,45 +35,48 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
           );
         }
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          renderItem(
-            title: CartType.order.getTitle,
-            icon: CartType.order.getIcon(),
-            onPressed: () async {
-              _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
-                  typeCart: CartType.order));
-            },
-          ),
-          BoxSpacer.s2,
-          renderItem(
-            title: CartType.retail.getTitle,
-            icon: CartType.retail.getIcon(),
-            onPressed: () async {
-              _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
-                  typeCart: CartType.retail));
-            },
-          ),
-          // BoxSpacer.s2,
-          // renderItem(
-          //   title: CartType.tradeIn.getTitle,
-          //   icon: CartType.tradeIn.getIcon(),
-          //   onPressed: () async {
-          //     // todo: chưa làm
-          //     // final res =
-          //     //     await _cartStorage.createNewCart(typeCart: CartType.tradeIn);
-          //     // if (res != null) {
-          //     // Navigator.pop(context);
-          //     // MainRouter.instance.goNamed(
-          //     //   context,
-          //     //   routeName: CoreRouteName.draftBillDetail,
-          //     //   queryParameters: {'currentDraftId': res.toString()},
-          //     // );
-          //     // }
-          //   },
-          // ),
-        ],
+      child: Container(
+        constraints: BoxConstraints(maxWidth: context.maxWidthDialog),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            renderItem(
+              title: CartType.order.getTitle,
+              icon: CartType.order.getIcon(),
+              onPressed: () async {
+                _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
+                    typeCart: CartType.order));
+              },
+            ),
+            BoxSpacer.s2,
+            renderItem(
+              title: CartType.retail.getTitle,
+              icon: CartType.retail.getIcon(),
+              onPressed: () async {
+                _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
+                    typeCart: CartType.retail));
+              },
+            ),
+            // BoxSpacer.s2,
+            // renderItem(
+            //   title: CartType.tradeIn.getTitle,
+            //   icon: CartType.tradeIn.getIcon(),
+            //   onPressed: () async {
+            //     // todo: chưa làm
+            //     // final res =
+            //     //     await _cartStorage.createNewCart(typeCart: CartType.tradeIn);
+            //     // if (res != null) {
+            //     // Navigator.pop(context);
+            //     // MainRouter.instance.goNamed(
+            //     //   context,
+            //     //   routeName: CoreRouteName.draftBillDetail,
+            //     //   queryParameters: {'currentDraftId': res.toString()},
+            //     // );
+            //     // }
+            //   },
+            // ),
+          ],
+        ),
       ),
     );
   }

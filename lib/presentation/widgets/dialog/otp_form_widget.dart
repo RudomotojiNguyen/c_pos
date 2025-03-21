@@ -216,6 +216,7 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
               ],
               onChanged: (value) => _onChanged(value, index),
               style: AppFont.t.s(),
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.sp),

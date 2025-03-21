@@ -340,7 +340,8 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
       CartType typeCart, CustomerTable customer, AuthModel? userInfo) {
     final newCart = DraftingInvoiceTable()
       ..typeCart = typeCart
-      ..createdDate = DateTime.now();
+      ..createdDate = DateTime.now()
+      ..tradeInType = TradeInType.tradeIn;
 
     newCart.customer.value = customer;
 

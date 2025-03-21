@@ -64,14 +64,20 @@ const DraftingInvoiceTableSchema = CollectionSchema(
       name: r'technicalInfoStr',
       type: IsarType.string,
     ),
-    r'typeCart': PropertySchema(
+    r'tradeInType': PropertySchema(
       id: 9,
+      name: r'tradeInType',
+      type: IsarType.byte,
+      enumMap: _DraftingInvoiceTabletradeInTypeEnumValueMap,
+    ),
+    r'typeCart': PropertySchema(
+      id: 10,
       name: r'typeCart',
       type: IsarType.byte,
       enumMap: _DraftingInvoiceTabletypeCartEnumValueMap,
     ),
     r'warrantyNote': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'warrantyNote',
       type: IsarType.string,
     )
@@ -187,8 +193,9 @@ void _draftingInvoiceTableSerialize(
   writer.writeString(offsets[6], object.saleInfoStr);
   writer.writeString(offsets[7], object.saleNote);
   writer.writeString(offsets[8], object.technicalInfoStr);
-  writer.writeByte(offsets[9], object.typeCart.index);
-  writer.writeString(offsets[10], object.warrantyNote);
+  writer.writeByte(offsets[9], object.tradeInType.index);
+  writer.writeByte(offsets[10], object.typeCart.index);
+  writer.writeString(offsets[11], object.warrantyNote);
 }
 
 DraftingInvoiceTable _draftingInvoiceTableDeserialize(
@@ -211,10 +218,13 @@ DraftingInvoiceTable _draftingInvoiceTableDeserialize(
   object.saleInfoStr = reader.readStringOrNull(offsets[6]);
   object.saleNote = reader.readStringOrNull(offsets[7]);
   object.technicalInfoStr = reader.readStringOrNull(offsets[8]);
-  object.typeCart = _DraftingInvoiceTabletypeCartValueEnumMap[
+  object.tradeInType = _DraftingInvoiceTabletradeInTypeValueEnumMap[
           reader.readByteOrNull(offsets[9])] ??
+      TradeInType.undefine;
+  object.typeCart = _DraftingInvoiceTabletypeCartValueEnumMap[
+          reader.readByteOrNull(offsets[10])] ??
       CartType.retail;
-  object.warrantyNote = reader.readStringOrNull(offsets[10]);
+  object.warrantyNote = reader.readStringOrNull(offsets[11]);
   return object;
 }
 
@@ -246,10 +256,14 @@ P _draftingInvoiceTableDeserializeProp<P>(
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
+      return (_DraftingInvoiceTabletradeInTypeValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          TradeInType.undefine) as P;
+    case 10:
       return (_DraftingInvoiceTabletypeCartValueEnumMap[
               reader.readByteOrNull(offset)] ??
           CartType.retail) as P;
-    case 10:
+    case 11:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -265,6 +279,18 @@ const _DraftingInvoiceTablediscountMemberTypeValueEnumMap = {
   0: DiscountMemberType.point,
   1: DiscountMemberType.dMem,
   2: DiscountMemberType.none,
+};
+const _DraftingInvoiceTabletradeInTypeEnumValueMap = {
+  'undefine': 0,
+  'tradeIn': 1,
+  'buyingOldItems': 2,
+  'exchangeWarranty': 3,
+};
+const _DraftingInvoiceTabletradeInTypeValueEnumMap = {
+  0: TradeInType.undefine,
+  1: TradeInType.tradeIn,
+  2: TradeInType.buyingOldItems,
+  3: TradeInType.exchangeWarranty,
 };
 const _DraftingInvoiceTabletypeCartEnumValueMap = {
   'retail': 0,
@@ -1588,6 +1614,62 @@ extension DraftingInvoiceTableQueryFilter on QueryBuilder<DraftingInvoiceTable,
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
+      QAfterFilterCondition> tradeInTypeEqualTo(TradeInType value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'tradeInType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
+      QAfterFilterCondition> tradeInTypeGreaterThan(
+    TradeInType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'tradeInType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
+      QAfterFilterCondition> tradeInTypeLessThan(
+    TradeInType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'tradeInType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
+      QAfterFilterCondition> tradeInTypeBetween(
+    TradeInType lower,
+    TradeInType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'tradeInType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
       QAfterFilterCondition> typeCartEqualTo(CartType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2150,6 +2232,20 @@ extension DraftingInvoiceTableQuerySortBy
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
+      sortByTradeInType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tradeInType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
+      sortByTradeInTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tradeInType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
       sortByTypeCart() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'typeCart', Sort.asc);
@@ -2321,6 +2417,20 @@ extension DraftingInvoiceTableQuerySortThenBy
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
+      thenByTradeInType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tradeInType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
+      thenByTradeInTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tradeInType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
       thenByTypeCart() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'typeCart', Sort.asc);
@@ -2419,6 +2529,13 @@ extension DraftingInvoiceTableQueryWhereDistinct
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QDistinct>
+      distinctByTradeInType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tradeInType');
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QDistinct>
       distinctByTypeCart() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'typeCart');
@@ -2501,6 +2618,13 @@ extension DraftingInvoiceTableQueryProperty on QueryBuilder<
       technicalInfoStrProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'technicalInfoStr');
+    });
+  }
+
+  QueryBuilder<DraftingInvoiceTable, TradeInType, QQueryOperations>
+      tradeInTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tradeInType');
     });
   }
 

@@ -43,21 +43,6 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _note(),
-              // BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
-              //     CustomerDMemInfo?>(
-              //   bloc: _draftingInvoiceBloc,
-              //   selector: (state) => state.customerDMemInfo,
-              //   builder: (context, state) {
-              //     if (state == null) {
-              //       return BoxSpacer.blank;
-              //     }
-
-              //     CustomerDMemInfo data = state;
-              //     bool isOn = data.isValidOTP ?? false;
-              //     return _dMemDiscount(data, isOn);
-              //   },
-              // ),
               BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
                   OtpCustomerPointModel?>(
                 bloc: _draftingInvoiceBloc,
@@ -78,51 +63,6 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
   ///
   /// WIDGET
   ///
-
-  Widget _note() {
-    return Text.rich(
-      TextSpan(
-        text: 'Lưu ý: ',
-        style: AppFont.t.s(),
-        children: const [
-          TextSpan(
-            text: 'Chỉ có thể sử dụng 1 trong 2 loại chiết khấu',
-          ),
-        ],
-      ),
-    );
-  }
-
-  // chiết khấu thành viên
-  // Widget _dMemDiscount(CustomerDMemInfo dMem, bool isOn) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       BoxSpacer.s12,
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           Text(
-  //             'Chiết khấu thành viên',
-  //             style: context.appTheme.textTheme.titleMedium!
-  //                 .copyWith(fontSize: 16.sp),
-  //           ),
-  //           XToggleButton(
-  //             isOn: isOn,
-  //             toggleSwitch: () {
-  //               if (isOn) {
-  //                 _disableDMem(dMem);
-  //               } else {
-  //                 onPressUseDMem();
-  //               }
-  //             },
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
 
   // chiết khấu điểm
   Widget _pointDiscount(OtpCustomerPointModel customerPoint, bool isOn) {
