@@ -10,7 +10,6 @@ class AppConstants {
   static const imageQuality = 30;
   static const dsnSentry =
       'https://178c08c15a654258607b889c5aee3c39@o440638.ingest.us.sentry.io/4508979448250368';
-  static const prevDeepLink = 'https://ddvloyalty.page.link';
 
   //
   static const timeSearchValue = 400;
@@ -23,7 +22,7 @@ class AppConstants {
 }
 
 class CacheKeys {
-  static const token = 'ddv_token';
+  static const token = 'app_token';
   static const refreshToken = 'refresh_token';
 }
 

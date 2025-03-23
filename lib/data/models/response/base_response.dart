@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/network/exceptions/ddv_exception.dart';
+import '../../../common/network/exceptions/app_exception.dart';
 
 @immutable
 // ignore: must_be_immutable

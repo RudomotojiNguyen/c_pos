@@ -93,12 +93,6 @@ Future<void> main() async {
         ),
       ),
     );
-    // runApp(
-    //   DefaultAssetBundle(
-    //     bundle: SentryAssetBundle(enableStructuredDataTracing: true),
-    //     child: SentryUserInteractionWidget(child: const MainRunner()),
-    //   ),
-    // );
   } else {
     runApp(const MainRunner());
   }

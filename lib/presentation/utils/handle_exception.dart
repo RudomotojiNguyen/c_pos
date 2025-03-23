@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/network/exceptions/ddv_exception.dart';
+import '../../common/network/exceptions/app_exception.dart';
 import '../widgets/widgets.dart';
 
 mixin HandleException {

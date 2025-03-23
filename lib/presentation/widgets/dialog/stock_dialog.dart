@@ -119,11 +119,6 @@ class _StockDialogState extends State<StockDialog> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // core_assets.Assets.image.pos.ddvstore.image(
-        //   width: 80.sp,
-        //   height: 80.sp,
-        // ),
-        // BoxSpacer.s8,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

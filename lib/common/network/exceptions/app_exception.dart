@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
-class DdvException implements Exception {
+class AppException implements Exception {
   final String message;
   final String prefix;
 
-  DdvException({required this.message, required this.prefix});
+  AppException({required this.message, required this.prefix});
 
   @override
   String toString() {
@@ -16,14 +16,14 @@ class DdvException implements Exception {
   }
 }
 
-class FetchDataException extends DdvException {
+class FetchDataException extends AppException {
   FetchDataException({required super.message})
       : super(
           prefix: '',
         );
 }
 
-class BadRequestException extends DdvException {
+class BadRequestException extends AppException {
   BadRequestException({required super.message})
       : super(
           prefix: 'Invalid Request',

@@ -35,10 +35,6 @@ class XViewStateWidget extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // XImage(
-                  //   imagePath: iconPath ?? _getDefaultIcon(),
-                  //   size: Size(200.sp, 200.sp),
-                  // ),
                   Text(
                     title ?? _getDefaultTitle(context),
                     style: theme.textTheme.displayLarge,
@@ -72,23 +68,6 @@ class XViewStateWidget extends StatelessWidget {
         return 'Đã có lỗi xảy ra, vui lòng thử lại sau';
     }
   }
-
-// String _getDefaultIcon() {
-//   switch (type) {
-//     case XStateType.empty:
-//       return AnimationConstants.empty;
-//     case XStateType.notFound:
-//       return AnimationConstants.notFound;
-//     case XStateType.error:
-//       return AnimationConstants.error;
-//     case XStateType.networkError:
-//       return AnimationConstants.noInternet;
-//     case XStateType.login:
-//       return AnimationConstants.empty;
-//     default:
-//       return IconConstants.icDdvLogo;
-//   }
-// }
 }
 
 enum XStateType { loading, empty, error, notFound, networkError, login }

@@ -236,7 +236,7 @@ class _UpdateCustomerInformationDialogState
   }
 
   // _onSetDefault() {
-  //   customerInfo = AppConstants.ddvCustomerDefault;
+  //   customerInfo = AppConstants.CustomerDefault;
 
   //   phoneController.text = customerInfo.getCustomerPhone;
   //   nameController.text = customerInfo.getFullName;

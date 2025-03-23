@@ -57,24 +57,15 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
                     typeCart: CartType.retail));
               },
             ),
-            // BoxSpacer.s2,
-            // renderItem(
-            //   title: CartType.tradeIn.getTitle,
-            //   icon: CartType.tradeIn.getIcon(),
-            //   onPressed: () async {
-            //     // todo: chưa làm
-            //     // final res =
-            //     //     await _cartStorage.createNewCart(typeCart: CartType.tradeIn);
-            //     // if (res != null) {
-            //     // Navigator.pop(context);
-            //     // MainRouter.instance.goNamed(
-            //     //   context,
-            //     //   routeName: CoreRouteName.draftBillDetail,
-            //     //   queryParameters: {'currentDraftId': res.toString()},
-            //     // );
-            //     // }
-            //   },
-            // ),
+            BoxSpacer.s2,
+            renderItem(
+              title: CartType.tradeIn.getTitle,
+              icon: CartType.tradeIn.getIcon(),
+              onPressed: () async {
+                _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
+                    typeCart: CartType.tradeIn));
+              },
+            ),
           ],
         ),
       ),
