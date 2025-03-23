@@ -28,6 +28,8 @@ import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
 import '../../../presentation/journey/screen/order/bloc/order_bloc.dart';
 import '../../../presentation/journey/screen/payment/bloc/payment_bloc.dart';
 import '../../../presentation/journey/screen/product/bloc/product_bloc.dart';
+import '../../../presentation/journey/screen/scan/bloc/scan_bloc.dart';
+import '../../../presentation/journey/screen/search/bloc/search_product_bloc.dart';
 import '../../../presentation/journey/screen/setting/bloc/setting_bloc.dart';
 import '../../../presentation/journey/screen/stock/bloc/stock_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';
@@ -74,6 +76,11 @@ class BlocModule extends DIModule {
           couponRepository: getIt.get<CouponRepository>()))
       ..registerFactory(() => PaymentBloc(
           paymentRepositories: getIt.get<PaymentRepositories>(),
-          authBloc: getIt.get<AuthBloc>()));
+          authBloc: getIt.get<AuthBloc>()))
+      ..registerFactory(() => SearchProductBloc(
+            productRepository: getIt.get<ProductRepository>(),
+            stockRepository: getIt.get<StockRepository>(),
+          ))
+      ..registerFactory(() => ScanBloc());
   }
 }

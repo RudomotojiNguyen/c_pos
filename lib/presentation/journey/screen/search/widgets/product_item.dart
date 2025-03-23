@@ -65,7 +65,8 @@ class _ProductItemInCartState extends State<ProductItemInCart>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             renderProductInfo(),
-            renderListStore(data, isOverElement, widget.product.id!),
+            // todo: xem có cần lấy và hiện thông tin cửa hàng còn tồn không
+            // renderListStore(data, isOverElement, widget.product.id!),
           ],
         ),
       ),

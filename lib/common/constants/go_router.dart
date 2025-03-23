@@ -10,4 +10,5 @@ class RouteName {
   static const String imeiHistory = 'imeiHistory';
   static const String stock = 'stock';
   static const String drafts = 'drafts';
+  static const String search = 'search';
 }

@@ -24,6 +24,7 @@ import 'screen/main/main_screen.dart';
 import 'screen/order/detail/order_detail_screen.dart';
 import 'screen/order/list/order_list_screen.dart';
 import 'screen/product/product_screen.dart';
+import 'screen/search/search_screen.dart';
 import 'screen/splash/splash_screen.dart';
 import 'screen/stock/manage_stock/manage_stock_screen.dart';
 
@@ -55,6 +56,12 @@ class MainRouter {
           builder: (BuildContext context, GoRouterState state) =>
               const MainScreen(),
           routes: [
+            GoRoute(
+              path: RouteName.search,
+              name: RouteName.search,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const SearchScreen(),
+            ),
             GoRoute(
               path: RouteName.affiliateCommission,
               name: RouteName.affiliateCommission,

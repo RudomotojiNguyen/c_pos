@@ -26,7 +26,7 @@ class BottomLoadWidget extends StatelessWidget {
         return SizedBox(
           height: 80.sp,
           child: Lottie.asset(
-            Assets.lottie.driver,
+            Assets.lottie.loading,
             width: 150.sp,
           ),
         );

@@ -103,7 +103,6 @@ class MainRunner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///kiểm tra và set size cho các màn hình
     return const XResponsive(
       small: ScreenUtilInit(
         designSize: Size(300, 649),
@@ -112,7 +111,6 @@ class MainRunner extends StatelessWidget {
         child: MainApp(),
       ),
       normal: ScreenUtilInit(
-        // designSize: const Size(375, 812),
         designSize: Size(390, 844),
         minTextAdapt: true,
         splitScreenMode: true,

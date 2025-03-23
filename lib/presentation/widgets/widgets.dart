@@ -80,3 +80,5 @@ export 'dialog/discount/discount_dialog.dart';
 export 'voucher/coupon_card.dart';
 export 'dialog/otp_form_widget.dart';
 export 'dialog/modify_payment_method_dialog.dart';
+export 'button/text_button.dart';
+export 'dialog/scan_code_dialog.dart';

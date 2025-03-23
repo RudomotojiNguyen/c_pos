@@ -50,14 +50,14 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/customer-support.json
   String get customerSupport => 'assets/lottie/customer-support.json';
 
-  /// File path: assets/lottie/driver.json
-  String get driver => 'assets/lottie/driver.json';
-
   /// File path: assets/lottie/empty_data.json
   String get emptyData => 'assets/lottie/empty_data.json';
 
   /// File path: assets/lottie/inventory.json
   String get inventory => 'assets/lottie/inventory.json';
+
+  /// File path: assets/lottie/loading.json
+  String get loading => 'assets/lottie/loading.json';
 
   /// File path: assets/lottie/maintaine.json
   String get maintaine => 'assets/lottie/maintaine.json';
@@ -75,9 +75,9 @@ class $AssetsLottieGen {
   List<String> get values => [
         cashOnDelivery,
         customerSupport,
-        driver,
         emptyData,
         inventory,
+        loading,
         maintaine,
         notconnected,
         pickpackage,

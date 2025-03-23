@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/configs/box.dart';
 import '../../common/constants/app_constants.dart';
+import '../../common/enum/enum.dart';
 import '../theme/colors.dart';
 import '../widgets/widgets.dart';
 
@@ -282,43 +283,43 @@ mixin DialogHelper {
   //   return null;
   // }
 
-  // Future showModalCameraScan(
-  //   BuildContext context, {
-  //   required Function({String? code, List<String>? codes}) onResult,
-  //   TypeSelect typeSelect = TypeSelect.single,
-  // }) async {
-  //   Key keyDialog = _keyForPopup();
-  //   if (_allPopups.containsKey(keyDialog)) {
-  //     return;
-  //   }
+  Future showModalCameraScan(
+    BuildContext context, {
+    required Function({String? code, List<String>? codes}) onResult,
+    TypeSelect typeSelect = TypeSelect.single,
+  }) async {
+    Key keyDialog = _keyForPopup();
+    if (_allPopups.containsKey(keyDialog)) {
+      return;
+    }
 
-  //   _allPopups[keyDialog] = context;
+    _allPopups[keyDialog] = context;
 
-  //   await showModalBottomSheet(
-  //       context: context,
-  //       enableDrag: true,
-  //       isDismissible: true,
-  //       isScrollControlled: true,
-  //       backgroundColor: Colors.transparent,
-  //       builder: (_) {
-  //         return XBaseButton(
-  //           onPressed: () => context.hideKeyboard,
-  //           child: Container(
-  //             padding: EdgeInsets.zero,
-  //             margin: EdgeInsets.only(top: 120.sp),
-  //             decoration: BoxDecoration(
-  //               color: AppColors.white,
-  //               borderRadius: BorderRadius.circular(32.sp),
-  //             ),
-  //             child: ScanCodeDialog(
-  //               typeSelect: typeSelect,
-  //               onResult: onResult,
-  //             ),
-  //           ),
-  //         );
-  //       }).then((value) {
-  //     dismissPopup(key: keyDialog, willPop: false);
-  //   });
-  //   return null;
-  // }
+    await showModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        isDismissible: true,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) {
+          return XBaseButton(
+            onPressed: () => context.hideKeyboard,
+            child: Container(
+              padding: EdgeInsets.zero,
+              margin: EdgeInsets.only(top: 120.sp),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(32.sp),
+              ),
+              child: ScanCodeDialog(
+                typeSelect: typeSelect,
+                onResult: onResult,
+              ),
+            ),
+          );
+        }).then((value) {
+      dismissPopup(key: keyDialog, willPop: false);
+    });
+    return null;
+  }
 }

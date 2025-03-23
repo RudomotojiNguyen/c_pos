@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
 import '../../../../../data/models/base_enum_model.dart';
@@ -17,6 +18,8 @@ import '../../../../../data/models/otp_customer_point_model.dart';
 import '../../../../../gen/gen.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
+import '../../../../utils/utils.dart';
+import '../../../router.dart';
 import '../../customer/bloc/customer_bloc.dart';
 import '../../employee/bloc/employee_bloc.dart';
 import '../../global_bloc/global_core_bloc.dart';
@@ -37,6 +40,7 @@ part 'widgets/payment_information_widget.dart';
 part 'widgets/payment_method_of_bill_widget.dart';
 part 'widgets/type_trade_in_widget.dart';
 part 'widgets/payment_method_detail_widget.dart';
+part 'widgets/products_basic_information_widget.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});
@@ -139,7 +143,7 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
 
                   // CartType là updateOrder, order, updateBill, retail
                   const EmployeeOfBillWidget(),
-                  // const ProductsBasicInformationWidget(),
+                  const ProductsBasicInformationWidget(),
                   const BillNoteWidget(),
                   const DeliveryWidget(),
                   const OrderSubDetailWidget(),
