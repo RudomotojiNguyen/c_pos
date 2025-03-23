@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:c_pos/common/configs/configurations.dart';
+import 'package:c_pos/common/di/injection/injection.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,8 +21,10 @@ class CameraScan extends StatefulWidget {
 
 class _CameraScanState extends State<CameraScan> {
   CameraController? _cameraController;
-  late BarcodeScanner _barcodeScanner;
+  BarcodeScanner? _barcodeScanner;
   bool _isScanning = false;
+
+  final Configurations _configurations = getIt.get<Configurations>();
 
   // final _orientations = {
   //   DeviceOrientation.portraitUp: 0,
@@ -32,19 +36,27 @@ class _CameraScanState extends State<CameraScan> {
   @override
   void initState() {
     super.initState();
-    _initializeCamera();
-    _barcodeScanner = BarcodeScanner();
+    if (_configurations.isPhysical) {
+      _initializeCamera();
+      _barcodeScanner = BarcodeScanner();
+    }
   }
 
   @override
   void dispose() {
     _cameraController?.dispose();
-    _barcodeScanner.close();
+    _barcodeScanner?.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_configurations.isPhysical) {
+      return const Center(
+        child: Text('Không tìm thấy camera để quét'),
+      );
+    }
+
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       return CameraPreview(_cameraController!);
     }
@@ -55,6 +67,9 @@ class _CameraScanState extends State<CameraScan> {
 
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
+    if (cameras.isEmpty) {
+      return;
+    }
     final camera = cameras.first;
 
     _cameraController = CameraController(
@@ -130,8 +145,12 @@ class _CameraScanState extends State<CameraScan> {
           ),
         );
 
+        if (_barcodeScanner == null) {
+          return;
+        }
+
         // Phân tích mã bằng ML Kit
-        final barcodes = await _barcodeScanner.processImage(inputImage);
+        final barcodes = await _barcodeScanner!.processImage(inputImage);
 
         if (barcodes.isNotEmpty) {
           debugPrint('Barcode detected: ${barcodes.first.rawValue}');

@@ -97,7 +97,7 @@ class XTextField<T> extends StatefulWidget {
     this.minLines = 1,
     this.maxLength,
     this.textInputType,
-    this.autoFocus = true,
+    this.autoFocus = false,
     this.textInputAction,
     this.focusNode,
     this.textCapitalization = TextCapitalization.none,
