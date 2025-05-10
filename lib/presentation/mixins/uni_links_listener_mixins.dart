@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:app_links/app_links.dart';
 
 import '../utils/utils.dart';
 
@@ -14,6 +14,8 @@ mixin UniLinksListenerMixin<T extends StatefulWidget> on State<T>
     implements UniLinksCallback {
   StreamSubscription? _sub;
 
+  final appLinks = AppLinks();
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +28,7 @@ mixin UniLinksListenerMixin<T extends StatefulWidget> on State<T>
   }
 
   Future<void> initUniLinks() async {
-    _sub = uriLinkStream.listen((Uri? uri) {
+    _sub = appLinks.uriLinkStream.listen((Uri? uri) {
       // Use the uri and warn the user, if it is not correct
       if (uri != null) {
         debugPrint('initUniLinks: $uri');
@@ -47,7 +49,7 @@ mixin UniLinksListenerMixin<T extends StatefulWidget> on State<T>
   Future<void> getInitUniLinks() async {
     // Uri parsing may fail, so we use a try/catch FormatException.
     try {
-      final initialUri = await getInitialUri();
+      final initialUri = await appLinks.getInitialLink();
       // Use the uri and warn the user, if it is not correct,
       // but keep in mind it could be `null`.
       if (!Utils.checkDataIsNullOrEmpty(initialUri)) {

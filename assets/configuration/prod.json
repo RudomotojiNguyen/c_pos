@@ -1,6 +1,6 @@
 {
   "environment": "production",
-  "baseUrlRead": "https://app.didongviet.vn/web-api/read/v1/api/",
-  "baseUrlWrite": "https://app.didongviet.vn/web-api/write/v1/api/",
+  "baseUrlRead": "http://35.224.247.243:3000/api/",
+  "baseUrlWrite": "http://35.224.247.243:3000/api/",
   "version": "1.2.47"
 }

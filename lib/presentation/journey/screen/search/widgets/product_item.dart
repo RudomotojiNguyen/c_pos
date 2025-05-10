@@ -81,6 +81,7 @@ class _ProductItemInCartState extends State<ProductItemInCart>
           imagePath: widget.product.getImageThumbnail,
           size: Size(80.sp, 80.sp),
         ),
+        BoxSpacer.s8,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

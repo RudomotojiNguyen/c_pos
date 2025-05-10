@@ -10,7 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/enum/enum.dart';
-import '../../../../gen/gen.dart';
 import '../../../theme/themes.dart';
 import '../../../widgets/widgets.dart';
 import 'bloc/search_product_bloc.dart';

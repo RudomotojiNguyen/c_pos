@@ -65,12 +65,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         final auth = AuthModel(
           userId: user.userId,
-          storeId: user.storeId,
-          storeName: user.storeName,
-          employeeId: user.employeeId,
+          // storeId: user.storeId,
+          // storeName: user.storeName,
+          // employeeId: user.employeeId,
           isActive: user.isActive,
           accessToken: token,
-          jobTitleId: user.jobTitleId,
+          // jobTitleId: user.jobTitleId,
           employee: EmployeeModel(
             id: user.employeeId,
             code: user.userCode,

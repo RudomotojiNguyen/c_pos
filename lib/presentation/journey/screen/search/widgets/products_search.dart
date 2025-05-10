@@ -1,5 +1,4 @@
 import 'package:c_pos/common/extensions/extension.dart';
-import 'package:c_pos/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

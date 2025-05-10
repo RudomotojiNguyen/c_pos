@@ -1,7 +1,7 @@
 import 'package:c_pos/common/enum/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:timelines/timelines.dart';
+import 'package:timelines_plus/timelines_plus.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../common/extensions/extension.dart';
