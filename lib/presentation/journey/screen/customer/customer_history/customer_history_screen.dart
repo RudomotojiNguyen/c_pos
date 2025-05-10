@@ -44,8 +44,11 @@ class _CustomerHistoryScreenState extends XStateWidget<CustomerHistoryScreen> {
   Widget buildContentView(BuildContext context) {
     return BlocBuilder<CustomerBloc, CustomerState>(
       bloc: _customerBloc,
+      buildWhen: (previous, current) =>
+          current is GetCustomerDetailSuccess ||
+          current is IsLoadingCustomerDetail,
       builder: (context, state) {
-        if (state.isLoading) {
+        if (state is IsLoadingCustomerDetail) {
           return _loadingWidget();
         }
 

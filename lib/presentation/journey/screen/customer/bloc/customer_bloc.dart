@@ -7,6 +7,8 @@ import 'package:equatable/equatable.dart';
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/models/customer_model.dart';
 import '../../../../../data/models/customer_type_model.dart';
+import '../../../../../data/models/response/page_info_entity.dart';
+import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/repository/customer_repository.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../../../widgets/widgets.dart';
@@ -20,21 +22,15 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
 
   CustomerBloc({
     required this.customerRepository,
-  }) : super(const CustomerInitial(
-            customers: [],
-            currentPage: 1,
-            limit: 10,
-            isLoading: false,
-            isLoadMore: false,
-            canLoadMore: true)) {
+  }) : super(CustomerInitial(
+          customers: const [],
+          pageInfo: PageInfoEntity(),
+        )) {
     /// tìm khách hàng bằng SDT
     on<GetCustomerByPhoneEvent>(_onGetCustomers);
 
     /// tìm khách hàng bằng id
     on<GetCustomerByIdEvent>(_onGetCustomerInfo);
-
-    /// thay đổi text ->
-    on<OnchangeTextEvent>(_onChangeText);
 
     /// lấy mã OTP để check DMEM hoặc dùng điểm
     on<GetOTPEvent>(_onGetOTP);
@@ -47,7 +43,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       CheckOTPEvent event, Emitter<CustomerState> emit) async {
     try {
       XToast.loading();
-      emit(UpdateIsLoading(state: state, isLoading: true));
+      emit(UpdateIsLoading(state: state));
       if (event.type == DiscountMemberType.dMem) {
         await customerRepository.checkOTPUseDMem(
             customerId: event.customerId, otpCode: event.otpCode);
@@ -66,7 +62,6 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       _loggerHelper.logError(message: 'CheckOTPEvent', obj: e);
     } finally {
       XToast.closeAllLoading();
-      emit(UpdateIsLoading(state: state, isLoading: false));
     }
   }
 
@@ -74,7 +69,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       GetOTPEvent event, Emitter<CustomerState> emit) async {
     try {
       XToast.loading();
-      emit(UpdateIsLoading(state: state, isLoading: true));
+      emit(UpdateIsLoading(state: state));
       if (event.type == DiscountMemberType.dMem) {
         final res = await customerRepository.getCustomerOTPToUseDMem(
             phoneNumber: event.customerPhone, isCheckBlackList: 1);
@@ -94,58 +89,57 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       _loggerHelper.logError(message: 'GetOTPEvent', obj: e);
     } finally {
       XToast.closeAllLoading();
-      emit(UpdateIsLoading(state: state, isLoading: false));
     }
-  }
-
-  FutureOr<void> _onChangeText(
-      OnchangeTextEvent event, Emitter<CustomerState> emit) async {
-    emit(UpdateIsLoading(state: state, isLoading: true));
-    Future.delayed(const Duration(seconds: 1));
-    emit(UpdateIsLoading(state: state, isLoading: false));
   }
 
   FutureOr<void> _onGetCustomerInfo(
       GetCustomerByIdEvent event, Emitter<CustomerState> emit) async {
     try {
-      emit(UpdateIsLoading(state: state, isLoading: true));
+      emit(IsLoadingCustomerDetail(state: state));
       final res = await customerRepository.getCustomerInfoById(
           customerId: event.customerId);
-      emit(UpdateIsLoading(state: state, isLoading: false));
       emit(GetCustomerDetailSuccess(state: state, customer: res));
     } catch (e) {
       _loggerHelper.logError(message: 'GetCustomerByIdEvent', obj: e);
-      emit(UpdateIsLoading(state: state, isLoading: false));
+      // TODO: handle error
     }
   }
 
   FutureOr<void> _onGetCustomers(
       GetCustomerByPhoneEvent event, Emitter<CustomerState> emit) async {
     try {
-      emit(UpdateIsLoading(state: state, isLoading: true));
+      emit(IsLoadingGetCustomers(state: state));
       final res = await getCustomers(
-          page: 1, size: state.limit, phoneNumber: event.phone);
-      emit(UpdateIsLoading(state: state, isLoading: false));
+        page: 1,
+        size: state.pageInfo.getLimit,
+        phoneNumber: event.phone,
+      );
+
       emit(GetCustomersSuccess(
         state: state,
-        customers: res,
-        currentPage: 1,
-        canLoadMore: res.length >= state.limit,
+        customers: res.items,
+        pageInfo: state.pageInfo.copyWith(
+          page: 1,
+          canLoadMore: res.items.length >= state.pageInfo.getLimit,
+        ),
       ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetCustomerByPhoneEvent', obj: e);
-      emit(UpdateIsLoading(state: state, isLoading: false));
+      // TODO: handle error
     }
   }
 
-  Future<List<CustomerModel>> getCustomers({
+  Future<PaginatedResponse<CustomerModel>> getCustomers({
     required int page,
     required int size,
-    required String phoneNumber,
+    String? phoneNumber,
   }) async {
     try {
       final res = await customerRepository.getCustomers(
-          page: 1, size: state.limit, phoneNumber: phoneNumber);
+        page: page,
+        size: size,
+        phoneNumber: phoneNumber,
+      );
       return res;
     } catch (e) {
       rethrow;

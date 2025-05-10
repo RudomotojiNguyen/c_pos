@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../theme/themes.dart';
 import '../widgets.dart';
 
 class DeliveryDialog extends StatefulWidget {

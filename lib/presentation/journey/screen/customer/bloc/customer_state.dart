@@ -3,66 +3,52 @@ part of 'customer_bloc.dart';
 @immutable
 sealed class CustomerState extends Equatable {
   final List<CustomerModel> customers;
-  final int currentPage;
-  final int limit;
-  final bool isLoading;
-  final bool isLoadMore;
-  final bool canLoadMore;
+  final PageInfoEntity pageInfo;
 
   const CustomerState({
     required this.customers,
-    required this.currentPage,
-    required this.limit,
-    required this.isLoading,
-    required this.isLoadMore,
-    required this.canLoadMore,
+    required this.pageInfo,
   });
 
   @override
   List<Object?> get props => [
         customers,
-        currentPage,
-        limit,
-        isLoading,
-        isLoadMore,
-        canLoadMore,
+        pageInfo,
       ];
 }
 
 final class CustomerInitial extends CustomerState {
-  const CustomerInitial(
-      {required super.customers,
-      required super.currentPage,
-      required super.limit,
-      required super.isLoading,
-      required super.isLoadMore,
-      required super.canLoadMore});
+  const CustomerInitial({
+    required super.customers,
+    required super.pageInfo,
+  });
 }
 
+/// start get customers
 final class GetCustomersSuccess extends CustomerState {
-  GetCustomersSuccess({
+  const GetCustomersSuccess({
     required CustomerState state,
     required super.customers,
-    required super.currentPage,
-    required super.canLoadMore,
-    int? limit,
+    required super.pageInfo,
+  }) : super();
+}
+
+final class IsLoadingGetCustomers extends CustomerState {
+  IsLoadingGetCustomers({
+    required CustomerState state,
   }) : super(
-          limit: limit ?? state.limit,
-          isLoading: state.isLoading,
-          isLoadMore: state.isLoadMore,
+          customers: state.customers,
+          pageInfo: state.pageInfo,
         );
 }
 
+/// end get customers
+
 final class UpdateIsLoading extends CustomerState {
-  UpdateIsLoading({
-    required CustomerState state,
-    required super.isLoading,
-  }) : super(
-          limit: state.limit,
-          currentPage: state.currentPage,
-          canLoadMore: state.canLoadMore,
-          isLoadMore: state.isLoadMore,
+  UpdateIsLoading({required CustomerState state})
+      : super(
           customers: state.customers,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -73,12 +59,8 @@ final class GetCustomerStatisticSuccess extends CustomerState {
     required CustomerState state,
     this.customerType,
   }) : super(
-          isLoading: state.isLoading,
-          limit: state.limit,
-          currentPage: state.currentPage,
-          canLoadMore: state.canLoadMore,
-          isLoadMore: state.isLoadMore,
           customers: state.customers,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -91,12 +73,8 @@ final class GetOTPSuccess extends CustomerState {
     required this.otp,
     this.customerInfo,
   }) : super(
-          isLoading: state.isLoading,
-          limit: state.limit,
-          currentPage: state.currentPage,
-          canLoadMore: state.canLoadMore,
-          isLoadMore: state.isLoadMore,
           customers: state.customers,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -109,15 +87,12 @@ final class CheckOTPSuccess extends CustomerState {
     required this.amount,
     required this.point,
   }) : super(
-          isLoading: state.isLoading,
-          limit: state.limit,
-          currentPage: state.currentPage,
-          canLoadMore: state.canLoadMore,
-          isLoadMore: state.isLoadMore,
           customers: state.customers,
+          pageInfo: state.pageInfo,
         );
 }
 
+/// start customer detail
 final class GetCustomerDetailSuccess extends CustomerState {
   final CustomerModel customer;
 
@@ -125,11 +100,17 @@ final class GetCustomerDetailSuccess extends CustomerState {
     required CustomerState state,
     required this.customer,
   }) : super(
-          limit: state.limit,
-          currentPage: state.currentPage,
-          canLoadMore: state.canLoadMore,
-          isLoadMore: state.isLoadMore,
           customers: state.customers,
-          isLoading: state.isLoading,
+          pageInfo: state.pageInfo,
         );
 }
+
+final class IsLoadingCustomerDetail extends CustomerState {
+  IsLoadingCustomerDetail({required CustomerState state})
+      : super(
+          customers: state.customers,
+          pageInfo: state.pageInfo,
+        );
+}
+
+/// end

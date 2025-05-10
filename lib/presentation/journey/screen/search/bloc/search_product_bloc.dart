@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/models/product_model.dart';
-import '../../../../../data/models/response/base_response.dart';
+import '../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../data/repository/product_repository.dart';
 import '../../../../../data/repository/stock_repository.dart';
 

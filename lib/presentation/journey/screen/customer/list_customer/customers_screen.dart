@@ -26,6 +26,12 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
       RefreshController(initialRefresh: false);
 
   @override
+  void initState() {
+    super.initState();
+    _customerBloc.add(GetCustomerByPhoneEvent(null));
+  }
+
+  @override
   void dispose() {
     _refreshController.dispose();
     super.dispose();
@@ -60,8 +66,10 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
     int crossAxisCount = context.isSmallScreen ? 1 : 2;
     return BlocBuilder<CustomerBloc, CustomerState>(
       bloc: _customerBloc,
+      buildWhen: (previous, current) =>
+          current is GetCustomersSuccess || current is IsLoadingGetCustomers,
       builder: (context, state) {
-        if (state.isLoading) {
+        if (state is IsLoadingGetCustomers) {
           return ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
             itemBuilder: (context, index) {
@@ -94,11 +102,11 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
             noMoreStr: 'Đã hết dữ liệu',
           ),
           onRefresh: () async {
-            // widget.orderBloc.add(GetOrderEvent());
-            // _refreshController.refreshCompleted();
+            _onSearchCustomer(_searchCustomerController.text);
+            _refreshController.refreshCompleted();
           },
           onLoading: () {
-            // widget.orderBloc.add(GetMoreOrderEvent());
+            _onLoadMoreCustomer();
           },
           child: SingleChildScrollView(
             child: XGridView(
@@ -125,5 +133,9 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
   ///
   _onSearchCustomer(String value) {
     _customerBloc.add(GetCustomerByPhoneEvent(value));
+  }
+
+  _onLoadMoreCustomer() {
+    // _customerBloc.add(GetCustomerByPhoneEvent(null));
   }
 }

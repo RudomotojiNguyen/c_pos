@@ -4,7 +4,7 @@ part of 'customer_bloc.dart';
 sealed class CustomerEvent {}
 
 final class GetCustomerByPhoneEvent extends CustomerEvent {
-  final String phone;
+  final String? phone;
 
   GetCustomerByPhoneEvent(this.phone);
 }

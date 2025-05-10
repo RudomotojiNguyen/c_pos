@@ -1,10 +1,11 @@
 import '../models/customer_model.dart';
+import '../models/response/paginated_response.dart';
 import '../services/customer_services.dart';
 
 part 'impl/customer_repository_impl.dart';
 
 abstract class CustomerRepository {
-  Future<List<CustomerModel>> getCustomers({
+  Future<PaginatedResponse<CustomerModel>> getCustomers({
     required int page,
     required int size,
     String? phoneNumber,

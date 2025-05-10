@@ -37,11 +37,11 @@ abstract class CustomerApi {
 
   /// lấy danh sách khách hàng
   ///
-  @GET('customer/mobile')
+  @GET('v1/customers')
   Future<BaseResponse> getCustomers({
+    @Query('pageSize') required int pageSize,
     @Query('page') required int page,
-    @Query('size') required int size,
-    @Query('param') String? param,
+    @Query('customerPhone') String? customerPhone,
   });
 
   /// lấy thông tin khách hàng

@@ -1,4 +1,3 @@
-import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,19 +102,10 @@ class _UpdateCustomerInformationDialogState
                   futureRequest: (value) async {
                     return await getCustomers(value);
                   },
-                  suffixWidget: BlocSelector<CustomerBloc, CustomerState, bool>(
-                    bloc: _customerBloc,
-                    selector: (state) => state.isLoading,
-                    builder: (context, state) {
-                      if (state) {
-                        return const XLoading();
-                      }
-                      return Icon(
-                        Icons.search,
-                        size: 20.sp,
-                        color: AppColors.neutralColor,
-                      );
-                    },
+                  suffixWidget: Icon(
+                    Icons.search,
+                    size: 20.sp,
+                    color: AppColors.neutralColor,
                   ),
                   validator: (value) {
                     if (ValidationUtils.isValidatePhoneNumber(value ?? '')) {
@@ -249,7 +239,6 @@ class _UpdateCustomerInformationDialogState
   _onChangeText(String? value) {
     customerInfo = CustomerModel(phoneNo: value);
 
-    _customerBloc.add(OnchangeTextEvent());
     nameController.text = '';
     selectedItemNotifier.value = null;
     dateOfBirth.value = [];
@@ -266,8 +255,12 @@ class _UpdateCustomerInformationDialogState
 
   Future<List<CustomerModel>> getCustomers(String value) async {
     try {
-      return await _customerBloc.getCustomers(
-          page: 1, size: 5, phoneNumber: value.trim());
+      final res = await _customerBloc.getCustomers(
+        page: 1,
+        size: 5,
+        phoneNumber: value.trim(),
+      );
+      return res.items;
     } catch (e) {
       return [];
     }

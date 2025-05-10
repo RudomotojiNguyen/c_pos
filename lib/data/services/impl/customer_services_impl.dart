@@ -6,21 +6,13 @@ class CustomerServicesImpl implements CustomerServices {
   CustomerServicesImpl({required this.customerApi});
 
   @override
-  Future<List<CustomerModel>> getCustomers(
-      {required int page, required int size, String? phoneNumber}) {
-    return customerApi
-        .getCustomers(page: page, size: size, param: phoneNumber)
-        .then(
-      (value) {
-        List<CustomerModel> data = [];
+  Future<PaginatedResponse<CustomerModel>> getCustomers(
+      {required int page, required int size, String? phoneNumber}) async {
+    final res = await customerApi.getCustomers(
+        page: page, pageSize: size, customerPhone: phoneNumber);
 
-        for (var customer in value.data) {
-          data.add(CustomerModel.fromJson(customer));
-        }
-
-        return data;
-      },
-    );
+    return PaginatedResponse.fromJson(
+        res.data, (json) => CustomerModel.fromJson(json));
   }
 
   @override

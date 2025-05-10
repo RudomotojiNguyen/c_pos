@@ -6,7 +6,7 @@ class CustomerRepositoryImpl implements CustomerRepository {
   CustomerRepositoryImpl({required this.customerServices});
 
   @override
-  Future<List<CustomerModel>> getCustomers(
+  Future<PaginatedResponse<CustomerModel>> getCustomers(
       {required int page, required int size, String? phoneNumber}) {
     return customerServices.getCustomers(
         page: page, size: size, phoneNumber: phoneNumber);
