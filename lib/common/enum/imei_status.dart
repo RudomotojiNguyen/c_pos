@@ -91,7 +91,7 @@ extension ImeiStatusExtension on ImeiStatus {
     switch (this) {
       case ImeiStatus.newImei:
       case ImeiStatus.keeping:
-        return AppColors.successColor;
+        return AppColors.warningColor;
       case ImeiStatus.sold:
       case ImeiStatus.returnedNCC:
       case ImeiStatus.returnedWarranty:

@@ -1,7 +1,6 @@
 class PageInfoEntity {
   int? limit;
   int? page;
-  int? total;
   int? itemCount;
   int? pageCount;
   bool? hasPreviousPage;
@@ -13,8 +12,7 @@ class PageInfoEntity {
   PageInfoEntity({
     this.limit,
     this.page,
-    this.total,
-    this.itemCount,
+    this.itemCount, // total item
     this.pageCount,
     this.hasPreviousPage,
     this.hasNextPage,
@@ -34,7 +32,6 @@ class PageInfoEntity {
     return PageInfoEntity(
       limit: limit ?? this.limit,
       page: page ?? this.page,
-      total: total ?? this.total,
       itemCount: itemCount ?? this.itemCount,
       pageCount: pageCount ?? this.pageCount,
       hasPreviousPage: hasPreviousPage ?? this.hasPreviousPage,
@@ -50,4 +47,6 @@ class PageInfoEntity {
   int get getLimit => limit ?? 10;
 
   bool get checkCanLoadMore => canLoadMore ?? false;
+
+  int get getNextPage => getPage + 1;
 }

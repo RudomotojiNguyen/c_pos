@@ -13,6 +13,8 @@ import '../../../../../widgets/widgets.dart';
 import '../../../../router.dart';
 import '../../../product/bloc/product_bloc.dart';
 
+part './imei_history_item_widget.dart';
+
 class ListImeiWidget extends StatefulWidget {
   const ListImeiWidget({super.key, required this.productBloc});
 
@@ -41,10 +43,10 @@ class _ListImeiWidgetState extends State<ListImeiWidget> {
         if (state is UpdateFilterSuccess) {
           widget.productBloc.add(GetImeiHistoryEvent());
         }
-        if (state.baseLoadingInfo.canLoadMore) {
+        if (state.pageInfo.checkCanLoadMore) {
           _refreshController.loadComplete();
         }
-        if (!state.baseLoadingInfo.canLoadMore) {
+        if (!state.pageInfo.checkCanLoadMore) {
           _refreshController.loadNoData();
         }
       },
@@ -95,15 +97,16 @@ class _ListImeiWidgetState extends State<ListImeiWidget> {
                 return ImeiHistoryItemWidget(
                   imei: item.getImei,
                   status: item.getStatus,
-                  colorStatus: item.status?.getColorImeiStatus,
+                  colorStatus: item.getColorImeiStatus,
                   productImage: item.getProductImage,
                   productName: item.getProductName,
                   sellingPrice: item.getSellingPrice,
+                  provider: item.getProvider,
                   onPressed: () {
                     MainRouter.instance.pushNamed(context,
                         routeName: RouteName.imeiHistory,
                         queryParameters: {
-                          'imei': item.imeiNo,
+                          'imei': item.getImei,
                         });
                   },
                 );
@@ -112,116 +115,6 @@ class _ListImeiWidgetState extends State<ListImeiWidget> {
           ),
         );
       },
-    );
-  }
-}
-
-class ImeiHistoryItemWidget extends StatelessWidget {
-  const ImeiHistoryItemWidget(
-      {super.key,
-      required this.imei,
-      required this.status,
-      this.colorStatus,
-      required this.productImage,
-      required this.productName,
-      required this.sellingPrice,
-      this.onPressed});
-
-  final String imei;
-  final String status;
-  final Color? colorStatus;
-
-  final String productImage;
-  final String productName;
-  final double sellingPrice;
-
-  final Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return XBaseButton(
-      onPressed: onPressed,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 16.sp),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(8.sp),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _topInfo(context),
-            XDivider(padding: EdgeInsets.symmetric(vertical: 8.sp)),
-            _productInfo(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _topInfo(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.sp),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            imei,
-            style: AppFont.t.s(14).w700,
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
-            decoration: BoxDecoration(
-                color: AppColors.lightGreyColor,
-                borderRadius: BorderRadius.circular(4.sp)),
-            child: Text(
-              status,
-              style: AppFont.t.s(11).w700.copyWith(
-                    color: colorStatus ?? AppColors.informationColor,
-                  ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _productInfo() {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.sp),
-        child: ProductItemDetailWidget(
-          productName: productName,
-          productImei: imei,
-          productImage: productImage,
-          sellingPrice: sellingPrice,
-          discountPrice: 0,
-          quantity: 0,
-        )
-        // ProductItem(
-        //   image: productImage,
-        //   name: productName,
-        //   imei: imei,
-        //   sellingPrice: sellingPrice,
-        //   discountPrice: 0,
-        //   quantity: 0,
-        // ),
-        );
-  }
-}
-
-class LoadingTransaction extends StatelessWidget {
-  const LoadingTransaction({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 6,
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 16.sp),
-      itemBuilder: (context, index) {
-        return const ImeiHistoryItemLoading();
-      },
-      separatorBuilder: (context, index) => BoxSpacer.s16,
     );
   }
 }

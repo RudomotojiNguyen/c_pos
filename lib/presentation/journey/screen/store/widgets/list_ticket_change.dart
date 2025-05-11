@@ -46,10 +46,10 @@ class _ListTicketChangeState extends State<ListTicketChange>
           current is GetExchangeHistoryLoading ||
           current is GetExchangeHistorySuccess,
       listener: (context, state) {
-        if (state.loadingInfo.canLoadMore) {
+        if (state.pageInfo.checkCanLoadMore) {
           _refreshController.loadComplete();
         }
-        if (!state.loadingInfo.canLoadMore) {
+        if (!state.pageInfo.checkCanLoadMore) {
           _refreshController.loadNoData();
         }
       },

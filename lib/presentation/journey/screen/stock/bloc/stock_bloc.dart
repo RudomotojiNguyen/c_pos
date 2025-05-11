@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/models/category_model.dart';
-import '../../../../../data/models/filter/base_loading_info_model.dart';
 import '../../../../../data/models/filter/filter_product_stock_model.dart';
 import '../../../../../data/models/product_model.dart';
+import '../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../data/models/stock_model.dart';
 import '../../../../../data/repository/product_repository.dart';
 import '../../../../../data/repository/stock_repository.dart';
@@ -25,11 +25,11 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   StockBloc({
     required this.stockRepository,
     required this.productRepository,
-  }) : super(const StockInitial(
-          productStocks: [],
-          products: [],
-          loadingInfo: BaseLoadingInfoModel(),
-          productStockFilter: FilterProductStockModel(),
+  }) : super(StockInitial(
+          productStocks: const [],
+          products: const [],
+          pageInfo: PageInfoEntity(),
+          productStockFilter: const FilterProductStockModel(),
         )) {
     on<GetStockOfProductEvent>(_onGetStockOfProduct);
     on<UpdateFilterEvent>(_onUpdateFilter);
@@ -87,7 +87,7 @@ class StockBloc extends Bloc<StockEvent, StockState> {
 
       final res = await productRepository.getProductInventory(
         page: 1,
-        size: state.loadingInfo.limit,
+        size: state.pageInfo.getLimit,
         categoryId: state.productStockFilter.cateSelected?.id,
         inStock: state.productStockFilter.isInStock,
         productName: state.productStockFilter.searchValue,
@@ -97,9 +97,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       emit(GetProductsSuccess(
         state: state,
         products: res,
-        loadingInfo: state.loadingInfo.copyWith(
-          currentPage: 1,
-          sizeDate: res.length,
+        pageInfo: state.pageInfo.copyWith(
+          page: 1,
+          itemCount: res.length,
         ),
       ));
     } catch (e) {
@@ -110,18 +110,18 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   FutureOr<void> _onGetMoreProducts(
       GetMoreProductsEvent event, Emitter<StockState> emit) async {
     try {
-      if (!state.loadingInfo.canLoadMore || state is StockIsLoadMore) {
+      if (!state.pageInfo.checkCanLoadMore || state is StockIsLoadMore) {
         return;
       }
 
       emit(StockIsLoadMore(state: state));
 
-      final int page = state.loadingInfo.currentPage + 1;
+      final int page = state.pageInfo.getNextPage;
       final List<ProductModel> products = state.products;
 
       final res = await productRepository.getProductInventory(
         page: page,
-        size: state.loadingInfo.limit,
+        size: state.pageInfo.getLimit,
         categoryId: state.productStockFilter.cateSelected?.id,
         inStock: state.productStockFilter.isInStock,
         productName: state.productStockFilter.searchValue,
@@ -133,9 +133,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       emit(GetProductsSuccess(
         state: state,
         products: products,
-        loadingInfo: state.loadingInfo.copyWith(
-          currentPage: page,
-          sizeDate: res.length,
+        pageInfo: state.pageInfo.copyWith(
+          page: page,
+          itemCount: res.length,
         ),
       ));
     } catch (e) {

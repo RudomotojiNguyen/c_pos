@@ -210,30 +210,27 @@ class ProductServicesImpl implements ProductServices {
   }
 
   @override
-  Future<List<ImeiHistoryModel>> getImeiHistory(
-      {required int page,
-      required int size,
-      String? search,
-      int? storeId,
-      int? statusImei}) {
-    return productApi
-        .getImeiHistory(
+  Future<PaginatedResponse<ImeiHistoryModel>> getImeiHistory({
+    required int page,
+    required int limit,
+    String? search,
+    int? storeId,
+    List<int>? statusImei,
+    String? searchProduct,
+  }) async {
+    final res = await productApi.getImeiHistory(
       page: page,
-      size: size,
+      limit: limit,
       search: search,
       statusImei: statusImei,
       storeId: storeId,
-    )
-        .then(
-      (value) {
-        List<ImeiHistoryModel> data = [];
+      searchProduct: searchProduct,
+    );
 
-        for (var product in value.getListData) {
-          data.add(ImeiHistoryModel.fromJson(product));
-        }
-
-        return data;
-      },
+    return PaginatedResponse.fromJson(
+      res.data,
+      (json) => ImeiHistoryModel.fromJson(json),
+      itemsKey: 'list_imei',
     );
   }
 

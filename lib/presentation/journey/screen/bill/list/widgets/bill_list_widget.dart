@@ -43,10 +43,10 @@ class _BillListWidgetState extends State<BillListWidget> {
           widget.billBloc.add(GetBillListEvent());
           _refreshController.refreshCompleted();
         }
-        if (!state.loadingInfo.canLoadMore) {
+        if (!state.pageInfo.checkCanLoadMore) {
           _refreshController.loadNoData();
         }
-        if (state.loadingInfo.canLoadMore) {
+        if (state.pageInfo.checkCanLoadMore) {
           _refreshController.loadComplete();
         }
       },

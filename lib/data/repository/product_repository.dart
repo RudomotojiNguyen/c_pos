@@ -2,6 +2,7 @@ import '../models/imei_history_model.dart';
 import '../models/imei_transaction_model.dart';
 import '../models/product_imei_model.dart';
 import '../models/product_model.dart';
+import '../models/response/paginated_response.dart';
 import '../models/trade_in_transaction_model.dart';
 import '../services/product_services.dart';
 
@@ -60,12 +61,13 @@ abstract class ProductRepository {
 
   Future<List<String>> getReasonSelectImei();
 
-  Future<List<ImeiHistoryModel>> getImeiHistory({
+  Future<PaginatedResponse<ImeiHistoryModel>> getImeiHistory({
     required int page,
-    required int size,
+    required int limit,
     String? search,
     int? storeId,
-    int? statusImei,
+    List<int>? statusImei,
+    String? searchProduct,
   });
 
   Future<List<ImeiTransactionModel>> getImeiHistoryTransaction({

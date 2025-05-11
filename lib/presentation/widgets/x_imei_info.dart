@@ -26,14 +26,14 @@ class XImeiInfo extends StatelessWidget {
       child: Row(
         children: [
           Assets.svg.iosLink.svg(
-            width: 18.sp,
-            height: 18.sp,
+            width: 12.sp,
+            height: 12.sp,
             color: AppColors.neutral3Color,
           ),
           BoxSpacer.s4,
           Text(
             imei,
-            style: AppFont.t.s(12).w500.green.italic,
+            style: AppFont.t.s(8).w500.information.italic,
           ),
         ],
       ),

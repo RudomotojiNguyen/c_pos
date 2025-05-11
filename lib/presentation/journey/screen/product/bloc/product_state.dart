@@ -2,26 +2,26 @@ part of 'product_bloc.dart';
 
 sealed class ProductState extends Equatable {
   final List<ImeiHistoryModel> listImeiHistory;
-  final BaseLoadingInfoModel baseLoadingInfo;
+  final PageInfoEntity pageInfo;
   final FilterImeiHistoryModel filterImeiHistory;
 
   const ProductState({
     required this.listImeiHistory,
-    required this.baseLoadingInfo,
+    required this.pageInfo,
     required this.filterImeiHistory,
   });
 
   @override
   List<Object?> get props => [
         listImeiHistory,
-        baseLoadingInfo,
+        pageInfo,
       ];
 }
 
 final class ProductInitial extends ProductState {
   const ProductInitial({
     required super.listImeiHistory,
-    required super.baseLoadingInfo,
+    required super.pageInfo,
     required super.filterImeiHistory,
   });
 }
@@ -32,7 +32,7 @@ final class UpdateFilterSuccess extends ProductState {
     required super.filterImeiHistory,
   }) : super(
           listImeiHistory: state.listImeiHistory,
-          baseLoadingInfo: state.baseLoadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -40,7 +40,7 @@ final class GetDataImeiHistorySuccess extends ProductState {
   GetDataImeiHistorySuccess({
     required ProductState state,
     required super.listImeiHistory,
-    required super.baseLoadingInfo,
+    required super.pageInfo,
   }) : super(
           filterImeiHistory: state.filterImeiHistory,
         );
@@ -50,7 +50,7 @@ final class IsLoading extends ProductState {
   IsLoading({
     required ProductState state,
   }) : super(
-          baseLoadingInfo: state.baseLoadingInfo,
+          pageInfo: state.pageInfo,
           filterImeiHistory: state.filterImeiHistory,
           listImeiHistory: state.listImeiHistory,
         );
@@ -64,7 +64,7 @@ final class GetImeiTransactionSuccess extends ProductState {
     required ProductState state,
     required this.listImeiTransaction,
   }) : super(
-          baseLoadingInfo: state.baseLoadingInfo,
+          pageInfo: state.pageInfo,
           filterImeiHistory: state.filterImeiHistory,
           listImeiHistory: state.listImeiHistory,
         );
@@ -77,7 +77,7 @@ final class GetTradeinTransactionSuccess extends ProductState {
     required ProductState state,
     required this.listTradeinTransaction,
   }) : super(
-          baseLoadingInfo: state.baseLoadingInfo,
+          pageInfo: state.pageInfo,
           filterImeiHistory: state.filterImeiHistory,
           listImeiHistory: state.listImeiHistory,
         );

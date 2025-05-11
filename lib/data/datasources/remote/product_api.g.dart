@@ -567,17 +567,19 @@ class _ProductApi implements ProductApi {
 
   @override
   Future<BaseResponse> getImeiHistory({
-    String? search,
     required int page,
-    required int size,
+    required int limit,
+    String? search,
+    String? searchProduct,
     int? storeId,
-    int? statusImei,
+    List<int>? statusImei,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'search': search,
       r'page': page,
-      r'size': size,
+      r'limit': limit,
+      r'search': search,
+      r'searchProduct': searchProduct,
       r'storeId': storeId,
       r'status': statusImei,
     };
@@ -591,7 +593,7 @@ class _ProductApi implements ProductApi {
     )
         .compose(
           _dio.options,
-          'productEmeiStock/mobile',
+          'imeis',
           queryParameters: queryParameters,
           data: _data,
         )

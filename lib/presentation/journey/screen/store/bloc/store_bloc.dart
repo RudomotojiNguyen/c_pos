@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/filter/base_loading_info_model.dart';
 import '../../../../../data/models/history_change_store_model.dart';
+import '../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../data/models/store_model.dart';
 import '../../../../../data/repository/store_repository.dart';
 import '../../../../mixins/logger_helper.dart';
@@ -22,11 +22,11 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   final LoggerHelper loggerHelper = LoggerHelper();
 
   StoreBloc({required this.storeRepository, required this.authBloc})
-      : super(const StoreInitial(
-            stores: [],
-            userStoresCanChange: [],
-            exchangeHistory: [],
-            loadingInfo: BaseLoadingInfoModel())) {
+      : super(StoreInitial(
+            stores: const [],
+            userStoresCanChange: const [],
+            exchangeHistory: const [],
+            pageInfo: PageInfoEntity())) {
     on<GetStoreEvent>(_onGetStore);
     on<GetUserStoreCanChangeEvent>(_onGetUserStoreCanChange);
     on<ChangeUserStoreEvent>(_onChangeUserStore);
@@ -61,7 +61,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       GetMoreExchangeHistoryEvent event, Emitter<StoreState> emit) async {
     try {
       if (state is GetExchangeHistoryLoadMore ||
-          !state.loadingInfo.canLoadMore) {
+          !state.pageInfo.checkCanLoadMore) {
         return;
       }
 
@@ -75,9 +75,9 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(GetExchangeHistorySuccess(
           state: state,
           exchangeHistory: data,
-          loadingInfo: state.loadingInfo.copyWith(
-            currentPage: page,
-            sizeDate: res.length,
+          pageInfo: state.pageInfo.copyWith(
+            page: page,
+            itemCount: res.length,
           )));
     } catch (e) {
       loggerHelper.logError(message: 'GetMoreExchangeHistoryEvent', obj: e);
@@ -93,9 +93,9 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(GetExchangeHistorySuccess(
           state: state,
           exchangeHistory: res,
-          loadingInfo: state.loadingInfo.copyWith(
-            currentPage: 1,
-            sizeDate: res.length,
+          pageInfo: state.pageInfo.copyWith(
+            page: 1,
+            itemCount: res.length,
           )));
     } catch (e) {
       loggerHelper.logError(message: 'GetExchangeHistoryEvent', obj: e);

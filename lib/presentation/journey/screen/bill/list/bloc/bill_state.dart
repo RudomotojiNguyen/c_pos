@@ -4,7 +4,7 @@ part of 'bill_bloc.dart';
 sealed class BillState extends Equatable {
   final List<BillModel> bills;
 
-  final BaseLoadingInfoModel loadingInfo;
+  final PageInfoEntity pageInfo;
   final FilterBillModel filterInfo;
 
   final BillModel? billDetail;
@@ -12,7 +12,7 @@ sealed class BillState extends Equatable {
 
   const BillState({
     required this.bills,
-    required this.loadingInfo,
+    required this.pageInfo,
     required this.filterInfo,
     this.billDetail,
     this.isLoading,
@@ -21,7 +21,7 @@ sealed class BillState extends Equatable {
   @override
   List<Object?> get props => [
         bills,
-        loadingInfo,
+        pageInfo,
         filterInfo,
         billDetail,
         isLoading,
@@ -31,7 +31,7 @@ sealed class BillState extends Equatable {
 final class BillInitial extends BillState {
   const BillInitial({
     required super.bills,
-    required super.loadingInfo,
+    required super.pageInfo,
     required super.filterInfo,
   });
 }
@@ -40,7 +40,7 @@ final class GetBillSuccess extends BillState {
   GetBillSuccess({
     required BillState state,
     required super.bills,
-    required super.loadingInfo,
+    required super.pageInfo,
     bool? canLoadMore,
   }) : super(
           filterInfo: state.filterInfo,
@@ -52,7 +52,7 @@ final class UpdateLoading extends BillState {
     required BillState state,
   }) : super(
           bills: state.bills,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           filterInfo: state.filterInfo,
         );
 }
@@ -62,7 +62,7 @@ final class UpdateLoadMore extends BillState {
     required BillState state,
   }) : super(
           bills: state.bills,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           filterInfo: state.filterInfo,
         );
 }
@@ -73,7 +73,7 @@ final class FilterBillSuccess extends BillState {
     required super.filterInfo,
   }) : super(
           bills: state.bills,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -83,7 +83,7 @@ final class UpdateSearchTypeSuccess extends BillState {
     required super.filterInfo,
   }) : super(
           bills: state.bills,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -94,7 +94,7 @@ final class GetBillDetailSuccess extends BillState {
   }) : super(
           isLoading: state.isLoading,
           bills: state.bills,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           filterInfo: state.filterInfo,
         );
 }
@@ -103,9 +103,9 @@ final class GetDataError extends BillState {
   GetDataError({
     required BillState state,
   }) : super(
-    isLoading: state.isLoading,
-    bills: state.bills,
-    loadingInfo: state.loadingInfo,
-    filterInfo: state.filterInfo,
-  );
+          isLoading: state.isLoading,
+          bills: state.bills,
+          pageInfo: state.pageInfo,
+          filterInfo: state.filterInfo,
+        );
 }

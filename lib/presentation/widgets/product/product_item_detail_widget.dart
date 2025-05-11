@@ -6,7 +6,6 @@ import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/models/product_model.dart';
 import '../widgets.dart';
-import 'basic_short_product_item.dart';
 
 class ProductItemDetailWidget extends StatefulWidget {
   const ProductItemDetailWidget({
@@ -32,6 +31,7 @@ class ProductItemDetailWidget extends StatefulWidget {
     this.decorationChildIsOverlayChild,
     this.paddingChildIsOverlayChild,
     this.onPressedChild,
+    this.provider,
   });
 
   final String productName;
@@ -53,6 +53,7 @@ class ProductItemDetailWidget extends StatefulWidget {
   final List<XProductOperationAction> productOperationActions;
   final Decoration? decorationChildIsOverlay;
   final EdgeInsetsGeometry? paddingChildIsOverlay;
+  final String? provider;
 
   // for child
   final BaseButtonType baseButtonTypeChild;
@@ -103,6 +104,21 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                             widget.productName,
                             style: AppFont.t.s(),
                           ),
+                          if (widget.provider.isNotNullOrEmpty) ...[
+                            BoxSpacer.s4,
+                            Text(
+                              widget.provider!,
+                              style: AppFont.t.s(8).neutral2,
+                            ),
+                          ],
+                          if (widget.productImei.isNotNullOrEmpty) ...[
+                            BoxSpacer.s4,
+                            XImeiInfo(
+                              imei: widget.productImei,
+                              isCopyImei: true,
+                            ),
+                          ],
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -157,13 +173,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                     ),
                   ],
                 ),
-                if (widget.productImei.isNotNullOrEmpty) ...[
-                  BoxSpacer.s4,
-                  XImeiInfo(
-                    imei: widget.productImei,
-                    isCopyImei: false,
-                  ),
-                ],
                 if (widget.externalImeiNo.isNotNullOrEmpty) ...[
                   BoxSpacer.s4,
                   XImeiInfo(

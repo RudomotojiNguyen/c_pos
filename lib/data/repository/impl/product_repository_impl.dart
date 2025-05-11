@@ -105,18 +105,21 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<ImeiHistoryModel>> getImeiHistory(
-      {required int page,
-      required int size,
-      String? search,
-      int? storeId,
-      int? statusImei}) {
+  Future<PaginatedResponse<ImeiHistoryModel>> getImeiHistory({
+    required int page,
+    required int limit,
+    String? search,
+    int? storeId,
+    List<int>? statusImei,
+    String? searchProduct,
+  }) {
     return productServices.getImeiHistory(
       page: page,
-      size: size,
+      limit: limit,
       search: search,
       statusImei: statusImei,
       storeId: storeId,
+      searchProduct: searchProduct,
     );
   }
 

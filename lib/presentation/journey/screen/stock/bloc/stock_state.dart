@@ -4,20 +4,20 @@ part of 'stock_bloc.dart';
 sealed class StockState extends Equatable {
   final List<StockModel> productStocks;
   final List<ProductModel> products;
-  final BaseLoadingInfoModel loadingInfo;
+  final PageInfoEntity pageInfo;
   final FilterProductStockModel productStockFilter;
 
   const StockState({
     required this.productStocks,
     required this.products,
-    required this.loadingInfo,
+    required this.pageInfo,
     required this.productStockFilter,
   });
 
   @override
   List<Object?> get props => [
         productStocks,
-        loadingInfo,
+        pageInfo,
         products,
         productStockFilter,
       ];
@@ -27,7 +27,7 @@ final class StockInitial extends StockState {
   const StockInitial({
     required super.productStocks,
     required super.products,
-    required super.loadingInfo,
+    required super.pageInfo,
     required super.productStockFilter,
   });
 }
@@ -37,7 +37,7 @@ final class GetStockOfProductSuccess extends StockState {
       {required StockState state, required super.productStocks})
       : super(
           products: state.products,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           productStockFilter: state.productStockFilter,
         );
 }
@@ -47,7 +47,7 @@ final class StockIsLoading extends StockState {
       : super(
           productStocks: state.productStocks,
           products: state.products,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           productStockFilter: state.productStockFilter,
         );
 }
@@ -57,7 +57,7 @@ final class StockIsLoadMore extends StockState {
       : super(
           productStocks: state.productStocks,
           products: state.products,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           productStockFilter: state.productStockFilter,
         );
 }
@@ -66,7 +66,7 @@ final class GetProductsSuccess extends StockState {
   GetProductsSuccess({
     required StockState state,
     required super.products,
-    required super.loadingInfo,
+    required super.pageInfo,
   }) : super(
           productStocks: state.productStocks,
           productStockFilter: state.productStockFilter,
@@ -78,7 +78,7 @@ final class UpdateFilterSuccess extends StockState {
       {required StockState state, required super.productStockFilter})
       : super(
           productStocks: state.productStocks,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           products: state.products,
         );
 }

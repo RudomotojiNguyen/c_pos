@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/filter/base_loading_info_model.dart';
 import '../../../../../data/models/filter/order_filter_model.dart';
 import '../../../../../data/models/order_model.dart';
+import '../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../data/models/store_model.dart';
 import '../../../../../data/repository/order_repository.dart';
 import '../../../../mixins/logger_helper.dart';
@@ -20,10 +20,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final LoggerHelper loggerHelper = LoggerHelper();
 
   OrderBloc({required this.orderRepository})
-      : super(const OrderInitial(
-          orders: [],
-          loadingInfo: BaseLoadingInfoModel(),
-          orderFilter: OrderFilterModel(),
+      : super(OrderInitial(
+          orders: const [],
+          pageInfo: PageInfoEntity(),
+          orderFilter: const OrderFilterModel(),
         )) {
     /// lấy danh sách đơn hàng
     on<GetOrderEvent>(_onGetOrder);
@@ -93,7 +93,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
       final res = await _getOrders(
         page: 1,
-        limit: state.loadingInfo.limit,
+        limit: state.pageInfo.getLimit,
         searchValue: state.orderFilter.searchValue,
         orderType: state.orderFilter.getOrderTypeValue,
         storeId: state.orderFilter.getStoreId,
@@ -105,9 +105,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(GetOrderSuccess(
         state: state,
         orders: res,
-        loadingInfo: state.loadingInfo.copyWith(
-          currentPage: 1,
-          sizeDate: res.length,
+        pageInfo: state.pageInfo.copyWith(
+          page: 1,
+          itemCount: res.length,
         ),
       ));
     } catch (e) {
@@ -131,12 +131,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       if (state is UpdateLoading || state is UpdateLoadMore) {
         return;
       }
-      int page = state.loadingInfo.getNextPage;
+      int page = state.pageInfo.getNextPage;
       emit(UpdateLoadMore(state: state));
 
       final res = await _getOrders(
         page: page,
-        limit: state.loadingInfo.limit,
+        limit: state.pageInfo.getLimit,
         searchValue: state.orderFilter.searchValue,
         orderType: state.orderFilter.getOrderTypeValue,
         storeId: state.orderFilter.getStoreId,
@@ -148,9 +148,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(GetOrderSuccess(
         state: state,
         orders: [...state.orders, ...res],
-        loadingInfo: state.loadingInfo.copyWith(
-          sizeDate: res.length,
-          currentPage: page,
+        pageInfo: state.pageInfo.copyWith(
+          page: page,
+          itemCount: res.length,
         ),
       ));
     } catch (e) {

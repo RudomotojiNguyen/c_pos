@@ -42,10 +42,10 @@ class _OrderListWidgetState extends State<OrderListWidget> {
           widget.orderBloc.add(GetOrderEvent());
           _refreshController.refreshCompleted();
         }
-        if (state.loadingInfo.canLoadMore) {
+        if (state.pageInfo.checkCanLoadMore) {
           _refreshController.loadComplete();
         }
-        if (!state.loadingInfo.canLoadMore) {
+        if (!state.pageInfo.checkCanLoadMore) {
           _refreshController.loadNoData();
         }
       },

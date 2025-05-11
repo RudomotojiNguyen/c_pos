@@ -4,10 +4,11 @@ import 'package:c_pos/common/enum/enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/filter/base_loading_info_model.dart';
 import '../../../../../data/models/filter/filter_imei_history_model.dart';
 import '../../../../../data/models/imei_history_model.dart';
 import '../../../../../data/models/imei_transaction_model.dart';
+import '../../../../../data/models/response/page_info_entity.dart';
+import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/models/store_model.dart';
 import '../../../../../data/models/trade_in_transaction_model.dart';
 import '../../../../../data/repository/product_repository.dart';
@@ -21,10 +22,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   ProductBloc(this.productRepository)
-      : super(const ProductInitial(
-          baseLoadingInfo: BaseLoadingInfoModel(),
-          filterImeiHistory: FilterImeiHistoryModel(),
-          listImeiHistory: [],
+      : super(ProductInitial(
+          pageInfo: PageInfoEntity(),
+          filterImeiHistory: const FilterImeiHistoryModel(),
+          listImeiHistory: const [],
         )) {
     /// tìm imei
     on<GetImeiHistoryEvent>(_onGetImeiHistory);
@@ -79,19 +80,23 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       final res = await productRepository.getImeiHistory(
         page: 1,
-        size: state.baseLoadingInfo.limit,
-        search: state.filterImeiHistory.search,
+        limit: state.pageInfo.getLimit,
+        search: state.filterImeiHistory.search ?? '',
         storeId: state.filterImeiHistory.store?.id,
-        statusImei: state.filterImeiHistory.imeiStatus.getValue,
+        statusImei: state.filterImeiHistory.imeiStatus.getValue == null
+            ? null
+            : [state.filterImeiHistory.imeiStatus.getValue!],
       );
 
       emit(
         GetDataImeiHistorySuccess(
           state: state,
-          listImeiHistory: res,
-          baseLoadingInfo: state.baseLoadingInfo.copyWith(
-            currentPage: 1,
-            sizeDate: res.length,
+          listImeiHistory: res.items,
+          pageInfo: state.pageInfo.copyWith(
+            page: 1,
+            total: res.totalItems,
+            pageCount: res.totalPages,
+            canLoadMore: res.items.length >= state.pageInfo.getLimit,
           ),
         ),
       );
@@ -104,24 +109,29 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       GetMoreImeiHistoryEvent event, Emitter<ProductState> emit) async {
     try {
       if (state is GetDataImeiHistorySuccess) {
-        final page = state.baseLoadingInfo.currentPage + 1;
+        final page = state.pageInfo.getNextPage;
         final res = await productRepository.getImeiHistory(
           page: page,
-          size: state.baseLoadingInfo.limit,
-          search: state.filterImeiHistory.search,
+          limit: state.pageInfo.getLimit,
+          search: state.filterImeiHistory.search ?? '',
           storeId: state.filterImeiHistory.store?.id,
-          statusImei: state.filterImeiHistory.imeiStatus.getValue,
+          statusImei: state.filterImeiHistory.imeiStatus.getValue == null
+              ? null
+              : [state.filterImeiHistory.imeiStatus.getValue!],
         );
         final data = state.listImeiHistory;
-        data.addAll(res);
+        data.addAll(res.items);
 
         emit(
           GetDataImeiHistorySuccess(
             state: state,
             listImeiHistory: data,
-            baseLoadingInfo: state.baseLoadingInfo.copyWith(
-              currentPage: page,
-              sizeDate: res.length,
+            pageInfo: state.pageInfo.copyWith(
+              page: page,
+              total: res.totalItems,
+              pageCount: res.totalPages,
+              canLoadMore:
+                  data.length < res.totalItems || res.totalPages == page,
             ),
           ),
         );

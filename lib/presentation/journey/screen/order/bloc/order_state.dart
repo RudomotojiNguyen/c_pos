@@ -4,19 +4,19 @@ part of 'order_bloc.dart';
 sealed class OrderState extends Equatable {
   final List<OrderModel> orders;
 
-  final BaseLoadingInfoModel loadingInfo;
+  final PageInfoEntity pageInfo;
   final OrderFilterModel orderFilter;
 
   const OrderState({
     required this.orders,
     required this.orderFilter,
-    required this.loadingInfo,
+    required this.pageInfo,
   });
 
   @override
   List<Object?> get props => [
         orders,
-        loadingInfo,
+        pageInfo,
         orderFilter,
       ];
 }
@@ -24,7 +24,7 @@ sealed class OrderState extends Equatable {
 final class OrderInitial extends OrderState {
   const OrderInitial({
     required super.orders,
-    required super.loadingInfo,
+    required super.pageInfo,
     required super.orderFilter,
   });
 }
@@ -33,7 +33,7 @@ final class GetOrderSuccess extends OrderState {
   GetOrderSuccess({
     required OrderState state,
     required super.orders,
-    required super.loadingInfo,
+    required super.pageInfo,
   }) : super(
           orderFilter: state.orderFilter,
         );
@@ -44,7 +44,7 @@ final class UpdateLoading extends OrderState {
     required OrderState state,
   }) : super(
           orders: state.orders,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           orderFilter: state.orderFilter,
         );
 }
@@ -54,7 +54,7 @@ final class UpdateLoadMore extends OrderState {
     required OrderState state,
   }) : super(
           orders: state.orders,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           orderFilter: state.orderFilter,
         );
 }
@@ -65,7 +65,7 @@ final class UpdateSearchTypeSuccess extends OrderState {
     required super.orderFilter,
   }) : super(
           orders: state.orders,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -75,7 +75,7 @@ final class FilterOrderSuccess extends OrderState {
     required super.orderFilter,
   }) : super(
           orders: state.orders,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -87,7 +87,7 @@ final class GetOrderDetailSuccess extends OrderState {
     required this.orderDetail,
   }) : super(
           orders: state.orders,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           orderFilter: state.orderFilter,
         );
 }
@@ -97,7 +97,7 @@ final class GetDataError extends OrderState {
     required OrderState state,
   }) : super(
           orders: state.orders,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
           orderFilter: state.orderFilter,
         );
 }

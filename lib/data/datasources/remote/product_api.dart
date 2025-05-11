@@ -139,13 +139,14 @@ abstract class ProductApi {
   Future<BaseResponse> getReasonSelectImei();
 
   /// tìm imei sản phẩm để kiểm tra lịch sử giao dịch của nó
-  @GET('productEmeiStock/mobile')
+  @GET('imeis')
   Future<BaseResponse> getImeiHistory({
-    @Query('search') String? search,
     @Query('page') required int page,
-    @Query('size') required int size,
+    @Query('limit') required int limit,
+    @Query('search') String? search, // imeiNo
+    @Query('searchProduct') String? searchProduct, // product name
     @Query('storeId') int? storeId,
-    @Query('status') int? statusImei,
+    @Query('status') List<int>? statusImei,
   });
 
   /// lấy lịch sử giao dịch của imei

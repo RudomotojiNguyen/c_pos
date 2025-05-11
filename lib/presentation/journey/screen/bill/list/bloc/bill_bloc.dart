@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../common/enum/enum.dart';
 import '../../../../../../data/models/bill_model.dart';
-import '../../../../../../data/models/filter/base_loading_info_model.dart';
 import '../../../../../../data/models/filter_bill_model.dart';
+import '../../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../../data/models/store_model.dart';
 import '../../../../../../data/repository/bill_repository.dart';
 import '../../../../../mixins/logger_helper.dart';
@@ -24,10 +24,10 @@ class BillBloc extends Bloc<BillEvent, BillState> {
   BillBloc({
     required this.billRepository,
     required this.authBloc,
-  }) : super(const BillInitial(
-          bills: [],
-          loadingInfo: BaseLoadingInfoModel(),
-          filterInfo: FilterBillModel(),
+  }) : super(BillInitial(
+          bills: const [],
+          pageInfo: PageInfoEntity(),
+          filterInfo: const FilterBillModel(),
         )) {
     /// Xử lý sự kiện GetBillListEvent để lấy danh sách hóa đơn
     on<GetBillListEvent>(_onGetBillList);
@@ -99,7 +99,7 @@ class BillBloc extends Bloc<BillEvent, BillState> {
       emit(UpdateLoading(state: state));
       final res = await _getBills(
         page: 1,
-        size: state.loadingInfo.limit,
+        size: state.pageInfo.getLimit,
         storeId: state.filterInfo.getStoreId,
         search: state.filterInfo.searchValue,
         searchType: state.filterInfo.getSearchType,
@@ -108,9 +108,9 @@ class BillBloc extends Bloc<BillEvent, BillState> {
       emit(GetBillSuccess(
         state: state,
         bills: res,
-        loadingInfo: state.loadingInfo.copyWith(
-          currentPage: 1,
-          sizeDate: res.length,
+        pageInfo: state.pageInfo.copyWith(
+          page: 1,
+          itemCount: res.length,
         ),
       ));
     } catch (e) {
@@ -121,15 +121,15 @@ class BillBloc extends Bloc<BillEvent, BillState> {
   FutureOr<void> _onGetMoreBillList(
       GetMoreBillListEvent event, Emitter<BillState> emit) async {
     try {
-      if (state is UpdateLoadMore || !state.loadingInfo.canLoadMore) {
+      if (state is UpdateLoadMore || !state.pageInfo.checkCanLoadMore) {
         return;
       }
 
-      int page = state.loadingInfo.getNextPage;
+      int page = state.pageInfo.getNextPage;
       emit(UpdateLoadMore(state: state));
       final res = await _getBills(
         page: page,
-        size: state.loadingInfo.limit,
+        size: state.pageInfo.getLimit,
         storeId: state.filterInfo.getStoreId,
         search: state.filterInfo.searchValue,
         searchType: state.filterInfo.getSearchType,
@@ -139,9 +139,9 @@ class BillBloc extends Bloc<BillEvent, BillState> {
         emit(GetBillSuccess(
           state: state,
           bills: [...state.bills, ...res],
-          loadingInfo: state.loadingInfo.copyWith(
-            currentPage: page,
-            sizeDate: res.length,
+          pageInfo: state.pageInfo.copyWith(
+            page: page,
+            itemCount: res.length,
           ),
         ));
       }

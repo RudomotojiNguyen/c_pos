@@ -37,10 +37,10 @@ class _ListStockWidgetState extends State<ListStockWidget> {
           widget.stockBloc.add(GetProductsEvent());
           _refreshController.refreshCompleted();
         }
-        if (!state.loadingInfo.canLoadMore) {
+        if (!state.pageInfo.checkCanLoadMore) {
           _refreshController.loadNoData();
         }
-        if (state.loadingInfo.canLoadMore) {
+        if (state.pageInfo.checkCanLoadMore) {
           _refreshController.loadComplete();
         }
       },

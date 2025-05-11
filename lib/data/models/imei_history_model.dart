@@ -1,13 +1,15 @@
 import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
+import 'package:flutter/material.dart';
 
 import '../../common/enum/enum.dart';
+import '../../presentation/theme/themes.dart';
 import '../../presentation/utils/utils.dart';
 
 class ImeiHistoryModel {
   String? id;
   int? storeId;
-  String? imeiNo;
+  String? imeiCode;
   String? productId;
   String? providerId;
   double? originalPrice;
@@ -28,11 +30,12 @@ class ImeiHistoryModel {
   String? productCode;
   String? storeName;
   String? statusName;
+  String? providerName;
 
   ImeiHistoryModel(
       {this.id,
       this.storeId,
-      this.imeiNo,
+      this.imeiCode,
       this.productId,
       this.providerId,
       this.originalPrice,
@@ -50,12 +53,13 @@ class ImeiHistoryModel {
       this.barCode,
       this.productCode,
       this.storeName,
-      this.statusName});
+      this.statusName,
+      this.providerName});
 
   ImeiHistoryModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id']?.toString();
     storeId = json['storeId'];
-    imeiNo = json['imeiNo'];
+    imeiCode = json['imeiCode'];
     productId = json['productId'];
     providerId = json['providerId'];
     originalPrice = Utils.toDouble(json['originalPrice']);
@@ -74,15 +78,21 @@ class ImeiHistoryModel {
     productCode = json['productCode'];
     storeName = json['storeName'];
     statusName = json['statusName'];
+    providerName = json['providerName'];
   }
 
-  String get getImei => imeiNo ?? '';
+  String get getImei => imeiCode ?? '';
 
-  String get getStatus => statusName ?? '';
+  String get getStatus => status?.getTitle ?? '';
+
+  Color get getColorImeiStatus =>
+      status?.getColorImeiStatus ?? AppColors.neutral2Color;
 
   String get getProductName => productName ?? '';
 
   String get getProductImage => AppConstants.noImage;
 
   double get getSellingPrice => sellingPrice ?? 0;
+
+  String get getProvider => providerName ?? '';
 }

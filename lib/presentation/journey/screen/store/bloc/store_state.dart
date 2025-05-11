@@ -7,22 +7,22 @@ sealed class StoreState extends Equatable {
       userStoresCanChange; // cửa hàng cửa người dùng có thể chuyển
   final List<HistoryChangeStoreModel>
       exchangeHistory; // lịch sử yêu cầu chuyển cửa hàng
-  final BaseLoadingInfoModel loadingInfo;
+  final PageInfoEntity pageInfo;
 
   const StoreState({
     required this.stores,
     required this.userStoresCanChange,
     required this.exchangeHistory,
-    required this.loadingInfo,
+    required this.pageInfo,
   });
 
   @override
   List<Object?> get props =>
-      [stores, userStoresCanChange, loadingInfo, exchangeHistory];
+      [stores, userStoresCanChange, pageInfo, exchangeHistory];
 
-  int get currentPage => loadingInfo.currentPage;
+  int get currentPage => pageInfo.getPage;
 
-  int get limit => loadingInfo.limit;
+  int get limit => pageInfo.getLimit;
 }
 
 final class StoreInitial extends StoreState {
@@ -30,7 +30,7 @@ final class StoreInitial extends StoreState {
     required super.stores,
     required super.userStoresCanChange,
     required super.exchangeHistory,
-    required super.loadingInfo,
+    required super.pageInfo,
   });
 }
 
@@ -41,7 +41,7 @@ final class GetStoreSuccess extends StoreState {
   }) : super(
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -52,7 +52,7 @@ final class GetUserStoreCanChangeSuccess extends StoreState {
   }) : super(
           stores: state.stores,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -63,7 +63,7 @@ final class GetUserStoreCanChangeLoading extends StoreState {
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -74,7 +74,7 @@ final class ChangeUserStoreSuccess extends StoreState {
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -85,7 +85,7 @@ final class GetExchangeHistoryLoading extends StoreState {
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -96,7 +96,7 @@ final class GetExchangeHistoryLoadMore extends StoreState {
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
 
@@ -104,7 +104,7 @@ final class GetExchangeHistorySuccess extends StoreState {
   GetExchangeHistorySuccess({
     required StoreState state,
     required super.exchangeHistory,
-    required super.loadingInfo,
+    required super.pageInfo,
   }) : super(
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
@@ -118,6 +118,6 @@ final class CreateTicketExchangeSuccess extends StoreState {
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
-          loadingInfo: state.loadingInfo,
+          pageInfo: state.pageInfo,
         );
 }
