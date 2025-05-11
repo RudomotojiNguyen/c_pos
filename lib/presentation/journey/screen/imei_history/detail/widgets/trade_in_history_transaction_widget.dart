@@ -34,7 +34,7 @@ class _TradeInHistoryTransactionWidgetState
   @override
   void initState() {
     super.initState();
-    productBloc.add(GetImeiTradeinTransactionEvent(imei: widget.imei));
+    // productBloc.add(GetImeiTradeinTransactionEvent(imei: widget.imei));
   }
 
   @override

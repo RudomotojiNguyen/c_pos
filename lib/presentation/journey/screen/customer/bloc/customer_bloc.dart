@@ -120,7 +120,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         customers: res.items,
         pageInfo: state.pageInfo.copyWith(
           page: 1,
-          canLoadMore: res.items.length >= state.pageInfo.getLimit,
+          hasNextPage: res.items.length >= state.pageInfo.getLimit,
         ),
       ));
     } catch (e) {

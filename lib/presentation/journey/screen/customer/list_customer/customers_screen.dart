@@ -46,15 +46,19 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
 
   @override
   Widget buildContentView(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        SearchBoxWidget(
-          hintStr: '0123456xxx',
-          searchController: _searchCustomerController,
-          onSearch: _onSearchCustomer,
+        _listCustomer(),
+        Positioned(
+          bottom: 16.sp,
+          left: 0,
+          right: 0,
+          child: SearchBoxWidget(
+            hintStr: '0123456xxx',
+            searchController: _searchCustomerController,
+            onSearch: _onSearchCustomer,
+          ),
         ),
-        BoxSpacer.s8,
-        Expanded(child: _listCustomer()),
       ],
     );
   }

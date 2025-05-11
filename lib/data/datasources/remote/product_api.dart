@@ -73,12 +73,13 @@ abstract class ProductApi {
 
   /// tìm sản phẩm (nếu là imei thì có thêm imeiNo)
   ///
-  @GET('product/mobile/search')
+  @GET('products')
   Future<BaseResponse> searchProduct({
     @Query('page') required int page,
-    @Query('size') required int size,
+    @Query('limit') required int limit,
     @Query('type') int? type,
-    @Query('param') String? param,
+    @Query('name') String? name,
+    @Query('storeId') int? storeId,
   });
 
   ///
@@ -150,9 +151,11 @@ abstract class ProductApi {
   });
 
   /// lấy lịch sử giao dịch của imei
-  @GET('productEmeiStock/mobile/history')
+  @GET('imei-histories')
   Future<BaseResponse> getImeiHistoryTransaction({
-    @Query('imei') required String imei,
+    @Query('searchIMEI') required String imei,
+    @Query('page') required int page,
+    @Query('limit') required int limit,
   });
 
   /// lấy lịch sử thu cũ của imei

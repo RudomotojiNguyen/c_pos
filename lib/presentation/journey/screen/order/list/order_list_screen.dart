@@ -44,15 +44,17 @@ class _OrderListScreenState extends XStateWidget<OrderListScreen> {
 
   @override
   Widget buildContentView(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        SearchOrderWidget(
-          orderBloc: _orderBloc,
+        OrderListWidget(orderBloc: _orderBloc),
+        Positioned(
+          bottom: 16.sp,
+          left: 0,
+          right: 0,
+          child: SearchOrderWidget(
+            orderBloc: _orderBloc,
+          ),
         ),
-        Expanded(
-            child: OrderListWidget(
-          orderBloc: _orderBloc,
-        )),
       ],
     );
   }

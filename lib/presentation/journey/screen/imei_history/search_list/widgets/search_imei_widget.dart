@@ -75,7 +75,6 @@ class _SearchImeiWidgetState extends State<SearchImeiWidget> {
   /// METHOD
   ///
   _onSearch(String value) {
-    if (value.isEmpty) return;
     Future.delayed(const Duration(milliseconds: AppConstants.timeSearchValue),
         () {
       widget.productBloc.add(UpdateImeiFilterEvent(

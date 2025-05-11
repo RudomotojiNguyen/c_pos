@@ -8,7 +8,6 @@ import '../../../../../data/models/filter/filter_imei_history_model.dart';
 import '../../../../../data/models/imei_history_model.dart';
 import '../../../../../data/models/imei_transaction_model.dart';
 import '../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/models/store_model.dart';
 import '../../../../../data/models/trade_in_transaction_model.dart';
 import '../../../../../data/repository/product_repository.dart';
@@ -42,18 +41,65 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     /// lấy lịch sử giao dịch của imei
     on<GetImeiTransactionEvent>(_onGetImeiTransaction);
 
+    /// lấy thêm lịch sử giao dịch của imei
+    on<GetMoreImeiTransactionEvent>(_onGetMoreImeiTransaction);
+
     /// lấy lịch sử thu cũ của imei
     on<GetImeiTradeinTransactionEvent>(_onGetImeiTradeinTransaction);
+  }
+
+  FutureOr<void> _onGetMoreImeiTransaction(
+      GetMoreImeiTransactionEvent event, Emitter<ProductState> emit) async {
+    if (!state.pageInfo.checkCanLoadMore) {
+      return;
+    }
+
+    List<ImeiTransactionModel> listImeiTransaction = [];
+    int page = state.pageInfo.getNextPage;
+    if (state is GetImeiTransactionSuccess) {
+      listImeiTransaction =
+          (state as GetImeiTransactionSuccess).listImeiTransaction;
+    }
+    try {
+      final res = await productRepository.getImeiHistoryTransaction(
+        imei: event.imei,
+        page: page,
+        limit: state.pageInfo.getLimit,
+      );
+
+      listImeiTransaction.addAll(res);
+
+      emit(GetImeiTransactionSuccess(
+        state: state,
+        listImeiTransaction: listImeiTransaction,
+        pageInfo: state.pageInfo.copyWith(
+          page: page,
+          hasNextPage: res.length >= state.pageInfo.getLimit,
+        ),
+      ));
+    } catch (e) {
+      _loggerHelper.logError(message: 'GetMoreImeiTransactionEvent', obj: e);
+    }
   }
 
   FutureOr<void> _onGetImeiTransaction(
       GetImeiTransactionEvent event, Emitter<ProductState> emit) async {
     try {
       emit(IsLoading(state: state));
-      final res =
-          await productRepository.getImeiHistoryTransaction(imei: event.imei);
+      final res = await productRepository.getImeiHistoryTransaction(
+        imei: event.imei,
+        page: 1,
+        limit: state.pageInfo.getLimit,
+      );
 
-      emit(GetImeiTransactionSuccess(state: state, listImeiTransaction: res));
+      emit(GetImeiTransactionSuccess(
+        state: state,
+        listImeiTransaction: res,
+        pageInfo: state.pageInfo.copyWith(
+          page: 1,
+          hasNextPage: res.length >= state.pageInfo.getLimit,
+        ),
+      ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetImeiTransactionEvent', obj: e);
     }
@@ -96,7 +142,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             page: 1,
             total: res.totalItems,
             pageCount: res.totalPages,
-            canLoadMore: res.items.length >= state.pageInfo.getLimit,
+            hasNextPage: res.items.length >= state.pageInfo.getLimit,
           ),
         ),
       );
@@ -130,7 +176,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
               page: page,
               total: res.totalItems,
               pageCount: res.totalPages,
-              canLoadMore:
+              hasNextPage:
                   data.length < res.totalItems || res.totalPages == page,
             ),
           ),

@@ -30,7 +30,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<ProductModel>> searchProduct(
+  Future<PaginatedResponse<ProductModel>> searchProduct(
       {required int page, required int limit, int? type, String? param}) {
     return productServices.searchProduct(
         limit: limit, page: page, param: param, type: type);
@@ -124,9 +124,16 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<ImeiTransactionModel>> getImeiHistoryTransaction(
-      {required String imei}) {
-    return productServices.getImeiHistoryTransaction(imei: imei);
+  Future<List<ImeiTransactionModel>> getImeiHistoryTransaction({
+    required String imei,
+    required int page,
+    required int limit,
+  }) {
+    return productServices.getImeiHistoryTransaction(
+      imei: imei,
+      page: page,
+      limit: limit,
+    );
   }
 
   @override

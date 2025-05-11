@@ -22,7 +22,7 @@ abstract class ProductServices {
     String? name,
   });
 
-  Future<List<ProductModel>> searchProduct({
+  Future<PaginatedResponse<ProductModel>> searchProduct({
     required int page,
     required int limit,
     int? type,
@@ -70,6 +70,8 @@ abstract class ProductServices {
 
   Future<List<ImeiTransactionModel>> getImeiHistoryTransaction({
     required String imei,
+    required int page,
+    required int limit,
   });
 
   Future<List<TradeInTransactionModel>> getImeiTradeinTransaction({

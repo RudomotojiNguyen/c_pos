@@ -15,21 +15,27 @@ class _SearchBoxState extends State<SearchBox> {
 
   @override
   void dispose() {
-    _searchController.dispose();
     _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return XTextField(
-      hintText: 'Tìm sản phẩm ...',
-      controller: _searchController,
-      onChanged: (value) => _onChangeText(value),
-      suffixWidget: CustomizePopUpWidget(
-        content: _dataSearchType(context),
-        child: _contentSearchType(context),
-      ),
+    // return XTextField(
+    //   hintText: 'Tìm sản phẩm ...',
+    //   controller: _searchController,
+    //   onChanged: (value) => _onChangeText(value),
+    //   suffixWidget: CustomizePopUpWidget(
+    //     content: _dataSearchType(context),
+    //     child: _contentSearchType(context),
+    //   ),
+    // );
+    return SearchBoxWidget(
+      onSearch: _onChangeText,
+      searchController: _searchController,
+      hintStr: 'Tìm sản phẩm ...',
+      filterWidget: _dataSearchType(context),
+      isFilter: false,
     );
   }
 
@@ -76,21 +82,21 @@ class _SearchBoxState extends State<SearchBox> {
     );
   }
 
-  Widget _contentSearchType(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.sp),
-      child: BlocBuilder<SearchProductBloc, SearchProductState>(
-        bloc: widget.searchProductBloc,
-        buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
-        builder: (context, state) {
-          return Text(
-            state.searchType.getShortTitle,
-            style: AppFont.t.s(),
-          );
-        },
-      ),
-    );
-  }
+  // Widget _contentSearchType(BuildContext context) {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(vertical: 4.sp),
+  //     child: BlocBuilder<SearchProductBloc, SearchProductState>(
+  //       bloc: widget.searchProductBloc,
+  //       buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
+  //       builder: (context, state) {
+  //         return Text(
+  //           state.searchType.getShortTitle,
+  //           style: AppFont.t.s(),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   ///
   ///   METHODS

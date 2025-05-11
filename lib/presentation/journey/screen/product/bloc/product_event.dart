@@ -23,6 +23,12 @@ final class GetImeiTransactionEvent extends ProductEvent {
   GetImeiTransactionEvent({required this.imei});
 }
 
+final class GetMoreImeiTransactionEvent extends ProductEvent {
+  final String imei;
+
+  GetMoreImeiTransactionEvent({required this.imei});
+}
+
 final class GetImeiTradeinTransactionEvent extends ProductEvent {
   final String imei;
 

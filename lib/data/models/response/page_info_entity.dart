@@ -13,10 +13,9 @@ class PageInfoEntity {
     this.limit,
     this.page,
     this.itemCount, // total item
-    this.pageCount,
+    this.pageCount, // total page
     this.hasPreviousPage,
     this.hasNextPage,
-    this.canLoadMore,
   });
 
   PageInfoEntity copyWith({
@@ -27,7 +26,6 @@ class PageInfoEntity {
     int? pageCount,
     bool? hasPreviousPage,
     bool? hasNextPage,
-    bool? canLoadMore,
   }) {
     return PageInfoEntity(
       limit: limit ?? this.limit,
@@ -36,17 +34,14 @@ class PageInfoEntity {
       pageCount: pageCount ?? this.pageCount,
       hasPreviousPage: hasPreviousPage ?? this.hasPreviousPage,
       hasNextPage: hasNextPage ?? this.hasNextPage,
-      canLoadMore: canLoadMore ?? this.canLoadMore,
     );
   }
-
-  bool get checkHasNextPage => hasNextPage ?? false;
 
   int get getPage => page ?? 1;
 
   int get getLimit => limit ?? 10;
 
-  bool get checkCanLoadMore => canLoadMore ?? false;
+  bool get checkCanLoadMore => hasNextPage ?? false;
 
   int get getNextPage => getPage + 1;
 }

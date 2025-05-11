@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:c_pos/common/constants/app_constants.dart';
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -45,10 +46,11 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.sp).copyWith(top: 16.sp),
-      padding: EdgeInsets.symmetric(horizontal: 8.sp),
+      padding: EdgeInsets.symmetric(horizontal: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: BorderRadius.circular(64.sp),
+        boxShadow: context.boxShadow,
       ),
       child: Row(
         children: [

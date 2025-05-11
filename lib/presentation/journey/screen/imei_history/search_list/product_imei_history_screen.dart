@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
@@ -34,11 +35,15 @@ class _ProductImeiHistoryScreenState
 
   @override
   Widget buildContentView(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        SearchImeiWidget(productBloc: productBloc),
-        BoxSpacer.s8,
-        Expanded(child: ListImeiWidget(productBloc: productBloc)),
+        ListImeiWidget(productBloc: productBloc),
+        Positioned(
+          bottom: 16.sp,
+          left: 0,
+          right: 0,
+          child: SearchImeiWidget(productBloc: productBloc),
+        ),
       ],
     );
   }

@@ -49,10 +49,18 @@ class _NormalHistoryTransactionWidgetState
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder<ProductBloc, ProductState>(
+    return BlocConsumer<ProductBloc, ProductState>(
       bloc: productBloc,
       buildWhen: (previous, current) =>
           current is GetImeiTransactionSuccess || current is IsLoading,
+      listener: (context, state) {
+        if (!state.pageInfo.checkCanLoadMore) {
+          _refreshController.loadNoData();
+        }
+        if (state.pageInfo.checkCanLoadMore) {
+          _refreshController.loadComplete();
+        }
+      },
       builder: (context, state) {
         if (state is IsLoading) {
           return const ImeiTransactionLoading();
@@ -75,11 +83,15 @@ class _NormalHistoryTransactionWidgetState
         return SmartRefresher(
           controller: _refreshController,
           enablePullDown: true,
-          enablePullUp: false,
+          enablePullUp: true,
           header: const RefreshWidget(),
+          footer: const BottomLoadWidget(),
           onRefresh: () async {
             _refreshController.refreshCompleted();
             productBloc.add(GetImeiTransactionEvent(imei: widget.imei));
+          },
+          onLoading: () {
+            productBloc.add(GetMoreImeiTransactionEvent(imei: widget.imei));
           },
           child: Timeline.tileBuilder(
             padding: EdgeInsets.symmetric(horizontal: 16.sp),

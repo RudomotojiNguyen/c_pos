@@ -63,8 +63,8 @@ final class GetImeiTransactionSuccess extends ProductState {
   GetImeiTransactionSuccess({
     required ProductState state,
     required this.listImeiTransaction,
+    required super.pageInfo,
   }) : super(
-          pageInfo: state.pageInfo,
           filterImeiHistory: state.filterImeiHistory,
           listImeiHistory: state.listImeiHistory,
         );

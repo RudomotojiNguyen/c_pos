@@ -37,21 +37,20 @@ class ProductServicesImpl implements ProductServices {
   }
 
   @override
-  Future<List<ProductModel>> searchProduct(
+  Future<PaginatedResponse<ProductModel>> searchProduct(
       {required int page, required int limit, int? type, String? param}) async {
-    List<ProductModel> data = [];
     final res = await productApi.searchProduct(
       page: page,
-      size: limit,
-      param: param,
+      limit: limit,
+      name: param,
       type: type,
     );
 
-    for (var item in res.data) {
-      data.add(ProductModel.fromJson(item));
-    }
-
-    return data;
+    return PaginatedResponse.fromJson(
+      res.data,
+      (json) => ProductModel.fromJson(json),
+      itemsKey: 'list_product',
+    );
   }
 
   @override
@@ -235,9 +234,14 @@ class ProductServicesImpl implements ProductServices {
   }
 
   @override
-  Future<List<ImeiTransactionModel>> getImeiHistoryTransaction(
-      {required String imei}) {
-    return productApi.getImeiHistoryTransaction(imei: imei).then(
+  Future<List<ImeiTransactionModel>> getImeiHistoryTransaction({
+    required String imei,
+    required int page,
+    required int limit,
+  }) {
+    return productApi
+        .getImeiHistoryTransaction(imei: imei, page: page, limit: limit)
+        .then(
       (value) {
         List<ImeiTransactionModel> data = [];
 

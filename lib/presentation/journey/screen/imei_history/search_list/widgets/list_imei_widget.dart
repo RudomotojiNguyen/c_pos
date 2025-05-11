@@ -1,4 +1,3 @@
-import 'package:c_pos/common/enum/enum.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/presentation/theme/themes.dart';
 import 'package:flutter/material.dart';

@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../data/models/product_model.dart';
 import '../../../../widgets/widgets.dart';
+import '../../imei_history/search_list/widgets/list_imei_widget.dart';
 import '../bloc/search_product_bloc.dart';
 import 'product_item.dart';
 
@@ -34,19 +35,16 @@ class _ProductsSearchState extends State<ProductsSearch> {
     return BlocConsumer<SearchProductBloc, SearchProductState>(
       bloc: widget.searchProductBloc,
       listener: (context, state) {
-        if (state is ChangeSearchTypeSuccess) {
-          if (state.pageInfo.checkCanLoadMore) {
-            _refreshController.loadComplete();
-          } else {
-            _refreshController.loadNoData();
-          }
+        if (state.pageInfo.checkCanLoadMore) {
+          _refreshController.loadComplete();
+        }
+        if (!state.pageInfo.checkCanLoadMore) {
+          _refreshController.loadNoData();
         }
       },
       builder: (context, state) {
         if (state is SearchLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const LoadingTransaction();
         }
 
         List<ProductModel> products = state.products;

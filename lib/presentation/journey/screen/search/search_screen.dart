@@ -28,9 +28,15 @@ class _SearchScreenState extends XStateWidget<SearchScreen> with DialogHelper {
   final SearchProductBloc _searchProductBloc = getIt.get<SearchProductBloc>();
 
   @override
+  void initState() {
+    super.initState();
+    _searchProductBloc.add(RefreshProductsEvent());
+  }
+
+  @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     return XAppBar(
-      titleWidget: SearchBox(searchProductBloc: _searchProductBloc),
+      title: 'Tìm kiếm sản phẩm',
       actions: [
         XButton(
           padding: EdgeInsets.all(8.sp),
@@ -61,6 +67,16 @@ class _SearchScreenState extends XStateWidget<SearchScreen> with DialogHelper {
 
   @override
   Widget buildContentView(BuildContext context) {
-    return ProductsSearch(searchProductBloc: _searchProductBloc);
+    return Stack(
+      children: [
+        ProductsSearch(searchProductBloc: _searchProductBloc),
+        Positioned(
+          bottom: 16.sp,
+          left: 0,
+          right: 0,
+          child: SearchBox(searchProductBloc: _searchProductBloc),
+        ),
+      ],
+    );
   }
 }

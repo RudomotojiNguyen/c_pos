@@ -31,7 +31,9 @@ class _BillsScreenState extends XStateWidget<BillsScreen> {
       actions: [
         XButton(
           type: XButtonType.transparent,
-          onPressed: () {},
+          onPressed: () {
+            //
+          },
           child: Icon(
             Icons.add_circle,
             size: 24.sp,
@@ -44,13 +46,15 @@ class _BillsScreenState extends XStateWidget<BillsScreen> {
 
   @override
   Widget buildContentView(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        SearchBillWidget(billBloc: _billBloc),
-        Expanded(
-            child: BillListWidget(
-          billBloc: _billBloc,
-        )),
+        BillListWidget(billBloc: _billBloc),
+        Positioned(
+          bottom: 16.sp,
+          left: 0,
+          right: 0,
+          child: SearchBillWidget(billBloc: _billBloc),
+        ),
       ],
     );
   }

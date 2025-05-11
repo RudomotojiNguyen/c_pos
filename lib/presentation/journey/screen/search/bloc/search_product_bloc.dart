@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/models/product_model.dart';
 import '../../../../../data/models/response/page_info_entity.dart';
+import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/repository/product_repository.dart';
 import '../../../../../data/repository/stock_repository.dart';
 
@@ -54,7 +55,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
     try {
       emit(SearchLoading(state: state));
 
-      List<ProductModel> products = await _getProduct(
+      final res = await _getProduct(
         page: 1,
         limit: state.pageInfo.getLimit,
         param: state.searchValue,
@@ -64,14 +65,16 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
       // await getStockOfProduct(products);
 
       List<ProductModel> currentProducts = [];
-      currentProducts.addAll(products);
+      currentProducts.addAll(res.items);
 
       emit(GetProductsSuccess(
         state: state,
         products: currentProducts,
         pageInfo: state.pageInfo.copyWith(
           page: 1,
-          canLoadMore: products.length >= state.pageInfo.getLimit,
+          hasNextPage: res.items.length >= state.pageInfo.getLimit,
+          itemCount: res.totalItems,
+          pageCount: res.totalPages,
         ),
         searchText: null,
       ));
@@ -85,17 +88,17 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
     try {
       emit(SearchLoading(state: state));
 
-      List<ProductModel> products = await _getProduct(
+      final res = await _getProduct(
         page: 1,
         limit: state.pageInfo.getLimit,
         param: event.searchValue,
         type: state.searchType,
       );
 
-      await getStockOfProduct(products);
+      // await getStockOfProduct(products);
 
       List<ProductModel> currentProducts = [];
-      currentProducts.addAll(products);
+      currentProducts.addAll(res.items);
 
       emit(GetProductsSuccess(
         state: state,
@@ -103,7 +106,9 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         searchText: event.searchValue,
         pageInfo: state.pageInfo.copyWith(
           page: 1,
-          canLoadMore: products.length >= state.pageInfo.getLimit,
+          hasNextPage: res.items.length >= state.pageInfo.getLimit,
+          itemCount: res.totalItems,
+          pageCount: res.totalPages,
         ),
       ));
     } catch (e) {
@@ -117,26 +122,28 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
       if (!state.pageInfo.checkCanLoadMore) {
         return;
       }
-      int nextPage = state.pageInfo.getPage + 1;
+      List<ProductModel> currentProducts = state.products;
+      int nextPage = state.pageInfo.getNextPage;
       emit(UpdateIsLoadMore(state: state));
-      List<ProductModel> products = await _getProduct(
+      final res = await _getProduct(
         page: nextPage,
         limit: state.pageInfo.getLimit,
         param: state.searchValue,
         type: state.searchType,
       );
 
-      await getStockOfProduct(products);
+      // await getStockOfProduct(res.items);
 
-      List<ProductModel> currentProducts = state.products;
-      currentProducts.addAll(products);
+      currentProducts.addAll(res.items);
 
       emit(GetProductsSuccess(
         state: state,
         products: currentProducts,
         pageInfo: state.pageInfo.copyWith(
           page: nextPage,
-          canLoadMore: products.length >= state.pageInfo.getLimit,
+          hasNextPage: res.items.length >= state.pageInfo.getLimit,
+          itemCount: res.totalItems,
+          pageCount: res.totalPages,
         ),
         searchText: null,
       ));
@@ -147,7 +154,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
 }
 
 extension SearchProductBlocExtension on SearchProductBloc {
-  Future _getProduct({
+  Future<PaginatedResponse<ProductModel>> _getProduct({
     required int page,
     required int limit,
     required String param,

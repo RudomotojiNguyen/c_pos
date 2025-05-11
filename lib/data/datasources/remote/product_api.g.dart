@@ -255,16 +255,18 @@ class _ProductApi implements ProductApi {
   @override
   Future<BaseResponse> searchProduct({
     required int page,
-    required int size,
+    required int limit,
     int? type,
-    String? param,
+    String? name,
+    int? storeId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
-      r'size': size,
+      r'limit': limit,
       r'type': type,
-      r'param': param,
+      r'name': name,
+      r'storeId': storeId,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -276,7 +278,7 @@ class _ProductApi implements ProductApi {
     )
         .compose(
           _dio.options,
-          'product/mobile/search',
+          'products',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -614,9 +616,17 @@ class _ProductApi implements ProductApi {
   }
 
   @override
-  Future<BaseResponse> getImeiHistoryTransaction({required String imei}) async {
+  Future<BaseResponse> getImeiHistoryTransaction({
+    required String imei,
+    required int page,
+    required int limit,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'imei': imei};
+    final queryParameters = <String, dynamic>{
+      r'searchIMEI': imei,
+      r'page': page,
+      r'limit': limit,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BaseResponse>(Options(
@@ -626,7 +636,7 @@ class _ProductApi implements ProductApi {
     )
         .compose(
           _dio.options,
-          'productEmeiStock/mobile/history',
+          'imei-histories',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -37,6 +37,7 @@ class _ImeiDetailScreenState extends XStateWidget<ImeiDetailScreen> {
         ),
       ),
       TabData(
+        /// todo: chưa có dữ liệu, làm sau
         index: 1,
         title: const Tab(text: 'Thu cũ'),
         content: TradeInHistoryTransactionWidget(
