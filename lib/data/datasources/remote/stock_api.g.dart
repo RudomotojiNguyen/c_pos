@@ -82,7 +82,7 @@ class _StockApi implements StockApi {
     )
         .compose(
           _dio.options,
-          'product/mobile/${productId}/product-stocks',
+          'products/mobile/${productId}/product-stocks',
           queryParameters: queryParameters,
           data: _data,
         )

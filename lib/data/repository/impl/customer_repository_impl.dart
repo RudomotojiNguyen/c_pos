@@ -55,4 +55,15 @@ class CustomerRepositoryImpl implements CustomerRepository {
   Future<CustomerModel> getCustomerInfoById({required int customerId}) {
     return customerServices.getCustomerInfoById(customerId: customerId);
   }
+
+  @override
+  Future<bool> updateCustomerInfo({
+    required Map<String, dynamic> params,
+    required int customerId,
+  }) {
+    return customerServices.updateCustomerInfo(
+      params: params,
+      customerId: customerId,
+    );
+  }
 }

@@ -5,14 +5,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
 import '../../../../../../common/configs/box.dart';
-import '../../../../../../common/constants/go_router.dart';
 import '../../../../../../common/di/injection/injection.dart';
-import '../../../../../../common/enum/enum.dart';
 import '../../../../../../common/extensions/extension.dart';
 import '../../../../../../data/models/imei_transaction_model.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
-import '../../../../router.dart';
 import '../../../product/bloc/product_bloc.dart';
 import 'imei_transaction_loading.dart';
 
@@ -104,10 +101,11 @@ class _NormalHistoryTransactionWidgetState
               contentsBuilder: (context, index) {
                 final ImeiTransactionModel item = data[index];
                 return ImeiTransactionWidget(
-                  id: item.id?.toString() ?? '',
                   billNumber: item.billNumber?.toString() ?? '',
                   createDate: item.getCreateDate,
-                  transactionType: item.getBillType,
+                  transactionCode: item.getTransactionCode,
+                  actionName: item.actionName,
+                  creator: item.saleName,
                 );
               },
               itemCount: data.length,
@@ -127,16 +125,18 @@ class ImeiTransactionWidget extends StatelessWidget {
     super.key,
     required this.billNumber,
     required this.createDate,
-    required this.transactionType,
     this.transactionNote,
-    required this.id,
+    this.transactionCode,
+    this.actionName,
+    this.creator,
   });
 
-  final String id;
   final String billNumber;
   final String createDate;
-  final BillType transactionType;
   final String? transactionNote;
+  final String? transactionCode;
+  final String? actionName;
+  final String? creator;
 
   @override
   Widget build(BuildContext context) {
@@ -146,20 +146,72 @@ class ImeiTransactionWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            createDate,
-            style: AppFont.t.s(9),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                createDate,
+                style: AppFont.t.s(9),
+              ),
+              if (billNumber.isNotNullOrEmpty) ...[
+                Wrap(
+                  runSpacing: 8.sp,
+                  spacing: 8.sp,
+                  children: [
+                    XStatus(statusStr: billNumber),
+                  ],
+                ),
+              ],
+              if (transactionCode.isNotNullOrEmpty) ...[
+                Wrap(
+                  runSpacing: 8.sp,
+                  spacing: 8.sp,
+                  children: [
+                    XStatus(statusStr: transactionCode!),
+                  ],
+                ),
+              ],
+            ],
           ),
           BoxSpacer.s8,
-          Wrap(
-            runSpacing: 8.sp,
-            spacing: 8.sp,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              XStatus(statusStr: billNumber),
-              XStatus(
-                statusStr: transactionType.getTitle,
-                bgColor: AppColors.pinkLightColor,
-              ),
+              if (creator.isNotNullOrEmpty) ...[
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      size: 12.sp,
+                      color: AppColors.neutral2Color,
+                    ),
+                    BoxSpacer.s4,
+                    Text(
+                      creator!,
+                      style: AppFont.t.s(11).neutral2,
+                    ),
+                  ],
+                ),
+              ],
+              if (actionName.isNotNullOrEmpty) ...[
+                BoxSpacer.s8,
+                Row(
+                  children: [
+                    Icon(
+                      Icons.touch_app,
+                      size: 12.sp,
+                      color: AppColors.neutral2Color,
+                    ),
+                    BoxSpacer.s4,
+                    Text(
+                      actionName!,
+                      style: AppFont.t.s(11).neutral2,
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
           if (transactionNote.isNotNullOrEmpty) ...[
@@ -181,42 +233,6 @@ class ImeiTransactionWidget extends StatelessWidget {
               ),
             )
           ],
-          BoxSpacer.s8,
-          Align(
-            alignment: Alignment.centerRight,
-            child: XBaseButton(
-              onPressed: () {
-                // if (transactionType == BillType.tradeIn) {
-                //   MainRouter.instance.pushNamed(
-                //     context,
-                //     routeName: RouteName.tradeInDetailScreen,
-                //     queryParameters: {'tradeInId': id},
-                //   );
-                // } else {
-                MainRouter.instance.pushNamed(
-                  context,
-                  routeName: RouteName.bills,
-                  queryParameters: {'billId': id},
-                );
-                // }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: 12.sp,
-                    color: AppColors.informationColor,
-                  ),
-                  BoxSpacer.s4,
-                  Text(
-                    'Chi tiết',
-                    style: AppFont.t.s(11).w800.information,
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );

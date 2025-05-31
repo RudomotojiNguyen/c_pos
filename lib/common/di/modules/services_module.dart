@@ -1,3 +1,4 @@
+import '../../../data/datasources/remote/address_api.dart';
 import '../../../data/datasources/remote/auth_api.dart';
 import '../../../data/datasources/remote/bill_api.dart';
 import '../../../data/datasources/remote/category_api.dart';
@@ -13,6 +14,7 @@ import '../../../data/datasources/remote/store_api.dart';
 import '../../../data/datasources/remote/support_api.dart';
 import '../../../data/datasources/remote/user_api.dart';
 import '../../../data/datasources/remote/warranty_api.dart';
+import '../../../data/services/address_services.dart';
 import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
 import '../../../data/services/bill_services.dart';
@@ -65,6 +67,8 @@ class ServicesModule extends DIModule {
       ..registerLazySingleton<CouponServices>(
           () => CouponServicesImpl(couponApi: getIt.get<CouponApi>()))
       ..registerLazySingleton<PaymentServices>(
-          () => PaymentServicesImpl(paymentApi: getIt.get<PaymentApi>()));
+          () => PaymentServicesImpl(paymentApi: getIt.get<PaymentApi>()))
+      ..registerLazySingleton<AddressServices>(
+          () => AddressServicesImpl(addressApi: getIt.get<AddressApi>()));
   }
 }

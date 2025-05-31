@@ -1,6 +1,6 @@
 {
   "environment": "beta",
-  "baseUrlRead": "http://35.224.247.243:3000/api/",
-  "baseUrlWrite": "http://35.224.247.243:3000/api/",
+  "baseUrlRead": "http://localhost:3000/api/",
+  "baseUrlWrite": "http://localhost:3000/api/",
   "version": "1.2.8"
 }

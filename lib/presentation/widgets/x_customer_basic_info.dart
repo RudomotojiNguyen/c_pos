@@ -79,18 +79,9 @@ class XCustomerBasicInfo extends StatelessWidget {
                 ],
                 if (customerPoint != null) ...[
                   BoxSpacer.s4,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        customerPoint!.formatNumber,
-                        style: AppFont.t.s(14).w700.neutral3,
-                      ),
-                      Text(
-                        ' điểm',
-                        style: AppFont.t.s(14).w700.neutral3,
-                      ),
-                    ],
+                  Text(
+                    customerPoint!.formatPoint,
+                    style: AppFont.t.s(14).w700.neutral3,
                   ),
                 ],
               ],

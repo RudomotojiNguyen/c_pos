@@ -1,7 +1,7 @@
 import '../../presentation/utils/utils.dart';
 
 class StockModel {
-  String? id;
+  int? id;
   int? storeId;
   int? quantity;
   int? inStockQuantity;

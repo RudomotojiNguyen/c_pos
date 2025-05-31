@@ -69,6 +69,8 @@ class ProductModel {
 
   ProductModel? productChildSelected;
 
+  List<String>? images;
+
   ProductModel({
     this.id,
     this.productName,
@@ -123,6 +125,7 @@ class ProductModel {
     this.externalImeiNo,
     this.productChildSelected,
     this.productsCombo,
+    this.images,
   });
 
   ProductModel.fromJson(Map<String, dynamic> json, {ProductType? type}) {
@@ -210,11 +213,27 @@ class ProductModel {
     }
 
     externalImeiNo = json['externalImeiNo'];
+
+    if (json['images'] != null) {
+      images = <String>[];
+      for (var v in json['images']) {
+        if (v != null) {
+          images!.add(v);
+        }
+      }
+    }
   }
 
   ProductType convertType(int value) => value.toProductType;
 
-  String get getImageThumbnail => 'https://didongviet.vn/NoImage.png';
+  String get getImageThumbnail {
+    if (images != null && images!.isNotEmpty) {
+      return images!.first;
+    }
+    return 'https://didongviet.vn/NoImage.png';
+  }
+
+  List<String> get getImages => images ?? [];
 
   String get getName => productChildSelected?.getName ?? productName ?? '';
 

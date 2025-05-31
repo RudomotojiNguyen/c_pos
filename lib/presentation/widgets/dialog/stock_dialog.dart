@@ -7,6 +7,7 @@ import '../../../common/di/injection/injection.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/models/stock_model.dart';
 import '../../journey/screen/stock/bloc/stock_bloc.dart';
+import '../../theme/colors.dart';
 import '../widgets.dart';
 
 class StockDialog extends StatefulWidget {
@@ -116,46 +117,65 @@ class _StockDialogState extends State<StockDialog> {
     required int quantityInStock,
     String? phone,
   }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: AppFont.t.s(16.sp),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              BoxSpacer.s4,
-              Text(
-                address,
-                style: AppFont.t.s().neutral3,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              BoxSpacer.s4,
-              Text.rich(
-                TextSpan(
-                  style: AppFont.t.s(),
-                  text: 'Còn',
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
+      decoration: BoxDecoration(
+        color: quantityInStock > 0
+            ? AppColors.diamondWhite
+            : AppColors.neutral3Color,
+        borderRadius: BorderRadius.circular(8.sp),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: AppFont.t.s(14.sp).w800,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                BoxSpacer.s4,
+                Row(
                   children: [
-                    const TextSpan(text: ' '),
-                    TextSpan(
-                      text: quantityInStock.formatNumber,
-                      style: AppFont.t.s(14).w800.green,
+                    Icon(
+                      Icons.location_on,
+                      size: 13.sp,
+                      color: AppColors.neutral3Color,
                     ),
-                    const TextSpan(text: ' '),
-                    const TextSpan(text: 'tại cửa hàng'),
+                    BoxSpacer.s4,
+                    Text(
+                      address,
+                      style: AppFont.t.s().neutral3,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
+                BoxSpacer.s4,
+                Text.rich(
+                  TextSpan(
+                    style: AppFont.t.s(12.sp).neutral2,
+                    text: 'Còn',
+                    children: [
+                      const TextSpan(text: ' '),
+                      TextSpan(
+                        text: quantityInStock.formatNumber,
+                        style: AppFont.t.s(12).w800.green,
+                      ),
+                      const TextSpan(text: ' '),
+                      const TextSpan(text: 'tại cửa hàng'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

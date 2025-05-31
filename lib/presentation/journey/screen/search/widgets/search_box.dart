@@ -34,8 +34,8 @@ class _SearchBoxState extends State<SearchBox> {
       onSearch: _onChangeText,
       searchController: _searchController,
       hintStr: 'Tìm sản phẩm ...',
-      filterWidget: _dataSearchType(context),
-      isFilter: false,
+      // filterWidget: _dataSearchType(context),
+      // isFilter: false,
     );
   }
 

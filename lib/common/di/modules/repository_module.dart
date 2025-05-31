@@ -1,3 +1,4 @@
+import '../../../data/repository/address_repositories.dart';
 import '../../../data/repository/affiliate_commission_repositories.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/bill_repository.dart';
@@ -13,6 +14,7 @@ import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
 import '../../../data/repository/warranty_repositories.dart';
+import '../../../data/services/address_services.dart';
 import '../../../data/services/affiliate_commission_services.dart';
 import '../../../data/services/auth_services.dart';
 import '../../../data/services/bill_services.dart';
@@ -70,6 +72,9 @@ class RepositoryModule extends DIModule {
           CouponRepositoryImpl(couponServices: getIt.get<CouponServices>()))
       ..registerLazySingleton<PaymentRepositories>(() =>
           PaymentRepositoriesImpl(
-              paymentServices: getIt.get<PaymentServices>()));
+              paymentServices: getIt.get<PaymentServices>()))
+      ..registerLazySingleton<AddressRepositories>(() =>
+          AddressRepositoriesImpl(
+              addressServices: getIt.get<AddressServices>()));
   }
 }

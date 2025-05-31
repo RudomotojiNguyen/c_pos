@@ -160,6 +160,9 @@ class $AssetsSvgGen {
   SvgGenImage get settingEnable =>
       const SvgGenImage('assets/svg/setting-enable.svg');
 
+  /// File path: assets/svg/setting.svg
+  SvgGenImage get setting => const SvgGenImage('assets/svg/setting.svg');
+
   /// File path: assets/svg/shopping.svg
   SvgGenImage get shopping => const SvgGenImage('assets/svg/shopping.svg');
 
@@ -194,6 +197,7 @@ class $AssetsSvgGen {
         scooterDelivery,
         settingDisable,
         settingEnable,
+        setting,
         shopping,
         stickyNotes,
         wallet

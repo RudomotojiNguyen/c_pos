@@ -532,6 +532,7 @@ class XTextFieldState<T> extends State<XTextField<T>> {
       // onSubmitted: widget.onSubmitted,
       minLines: widget.minLines,
       validator: widget.validator,
+      autocorrect: false,
     );
   }
 

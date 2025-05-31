@@ -37,6 +37,36 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
 
     /// check mã OTP cho DMEM hoặc  điểm
     on<CheckOTPEvent>(_onCheckOTP);
+
+    /// cập nhật thông tin khách hàng
+    on<UpdateCustomerDetailEvent>(_onUpdateCustomerDetail);
+  }
+
+  FutureOr<void> _onUpdateCustomerDetail(
+    UpdateCustomerDetailEvent event,
+    Emitter<CustomerState> emit,
+  ) async {
+    try {
+      XToast.loading();
+      final res = await customerRepository.updateCustomerInfo(
+        params: event.customer.toJson(),
+        customerId: event.customer.id!,
+      );
+      if (res) {
+        XToast.showPositiveSuccess(
+          message: 'Cập nhật thông tin khách hàng thành công',
+        );
+      } else {
+        XToast.showNegativeMessage(
+          message: 'Cập nhật thông tin khách hàng thất bại',
+        );
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateCustomerEvent', obj: e);
+      XToast.showNegativeMessage(message: e.toString());
+    } finally {
+      XToast.closeAllLoading();
+    }
   }
 
   FutureOr<void> _onCheckOTP(
@@ -101,7 +131,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       emit(GetCustomerDetailSuccess(state: state, customer: res));
     } catch (e) {
       _loggerHelper.logError(message: 'GetCustomerByIdEvent', obj: e);
-      // TODO: handle error
+      emit(GetCustomerDetailError(state: state));
     }
   }
 

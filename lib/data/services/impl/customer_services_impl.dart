@@ -58,4 +58,16 @@ class CustomerServicesImpl implements CustomerServices {
         .getCustomerInfoById(customerId)
         .then((value) => CustomerModel.fromJson(value.data));
   }
+
+  @override
+  Future<bool> updateCustomerInfo({
+    required Map<String, dynamic> params,
+    required int customerId,
+  }) async {
+    final result = await customerApi.saveCustomerInfo(
+      params: params,
+      customerId: customerId,
+    );
+    return result.checkIsSuccess;
+  }
 }

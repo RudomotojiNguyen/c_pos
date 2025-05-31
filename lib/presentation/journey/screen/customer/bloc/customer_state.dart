@@ -113,4 +113,12 @@ final class IsLoadingCustomerDetail extends CustomerState {
         );
 }
 
+final class GetCustomerDetailError extends CustomerState {
+  GetCustomerDetailError({required CustomerState state})
+      : super(
+          customers: state.customers,
+          pageInfo: state.pageInfo,
+        );
+}
+
 /// end

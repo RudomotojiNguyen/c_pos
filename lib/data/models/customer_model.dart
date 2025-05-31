@@ -78,7 +78,7 @@ class CustomerModel {
     identifyCardFrontUrl = json['indentifyCardFrontUrl'];
     identifyCardBackUrl = json['indentifyCardBackUrl'];
     identifyNo = json['indentifyNo'];
-    point = json['point'];
+    point = json['point'] ?? json['totalPoint'];
   }
 
   copyWith({
@@ -138,6 +138,8 @@ class CustomerModel {
 
   bool get isObjectNull => fullName.isNullOrEmpty;
 
+  int get getPoint => point ?? 0;
+
   XGenderType get getGender {
     if (appellation == XGenderType.male.getValue ||
         gender == XGenderType.male.getValue) return XGenderType.male;
@@ -163,4 +165,24 @@ class CustomerModel {
       dateOfBirth.isNullOrEmpty ? null : DateTime.parse(dateOfBirth!);
 
   bool get isDefaultAccount => id == -1;
+
+  Map<String, dynamic> toJson() => {
+        "fullName": fullName,
+        "phoneNo": phoneNo,
+        "email": email.isNullOrEmpty ? null : email,
+        "lastName": lastName,
+        "address": address,
+        "dateOfBirth": dateOfBirth.isNullOrEmpty ? null : dateOfBirth,
+        "city": city,
+        "district": district,
+        "ward": ward,
+        "firstName": "",
+        "gender": gender,
+        "type": type,
+        "appellation": appellation,
+        "inChargeEmployeeName": "",
+        "inChargeEmployeeId": inChargeEmployeeId,
+        "note": note,
+        "totalPoint": point,
+      };
 }

@@ -46,7 +46,7 @@ extension ImeiStatusExtension on ImeiStatus {
       case ImeiStatus.returnedNCC:
         return 'Đã trả nhà cung cấp';
       case ImeiStatus.movingStore:
-        return 'Đang chuển cửa hàng';
+        return 'Đang chuyển cửa hàng';
       case ImeiStatus.returnedWarranty:
         return 'Đã trả bảo hành';
       case ImeiStatus.warrantying:

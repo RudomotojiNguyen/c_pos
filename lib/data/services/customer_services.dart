@@ -1,3 +1,5 @@
+import 'package:c_pos/presentation/widgets/widgets.dart';
+
 import '../../presentation/utils/utils.dart';
 import '../datasources/remote/customer_api.dart';
 import '../models/customer_model.dart';
@@ -23,4 +25,9 @@ abstract class CustomerServices {
       Map<String, dynamic> params);
 
   Future<bool> checkOTPUseDMem(Map<String, dynamic> params);
+
+  Future<bool> updateCustomerInfo({
+    required Map<String, dynamic> params,
+    required int customerId,
+  });
 }

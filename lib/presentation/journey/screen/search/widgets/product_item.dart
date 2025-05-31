@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/constants/go_router.dart';
 import '../../../../../data/models/product_model.dart';
-import '../../../../../data/models/stock_model.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
@@ -107,7 +106,7 @@ class _ProductItemInCartState extends State<ProductItemInCart>
               if (hasStock) ...[
                 BoxSpacer.s4,
                 XBaseButton(
-                  onLongPress: _onShowStockDialog,
+                  onPressed: _onShowStockDialog,
                   child: XRowInfo(
                     title: '${widget.product.getStockQuantity} sản phẩm',
                     style: AppFont.t.s(10).information,
@@ -228,11 +227,11 @@ class _ProductItemInCartState extends State<ProductItemInCart>
   ///
 
   _onShowStockDialog() {
-    // showXBottomSheet(
-    //   context,
-    //   margin: EdgeInsets.only(top: 80.sp),
-    //   body: StockDialog(productId: widget.product.id!),
-    // );
+    showXBottomSheet(
+      context,
+      margin: EdgeInsets.only(top: 80.sp),
+      body: StockDialog(productId: widget.product.id!),
+    );
   }
 
   // _addProduct() async {

@@ -5,7 +5,6 @@ import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/presentation/mixins/dialog_mixins.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/di/injection/injection.dart';

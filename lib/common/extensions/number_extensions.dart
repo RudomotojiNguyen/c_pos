@@ -22,6 +22,10 @@ extension NumberExtensions on num {
     return '${NumberFormat.decimalPattern().format(this)} đ';
   }
 
+  String get formatPoint {
+    return '${NumberFormat.decimalPattern().format(this)} điểm';
+  }
+
   String get formatNumber => NumberFormat.decimalPattern().format(this);
 
   XDiscountType get getDiscountType =>

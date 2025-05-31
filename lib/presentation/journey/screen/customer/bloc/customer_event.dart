@@ -44,3 +44,9 @@ final class CheckOTPEvent extends CustomerEvent {
     this.pointUse,
   });
 }
+
+final class UpdateCustomerDetailEvent extends CustomerEvent {
+  final CustomerModel customer;
+
+  UpdateCustomerDetailEvent(this.customer);
+}

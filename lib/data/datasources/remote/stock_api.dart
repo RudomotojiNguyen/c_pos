@@ -23,6 +23,6 @@ abstract class StockApi {
 
   /// Lấy danh sách cửa hàng còn tồn sản phẩm bằng productId
   ///
-  @GET('product/mobile/{productId}/product-stocks')
+  @GET('products/mobile/{productId}/product-stocks')
   Future<BaseResponse> getStoreHasProductInStockById(@Path() String productId);
 }

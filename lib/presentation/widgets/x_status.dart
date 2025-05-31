@@ -21,7 +21,7 @@ class XStatus extends StatelessWidget {
       ),
       child: Text(
         statusStr,
-        style: AppFont.t.s(12).w500.neutral.copyWith(
+        style: AppFont.t.s(10).w500.neutral.copyWith(
               color: bgStatusColor.getContrastColor,
             ),
       ),

@@ -50,11 +50,19 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(80.sp),
-            child: XPlaceHolder(
-              width: 80.sp,
-              height: 80.sp,
+          Container(
+            padding: EdgeInsets.all(8.sp),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.primaryColor,
+                width: 1.sp,
+              ),
+              borderRadius: BorderRadius.circular(40.sp),
+            ),
+            child: Icon(
+              Icons.person,
+              size: 24.sp,
+              color: AppColors.primaryColor,
             ),
           ),
           BoxSpacer.s8,
@@ -63,12 +71,27 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
             children: [
               Text(
                 widget.customer.getFullName,
-                style: AppFont.t.s(),
+                style: AppFont.t.s().w800,
               ),
-              BoxSpacer.s8,
+              BoxSpacer.s4,
+              Row(
+                children: [
+                  Icon(
+                    Icons.phone,
+                    size: 13.sp,
+                    color: AppColors.neutral2Color,
+                  ),
+                  BoxSpacer.s4,
+                  Text(
+                    widget.customer.getCustomerPhone,
+                    style: AppFont.t.s(12).neutral2,
+                  ),
+                ],
+              ),
+              BoxSpacer.s4,
               Text(
-                widget.customer.getCustomerPhone,
-                style: AppFont.t.s(),
+                widget.customer.getPoint.formatPoint,
+                style: AppFont.t.s(12).neutral2,
               ),
             ],
           )
@@ -85,36 +108,40 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// todo: làm thêm các tính năng
-          // RowFunctionWidget(
-          //   title: XProductOperationAction.update.getTitle,
-          //   icon: XProductOperationAction.update.getIcon,
-          //   onPressed: () {
-          //     //
-          //   },
-          // ),
-          // RowFunctionWidget(
-          //   title: XProductOperationAction.detail.getTitle,
-          //   icon: XProductOperationAction.detail.getIcon,
-          //   onPressed: () {
-          //     MainRouter.instance.pushNamed(
-          //       context,
-          //       routeName: RouteName.customer,
-          //       queryParameters: {'customerId': widget.customer.id?.toString()},
-          //     );
-          //   },
-          // ),
-          // RowFunctionWidget(
-          //   title: XProductOperationAction.addMore.getTitle,
-          //   icon: XProductOperationAction.addMore.getIcon,
-          //   onPressed: () {
-          //     showXBottomSheet(
-          //       context,
-          //       key: GlobalAppKey.selectBillTypeDialogKey,
-          //       body: const OperationCreateDialog(),
-          //     );
-          //   },
-          // ),
-          // BoxSpacer.s8,
+          RowFunctionWidget(
+            title: XProductOperationAction.update.getTitle,
+            icon: XProductOperationAction.update.getIcon,
+            onPressed: () {
+              MainRouter.instance.pushNamed(
+                context,
+                routeName: RouteName.customerUpdate,
+                queryParameters: {'customerId': widget.customer.id?.toString()},
+              );
+            },
+          ),
+          RowFunctionWidget(
+            title: XProductOperationAction.customerDetail.getTitle,
+            icon: XProductOperationAction.customerDetail.getIcon,
+            onPressed: () {
+              MainRouter.instance.pushNamed(
+                context,
+                routeName: RouteName.customer,
+                queryParameters: {'customerId': widget.customer.id?.toString()},
+              );
+            },
+          ),
+          RowFunctionWidget(
+            title: XProductOperationAction.addMore.getTitle,
+            icon: XProductOperationAction.addMore.getIcon,
+            onPressed: () {
+              showXBottomSheet(
+                context,
+                key: GlobalAppKey.selectBillTypeDialogKey,
+                body: const OperationCreateDialog(),
+              );
+            },
+          ),
+          BoxSpacer.s8,
         ],
       ),
     );

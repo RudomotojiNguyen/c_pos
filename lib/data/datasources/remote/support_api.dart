@@ -11,7 +11,7 @@ abstract class SupportApi {
 
   /// lấy danh sách phiếu yêu cầu hỗ trợ
   ///
-  @GET('v2/tickets')
+  @GET('tickets')
   Future<BaseResponse> getTicketList({
     @Query('page') required int page,
     @Query('limit') required int limit,
@@ -21,21 +21,21 @@ abstract class SupportApi {
 
   /// lấy thông tin của 1 ticket
   ///
-  @GET('v2/tickets')
+  @GET('tickets')
   Future<BaseResponse> getTicketDetail({@Query('id') required int id});
 
   /// lấy danh sách loại ticket hỗ trợ
   ///
-  @GET('v2/tickets/type')
+  @GET('tickets/type')
   Future<BaseResponse> getTicketTypes({@Query('status') int? status});
 
   /// Gửi phiếu ticket đi
   ///
-  @POST('v2/tickets/create')
+  @POST('tickets/create')
   Future<BaseResponse> saveSupportTicket(@Body() Map<String, dynamic> params);
 
   /// Nhắc xử lý phiếu
   /// params: {id: int}
-  @POST('v2/tickets/remind')
+  @POST('tickets/remind')
   Future<BaseResponse> remindTicket(@Body() Map<String, dynamic> params);
 }

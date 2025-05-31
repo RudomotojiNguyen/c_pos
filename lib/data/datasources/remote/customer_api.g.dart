@@ -104,7 +104,7 @@ class _CustomerApi implements CustomerApi {
     )
         .compose(
           _dio.options,
-          'customer/mobile/otp',
+          'v1/customers/otp',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -159,7 +159,10 @@ class _CustomerApi implements CustomerApi {
   }
 
   @override
-  Future<BaseResponse> saveCustomerInfo(Map<String, dynamic> params) async {
+  Future<BaseResponse> saveCustomerInfo({
+    required Map<String, dynamic> params,
+    required int customerId,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -172,7 +175,7 @@ class _CustomerApi implements CustomerApi {
     )
         .compose(
           _dio.options,
-          'customer/mobile',
+          'v1/customers/${customerId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -247,7 +250,7 @@ class _CustomerApi implements CustomerApi {
     )
         .compose(
           _dio.options,
-          'customer/mobile/${customerId}',
+          'v1/customers/${customerId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -280,41 +283,7 @@ class _CustomerApi implements CustomerApi {
     )
         .compose(
           _dio.options,
-          'customer/mobile/${customerId}/histories',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse _value;
-    try {
-      _value = BaseResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BaseResponse> checkStatisticalBillByPhone(
-      {required String customerPhone}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'customerPhone': customerPhone};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'customer/statistical-bill/',
+          'v1/customers/${customerId}/histories',
           queryParameters: queryParameters,
           data: _data,
         )

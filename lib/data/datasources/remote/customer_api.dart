@@ -21,7 +21,7 @@ abstract class CustomerApi {
 
   /// lấy mã otp để tiêu điểm
   /// params: {customerId, pointUse, phoneNumber}
-  @POST('customer/mobile/otp')
+  @POST('v1/customers/otp')
   Future<BaseResponse> getCustomerOTPToChangePoint(
       @Body() Map<String, dynamic> params);
 
@@ -32,8 +32,11 @@ abstract class CustomerApi {
 
   /// cập nhật thông tin khách hàng
   /// params:
-  @PUT('customer/mobile')
-  Future<BaseResponse> saveCustomerInfo(@Body() Map<String, dynamic> params);
+  @PUT('v1/customers/{customerId}')
+  Future<BaseResponse> saveCustomerInfo({
+    @Body() required Map<String, dynamic> params,
+    @Path() required int customerId,
+  });
 
   /// lấy danh sách khách hàng
   ///
@@ -46,18 +49,11 @@ abstract class CustomerApi {
 
   /// lấy thông tin khách hàng
   ///
-  @GET('customer/mobile/{customerId}')
+  @GET('v1/customers/{customerId}')
   Future<BaseResponse> getCustomerInfoById(@Path() int customerId);
 
   /// lấy lịch sử thông tin khách hàng
   ///
-  @GET('customer/mobile/{customerId}/histories')
+  @GET('v1/customers/{customerId}/histories')
   Future<BaseResponse> getCustomerHistories(@Path() int customerId);
-
-  /// lấy thông tin thống kê KH (có level KH)
-  ///
-  @GET('customer/statistical-bill/')
-  Future<BaseResponse> checkStatisticalBillByPhone({
-    @Query('customerPhone') required String customerPhone,
-  });
 }

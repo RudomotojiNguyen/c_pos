@@ -7,6 +7,7 @@ import '../configs/box.dart';
 
 enum XProductOperationAction {
   detail, // chi tiết sản phẩm
+  customerDetail, // chi tiết khách hàng
   remove, // xóa sản phẩm
   note, // ghi chú sản phẩm
   addGift, // thêm quà tặng
@@ -29,6 +30,8 @@ extension XProductOperationActionExtension on XProductOperationAction {
     switch (this) {
       case XProductOperationAction.detail:
         return 'Chi tiết';
+      case XProductOperationAction.customerDetail:
+        return 'Thông tin khách';
       case XProductOperationAction.remove:
         return 'Xóa';
       case XProductOperationAction.note:
@@ -56,7 +59,7 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.customerInfo:
         return 'Thông tin khách hàng';
       case XProductOperationAction.addMore:
-        return 'Thêm mới';
+        return 'Mua';
       default:
         return '';
     }
@@ -65,6 +68,7 @@ extension XProductOperationActionExtension on XProductOperationAction {
   Widget get getIcon {
     switch (this) {
       case XProductOperationAction.detail:
+      case XProductOperationAction.customerDetail:
       case XProductOperationAction.warrantyInfo:
         return Icon(
           Icons.info_outline,

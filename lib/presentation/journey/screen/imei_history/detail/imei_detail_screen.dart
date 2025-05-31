@@ -31,7 +31,7 @@ class _ImeiDetailScreenState extends XStateWidget<ImeiDetailScreen> {
     tabs = [
       TabData(
         index: 0,
-        title: const Tab(text: 'Giao dịch'),
+        title: const Tab(text: 'Thao tác'),
         content: NormalHistoryTransactionWidget(
           imei: widget.imei,
         ),

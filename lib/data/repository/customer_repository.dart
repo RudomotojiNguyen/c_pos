@@ -33,4 +33,9 @@ abstract class CustomerRepository {
     required int customerId,
     required String otpCode,
   });
+
+  Future<bool> updateCustomerInfo({
+    required Map<String, dynamic> params,
+    required int customerId,
+  });
 }

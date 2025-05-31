@@ -14,6 +14,7 @@ import 'screen/bill/detail/bill_detail.dart';
 import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
 import 'screen/customer/customer_history/customer_history_screen.dart';
+import 'screen/customer/detail/customer_detail_screen.dart';
 import 'screen/customer/list_customer/customers_screen.dart';
 import 'screen/drafting_invoice/detail/drafting_detail_screen.dart';
 import 'screen/drafting_invoice/list/drafts_screen.dart';
@@ -119,6 +120,21 @@ class MainRouter {
                 } else {
                   return const CustomersScreen();
                 }
+              },
+            ),
+            GoRoute(
+              path: RouteName.customerUpdate,
+              name: RouteName.customerUpdate,
+              builder: (BuildContext context, GoRouterState state) {
+                final data = state.uri.queryParameters;
+
+                if (data.containsKey('customerId')) {
+                  final String customerId = data['customerId'] ?? '0';
+                  return CustomerDetailScreen(
+                      customerId: int.parse(customerId));
+                }
+
+                return const CustomersScreen();
               },
             ),
             GoRoute(

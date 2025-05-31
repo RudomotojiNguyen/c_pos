@@ -2,6 +2,7 @@ import 'package:c_pos/common/di/injection/injection.dart';
 import 'package:c_pos/presentation/journey/screen/drafting_invoice/bloc/drafting_invoice_bloc.dart';
 
 import '../../../data/datasources/local_data/local_data.dart';
+import '../../../data/repository/address_repositories.dart';
 import '../../../data/repository/affiliate_commission_repositories.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../../../data/repository/bill_repository.dart';
@@ -17,6 +18,7 @@ import '../../../data/repository/store_repository.dart';
 import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
 import '../../../data/repository/warranty_repositories.dart';
+import '../../../presentation/journey/screen/address/bloc/address_bloc.dart';
 import '../../../presentation/journey/screen/bill/list/bloc/bill_bloc.dart';
 import '../../../presentation/journey/screen/category/bloc/category_bloc.dart';
 import '../../../presentation/journey/screen/commission/bloc/affiliate_bloc.dart';
@@ -81,6 +83,8 @@ class BlocModule extends DIModule {
             productRepository: getIt.get<ProductRepository>(),
             stockRepository: getIt.get<StockRepository>(),
           ))
-      ..registerFactory(() => ScanBloc());
+      ..registerFactory(() => ScanBloc())
+      ..registerFactory(() =>
+          AddressBloc(addressRepositories: getIt.get<AddressRepositories>()));
   }
 }

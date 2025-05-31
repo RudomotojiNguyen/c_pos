@@ -4,30 +4,59 @@ import 'package:intl/intl.dart';
 import '../../common/enum/enum.dart';
 
 class ImeiTransactionModel {
-  String? id;
-  int? billNumber;
-  BillType? type;
+  int? imeiId;
+  String? imeiCode;
+  String? productName;
+  String? productCode;
+  String? providerName;
+  String? saleName;
+  String? code;
+  String? createdBy;
+  int? stockSlipId;
+  int? stockSlipType;
+  String? billNumber;
+  String? storeName;
+  int? action;
+  String? actionName;
   String? createdAt;
-  List<BillItemModel>? billItems;
+  int? index;
 
   ImeiTransactionModel({
-    this.id,
+    this.imeiId,
+    this.imeiCode,
+    this.productName,
+    this.productCode,
+    this.providerName,
+    this.saleName,
+    this.code,
+    this.createdBy,
+    this.stockSlipId,
+    this.stockSlipType,
     this.billNumber,
-    this.type,
+    this.storeName,
+    this.action,
+    this.actionName,
     this.createdAt,
-    this.billItems,
+    this.index,
   });
 
   ImeiTransactionModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    imeiId = json['imeiId'];
+    imeiCode = json['imeiCode'];
+    productName = json['productName'];
+    productCode = json['productCode'];
+    providerName = json['providerName'];
+    saleName = json['saleName'];
+    code = json['code'];
+    createdBy = json['createdBy'];
+    stockSlipId = json['stockSlipId'];
+    stockSlipType = json['stockSlipType'];
     billNumber = json['billNumber'];
-    type = (json['type'] as int? ?? 0).getBillType;
+    storeName = json['storeName'];
+    action = json['action'];
+    actionName = json['actionName'];
     createdAt = json['createdAt'];
-    if (json['billItems'] != null) {
-      billItems = (json['billItems'] as List)
-          .map((item) => BillItemModel.fromJson(item))
-          .toList();
-    }
+    index = json['index'];
   }
 
   String get getCreateDate {
@@ -37,15 +66,18 @@ class ImeiTransactionModel {
     DateFormat originalFormat = DateFormat('yyyy-MM-ddTHH:mm:ss.sssZ');
     DateFormat desiredFormat = DateFormat('HH:mm, dd/MM/yyyy');
 
-    DateTime dateTime = originalFormat.parse(originalDateTime);
+    DateTime dateTime =
+        originalFormat.tryParse(originalDateTime) ?? DateTime.now();
     String formattedDateTime = desiredFormat.format(dateTime);
 
     return formattedDateTime;
   }
 
-  String get getTypeTitle => type?.getTitle ?? '';
+  String get getTransactionCode => code ?? '';
 
-  BillType get getBillType => type ?? BillType.undefine;
+  // String get getTypeTitle => type?.getTitle ?? '';
+
+  // BillType get getBillType => type ?? BillType.undefine;
 }
 
 class BillItemModel {

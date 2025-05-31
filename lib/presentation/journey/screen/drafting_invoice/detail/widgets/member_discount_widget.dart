@@ -104,8 +104,7 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
                 style: AppFont.t.s(),
                 children: [
                   TextSpan(
-                    text:
-                        '${(customerPoint.pointWillUse ?? 0).formatNumber} điểm',
+                    text: (customerPoint.pointWillUse ?? 0).formatPoint,
                     style: AppFont.t.s(16).w800,
                   ),
                   const TextSpan(text: ' tương đương '),
