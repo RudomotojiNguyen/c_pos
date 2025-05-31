@@ -76,7 +76,7 @@ class WarrantyModel {
 
   String get getWarrantyNote => warrantyNote ?? '';
 
-  String get getProductImage => AppConstants.noImage;
+  String get getProductImage => AppConstants.defaultImage;
 
   String get getCreateDate {
     if (createdAt?.isNullOrEmpty ?? true) return '';

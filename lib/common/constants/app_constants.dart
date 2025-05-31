@@ -14,11 +14,11 @@ class AppConstants {
   //
   static const timeSearchValue = 400;
 
-  static const noImage = 'https://didongviet.vn/NoImage.png';
-
   static const defaultNullValue = '--';
 
   static const defaultTimeCountDown = 120; // tính theo giây
+
+  static const defaultImage = 'https://didongviet.vn/NoImage.png';
 }
 
 class CacheKeys {

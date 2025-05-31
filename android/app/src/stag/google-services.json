@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562229251429",
+    "project_id": "clickbuy-ab244",
+    "storage_bucket": "clickbuy-ab244.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562229251429:android:0e449b915b45c9f6fe258c",
+        "android_client_info": {
+          "package_name": "com.clickbuy.cpos.stag"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATQBB1WF6cQLMntFUmV6rzIxYkl_7aKXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

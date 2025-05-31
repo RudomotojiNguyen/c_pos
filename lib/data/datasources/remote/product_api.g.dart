@@ -636,7 +636,7 @@ class _ProductApi implements ProductApi {
     )
         .compose(
           _dio.options,
-          'imei-histories',
+          'v1/imei-histories',
           queryParameters: queryParameters,
           data: _data,
         )

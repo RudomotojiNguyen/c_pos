@@ -276,7 +276,7 @@ class BillItemModel {
     }
   }
 
-  String get getImage => AppConstants.noImage;
+  String get getImage => AppConstants.defaultImage;
 
   String get getName => productName ?? '';
 

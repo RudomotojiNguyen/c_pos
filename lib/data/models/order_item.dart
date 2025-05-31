@@ -125,7 +125,7 @@ class OrderItemModel {
     discountProgramId = json['discountProgramId'];
   }
 
-  String get getImage => AppConstants.noImage;
+  String get getImage => AppConstants.defaultImage;
 
   String get getName => productName ?? '';
 

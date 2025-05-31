@@ -13,16 +13,16 @@ bash gen.sh
 
 case $1 in
   dev)
-    flutter build apk --release --flavor dev -t lib/main_dev.dart
+    flutter build apk --release --flavor dev -t lib/main.dart
     ;;
-  staging)
-    flutter build apk --release --flavor staging -t lib/main_staging.dart
+  stag)
+    flutter build apk --release --flavor stag -t lib/main.dart
     ;;
   prod)
-    flutter build apk --release --flavor prod -t lib/main_prod.dart
+    flutter build apk --release --flavor prod -t lib/main.dart
     ;;
   *)
-    echo "Error: Invalid environment specified. Use 'dev', 'stg', or 'prod'."
+    echo "Error: Invalid environment specified. Use 'dev', 'stag', or 'prod'."
     exit 1
     ;;
 esac

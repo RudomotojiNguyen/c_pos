@@ -1,8 +1,6 @@
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:intl/intl.dart';
 
-import '../../common/enum/enum.dart';
-
 class ImeiTransactionModel {
   int? imeiId;
   String? imeiCode;
@@ -16,10 +14,8 @@ class ImeiTransactionModel {
   int? stockSlipType;
   String? billNumber;
   String? storeName;
-  int? action;
   String? actionName;
   String? createdAt;
-  int? index;
 
   ImeiTransactionModel({
     this.imeiId,
@@ -34,10 +30,8 @@ class ImeiTransactionModel {
     this.stockSlipType,
     this.billNumber,
     this.storeName,
-    this.action,
     this.actionName,
     this.createdAt,
-    this.index,
   });
 
   ImeiTransactionModel.fromJson(Map<String, dynamic> json) {
@@ -46,17 +40,15 @@ class ImeiTransactionModel {
     productName = json['productName'];
     productCode = json['productCode'];
     providerName = json['providerName'];
-    saleName = json['saleName'];
-    code = json['code'];
+    saleName = json['createdBy'];
+    code = json['stockSlipCode'];
     createdBy = json['createdBy'];
     stockSlipId = json['stockSlipId'];
     stockSlipType = json['stockSlipType'];
     billNumber = json['billNumber'];
     storeName = json['storeName'];
-    action = json['action'];
-    actionName = json['actionName'];
+    actionName = json['action'];
     createdAt = json['createdAt'];
-    index = json['index'];
   }
 
   String get getCreateDate {

@@ -151,7 +151,7 @@ abstract class ProductApi {
   });
 
   /// lấy lịch sử giao dịch của imei
-  @GET('imei-histories')
+  @GET('v1/imei-histories')
   Future<BaseResponse> getImeiHistoryTransaction({
     @Query('searchIMEI') required String imei,
     @Query('page') required int page,

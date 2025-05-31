@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,20 +18,24 @@ import 'presentation/journey/app.dart';
 import 'presentation/utils/utils.dart';
 import 'presentation/widgets/widgets.dart';
 
+import 'firebase_options.dart' as prod;
+import 'firebase_options_dev.dart' as dev;
+import 'firebase_options_stag.dart' as stg;
+
 Future<void> main() async {
   /// khởi tạo binding
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Determine which Firebase options to use based on the flavor
-  // final firebaseOptions = switch (appFlavor) {
-  //   'prod' => prod.DefaultFirebaseOptions.currentPlatform,
-  //   'stag' => stg.DefaultFirebaseOptions.currentPlatform,
-  //   'dev' => dev.DefaultFirebaseOptions.currentPlatform,
-  //   _ => throw UnsupportedError('Invalid flavor: $appFlavor'),
-  // };
+  final firebaseOptions = switch (appFlavor) {
+    'prod' => prod.DefaultFirebaseOptions.currentPlatform,
+    'stag' => stg.DefaultFirebaseOptions.currentPlatform,
+    'dev' => dev.DefaultFirebaseOptions.currentPlatform,
+    _ => throw UnsupportedError('Invalid flavor: $appFlavor'),
+  };
 
   /// khởi tạo firebase
-  // await Firebase.initializeApp(options: firebaseOptions);
+  await Firebase.initializeApp(options: firebaseOptions);
 
   /// khởi tạo các dependency injection và set môi trường
   await Injection.inject();

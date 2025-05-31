@@ -1,5 +1,6 @@
 import 'package:c_pos/common/extensions/extension.dart';
 
+import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
 import 'stock_model.dart';
@@ -70,6 +71,7 @@ class ProductModel {
   ProductModel? productChildSelected;
 
   List<String>? images;
+  String? imageUrl;
 
   ProductModel({
     this.id,
@@ -126,6 +128,7 @@ class ProductModel {
     this.productChildSelected,
     this.productsCombo,
     this.images,
+    this.imageUrl,
   });
 
   ProductModel.fromJson(Map<String, dynamic> json, {ProductType? type}) {
@@ -214,23 +217,22 @@ class ProductModel {
 
     externalImeiNo = json['externalImeiNo'];
 
-    if (json['images'] != null) {
+    if (json['imageUrls'] != null) {
       images = <String>[];
-      for (var v in json['images']) {
+      for (var v in json['imageUrls']) {
         if (v != null) {
           images!.add(v);
         }
       }
     }
+
+    imageUrl = json['imageUrl'];
   }
 
   ProductType convertType(int value) => value.toProductType;
 
   String get getImageThumbnail {
-    if (images != null && images!.isNotEmpty) {
-      return images!.first;
-    }
-    return 'https://didongviet.vn/NoImage.png';
+    return imageUrl.isNullOrEmpty ? AppConstants.defaultImage : imageUrl!;
   }
 
   List<String> get getImages => images ?? [];

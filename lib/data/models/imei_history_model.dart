@@ -15,6 +15,8 @@ class ImeiHistoryModel {
   double? originalPrice;
   double? sellingPrice;
   ImeiStatus? status;
+  List<String>? imageUrls;
+  String? imageUrl;
 
   // Null? beforeImportStatus;
   // Null? description;
@@ -32,29 +34,32 @@ class ImeiHistoryModel {
   String? statusName;
   String? providerName;
 
-  ImeiHistoryModel(
-      {this.id,
-      this.storeId,
-      this.imeiCode,
-      this.productId,
-      this.providerId,
-      this.originalPrice,
-      this.sellingPrice,
-      this.status,
-      // this.beforeImportStatus,
-      // this.description,
-      this.createdAt,
-      this.updatedAt,
-      this.importDate,
-      this.merchantId,
-      this.receiptDate,
-      // this.priorityCartId,
-      this.productName,
-      this.barCode,
-      this.productCode,
-      this.storeName,
-      this.statusName,
-      this.providerName});
+  ImeiHistoryModel({
+    this.id,
+    this.storeId,
+    this.imeiCode,
+    this.productId,
+    this.providerId,
+    this.originalPrice,
+    this.sellingPrice,
+    this.status,
+    // this.beforeImportStatus,
+    // this.description,
+    this.createdAt,
+    this.updatedAt,
+    this.importDate,
+    this.merchantId,
+    this.receiptDate,
+    // this.priorityCartId,
+    this.productName,
+    this.barCode,
+    this.productCode,
+    this.storeName,
+    this.statusName,
+    this.providerName,
+    this.imageUrls,
+    this.imageUrl,
+  });
 
   ImeiHistoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
@@ -79,6 +84,15 @@ class ImeiHistoryModel {
     storeName = json['storeName'];
     statusName = json['statusName'];
     providerName = json['providerName'];
+    if (json['imageUrls'] != null) {
+      imageUrls = <String>[];
+      for (var v in json['imageUrls']) {
+        if (v != null) {
+          imageUrls!.add(v);
+        }
+      }
+    }
+    imageUrl = json['imageUrl'];
   }
 
   String get getImei => imeiCode ?? '';
@@ -90,7 +104,8 @@ class ImeiHistoryModel {
 
   String get getProductName => productName ?? '';
 
-  String get getProductImage => AppConstants.noImage;
+  String get getProductImage =>
+      imageUrl.isNullOrEmpty ? AppConstants.defaultImage : imageUrl!;
 
   double get getSellingPrice => sellingPrice ?? 0;
 

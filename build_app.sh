@@ -13,13 +13,13 @@ bash gen.sh
 
 case $1 in
   dev)
-    flutter build appbundle --flavor dev -t lib/main_dev.dart
+    flutter build appbundle --flavor dev -t lib/main.dart
     ;;
-  staging)
-    flutter build appbundle --flavor staging -t lib/main_staging.dart
+  stag)
+    flutter build appbundle --flavor stag -t lib/main.dart
     ;;
   prod)
-    flutter build appbundle --flavor prod -t lib/main_prod.dart
+    flutter build appbundle --flavor prod -t lib/main.dart
     ;;
   *)
     echo "Error: Invalid environment specified. Use 'dev', 'stg', or 'prod'."

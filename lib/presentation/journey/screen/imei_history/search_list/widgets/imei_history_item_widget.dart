@@ -78,6 +78,9 @@ class ImeiHistoryItemWidget extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.sp),
         child: ProductItemDetailWidget(
+          onPressed: ({action}) {
+            onPressed?.call();
+          },
           productName: productName,
           productImei: '',
           productImage: productImage,
