@@ -2,53 +2,59 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:intl/intl.dart';
 
 class ImeiTransactionModel {
+  int? id;
   int? imeiId;
   String? imeiCode;
   String? productName;
   String? productCode;
+  String? barCode;
   String? providerName;
   String? saleName;
+  String? action;
   String? code;
   String? createdBy;
   int? stockSlipId;
+  String? stockSlipCode;
   int? stockSlipType;
-  String? billNumber;
-  String? storeName;
-  String? actionName;
   String? createdAt;
+  String? storeName;
 
   ImeiTransactionModel({
+    this.id,
     this.imeiId,
     this.imeiCode,
     this.productName,
     this.productCode,
+    this.barCode,
     this.providerName,
     this.saleName,
+    this.action,
     this.code,
     this.createdBy,
     this.stockSlipId,
+    this.stockSlipCode,
     this.stockSlipType,
-    this.billNumber,
-    this.storeName,
-    this.actionName,
     this.createdAt,
+    this.storeName,
   });
 
   ImeiTransactionModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     imeiId = json['imeiId'];
     imeiCode = json['imeiCode'];
     productName = json['productName'];
     productCode = json['productCode'];
+    barCode = json['barCode'];
     providerName = json['providerName'];
-    saleName = json['createdBy'];
-    code = json['stockSlipCode'];
+    saleName = json['saleName'];
+    action = json['action'];
+    code = json['code'];
     createdBy = json['createdBy'];
     stockSlipId = json['stockSlipId'];
+    stockSlipCode = json['stockSlipCode'];
     stockSlipType = json['stockSlipType'];
-    billNumber = json['billNumber'];
-    storeName = json['storeName'];
-    actionName = json['action'];
     createdAt = json['createdAt'];
+    storeName = json['storeName'];
   }
 
   String get getCreateDate {
@@ -65,11 +71,11 @@ class ImeiTransactionModel {
     return formattedDateTime;
   }
 
-  String get getTransactionCode => code ?? '';
+  String get getTransactionCode => stockSlipCode ?? '';
 
-  // String get getTypeTitle => type?.getTitle ?? '';
+  String get getActionName => action ?? '';
 
-  // BillType get getBillType => type ?? BillType.undefine;
+  String get getCreator => createdBy ?? '';
 }
 
 class BillItemModel {

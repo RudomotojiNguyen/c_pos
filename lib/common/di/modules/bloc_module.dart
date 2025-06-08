@@ -15,7 +15,6 @@ import '../../../data/repository/payment_repositories.dart';
 import '../../../data/repository/product_repository.dart';
 import '../../../data/repository/stock_repository.dart';
 import '../../../data/repository/store_repository.dart';
-import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
 import '../../../data/repository/warranty_repositories.dart';
 import '../../../presentation/journey/screen/address/bloc/address_bloc.dart';
@@ -51,9 +50,8 @@ class BlocModule extends DIModule {
           storeRepository: getIt.get<StoreRepository>(),
           authBloc: getIt.get<AuthBloc>()))
       ..registerLazySingleton(() => SettingBloc())
-      ..registerLazySingleton(() => GlobalCoreBloc(
-          supportRepositories: getIt.get<SupportRepositories>(),
-          orderRepository: getIt.get<OrderRepository>()))
+      ..registerLazySingleton(
+          () => GlobalCoreBloc(orderRepository: getIt.get<OrderRepository>()))
       ..registerFactory(
           () => AffiliateBloc(getIt.get<AffiliateCommissionRepositories>()))
       ..registerFactory(() => BillBloc(

@@ -11,7 +11,6 @@ import '../../../data/datasources/remote/payment_api.dart';
 import '../../../data/datasources/remote/product_api.dart';
 import '../../../data/datasources/remote/stock_api.dart';
 import '../../../data/datasources/remote/store_api.dart';
-import '../../../data/datasources/remote/support_api.dart';
 import '../../../data/datasources/remote/user_api.dart';
 import '../../../data/datasources/remote/warranty_api.dart';
 import '../../../data/services/address_services.dart';
@@ -27,7 +26,6 @@ import '../../../data/services/payment_services.dart';
 import '../../../data/services/product_services.dart';
 import '../../../data/services/stock_services.dart';
 import '../../../data/services/store_services.dart';
-import '../../../data/services/support_services.dart';
 import '../../../data/services/user_services.dart';
 import '../../../data/services/warranty_services.dart';
 import '../../base/di_module.dart';
@@ -45,8 +43,6 @@ class ServicesModule extends DIModule {
           () => StoreServicesImpl(storeApi: getIt.get<StoreApi>()))
       ..registerLazySingleton<OrderServices>(
           () => OrderServicesImpl(orderApi: getIt.get<OrderApi>()))
-      ..registerLazySingleton<SupportServices>(
-          () => SupportServicesImpl(supportApi: getIt.get<SupportApi>()))
       ..registerLazySingleton<AffiliateCommissionServices>(() =>
           AffiliateCommissionServicesImpl(
               commissionApi: getIt.get<CommissionApi>()))

@@ -11,7 +11,6 @@ import '../../../data/repository/payment_repositories.dart';
 import '../../../data/repository/product_repository.dart';
 import '../../../data/repository/stock_repository.dart';
 import '../../../data/repository/store_repository.dart';
-import '../../../data/repository/support_repositories.dart';
 import '../../../data/repository/user_repositories.dart';
 import '../../../data/repository/warranty_repositories.dart';
 import '../../../data/services/address_services.dart';
@@ -27,7 +26,6 @@ import '../../../data/services/payment_services.dart';
 import '../../../data/services/product_services.dart';
 import '../../../data/services/stock_services.dart';
 import '../../../data/services/store_services.dart';
-import '../../../data/services/support_services.dart';
 import '../../../data/services/user_services.dart';
 import '../../../data/services/warranty_services.dart';
 import '../../base/di_module.dart';
@@ -45,9 +43,6 @@ class RepositoryModule extends DIModule {
           () => StoreRepositoryImpl(storeServices: getIt.get<StoreServices>()))
       ..registerLazySingleton<OrderRepository>(
           () => OrderRepositoryImpl(orderServices: getIt.get<OrderServices>()))
-      ..registerLazySingleton<SupportRepositories>(() =>
-          SupportRepositoriesImpl(
-              supportServices: getIt.get<SupportServices>()))
       ..registerLazySingleton<AffiliateCommissionRepositories>(() =>
           AffiliateCommissionRepositoriesImpl(
               affiliateCommissionServices:

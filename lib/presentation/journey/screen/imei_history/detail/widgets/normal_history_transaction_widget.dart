@@ -91,7 +91,7 @@ class _NormalHistoryTransactionWidgetState
             productBloc.add(GetMoreImeiTransactionEvent(imei: widget.imei));
           },
           child: Timeline.tileBuilder(
-            padding: EdgeInsets.symmetric(horizontal: 16.sp),
+            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
             theme: TimelineThemeData(
                 color: AppColors.primaryColor, nodePosition: 0),
             builder: TimelineTileBuilder.fromStyle(
@@ -101,11 +101,11 @@ class _NormalHistoryTransactionWidgetState
               contentsBuilder: (context, index) {
                 final ImeiTransactionModel item = data[index];
                 return ImeiTransactionWidget(
-                  billNumber: item.billNumber?.toString() ?? '',
                   createDate: item.getCreateDate,
                   transactionCode: item.getTransactionCode,
-                  actionName: item.actionName,
-                  creator: item.saleName,
+                  actionName: item.getActionName,
+                  creator: item.getCreator,
+                  productName: item.productName,
                 );
               },
               itemCount: data.length,
@@ -123,25 +123,30 @@ class _NormalHistoryTransactionWidgetState
 class ImeiTransactionWidget extends StatelessWidget {
   const ImeiTransactionWidget({
     super.key,
-    required this.billNumber,
     required this.createDate,
     this.transactionNote,
     this.transactionCode,
     this.actionName,
     this.creator,
+    this.productName,
   });
 
-  final String billNumber;
   final String createDate;
   final String? transactionNote;
   final String? transactionCode;
   final String? actionName;
   final String? creator;
+  final String? productName;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
+      margin: EdgeInsets.only(bottom: 16.sp, left: 8.sp),
+      decoration: BoxDecoration(
+        color: AppColors.lightGreyColor,
+        borderRadius: BorderRadius.circular(16.sp),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,15 +158,6 @@ class ImeiTransactionWidget extends StatelessWidget {
                 createDate,
                 style: AppFont.t.s(9),
               ),
-              if (billNumber.isNotNullOrEmpty) ...[
-                Wrap(
-                  runSpacing: 8.sp,
-                  spacing: 8.sp,
-                  children: [
-                    XStatus(statusStr: billNumber),
-                  ],
-                ),
-              ],
               if (transactionCode.isNotNullOrEmpty) ...[
                 Wrap(
                   runSpacing: 8.sp,
@@ -232,6 +228,13 @@ class ImeiTransactionWidget extends StatelessWidget {
                 ],
               ),
             )
+          ],
+          if (productName.isNotNullOrEmpty) ...[
+            BoxSpacer.s8,
+            Text(
+              productName!,
+              style: AppFont.t.s(11).w800,
+            ),
           ],
         ],
       ),

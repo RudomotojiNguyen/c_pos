@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/models/base_enum_model.dart';
-import '../../../../data/models/ticket_type_model.dart';
 import '../../../../data/repository/order_repository.dart';
-import '../../../../data/repository/support_repositories.dart';
 import '../../../mixins/logger_helper.dart';
 
 part 'global_core_event.dart';
@@ -16,16 +14,13 @@ part 'global_core_state.dart';
 
 class GlobalCoreBloc extends Bloc<GlobalCoreEvent, GlobalCoreState> {
   final OrderRepository orderRepository;
-  final SupportRepositories supportRepositories;
 
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   GlobalCoreBloc({
     required this.orderRepository,
-    required this.supportRepositories,
   }) : super(const GlobalCoreInitial(
           orderStatus: [],
-          ticketType: [],
           cancelStatus: [],
           orderSource: [],
           orderType: [],
@@ -35,19 +30,6 @@ class GlobalCoreBloc extends Bloc<GlobalCoreEvent, GlobalCoreState> {
 
     /// Xử lý sự kiện lấy nguồn đơn
     on<GetOrderSourceEvent>(_onGetOrderSource);
-
-    /// Xử lý sự kiện lấy loại vé
-    on<GetTicketTypeEvent>(_onGetTicketType);
-  }
-
-  FutureOr<void> _onGetTicketType(
-      GetTicketTypeEvent event, Emitter<GlobalCoreState> emit) async {
-    try {
-      final res = await supportRepositories.getTicketTypes();
-      emit(GetTicketTypeSuccess(state: state, ticketType: res));
-    } catch (e) {
-      _loggerHelper.logError(message: 'GetTicketTypeEvent', obj: e);
-    }
   }
 
   FutureOr<void> _onGetOrderStatus(

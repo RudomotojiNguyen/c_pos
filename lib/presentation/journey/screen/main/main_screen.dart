@@ -39,7 +39,6 @@ class _MainScreenState extends XStateWidget<MainScreen> {
     _storeBloc.add(GetStoreEvent());
     getAppSetting();
     getToken();
-    _globalCoreBloc.add(GetTicketTypeEvent());
     _globalCoreBloc.add(GetOrderStatusEvent());
     _globalCoreBloc.add(GetOrderSourceEvent());
   }
