@@ -61,19 +61,6 @@ class UpdateNoteEvent extends DraftingInvoiceEvent {
   const UpdateNoteEvent({this.saleNote, this.warrantyNote});
 }
 
-class UpdateDeliveryFeeEvent extends DraftingInvoiceEvent {
-  final int? customerFee;
-  final int? shippingCompanyFee;
-
-  const UpdateDeliveryFeeEvent({this.customerFee, this.shippingCompanyFee});
-}
-
-final class UpdateOrderSubDetailEvent extends DraftingInvoiceEvent {
-  final OrderSubDetailModel data;
-
-  const UpdateOrderSubDetailEvent({required this.data});
-}
-
 final class SetDiscountTotalBillInfoEvent extends DraftingInvoiceEvent {
   final double? amount;
   final String? code;
@@ -104,5 +91,31 @@ final class UpdatePaymentMethodEvent extends DraftingInvoiceEvent {
 final class UpdateTradeInTypeEvent extends DraftingInvoiceEvent {
   final TradeInType type;
 
-  UpdateTradeInTypeEvent(this.type);
+  const UpdateTradeInTypeEvent({required this.type});
+}
+
+///
+///  -- event cho sản phẩm trong giỏ hàng --
+///
+final class AddProductEvent extends DraftingInvoiceEvent {
+  final ProductTable product;
+  final List<ProductTable>? gifts;
+  final List<ProductTable>? attaches;
+  final List<ProductTable>? warranties;
+  final List<VoucherTable>? vouchers;
+
+  const AddProductEvent(
+    this.product, {
+    this.gifts,
+    this.attaches,
+    this.warranties,
+    this.vouchers,
+  });
+}
+
+final class RemoveProductOnCartEvent extends DraftingInvoiceEvent {
+  final int productId;
+  final int? parentId;
+
+  const RemoveProductOnCartEvent({required this.productId, this.parentId});
 }

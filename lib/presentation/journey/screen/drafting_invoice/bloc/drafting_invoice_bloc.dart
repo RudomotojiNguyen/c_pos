@@ -10,9 +10,7 @@ import '../../../../../common/enum/enum.dart';
 import '../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
 import '../../../../../data/models/customer_model.dart';
-import '../../../../../data/models/delivery_fee_model.dart';
 import '../../../../../data/models/employee_model.dart';
-import '../../../../../data/models/order_sub_detail_model.dart';
 import '../../../../../data/models/otp_customer_point_model.dart';
 
 part 'drafting_invoice_event.dart';
@@ -46,10 +44,6 @@ class DraftingInvoiceBloc
     on<UpdateTechInfoOfBillEvent>(_onUpdateTechInfoOfBill);
     // cập nhật ghi chú
     on<UpdateNoteEvent>(_onUpdateNote);
-    // cập nhật phí giao hàng
-    on<UpdateDeliveryFeeEvent>(_onUpdateDeliveryFee);
-    // cập nhật chi tiết đơn
-    on<UpdateOrderSubDetailEvent>(_onUpdateOrderSubDetail);
     // cập nhật mã coupon và số tiền giảm
     on<SetDiscountTotalBillInfoEvent>(_onSetDiscountTotalBillInfo);
     // xóa mã coupon và số tiền giảm
@@ -62,6 +56,82 @@ class DraftingInvoiceBloc
     on<UpdatePaymentMethodEvent>(_onUpdatePaymentMethod);
     // cập nhật loại đơn nháp
     on<UpdateTradeInTypeEvent>(_onUpdateTradeInType);
+    // thêm sản phẩm vào đơn nháp
+    on<AddProductEvent>(_onAddProduct);
+    // xóa sản phẩm trong đơn nháp
+    on<RemoveProductOnCartEvent>(_onRemoveProductOnCart);
+  }
+
+  FutureOr<void> _onRemoveProductOnCart(
+    RemoveProductOnCartEvent event,
+    Emitter<DraftingInvoiceState> emit,
+  ) async {
+    try {
+      int? currentDraftId = state.currentDraftId;
+      if (currentDraftId == null) return;
+
+      final res = await draftingStorage.removeProductOnCart(
+        cartId: currentDraftId,
+        productId: event.productId,
+      );
+      if (res != null) {
+        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
+        emit(
+          UpdateCalculatorPriceSuccess(
+            state: state,
+            totalPriceNoneDiscount: res.totalPriceNoneDiscount,
+            totalDiscountPriceOfBillItem: res.totalDiscountPriceOfBillItem,
+            discountOfBill: res.getDiscountOfTotalBill,
+            totalPrePayment: res.calculatorTotalPrePayment,
+            finalPrice: res.calculatorFinalPrice,
+            mustPay: res.calculatorMustPay,
+          ),
+        );
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'RemoveProductOnCartEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onAddProduct(
+    AddProductEvent event,
+    Emitter<DraftingInvoiceState> emit,
+  ) async {
+    try {
+      int? currentDraftId = state.currentDraftId;
+      if (currentDraftId == null) {
+        final result = await draftingStorage.createDraftingInvoice(
+            cartType: CartType.retail);
+        if (result == null) return;
+        currentDraftId = result;
+        emit(DraftingInvoiceCreated(state: state, currentDraftId: result));
+      }
+
+      final res = await _addItemToCart(
+        product: event.product,
+        cartId: currentDraftId,
+        vouchers: event.vouchers,
+        gifts: event.gifts,
+        attaches: event.attaches,
+        warranties: event.warranties,
+      );
+      if (res != null) {
+        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
+        emit(
+          UpdateCalculatorPriceSuccess(
+            state: state,
+            totalPriceNoneDiscount: res.totalPriceNoneDiscount,
+            totalDiscountPriceOfBillItem: res.totalDiscountPriceOfBillItem,
+            discountOfBill: res.getDiscountOfTotalBill,
+            totalPrePayment: res.calculatorTotalPrePayment,
+            finalPrice: res.calculatorFinalPrice,
+            mustPay: res.calculatorMustPay,
+          ),
+        );
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'AddProductEvent', obj: e);
+    }
   }
 
   FutureOr<void> _onUpdateTradeInType(
@@ -243,56 +313,6 @@ class DraftingInvoiceBloc
     }
   }
 
-  FutureOr<void> _onUpdateOrderSubDetail(UpdateOrderSubDetailEvent event,
-      Emitter<DraftingInvoiceState> emit) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
-
-      final res = await draftingStorage.updateOrderSubDetail(
-        cartId: currentDraftId,
-        data: event.data,
-      );
-      if (res != null) {
-        emit(UpdateOrderSubDetailSuccess(
-            state: state, orderSubDetail: res.orderSubDetail));
-      }
-    } catch (e) {
-      _loggerHelper.logError(message: 'UpdateOrderSubDetailEvent', obj: e);
-    }
-  }
-
-  FutureOr<void> _onUpdateDeliveryFee(
-      UpdateDeliveryFeeEvent event, Emitter<DraftingInvoiceState> emit) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
-
-      final res = await draftingStorage.updateDeliveryFee(
-        cartId: currentDraftId,
-        customerFee: event.customerFee,
-        shippingCompanyFee: event.shippingCompanyFee,
-      );
-      if (res != null) {
-        emit(UpdateDeliveryFeeSuccess(
-            state: state, deliveryFee: res.deliveryFee));
-
-        /// notes: tính thêm phí giao hàng
-        emit(UpdateCalculatorPriceSuccess(
-          state: state,
-          totalPriceNoneDiscount: res.totalPriceNoneDiscount,
-          totalDiscountPriceOfBillItem: res.totalDiscountPriceOfBillItem,
-          discountOfBill: res.getDiscountOfTotalBill,
-          totalPrePayment: res.calculatorTotalPrePayment,
-          finalPrice: res.calculatorFinalPrice,
-          mustPay: res.calculatorMustPay,
-        ));
-      }
-    } catch (e) {
-      _loggerHelper.logError(message: 'UpdateDeliveryFee', obj: e);
-    }
-  }
-
   FutureOr<void> _onUpdateNote(
       UpdateNoteEvent event, Emitter<DraftingInvoiceState> emit) async {
     try {
@@ -416,8 +436,6 @@ class DraftingInvoiceBloc
           customer: result.getCustomer,
           warrantyNote: result.warrantyNote,
           saleNote: result.saleNote,
-          deliveryFee: result.deliveryFee,
-          orderSubDetail: result.orderSubDetail,
           discountTotalBill: result.discountTotalBill,
           couponDiscountCode: result.couponDiscountCode,
           discountTotalBillByPoint: result.discountByPoint,
@@ -483,7 +501,7 @@ class DraftingInvoiceBloc
       final result =
           await draftingStorage.createDraftingInvoice(cartType: event.typeCart);
       if (result != null) {
-        emit(DraftingInvoiceCreated(state: state, id: result));
+        emit(DraftingInvoiceCreated(state: state, currentDraftId: result));
       } else {
         XToast.showWarningMessage(message: 'Chưa thể tạo nháp hãy thử lại');
       }
@@ -492,5 +510,25 @@ class DraftingInvoiceBloc
     } finally {
       XToast.closeAllLoading();
     }
+  }
+}
+
+extension _DraftingInvoiceBlocExtension on DraftingInvoiceBloc {
+  Future<DraftingInvoiceTable?> _addItemToCart({
+    required ProductTable product,
+    required int cartId,
+    List<ProductTable>? gifts,
+    List<ProductTable>? attaches,
+    List<ProductTable>? warranties,
+    List<VoucherTable>? vouchers,
+  }) async {
+    return await draftingStorage.addItemToCart(
+      product: product,
+      cartId: cartId,
+      vouchers: vouchers,
+      gifts: gifts,
+      attaches: attaches,
+      warranties: warranties,
+    );
   }
 }

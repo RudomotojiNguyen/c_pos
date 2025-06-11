@@ -301,4 +301,27 @@ class MainRouter {
       ),
     );
   }
+
+  /// Checks if a given route name exists in the current navigation stack.
+  ///
+  /// Returns `true` if the route is found, `false` otherwise.
+  ///
+  /// Example:
+  /// bool isInStack = MainRouter.instance.isRouteInStack(context, RouteName.productDetail);
+  bool isRouteInStack(BuildContext context, String routeName) {
+    final router = GoRouter.of(context);
+    final GoRouterDelegate delegate = router.routerDelegate;
+
+    // The currentConfiguration holds the list of GoRouteMatch objects
+    // representing the current stack.
+    final currentRoutes = delegate.currentConfiguration.routes;
+
+    // Iterate through the routes to check if any route's name matches.
+    for (final route in currentRoutes) {
+      if (route is GoRoute && route.name == routeName) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

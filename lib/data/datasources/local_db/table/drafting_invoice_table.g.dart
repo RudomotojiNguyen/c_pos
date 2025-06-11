@@ -28,56 +28,46 @@ const DraftingInvoiceTableSchema = CollectionSchema(
       name: r'createdDate',
       type: IsarType.dateTime,
     ),
-    r'deliveryFeeStr': PropertySchema(
-      id: 2,
-      name: r'deliveryFeeStr',
-      type: IsarType.string,
-    ),
     r'discountMemberType': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'discountMemberType',
       type: IsarType.byte,
       enumMap: _DraftingInvoiceTablediscountMemberTypeEnumValueMap,
     ),
     r'discountTotalBill': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'discountTotalBill',
       type: IsarType.double,
     ),
-    r'orderSubDetailStr': PropertySchema(
-      id: 5,
-      name: r'orderSubDetailStr',
-      type: IsarType.string,
-    ),
     r'saleInfoStr': PropertySchema(
-      id: 6,
+      id: 4,
       name: r'saleInfoStr',
       type: IsarType.string,
     ),
     r'saleNote': PropertySchema(
-      id: 7,
+      id: 5,
       name: r'saleNote',
       type: IsarType.string,
     ),
     r'technicalInfoStr': PropertySchema(
-      id: 8,
+      id: 6,
       name: r'technicalInfoStr',
       type: IsarType.string,
     ),
     r'tradeInType': PropertySchema(
-      id: 9,
+      id: 7,
       name: r'tradeInType',
       type: IsarType.byte,
       enumMap: _DraftingInvoiceTabletradeInTypeEnumValueMap,
     ),
     r'typeCart': PropertySchema(
-      id: 10,
+      id: 8,
       name: r'typeCart',
       type: IsarType.byte,
       enumMap: _DraftingInvoiceTabletypeCartEnumValueMap,
     ),
     r'warrantyNote': PropertySchema(
-      id: 11,
+      id: 9,
       name: r'warrantyNote',
       type: IsarType.string,
     )
@@ -140,18 +130,6 @@ int _draftingInvoiceTableEstimateSize(
     }
   }
   {
-    final value = object.deliveryFeeStr;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.orderSubDetailStr;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.saleInfoStr;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -186,16 +164,14 @@ void _draftingInvoiceTableSerialize(
 ) {
   writer.writeString(offsets[0], object.couponDiscountCode);
   writer.writeDateTime(offsets[1], object.createdDate);
-  writer.writeString(offsets[2], object.deliveryFeeStr);
-  writer.writeByte(offsets[3], object.discountMemberType.index);
-  writer.writeDouble(offsets[4], object.discountTotalBill);
-  writer.writeString(offsets[5], object.orderSubDetailStr);
-  writer.writeString(offsets[6], object.saleInfoStr);
-  writer.writeString(offsets[7], object.saleNote);
-  writer.writeString(offsets[8], object.technicalInfoStr);
-  writer.writeByte(offsets[9], object.tradeInType.index);
-  writer.writeByte(offsets[10], object.typeCart.index);
-  writer.writeString(offsets[11], object.warrantyNote);
+  writer.writeByte(offsets[2], object.discountMemberType.index);
+  writer.writeDouble(offsets[3], object.discountTotalBill);
+  writer.writeString(offsets[4], object.saleInfoStr);
+  writer.writeString(offsets[5], object.saleNote);
+  writer.writeString(offsets[6], object.technicalInfoStr);
+  writer.writeByte(offsets[7], object.tradeInType.index);
+  writer.writeByte(offsets[8], object.typeCart.index);
+  writer.writeString(offsets[9], object.warrantyNote);
 }
 
 DraftingInvoiceTable _draftingInvoiceTableDeserialize(
@@ -207,24 +183,22 @@ DraftingInvoiceTable _draftingInvoiceTableDeserialize(
   final object = DraftingInvoiceTable();
   object.couponDiscountCode = reader.readStringOrNull(offsets[0]);
   object.createdDate = reader.readDateTime(offsets[1]);
-  object.deliveryFeeStr = reader.readStringOrNull(offsets[2]);
   object.discountMemberType =
       _DraftingInvoiceTablediscountMemberTypeValueEnumMap[
-              reader.readByteOrNull(offsets[3])] ??
+              reader.readByteOrNull(offsets[2])] ??
           DiscountMemberType.point;
-  object.discountTotalBill = reader.readDoubleOrNull(offsets[4]);
+  object.discountTotalBill = reader.readDoubleOrNull(offsets[3]);
   object.id = id;
-  object.orderSubDetailStr = reader.readStringOrNull(offsets[5]);
-  object.saleInfoStr = reader.readStringOrNull(offsets[6]);
-  object.saleNote = reader.readStringOrNull(offsets[7]);
-  object.technicalInfoStr = reader.readStringOrNull(offsets[8]);
+  object.saleInfoStr = reader.readStringOrNull(offsets[4]);
+  object.saleNote = reader.readStringOrNull(offsets[5]);
+  object.technicalInfoStr = reader.readStringOrNull(offsets[6]);
   object.tradeInType = _DraftingInvoiceTabletradeInTypeValueEnumMap[
-          reader.readByteOrNull(offsets[9])] ??
+          reader.readByteOrNull(offsets[7])] ??
       TradeInType.undefine;
   object.typeCart = _DraftingInvoiceTabletypeCartValueEnumMap[
-          reader.readByteOrNull(offsets[10])] ??
+          reader.readByteOrNull(offsets[8])] ??
       CartType.retail;
-  object.warrantyNote = reader.readStringOrNull(offsets[11]);
+  object.warrantyNote = reader.readStringOrNull(offsets[9]);
   return object;
 }
 
@@ -240,30 +214,26 @@ P _draftingInvoiceTableDeserializeProp<P>(
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
-    case 3:
       return (_DraftingInvoiceTablediscountMemberTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           DiscountMemberType.point) as P;
-    case 4:
+    case 3:
       return (reader.readDoubleOrNull(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
-    case 8:
-      return (reader.readStringOrNull(offset)) as P;
-    case 9:
       return (_DraftingInvoiceTabletradeInTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           TradeInType.undefine) as P;
-    case 10:
+    case 8:
       return (_DraftingInvoiceTabletypeCartValueEnumMap[
               reader.readByteOrNull(offset)] ??
           CartType.retail) as P;
-    case 11:
+    case 9:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -637,162 +607,6 @@ extension DraftingInvoiceTableQueryFilter on QueryBuilder<DraftingInvoiceTable,
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'deliveryFeeStr',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'deliveryFeeStr',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'deliveryFeeStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'deliveryFeeStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'deliveryFeeStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'deliveryFeeStr',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'deliveryFeeStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'deliveryFeeStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-          QAfterFilterCondition>
-      deliveryFeeStrContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'deliveryFeeStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-          QAfterFilterCondition>
-      deliveryFeeStrMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'deliveryFeeStr',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'deliveryFeeStr',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> deliveryFeeStrIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'deliveryFeeStr',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
           QAfterFilterCondition>
       discountMemberTypeEqualTo(DiscountMemberType value) {
     return QueryBuilder.apply(this, (query) {
@@ -985,162 +799,6 @@ extension DraftingInvoiceTableQueryFilter on QueryBuilder<DraftingInvoiceTable,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'orderSubDetailStr',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'orderSubDetailStr',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'orderSubDetailStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'orderSubDetailStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'orderSubDetailStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'orderSubDetailStr',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'orderSubDetailStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'orderSubDetailStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-          QAfterFilterCondition>
-      orderSubDetailStrContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'orderSubDetailStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-          QAfterFilterCondition>
-      orderSubDetailStrMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'orderSubDetailStr',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'orderSubDetailStr',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable,
-      QAfterFilterCondition> orderSubDetailStrIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'orderSubDetailStr',
-        value: '',
       ));
     });
   }
@@ -2134,20 +1792,6 @@ extension DraftingInvoiceTableQuerySortBy
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      sortByDeliveryFeeStr() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'deliveryFeeStr', Sort.asc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      sortByDeliveryFeeStrDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'deliveryFeeStr', Sort.desc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
       sortByDiscountMemberType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountMemberType', Sort.asc);
@@ -2172,20 +1816,6 @@ extension DraftingInvoiceTableQuerySortBy
       sortByDiscountTotalBillDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountTotalBill', Sort.desc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      sortByOrderSubDetailStr() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'orderSubDetailStr', Sort.asc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      sortByOrderSubDetailStrDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'orderSubDetailStr', Sort.desc);
     });
   }
 
@@ -2305,20 +1935,6 @@ extension DraftingInvoiceTableQuerySortThenBy
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      thenByDeliveryFeeStr() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'deliveryFeeStr', Sort.asc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      thenByDeliveryFeeStrDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'deliveryFeeStr', Sort.desc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
       thenByDiscountMemberType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountMemberType', Sort.asc);
@@ -2357,20 +1973,6 @@ extension DraftingInvoiceTableQuerySortThenBy
       thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      thenByOrderSubDetailStr() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'orderSubDetailStr', Sort.asc);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QAfterSortBy>
-      thenByOrderSubDetailStrDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'orderSubDetailStr', Sort.desc);
     });
   }
 
@@ -2477,14 +2079,6 @@ extension DraftingInvoiceTableQueryWhereDistinct
   }
 
   QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QDistinct>
-      distinctByDeliveryFeeStr({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'deliveryFeeStr',
-          caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QDistinct>
       distinctByDiscountMemberType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'discountMemberType');
@@ -2495,14 +2089,6 @@ extension DraftingInvoiceTableQueryWhereDistinct
       distinctByDiscountTotalBill() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'discountTotalBill');
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, DraftingInvoiceTable, QDistinct>
-      distinctByOrderSubDetailStr({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'orderSubDetailStr',
-          caseSensitive: caseSensitive);
     });
   }
 
@@ -2572,13 +2158,6 @@ extension DraftingInvoiceTableQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<DraftingInvoiceTable, String?, QQueryOperations>
-      deliveryFeeStrProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'deliveryFeeStr');
-    });
-  }
-
   QueryBuilder<DraftingInvoiceTable, DiscountMemberType, QQueryOperations>
       discountMemberTypeProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -2590,13 +2169,6 @@ extension DraftingInvoiceTableQueryProperty on QueryBuilder<
       discountTotalBillProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'discountTotalBill');
-    });
-  }
-
-  QueryBuilder<DraftingInvoiceTable, String?, QQueryOperations>
-      orderSubDetailStrProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'orderSubDetailStr');
     });
   }
 

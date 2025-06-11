@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/datasources/local_data/local_storage.dart';
+import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
 import '../../../presentation/mixins/logger_helper.dart';
 import '../../../presentation/mixins/mixins.dart';
 import '../../../presentation/widgets/widgets.dart';
+import '../../di/injection/injection.dart';
 import '../../utils/navigator_service.dart';
 
 typedef TokenPair = ({String accessToken, String refreshToken});
@@ -278,7 +280,8 @@ class NetworkInterceptor extends InterceptorsWrapper with DialogHelper {
         XToast.showNegativeMessage(
             message:
                 response.data['message'] ?? 'Tài khoản không còn hiệu lực');
-      // getIt.get<AuthBloc>().add(LogoutEvent());
+        getIt.get<AuthBloc>().add(LogoutEvent());
+        break;
       case 500:
         XToast.showNegativeMessage(
             message: response.data['message'] ?? 'Lỗi hệ thống');

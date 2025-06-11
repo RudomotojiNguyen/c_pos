@@ -58,7 +58,8 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
                 return XBaseButton(
                   onPressed: () {
                     if (!isSelected) {
-                      _draftingInvoiceBloc.add(UpdateTradeInTypeEvent(type));
+                      _draftingInvoiceBloc
+                          .add(UpdateTradeInTypeEvent(type: type));
                     }
                   },
                   child: Container(

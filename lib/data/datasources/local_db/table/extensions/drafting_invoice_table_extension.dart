@@ -66,10 +66,11 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
   double get calculatorMustPay => calculatorFinalPrice - totalPayment;
 
   /// tổng tiền được giảm trên bill
-  double get totalPriceNoneDiscount => 0;
+  double get totalPriceNoneDiscount => getProducts.totalPriceNoneDiscount;
 
   /// tổng số tiền được giảm của các sản phẩm
-  double get totalDiscountPriceOfBillItem => 0;
+  double get totalDiscountPriceOfBillItem =>
+      getProducts.totalDiscountPriceOfBillItem;
 
   /// giảm giá của tổng bill
   double get getDiscountOfTotalBill => discountTotalBill ?? 0;
@@ -86,7 +87,6 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
   ///     - tiền được giảm trên tổng bill
   ///     - tiền giảm khi trừ điểm
   ///     - tiền khách đã thanh toán trước
-  ///     todo: tính thêm phí vận chuyển
   double get calculatorFinalPrice =>
       totalPriceNoneDiscount -
       totalDiscountPriceOfBillItem -

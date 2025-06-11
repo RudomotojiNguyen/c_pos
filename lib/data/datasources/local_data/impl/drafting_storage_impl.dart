@@ -77,7 +77,13 @@ class DraftingStorageImpl extends DraftingStorage {
   @override
   Future<DraftingInvoiceTable?> getDraftingInvoice(
       {required int draftId}) async {
-    return await _getDraftingInvoice(draftId);
+    final cart = await _getDraftingInvoice(draftId);
+
+    if (cart != null) {
+      // Tải các dữ liệu liên quan đến giỏ hàng
+      await _loadDataInsideDraftingInvoice(cart);
+    }
+    return cart;
   }
 
   @override
@@ -169,49 +175,6 @@ class DraftingStorageImpl extends DraftingStorage {
       currentDraft.warrantyNote = warrantyNote;
       await isar.draftingInvoiceTables.put(currentDraft);
     });
-    return currentDraft;
-  }
-
-  @override
-  Future<DraftingInvoiceTable?> updateDeliveryFee({
-    required int cartId,
-    int? customerFee,
-    int? shippingCompanyFee,
-  }) async {
-    DraftingInvoiceTable? currentDraft = await _getDraftingInvoice(cartId);
-    if (currentDraft == null) return null;
-
-    await isar.writeTxn(() async {
-      if (currentDraft.deliveryFee == null) {
-        currentDraft.deliveryFee = DeliveryFeeModel(
-          customerFee: customerFee ?? 0,
-          shippingCompanyFee: shippingCompanyFee ?? 0,
-        );
-      } else {
-        currentDraft.deliveryFee = currentDraft.deliveryFee!.copyWith(
-          customerFee: customerFee,
-          shippingCompanyFee: shippingCompanyFee,
-        );
-      }
-      await isar.draftingInvoiceTables.put(currentDraft);
-    });
-
-    return currentDraft;
-  }
-
-  @override
-  Future<DraftingInvoiceTable?> updateOrderSubDetail({
-    required OrderSubDetailModel data,
-    required int cartId,
-  }) async {
-    DraftingInvoiceTable? currentDraft = await _getDraftingInvoice(cartId);
-    if (currentDraft == null) return null;
-
-    await isar.writeTxn(() async {
-      currentDraft.orderSubDetail = data;
-      await isar.draftingInvoiceTables.put(currentDraft);
-    });
-
     return currentDraft;
   }
 
@@ -330,6 +293,180 @@ class DraftingStorageImpl extends DraftingStorage {
 
     return currentDraft;
   }
+
+  @override
+  Future<DraftingInvoiceTable?> addItemToCart({
+    required ProductTable product,
+    required int cartId,
+    List<ProductTable>? gifts,
+    List<ProductTable>? attaches,
+    List<ProductTable>? warranties,
+    List<VoucherTable>? vouchers,
+  }) async {
+    DraftingInvoiceTable? currentDraft = await _getDraftingInvoice(cartId);
+    if (currentDraft == null) return null;
+
+    await isar.writeTxn(() async {
+      // Lấy danh sách sản phẩm hiện tại từ giỏ hàng
+      List<ProductTable> currentProducts = currentDraft.getProducts;
+      Map<String, ProductTable> productMap = {
+        for (var currentProduct in currentProducts)
+          currentProduct.productId!: currentProduct,
+      };
+
+      ProductTable? processedProduct = await _processItemsInCart(
+        currentDraft: currentDraft,
+        product: product,
+        productMap: productMap,
+        productType: product.productType,
+      );
+
+      if (processedProduct != null) {
+        /// Cập nhật liên kết
+        await _updateLinks<ProductTable>(processedProduct.productsGift, gifts, (
+          item,
+        ) {
+          item.productChildType = ProductType.gift;
+          return isar.productTables.put(item);
+        });
+        await _updateLinks<ProductTable>(
+          processedProduct.productsAttach,
+          attaches,
+          (item) {
+            item.productChildType = ProductType.attach;
+            return isar.productTables.put(item);
+          },
+        );
+        await _updateLinks<ProductTable>(
+          processedProduct.productsWarranty,
+          warranties,
+          (item) {
+            item.productChildType = ProductType.warranty;
+            return isar.productTables.put(item);
+          },
+        );
+        await _updateLinks<VoucherTable>(
+          processedProduct.vouchers,
+          vouchers,
+          (item) => isar.voucherTables.put(item),
+        );
+      }
+
+      // Lưu giỏ hàng và các liên kết
+      cartId = await isar.draftingInvoiceTables.put(currentDraft);
+      await currentDraft.products.save();
+
+      if (processedProduct != null) {
+        await _loadProductChild(processedProduct);
+      }
+    });
+
+    return currentDraft;
+  }
+
+  @override
+  Future<DraftingInvoiceTable?> removeProductOnCart({
+    required int productId,
+    required int cartId,
+  }) async {
+    DraftingInvoiceTable? currentDraft =
+        await getDraftingInvoice(draftId: cartId);
+    if (currentDraft == null) return null;
+
+    for (final product in currentDraft.products) {
+      await product.replacedWarrantyProduct.load();
+    }
+
+    await isar.writeTxn(() async {
+      List<ProductTable> productsToRemove = [];
+      List<VoucherTable> vouchersToRemove = [];
+
+      // Duyệt qua tất cả sản phẩm trong giỏ hàng
+      currentDraft.products.removeWhere((product) {
+        if (product.id == productId) {
+          productsToRemove.add(product);
+
+          // Xóa toàn bộ liên kết của sản phẩm
+          productsToRemove.addAll(product.getGifts);
+          productsToRemove.addAll(product.getAttaches);
+          productsToRemove.addAll(product.getWarranties);
+          vouchersToRemove.addAll(product.getVouchers);
+
+          product.productsGift.clear();
+          product.productsAttach.clear();
+          product.productsWarranty.clear();
+          product.vouchers.clear();
+          product.vouchersSelected?.clear();
+
+          // xóa vouchers
+          for (var voucher in product.vouchers) {
+            isar.voucherTables.deleteSync(voucher.id); // Use synchronous delete
+          }
+
+          return true; // Xóa sản phẩm khỏi danh sách giỏ hàng
+        }
+
+        // Kiểm tra xem có sản phẩm con nào cần xóa không
+        product.productsGift.removeWhere((gift) {
+          if (gift.id == productId) {
+            productsToRemove.add(gift);
+            return true;
+          }
+          return false;
+        });
+
+        product.productsAttach.removeWhere((attach) {
+          if (attach.id == productId) {
+            productsToRemove.add(attach);
+            return true;
+          }
+          return false;
+        });
+
+        product.productsWarranty.removeWhere((warranty) {
+          if (warranty.id == productId) {
+            productsToRemove.add(warranty);
+            return true;
+          }
+          return false;
+        });
+
+        /// xử lý kiểm tra replacedWarrantyProduct có id giống vs productId
+        /// nếu giống đưa cái replacedWarrantyProduct vào productsToRemove để xoá ở hàm dưới
+        /// /// todo: sửa lại chỗ này
+        if (product.replacedWarrantyProduct.value?.id == productId) {
+          productsToRemove.add(product.replacedWarrantyProduct.value!);
+          product.replacedWarrantyProduct.value = null;
+        }
+
+        return false;
+      });
+
+      // lưu lại liên kết
+      await Future.wait([
+        for (var product in currentDraft.products)
+          Future.wait([
+            product.productsGift.save(),
+            product.productsAttach.save(),
+            product.productsWarranty.save(),
+          ]),
+      ]);
+
+      // Xóa toàn bộ sản phẩm trong danh sách cần xóa khỏi database
+      await isar.productTables.deleteAll(
+        productsToRemove.map((e) => e.id).toList(),
+      );
+      await isar.voucherTables.deleteAll(
+        vouchersToRemove.map((e) => e.id).toList(),
+      );
+
+      // Cập nhật lại giỏ hàng
+      await isar.draftingInvoiceTables.put(currentDraft);
+      await currentDraft.products.save();
+    });
+
+    return currentDraft;
+  }
 }
 
 extension DraftingStorageImplExtension on DraftingStorageImpl {
@@ -371,34 +508,58 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
       {required DraftingInvoiceTable element}) async {
     // xóa customer
     if (element.getCustomer != null) {
-      await isar.customerTables.delete(element.getCustomer!.id);
+      await isar.writeTxn(
+        () async {
+          await isar.customerTables.delete(element.getCustomer!.id);
+        },
+      );
     }
 
     // xóa product
     if (element.getProduct != null) {
-      await isar.productTables.delete(element.getProduct!.id);
+      await isar.writeTxn(
+        () async {
+          await isar.productTables.delete(element.getProduct!.id);
+        },
+      );
     }
     if (element.getProducts.isNotEmpty) {
       for (var product in element.getProducts) {
-        await isar.productTables.delete(product.id);
+        await isar.writeTxn(
+          () async {
+            await isar.productTables.delete(product.id);
+          },
+        );
       }
     }
 
     // xóa payment methods
     if (element.getPaymentMethods.isNotEmpty) {
       for (var paymentMethod in element.getPaymentMethods) {
-        await isar.paymentMethodTables.delete(paymentMethod.id);
+        await isar.writeTxn(
+          () async {
+            await isar.paymentMethodTables.delete(paymentMethod.id);
+          },
+        );
       }
     }
 
     // xóa payment methods pre pay
     if (element.getPaymentMethodsPrePay.isNotEmpty) {
       for (var paymentMethod in element.getPaymentMethodsPrePay) {
-        await isar.paymentMethodTables.delete(paymentMethod.id);
+        await isar.writeTxn(
+          () async {
+            await isar.paymentMethodTables.delete(paymentMethod.id);
+          },
+        );
       }
     }
 
-    await isar.draftingInvoiceTables.delete(element.id);
+    await isar.writeTxn(
+      () async {
+        await isar.draftingInvoiceTables.delete(element.id);
+      },
+    );
   }
 
   /// lấy thông tin mộtnđơn hàng
@@ -427,6 +588,10 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
       element.paymentMethods.load(),
       element.paymentMethodsPrePay.load(),
     ]);
+
+    for (var product in element.getProducts) {
+      await _loadProductChild(product);
+    }
   }
 
   /// xóa khách hàng khỏi đơn hàng
@@ -447,5 +612,59 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
       customer.copyWith(customerInfo);
     }
     return customer;
+  }
+
+  Future<ProductTable?> _processItemsInCart({
+    required DraftingInvoiceTable currentDraft,
+    required ProductTable product,
+    required Map<String, ProductTable> productMap,
+    required ProductType productType,
+  }) async {
+    String productId = product.productId!;
+    if (productMap.containsKey(productId)) {
+      if (productType == ProductType.normal) {
+        productMap[productId]!.quantity =
+            productMap[productId]!.getQuantity + 1;
+      } else {
+        final newProduct = product..cartId = currentDraft.id;
+        currentDraft.products.add(newProduct);
+        productMap[productId] = newProduct;
+        await isar.productTables.put(newProduct);
+      }
+    } else {
+      final newProduct = product..cartId = currentDraft.id;
+      productMap[productId] = newProduct;
+      currentDraft.products.add(newProduct);
+    }
+    await isar.productTables.put(productMap[productId]!);
+    return productMap[productId];
+  }
+
+  Future<void> _updateLinks<T>(
+    IsarLinks<T> link,
+    List<T>? newItems,
+    Future<void> Function(T item) putFn,
+  ) async {
+    if (newItems == null || newItems.isEmpty) {
+      return; // Không làm gì nếu newItems rỗng
+    }
+
+    // Lưu từng item một thay vì gọi callAll
+    for (var item in newItems) {
+      await putFn(item); // Gọi putFn cho từng item
+    }
+
+    link.addAll(newItems); // Thêm liên kết mới
+    await link.save(); // Lưu liên kết
+  }
+
+  Future<void> _loadProductChild(ProductTable product) async {
+    // Tải dữ liệu liên quan (quà tặng, sản phẩm kèm theo, bảo hành)
+    await Future.wait([
+      product.productsGift.load(),
+      product.productsWarranty.load(),
+      product.vouchers.load(),
+      product.productsAttach.load(),
+    ]);
   }
 }

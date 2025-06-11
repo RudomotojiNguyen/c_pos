@@ -44,10 +44,7 @@ class _ProductsBasicInformationWidgetState
         return false;
       },
       builder: (context, state) {
-        if ((state.customer?.getCustomerPhoneNumber?.isNullOrEmpty ?? true) ||
-            state.saleInfo == null ||
-            state.technicalInfo == null ||
-            [CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+        if ([CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
           return BoxSpacer.blank;
         }
         return XContainer(
@@ -70,7 +67,9 @@ class _ProductsBasicInformationWidgetState
               bloc: _draftingInvoiceBloc,
               selector: (state) => state.products,
               builder: (context, state) {
-                if (state?.isEmpty ?? true) {
+                List<ProductTable> products = state ?? [];
+
+                if (products.isEmpty) {
                   return Container(
                     margin: EdgeInsets.only(top: 16.sp),
                     child: Text(
@@ -82,7 +81,7 @@ class _ProductsBasicInformationWidgetState
 
                 return XGridView(
                   type: XGridViewType.masonry,
-                  itemCount: state!.length,
+                  itemCount: products.length,
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 8.sp),
@@ -90,21 +89,20 @@ class _ProductsBasicInformationWidgetState
                   crossAxisSpacing: 16.sp,
                   mainAxisSpacing: 16.sp,
                   itemBuilder: (context, index) {
-                    final ProductTable product = state[index];
-                    // return ProductItemWidget(
-                    //   product: product,
-                    //   gifts: product.getGifts,
-                    //   attaches: product.getAttaches,
-                    //   warranties: product.getWarranties,
-                    //   productsCombo: product.productChildCombo ?? [],
-                    //   callBackChildAction: _onHandleChildAction,
-                    //   callBackParentAction: ({required action, quantity}) =>
-                    //       _onHandleParentAction(
-                    //           action: action,
-                    //           product: product,
-                    //           quantity: quantity),
-                    // );
-                    return Container();
+                    final ProductTable product = products[index];
+                    return ProductItemWidget(
+                      product: product,
+                      gifts: product.getGifts,
+                      attaches: product.getAttaches,
+                      warranties: product.getWarranties,
+                      productsCombo: product.productChildCombo ?? [],
+                      callBackChildAction: _onHandleChildAction,
+                      callBackParentAction: ({required action, quantity}) =>
+                          _onHandleParentAction(
+                              action: action,
+                              product: product,
+                              quantity: quantity),
+                    );
                   },
                 );
               }),
@@ -131,7 +129,7 @@ class _ProductsBasicInformationWidgetState
   _onDelete(int productId) {
     // chờ 1 giây để animation xóa sản phẩm hoàn tất
     Future.delayed(const Duration(milliseconds: 300), () {
-      // _draftingInvoiceBloc.add(RemoveProductOnCartEvent(productId: productId));
+      _draftingInvoiceBloc.add(RemoveProductOnCartEvent(productId: productId));
     });
   }
 

@@ -4,3 +4,4 @@ export 'base_local_datasource.dart';
 export 'table/customer_table.dart';
 export 'table/product_table.dart';
 export 'table/payment_method_table.dart';
+export 'table/voucher_table.dart';

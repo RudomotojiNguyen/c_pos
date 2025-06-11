@@ -31,7 +31,7 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
           MainRouter.instance.goNamed(
             context,
             routeName: RouteName.drafts,
-            queryParameters: {'currentDraftId': state.id.toString()},
+            queryParameters: {'draftId': state.currentDraftId.toString()},
           );
         }
       },
@@ -40,15 +40,15 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            renderItem(
-              title: CartType.order.getTitle,
-              icon: CartType.order.getIcon(),
-              onPressed: () async {
-                _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
-                    typeCart: CartType.order));
-              },
-            ),
-            BoxSpacer.s2,
+            // renderItem(
+            //   title: CartType.order.getTitle,
+            //   icon: CartType.order.getIcon(),
+            //   onPressed: () async {
+            //     _draftingInvoiceBloc.add(const CreateNewDraftingInvoiceEvent(
+            //         typeCart: CartType.order));
+            //   },
+            // ),
+            // BoxSpacer.s2,
             renderItem(
               title: CartType.retail.getTitle,
               icon: CartType.retail.getIcon(),

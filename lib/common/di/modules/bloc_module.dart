@@ -45,7 +45,8 @@ class BlocModule extends DIModule {
           authRepository: getIt.get<AuthRepository>(),
           localStorage: getIt.get<LocalStorage>(),
           userStorage: getIt.get<UserStorage>(),
-          userRepositories: getIt.get<UserRepositories>()))
+          userRepositories: getIt.get<UserRepositories>(),
+          draftingStorage: getIt.get<DraftingStorage>()))
       ..registerLazySingleton(() => StoreBloc(
           storeRepository: getIt.get<StoreRepository>(),
           authBloc: getIt.get<AuthBloc>()))

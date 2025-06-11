@@ -4,11 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/constants/go_router.dart';
+import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/models/product_model.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../router.dart';
+import '../../drafting_invoice/bloc/drafting_invoice_bloc.dart';
 
 enum ProductItemType { view, addOn }
 
@@ -36,7 +38,8 @@ class _ProductItemInCartState extends State<ProductItemInCart>
 
   // List<StockModel> get stocks => widget.product.stocks ?? [];
 
-  // final DraftDetailBloc _draftDetailBloc = getItAppCore.get<DraftDetailBloc>();
+  final DraftingInvoiceBloc _draftingInvoiceBloc =
+      getIt.get<DraftingInvoiceBloc>();
 
   bool get hasStock => widget.product.getStockQuantity > 0;
 
@@ -127,100 +130,24 @@ class _ProductItemInCartState extends State<ProductItemInCart>
             ],
           ),
         ),
-        // if (widget.product.isExistInStock &&
-        //     _draftDetailBloc.state.currentDraftId != null &&
-        //     widget.type == ProductItemType.addOn) ...[
-        //   XButton(
-        //     type: XButtonType.transparent,
-        //     padding: EdgeInsets.symmetric(
-        //       horizontal: 8.sp,
-        //       vertical: 8.sp,
-        //     ),
-        //     onPressed: _addProduct,
-        //     child: Icon(
-        //       Icons.add_circle, //Icons.add_circle_outline,
-        //       size: 20.sp,
-        //       color: AppColors.primaryColor,
-        //     ),
-        //   )
-        // ],
+        if (widget.product.isExistInStock) ...[
+          XButton(
+            type: XButtonType.transparent,
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.sp,
+              vertical: 8.sp,
+            ),
+            onPressed: _addProduct,
+            child: Icon(
+              Icons.add_circle, //Icons.add_circle_outline,
+              size: 20.sp,
+              color: AppColors.primaryColor,
+            ),
+          )
+        ],
       ],
     );
   }
-
-  // Widget renderListStore(
-  //     List<StockModel> stocks, bool isOverElement, String productId) {
-  //   if (stocks.isNotEmpty) {
-  //     return Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         BoxSpacer.s6,
-  //         SizedBox(
-  //           height: 14.sp,
-  //           child: SingleChildScrollView(
-  //             scrollDirection: Axis.horizontal,
-  //             child: Row(
-  //               children: [
-  //                 ListView.separated(
-  //                   shrinkWrap: true,
-  //                   physics: const NeverScrollableScrollPhysics(),
-  //                   scrollDirection: Axis.horizontal,
-  //                   itemBuilder: (context, index) {
-  //                     final StockModel stock = stocks[index];
-  //                     return Text.rich(
-  //                       TextSpan(
-  //                         text: stock.getStoreName,
-  //                         style: AppFont.t.s(10),
-  //                         children: [
-  //                           TextSpan(
-  //                             text: ' (${stock.getInStockQuantity})',
-  //                             style: AppFont.t.s(10).primaryColor,
-  //                           )
-  //                         ],
-  //                       ),
-  //                     );
-  //                   },
-  //                   separatorBuilder: (context, index) => XDivider(
-  //                     dividerType: DividerType.vertical,
-  //                     dividerColor: AppColors.neutralColor,
-  //                     thickness: 0.5.sp,
-  //                   ),
-  //                   itemCount: stocks.length,
-  //                 ),
-  //                 if (isOverElement) ...[
-  //                   BoxSpacer.s8,
-  //                   XBaseButton(
-  //                     onPressed: () {
-  //                       showXBottomSheet(
-  //                         context,
-  //                         margin: EdgeInsets.only(top: 80.sp),
-  //                         body: StockDialog(productId: productId),
-  //                       );
-  //                     },
-  //                     child: Text(
-  //                       'Xem thêm',
-  //                       style: AppFont.t.s(10).information,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     );
-  //   }
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     children: [
-  //       BoxSpacer.s6,
-  //       Text(
-  //         'Không còn cửa hàng nào còn hàng !!!',
-  //         style: AppFont.t.s(10).information,
-  //       )
-  //     ],
-  //   );
-  // }
 
   ///
   /// METHOD
@@ -234,30 +161,28 @@ class _ProductItemInCartState extends State<ProductItemInCart>
     );
   }
 
-  // _addProduct() async {
-  //   /// todo: lấy danh sách quà tặng, chương trình khuyến mãi,
-  //   /// kiểm tra nếu có thông tin khách hàng -> check thêm DMem
-
-  //   _draftDetailBloc.add(AddProductEvent(widget.product.convertToTable()));
-  //   MainRouter.instance.popUtil(
-  //     context,
-  //     routeName: CoreRouteName.draftBillDetail,
-  //     queryParameters: {
-  //       'currentDraftId': _draftDetailBloc.state.currentDraftId.toString()
-  //     },
-  //   );
-  //   // if (currentDraftId != null) {
-  //   //   final res = await _searchProductBloc.onAddProduct(
-  //   //       product: widget.product, cartId: currentDraftId!);
-  //   //   if (res) {
-  //   //     XToast.showPositiveSuccess(
-  //   //         message: 'Đã thêm sp vào đơn hàng');
-  //   //   } else {
-  //   //     XToast.showPositiveSuccess(
-  //   //         message: 'Thêm sp vào đơn hàng bị lỗi');
-  //   //   }
-  //   // }
-  // }
+  _addProduct() async {
+    _draftingInvoiceBloc.add(AddProductEvent(widget.product.convertToTable()));
+    // MainRouter.instance.popUtil(
+    //   context,
+    //   routeName: RouteName.drafts,
+    //   queryParameters: {
+    //     'draftId': '',
+    //     'currentDraftId': _draftingInvoiceBloc.state.currentDraftId.toString()
+    //   },
+    // );
+    // if (currentDraftId != null) {
+    //   final res = await _searchProductBloc.onAddProduct(
+    //       product: widget.product, cartId: currentDraftId!);
+    //   if (res) {
+    //     XToast.showPositiveSuccess(
+    //         message: 'Đã thêm sp vào đơn hàng');
+    //   } else {
+    //     XToast.showPositiveSuccess(
+    //         message: 'Thêm sp vào đơn hàng bị lỗi');
+    //   }
+    // }
+  }
 }
 
 class XRowInfo extends StatelessWidget {

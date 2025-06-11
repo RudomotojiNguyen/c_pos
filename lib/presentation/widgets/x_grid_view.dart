@@ -55,12 +55,28 @@ class _XGridViewState extends State<XGridView> {
       case XGridViewType.staggered:
         return Container();
       case XGridViewType.masonry:
-        return Container();
+        return _buildMasonryGridView();
       case XGridViewType.normal:
         return _buildNormalGridView();
       default:
         return Container();
     }
+  }
+
+  Widget _buildMasonryGridView() {
+    return MasonryGridView.count(
+      crossAxisCount: widget.crossAxisCount ?? 0,
+      mainAxisSpacing: widget.mainAxisSpacing ?? 0,
+      crossAxisSpacing: widget.crossAxisSpacing ?? 0,
+      itemCount: widget.itemCount,
+      padding: widget.padding,
+      physics: widget.physics,
+      shrinkWrap: widget.shrinkWrap,
+      itemBuilder: (context, index) {
+        return widget.itemBuilder?.call(context, index) ??
+            const SizedBox.shrink();
+      },
+    );
   }
 
   Widget _buildNormalGridView() {

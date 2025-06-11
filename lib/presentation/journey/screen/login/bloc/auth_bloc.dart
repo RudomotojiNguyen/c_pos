@@ -6,8 +6,7 @@ import 'package:c_pos/data/models/employee_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../data/datasources/local_data/local_storage.dart';
-import '../../../../../data/datasources/local_data/user_storage.dart';
+import '../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../data/models/auth_model.dart';
 import '../../../../../data/repository/auth_repository.dart';
 import '../../../../../data/repository/user_repositories.dart';
@@ -22,7 +21,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserRepositories userRepositories;
   final LocalStorage localStorage;
   final UserStorage userStorage;
-  // final CartStorage cartStorage;
+  final DraftingStorage draftingStorage;
+
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   AuthBloc({
@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.userRepositories,
     required this.localStorage,
     required this.userStorage,
-    // required this.cartStorage,
+    required this.draftingStorage,
   }) : super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
@@ -123,6 +123,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await Future.wait([
         localStorage.deleteAccessToken(),
         userStorage.deleteUser(user),
+        localStorage.deleteRefreshToken(),
+        draftingStorage.clearCart(),
       ]);
 
       emit(LogoutSuccess(state: state));

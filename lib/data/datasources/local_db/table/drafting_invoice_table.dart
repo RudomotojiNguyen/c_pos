@@ -77,27 +77,27 @@ class DraftingInvoiceTable {
   String? saleNote;
 
   /// phí liên quan tới giao hàng
-  String? deliveryFeeStr;
+  // String? deliveryFeeStr;
 
-  @ignore
-  DeliveryFeeModel? get deliveryFee => deliveryFeeStr != null
-      ? DeliveryFeeModel().toModel(deliveryFeeStr!)
-      : null;
+  // @ignore
+  // DeliveryFeeModel? get deliveryFee => deliveryFeeStr != null
+  //     ? DeliveryFeeModel().toModel(deliveryFeeStr!)
+  //     : null;
 
-  set deliveryFee(DeliveryFeeModel? value) {
-    deliveryFeeStr = value?.toString();
-  }
+  // set deliveryFee(DeliveryFeeModel? value) {
+  //   deliveryFeeStr = value?.toString();
+  // }
 
-  String? orderSubDetailStr;
+  // String? orderSubDetailStr;
 
-  @ignore
-  OrderSubDetailModel? get orderSubDetail => orderSubDetailStr != null
-      ? OrderSubDetailModel().toModel(orderSubDetailStr!)
-      : null;
+  // @ignore
+  // OrderSubDetailModel? get orderSubDetail => orderSubDetailStr != null
+  //     ? OrderSubDetailModel().toModel(orderSubDetailStr!)
+  //     : null;
 
-  set orderSubDetail(OrderSubDetailModel? value) {
-    orderSubDetailStr = value?.toString();
-  }
+  // set orderSubDetail(OrderSubDetailModel? value) {
+  //   orderSubDetailStr = value?.toString();
+  // }
 
   /// coupon code
   String? couponDiscountCode;

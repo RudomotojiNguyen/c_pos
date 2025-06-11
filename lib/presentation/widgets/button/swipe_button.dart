@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SwipeButton extends StatefulWidget {
-  const SwipeButton({
+class XSwipeButton extends StatefulWidget {
+  const XSwipeButton({
     super.key,
     required this.title,
     this.subTitle,
@@ -21,10 +21,10 @@ class SwipeButton extends StatefulWidget {
   final Color subTextColor;
 
   @override
-  State<SwipeButton> createState() => _SwipeButtonState();
+  State<XSwipeButton> createState() => _XSwipeButtonState();
 }
 
-class _SwipeButtonState extends State<SwipeButton> {
+class _XSwipeButtonState extends State<XSwipeButton> {
   late final SwipeData swipeData;
   final double sliderHeight = 70.0;
   final double sliderButtonWidth = 70.0;

@@ -28,7 +28,7 @@ class _MainScreenState extends XStateWidget<MainScreen> {
   //     LocalNotificationServices.instance;
   final StoreBloc _storeBloc = getIt.get<StoreBloc>();
   final SettingBloc _settingBloc = getIt.get<SettingBloc>();
-  final GlobalCoreBloc _globalCoreBloc = getIt.get<GlobalCoreBloc>();
+  // final GlobalCoreBloc _globalCoreBloc = getIt.get<GlobalCoreBloc>();
   final AuthBloc _authBloc = getIt.get<AuthBloc>();
 
   final ValueNotifier<int> tabIndex = ValueNotifier(1);
@@ -39,8 +39,8 @@ class _MainScreenState extends XStateWidget<MainScreen> {
     _storeBloc.add(GetStoreEvent());
     getAppSetting();
     getToken();
-    _globalCoreBloc.add(GetOrderStatusEvent());
-    _globalCoreBloc.add(GetOrderSourceEvent());
+    // _globalCoreBloc.add(GetOrderStatusEvent());
+    // _globalCoreBloc.add(GetOrderSourceEvent());
   }
 
   getAppSetting() {

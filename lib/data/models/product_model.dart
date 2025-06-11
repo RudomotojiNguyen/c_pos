@@ -3,6 +3,7 @@ import 'package:c_pos/common/extensions/extension.dart';
 import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
+import '../datasources/local_db/local_db.dart';
 import 'stock_model.dart';
 import 'waranty_info_model.dart';
 
@@ -282,7 +283,8 @@ class ProductModel {
 
   int get getTotalQuantityInStore => totalQuantityInStore ?? 0;
 
-  bool get isExistInStock => getTotalQuantityInStore > 0;
+  // bool get isExistInStock => getTotalQuantityInStore > 0;
+  bool get isExistInStock => true;
 
   List<ProductModel> get getProducts {
     List<ProductModel> data = (products ?? []);
@@ -329,4 +331,57 @@ class ProductModel {
         warrantyMonthNo: warrantyMonthNo,
         warrantyDescription: warrantyDescription,
       );
+
+  ProductTable convertToTable({int? cartId, int quantity = 1}) => ProductTable(
+        cartId: cartId,
+        image: imageUrl,
+        quantity: quantity,
+        imeiStr: null,
+        productId: id,
+        productName: productName,
+        productCode: productCode,
+        productCodeVat: productCodeVat,
+        productNameVat: productNameVat,
+        returnSellingPrice: returnSellingPrice,
+        parentProductId: parentProductId,
+        barCode: barCode,
+        status: status,
+        productType: productType,
+        brand: brand,
+        productCategory: productCategory,
+        productWebCategory: productWebCategory,
+        warrantyAddress: warrantyAddress,
+        warrantyPhone: warrantyPhone,
+        warrantyMonthNo: warrantyMonthNo,
+        warrantyDescription: warrantyDescription,
+        originalPrice: originalPrice,
+        sellingPrice: sellingPrice,
+        wholesalePrice: wholesalePrice,
+        listedPrice: listedPrice,
+        totalQuantityInStock: totalQuantityInStock,
+        totalQuantityInTransfer: totalQuantityInTransfer,
+        createdAt: createdAt,
+        companyId: companyId,
+        note: note,
+        merchantId: merchantId,
+        productTradeName: productTradeName,
+        unitId: unitId,
+        fulfillmentType: fulfillmentType,
+        totalQuantityInStore: totalQuantityInStore,
+        belongToWarrantyImei: belongToWarrantyImei,
+        discountProgramId: discountProgramId,
+        discountType: discountType,
+        discountAmount: discountAmount,
+        discountPrice: discountPrice,
+        warrantyPackageId: warrantyPackageId,
+        discountValue: discountValue,
+        repurchasePrice: repurchasePrice,
+        fromPrice: fromPrice,
+        toPrice: toPrice,
+        code: code,
+        promotionId: promotionId,
+        accessoryGroupId: accessoryGroupId,
+      )
+        ..productChild = productChildSelected
+        ..productChildCombo = productsCombo;
 }

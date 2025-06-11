@@ -5,9 +5,7 @@ import '../../../common/enum/enum.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
 import '../../models/auth_model.dart';
 import '../../models/customer_model.dart';
-import '../../models/delivery_fee_model.dart';
 import '../../models/employee_model.dart';
-import '../../models/order_sub_detail_model.dart';
 import '../../models/otp_customer_point_model.dart';
 import '../local_db/local_db.dart';
 
@@ -65,19 +63,6 @@ abstract class DraftingStorage {
     String? warrantyNote,
   });
 
-  /// cập nhật phí giao hàng
-  Future<DraftingInvoiceTable?> updateDeliveryFee({
-    int? customerFee,
-    int? shippingCompanyFee,
-    required int cartId,
-  });
-
-  /// cập nhật nội dung đơn cơ bản: nguồn đơn, trạng thái,...
-  Future<DraftingInvoiceTable?> updateOrderSubDetail({
-    required OrderSubDetailModel data,
-    required int cartId,
-  });
-
   /// cập nhật thông tin giảm coupon
   Future<DraftingInvoiceTable?> updateDiscountCoupon({
     required int cartId,
@@ -106,6 +91,22 @@ abstract class DraftingStorage {
   /// cập nhật loại thu cũ
   Future<DraftingInvoiceTable?> updateTradeInType({
     required TradeInType type,
+    required int cartId,
+  });
+
+  /// thêm thông tin sản phẩm
+  Future<DraftingInvoiceTable?> addItemToCart({
+    required ProductTable product,
+    required int cartId,
+    List<ProductTable>? gifts,
+    List<ProductTable>? attaches,
+    List<ProductTable>? warranties,
+    List<VoucherTable>? vouchers,
+  });
+
+  /// Xóa sản phẩm khỏi giỏ hàng
+  Future<DraftingInvoiceTable?> removeProductOnCart({
+    required int productId,
     required int cartId,
   });
 }

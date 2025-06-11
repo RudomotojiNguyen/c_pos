@@ -69,21 +69,26 @@ Future<void> main() async {
   }
 
   /// khởi tạo isar để lưu trữ user
-  final dir = await Utils.getAppDocumentDirectory();
-  Isar isar = await Isar.open(
-    [
-      UserTableSchema,
-      DraftingInvoiceTableSchema,
-      CustomerTableSchema,
-      ProductTableSchema,
-      PaymentMethodTableSchema,
-    ],
-    directory: dir,
-  );
+  try {
+    final dir = await Utils.getAppDocumentDirectory();
+    Isar isar = await Isar.open(
+      [
+        UserTableSchema,
+        DraftingInvoiceTableSchema,
+        CustomerTableSchema,
+        ProductTableSchema,
+        PaymentMethodTableSchema,
+        VoucherTableSchema,
+      ],
+      directory: dir,
+    );
 
-  /// lấy và set địa chỉ lưu trữ
-  await getIt.get<UserStorage>().initUserLocalDb(isar);
-  await getIt.get<DraftingStorage>().initDraftingLocalDb(isar);
+    /// lấy và set địa chỉ lưu trữ
+    await getIt.get<UserStorage>().initUserLocalDb(isar);
+    await getIt.get<DraftingStorage>().initDraftingLocalDb(isar);
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 
   if (configurations.isProduct) {
     await SentryFlutter.init(

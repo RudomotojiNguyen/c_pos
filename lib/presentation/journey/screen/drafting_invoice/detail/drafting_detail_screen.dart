@@ -11,18 +11,15 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
-import '../../../../../data/models/base_enum_model.dart';
 import '../../../../../data/models/employee_model.dart';
-import '../../../../../data/models/order_sub_detail_model.dart';
 import '../../../../../data/models/otp_customer_point_model.dart';
+import '../../../../../data/models/product_model.dart';
 import '../../../../../gen/gen.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
-import '../../../../utils/utils.dart';
 import '../../../router.dart';
 import '../../customer/bloc/customer_bloc.dart';
 import '../../employee/bloc/employee_bloc.dart';
-import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
 import '../bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
@@ -32,8 +29,6 @@ part 'widgets/bottom_price_widget.dart';
 part 'widgets/customer_basic_infofmation_widget.dart';
 part 'widgets/employee_of_bill_widget.dart';
 part 'widgets/bill_note_widget.dart';
-part 'widgets/delivery_widget.dart';
-part 'widgets/order_sub_detail_widget.dart';
 part 'widgets/promotion_widget.dart';
 part 'widgets/member_discount_widget.dart';
 part 'widgets/payment_information_widget.dart';
@@ -41,6 +36,8 @@ part 'widgets/payment_method_of_bill_widget.dart';
 part 'widgets/type_trade_in_widget.dart';
 part 'widgets/payment_method_detail_widget.dart';
 part 'widgets/products_basic_information_widget.dart';
+part 'widgets/product_item_widget.dart';
+part 'widgets/group_product_children_widget.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});
@@ -145,8 +142,6 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
                   const EmployeeOfBillWidget(),
                   const ProductsBasicInformationWidget(),
                   const BillNoteWidget(),
-                  const DeliveryWidget(),
-                  const OrderSubDetailWidget(),
                   const PromotionWidget(),
                   const MemberDiscountWidget(),
                   const PaymentInformationWidget(),

@@ -13,8 +13,6 @@ sealed class DraftingInvoiceState extends Equatable {
     this.technicalInfo,
     this.warrantyNote,
     this.saleNote,
-    this.deliveryFee,
-    this.orderSubDetail,
     this.discountTotalBill,
     this.couponDiscountCode,
     this.discountTotalBillByPoint,
@@ -46,8 +44,6 @@ sealed class DraftingInvoiceState extends Equatable {
   final EmployeeModel? technicalInfo;
   final String? warrantyNote;
   final String? saleNote;
-  final DeliveryFeeModel? deliveryFee;
-  final OrderSubDetailModel? orderSubDetail;
   final double? discountTotalBill;
   final String? couponDiscountCode;
   final OtpCustomerPointModel? discountTotalBillByPoint;
@@ -98,7 +94,6 @@ sealed class DraftingInvoiceState extends Equatable {
         technicalInfo,
         discountTotalBillByPoint,
         cartType,
-        orderSubDetail,
         discountTotalBill,
         couponDiscountCode,
         paymentByCash,
@@ -111,15 +106,10 @@ sealed class DraftingInvoiceState extends Equatable {
         tradeInType,
         warrantyNote,
         saleNote,
-        deliveryFee,
         orderId,
       ];
 
   bool get checkNullDraft => currentDraftId == null;
-
-  int get getCustomerFee => deliveryFee?.customerFee ?? 0;
-
-  int get getShippingCompanyFee => deliveryFee?.shippingCompanyFee ?? 0;
 
   // /// số tiền được giảm khi dùng điểm
   double get discountOfPoint => (discountTotalBillByPoint?.isValidOTP ?? false)
@@ -153,7 +143,6 @@ final class GetDraftingInvoiceLoading extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -166,7 +155,6 @@ final class GetDraftingInvoiceLoading extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -198,7 +186,6 @@ final class GetDraftingInvoiceSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -211,7 +198,6 @@ final class GetDraftingInvoiceSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -219,10 +205,9 @@ final class GetDraftingInvoiceSuccess extends DraftingInvoiceState {
 /// end: danh sách đơn nháp
 
 final class DraftingInvoiceCreated extends DraftingInvoiceState {
-  final int id;
   DraftingInvoiceCreated({
     required DraftingInvoiceState state,
-    required this.id,
+    required super.currentDraftId,
   }) : super(
           draftingInvoiceList: [],
           products: [],
@@ -249,7 +234,6 @@ class GetDraftingInvoiceDetailLoading extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -262,7 +246,6 @@ class GetDraftingInvoiceDetailLoading extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -285,7 +268,6 @@ class GetDraftingInvoiceDetailError extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -298,7 +280,6 @@ class GetDraftingInvoiceDetailError extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -315,8 +296,6 @@ class GetDraftingInvoiceDetailSuccess extends DraftingInvoiceState {
     super.technicalInfo,
     super.warrantyNote,
     super.saleNote,
-    super.deliveryFee,
-    super.orderSubDetail,
     super.discountTotalBill,
     super.couponDiscountCode,
     super.discountTotalBillByPoint,
@@ -357,7 +336,6 @@ class UpdateCustomerSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -370,7 +348,6 @@ class UpdateCustomerSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -393,7 +370,6 @@ class UpdateSaleInfoSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -406,7 +382,6 @@ class UpdateSaleInfoSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -429,7 +404,6 @@ class UpdateTechInfoSuccess extends DraftingInvoiceState {
           saleInfo: state.saleInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -442,7 +416,6 @@ class UpdateTechInfoSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -467,7 +440,6 @@ class UpdateNoteSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -478,79 +450,6 @@ class UpdateNoteSuccess extends DraftingInvoiceState {
           finalBuyingPrice: state.finalBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInType: state.tradeInType,
-          deliveryFee: state.deliveryFee,
-          orderId: state.orderId,
-        );
-}
-
-class UpdateDeliveryFeeSuccess extends DraftingInvoiceState {
-  UpdateDeliveryFeeSuccess({
-    required DraftingInvoiceState state,
-    required super.deliveryFee,
-  }) : super(
-          draftingInvoiceList: state.draftingInvoiceList,
-          currentDraftId: state.currentDraftId,
-          products: state.products,
-          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
-          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
-          discountOfBill: state.discountOfBill,
-          totalPrePayment: state.totalPrePayment,
-          finalPrice: state.finalPrice,
-          mustPay: state.mustPay,
-          customer: state.customer,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
-          discountTotalBillByPoint: state.discountTotalBillByPoint,
-          cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
-          discountTotalBill: state.discountTotalBill,
-          couponDiscountCode: state.couponDiscountCode,
-          paymentByCash: state.paymentByCash,
-          paymentByTransfer: state.paymentByTransfer,
-          paymentByCredit: state.paymentByCredit,
-          paymentByInstallment: state.paymentByInstallment,
-          productBuyingPrice: state.productBuyingPrice,
-          finalBuyingPrice: state.finalBuyingPrice,
-          totalCriteriaPrice: state.totalCriteriaPrice,
-          tradeInType: state.tradeInType,
-          warrantyNote: state.warrantyNote,
-          saleNote: state.saleNote,
-          orderId: state.orderId,
-        );
-}
-
-class UpdateOrderSubDetailSuccess extends DraftingInvoiceState {
-  UpdateOrderSubDetailSuccess({
-    required DraftingInvoiceState state,
-    required super.orderSubDetail,
-  }) : super(
-          draftingInvoiceList: state.draftingInvoiceList,
-          currentDraftId: state.currentDraftId,
-          products: state.products,
-          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
-          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
-          discountOfBill: state.discountOfBill,
-          totalPrePayment: state.totalPrePayment,
-          finalPrice: state.finalPrice,
-          mustPay: state.mustPay,
-          customer: state.customer,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
-          discountTotalBillByPoint: state.discountTotalBillByPoint,
-          cartType: state.cartType,
-          discountTotalBill: state.discountTotalBill,
-          couponDiscountCode: state.couponDiscountCode,
-          paymentByCash: state.paymentByCash,
-          paymentByTransfer: state.paymentByTransfer,
-          paymentByCredit: state.paymentByCredit,
-          paymentByInstallment: state.paymentByInstallment,
-          productBuyingPrice: state.productBuyingPrice,
-          finalBuyingPrice: state.finalBuyingPrice,
-          totalCriteriaPrice: state.totalCriteriaPrice,
-          tradeInType: state.tradeInType,
-          warrantyNote: state.warrantyNote,
-          saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -573,7 +472,6 @@ class UpdateProductsSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -586,7 +484,6 @@ class UpdateProductsSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -611,7 +508,6 @@ class UpdateCouponDiscountSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           paymentByCash: state.paymentByCash,
           paymentByTransfer: state.paymentByTransfer,
           paymentByCredit: state.paymentByCredit,
@@ -622,7 +518,6 @@ class UpdateCouponDiscountSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -645,7 +540,6 @@ class UpdateDiscountBillByPointSuccess extends DraftingInvoiceState {
           saleInfo: state.saleInfo,
           technicalInfo: state.technicalInfo,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -658,7 +552,6 @@ class UpdateDiscountBillByPointSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -685,7 +578,6 @@ class UpdatePaymentMethodSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           productBuyingPrice: state.productBuyingPrice,
@@ -694,7 +586,6 @@ class UpdatePaymentMethodSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -724,7 +615,6 @@ final class UpdateCalculatorPriceSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -737,7 +627,6 @@ final class UpdateCalculatorPriceSuccess extends DraftingInvoiceState {
           tradeInType: state.tradeInType,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }
@@ -765,7 +654,6 @@ class UpdateTradeInTypeSuccess extends DraftingInvoiceState {
           technicalInfo: state.technicalInfo,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
           cartType: state.cartType,
-          orderSubDetail: state.orderSubDetail,
           discountTotalBill: state.discountTotalBill,
           couponDiscountCode: state.couponDiscountCode,
           paymentByCash: state.paymentByCash,
@@ -777,7 +665,6 @@ class UpdateTradeInTypeSuccess extends DraftingInvoiceState {
           totalCriteriaPrice: state.totalCriteriaPrice,
           warrantyNote: state.warrantyNote,
           saleNote: state.saleNote,
-          deliveryFee: state.deliveryFee,
           orderId: state.orderId,
         );
 }

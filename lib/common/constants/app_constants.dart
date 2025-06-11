@@ -19,6 +19,8 @@ class AppConstants {
   static const defaultTimeCountDown = 120; // tính theo giây
 
   static const defaultImage = 'https://didongviet.vn/NoImage.png';
+
+  static const comboExtraDiscountAmount = 50000;
 }
 
 class CacheKeys {
