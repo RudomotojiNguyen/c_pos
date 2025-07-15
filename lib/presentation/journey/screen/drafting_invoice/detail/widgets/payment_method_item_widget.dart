@@ -31,7 +31,7 @@ class PaymentMethodItemWidget extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.all(AppRadius.l),
             border: Border.all(width: 0.5.sp, color: AppColors.neutral3Color)),
         padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
         child: Row(

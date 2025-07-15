@@ -109,7 +109,7 @@ class _BillFilterModalState extends State<BillFilterModal> {
             Container(
               decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16.sp),
+                  borderRadius: BorderRadius.all(AppRadius.l),
                   border:
                       Border.all(width: 1.sp, color: AppColors.dividerColor)),
               child: XTextField(
@@ -175,11 +175,11 @@ class _BillFilterModalState extends State<BillFilterModal> {
       onPressed: onPressed,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.sp),
+          borderRadius: BorderRadius.all(AppRadius.s),
           color: isSelected ? AppColors.primaryColor : AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               offset: const Offset(-1, 1), // changes position of shadow
             ),
           ],

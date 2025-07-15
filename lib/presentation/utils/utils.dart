@@ -12,10 +12,46 @@ import 'package:uuid/uuid.dart';
 
 import '../../common/enum/enum.dart';
 import '../../data/datasources/local_db/local_db.dart';
+import '../../data/models/trade_in/trade_in_program_creteria_group_option_model.dart';
 import '../theme/themes.dart';
 import '../widgets/widgets.dart';
 
 class Utils {
+  static Future<(double, double)> calculatorEstimatePrice({
+    required ProductTable product,
+    required Map<int, Map<int, TradeInProgramCreteriaGroupOptionModel>> options,
+  }) async {
+    try {
+      // Lấy giá bán gốc của sản phẩm
+      double originalPrice = product.getSellingPrice;
+      // Khởi tạo biến giá với giá trị 0
+      double price = 0;
+
+      // Tạo danh sách các tùy chọn từ map options
+      List<TradeInProgramCreteriaGroupOptionModel> resultList =
+          options.values.expand((innerMap) => innerMap.values).toList();
+
+      // Duyệt qua từng giá trị trong danh sách tùy chọn
+      for (var value in resultList) {
+        // Nếu toán tử là cộng, cộng giá trị vào biến giá
+        if (value.operator == XExpression.add) {
+          price += value.getAmount;
+        }
+        // Nếu toán tử là trừ, trừ giá trị khỏi biến giá
+        if (value.operator == XExpression.minus) {
+          price -= value.getAmount;
+        }
+      }
+
+      // Tính giá cuối cùng bằng cách cộng giá gốc với biến giá
+      double finalPrice = originalPrice + price;
+      // Trả về giá cuối cùng nếu lớn hơn 0, ngược lại trả về 0
+      return ((finalPrice > 0 ? finalPrice : 0).toDouble(), price);
+    } catch (e) {
+      return (0.0, 0.0);
+    }
+  }
+
   /// Checks if the given object is null or empty.
   ///
   /// This method returns true if:
@@ -194,7 +230,7 @@ class Utils {
       ),
       dialogSize: Size(325.sp, 400.sp),
       value: value,
-      borderRadius: BorderRadius.circular(15.sp),
+      borderRadius: BorderRadius.all(AppRadius.l),
     );
   }
 

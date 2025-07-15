@@ -26,14 +26,12 @@ class CustomerInfo extends StatefulWidget {
 }
 
 class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
-  final GlobalKey<XBaseButtonState> _btnKey = GlobalKey<XBaseButtonState>();
-
   @override
   Widget build(BuildContext context) {
     return XBaseButton(
-      key: _btnKey,
       baseButtonType: BaseButtonType.tapOperation,
-      secondaryWidget: _operation(context),
+      secondaryWidgetBuilder: (closeOverlay) =>
+          _operation(context, closeOverlay),
       child: _content(context),
     );
   }
@@ -46,7 +44,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Row(
         children: [
@@ -57,7 +55,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
                 color: AppColors.primaryColor,
                 width: 1.sp,
               ),
-              borderRadius: BorderRadius.circular(40.sp),
+              borderRadius: BorderRadius.all(AppRadius.xxl),
             ),
             child: Icon(
               Icons.person,
@@ -100,7 +98,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
     );
   }
 
-  Widget _operation(BuildContext context) {
+  Widget _operation(BuildContext context, VoidCallback closeOverlay) {
     return Container(
       padding: EdgeInsets.all(8.sp),
       child: Column(
@@ -112,6 +110,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
             title: XProductOperationAction.update.getTitle,
             icon: XProductOperationAction.update.getIcon,
             onPressed: () {
+              closeOverlay();
               MainRouter.instance.pushNamed(
                 context,
                 routeName: RouteName.customerUpdate,
@@ -123,6 +122,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
             title: XProductOperationAction.customerDetail.getTitle,
             icon: XProductOperationAction.customerDetail.getIcon,
             onPressed: () {
+              closeOverlay();
               MainRouter.instance.pushNamed(
                 context,
                 routeName: RouteName.customer,
@@ -134,6 +134,7 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
             title: XProductOperationAction.addMore.getTitle,
             icon: XProductOperationAction.addMore.getIcon,
             onPressed: () {
+              closeOverlay();
               showXBottomSheet(
                 context,
                 key: GlobalAppKey.selectBillTypeDialogKey,

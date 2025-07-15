@@ -26,8 +26,8 @@ class _ProductsBasicInformationWidgetState
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) {
-        if (current is GetDraftingInvoiceDetailSuccess ||
-            current is GetDraftingInvoiceDetailLoading) {
+        if (current is GetCurrentDraftDataSuccess ||
+            current is IsGettingDetail) {
           return true;
         }
         if (current is UpdateCustomerSuccess &&
@@ -44,7 +44,10 @@ class _ProductsBasicInformationWidgetState
         return false;
       },
       builder: (context, state) {
-        if ([CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+        if ((state.customer?.getCustomerPhoneNumber?.isNullOrEmpty ?? true) ||
+            state.saleInfo == null ||
+            state.technicalInfo == null ||
+            {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
         return XContainer(
@@ -55,7 +58,9 @@ class _ProductsBasicInformationWidgetState
           ),
           title: 'Sản phẩm',
           rightIcon: XBaseButton(
-            onPressed: _onHandleAddMoreProduct,
+            onPressed: () {
+              mainRouter.pushNamed(context, routeName: RouteName.search);
+            },
             child: Icon(
               Icons.add_circle_rounded,
               color: AppColors.primaryColor,
@@ -67,9 +72,7 @@ class _ProductsBasicInformationWidgetState
               bloc: _draftingInvoiceBloc,
               selector: (state) => state.products,
               builder: (context, state) {
-                List<ProductTable> products = state ?? [];
-
-                if (products.isEmpty) {
+                if (state?.isEmpty ?? true) {
                   return Container(
                     margin: EdgeInsets.only(top: 16.sp),
                     child: Text(
@@ -81,7 +84,7 @@ class _ProductsBasicInformationWidgetState
 
                 return XGridView(
                   type: XGridViewType.masonry,
-                  itemCount: products.length,
+                  itemCount: state!.length,
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 8.sp),
@@ -89,7 +92,7 @@ class _ProductsBasicInformationWidgetState
                   crossAxisSpacing: 16.sp,
                   mainAxisSpacing: 16.sp,
                   itemBuilder: (context, index) {
-                    final ProductTable product = products[index];
+                    final ProductTable product = state[index];
                     return ProductItemWidget(
                       product: product,
                       gifts: product.getGifts,
@@ -140,127 +143,142 @@ class _ProductsBasicInformationWidgetState
     required int quantity,
     required ProductTable product,
   }) {
-    // _draftingInvoiceBloc
-    //     .add(UpdateProductQuantityEvent(quantity: quantity, product: product));
+    _draftingInvoiceBloc
+        .add(UpdateProductQuantityEvent(quantity: quantity, product: product));
   }
 
   ///
   /// handle discount by hand
   ///
   _onDiscountByHand(ProductTable product) {
-    // showXBottomSheet(
-    //   context,
-    //   key: GlobalAppKey.productNoteDialogKey,
-    //   isScrollControlled: true,
-    //   padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-    //   margin: EdgeInsets.zero,
-    //   body: DiscountByHandDialog(
-    //     maxAmountDiscount: product.calculatorTotalSellingPrice,
-    //     initValue: product.discountByHand?.amount ?? 0,
-    //     type: product.discountByHand?.getDiscountType ?? XDiscountType.amount,
-    //     onResult: (amount, type) {
-    //       _draftDetailBloc.add(UpdateProductDiscountByHandEvent(
-    //           amount: amount, type: type, productId: product.id));
-    //     },
-    //   ),
-    // );
-    // return;
+    showXBottomSheet(
+      context,
+      key: GlobalAppKey.productNoteDialogKey,
+      isScrollControlled: true,
+      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
+      margin: EdgeInsets.zero,
+      body: DiscountByHandDialog(
+        maxAmountDiscount: product.calculatorTotalSellingPrice,
+        initValue: product.discountByHand?.amount ?? 0,
+        type: product.discountByHand?.getDiscountType ?? XDiscountType.amount,
+        onResult: (amount, type) {
+          _draftingInvoiceBloc.add(UpdateProductDiscountByHandEvent(
+              amount: amount, type: type, productId: product.id));
+        },
+      ),
+    );
+    return;
   }
 
   ///
   /// handle update imei
   ///
   _onPressedUpdateImei(ProductTable product) {
-    // showXBottomSheet(
-    //   context,
-    //   key: GlobalAppKey.addImeiDialogKey,
-    //   enableDrag: true,
-    //   padding: EdgeInsets.symmetric(vertical: 20.sp),
-    //   margin: EdgeInsets.zero.copyWith(top: 60.sp),
-    //   body: ImeiOfProductDialog(
-    //     productId: product.productId!,
-    //     callback: (ProductImeiModel result) {
-    //       _draftingInvoiceBloc.add(
-    //           UpdateImeiOfProductEvent(productId: product.id, imei: result));
-    //     },
-    //   ),
-    // );
+    showXBottomSheet(
+      context,
+      key: GlobalAppKey.addImeiDialogKey,
+      enableDrag: true,
+      padding: EdgeInsets.symmetric(vertical: 20.sp),
+      margin: EdgeInsets.zero.copyWith(top: 60.sp),
+      body: ImeiOfProductDialog(
+        productId: product.productId!,
+        callback: (ProductImeiModel result) {
+          _draftingInvoiceBloc.add(
+              UpdateImeiOfProductEvent(productId: product.id, imei: result));
+        },
+      ),
+    );
   }
 
+  ///
+  /// handle add product gift
+  ///
   _onAddGift(ProductTable product) {
-    // todo: xử lý thêm quà tặng
-    return;
+    // hiện dialog tìm sản phẩm
+    showXBottomSheet(
+      context,
+      margin: EdgeInsets.zero.copyWith(top: 60.sp),
+      body: SearchProductDialog(
+        isNeedInStock: true,
+        onSelectProduct: (result) {
+          _draftingInvoiceBloc.add(AddProductGiftEvent(
+            product: result,
+            parentProductId: product.id,
+          ));
+        },
+      ),
+    );
   }
 
   ///
   /// handle add product note
   ///
   _onAddProductNote({String? productNote, required int productId}) {
-    // showXBottomSheet(
-    //   context,
-    //   key: GlobalAppKey.productNoteDialogKey,
-    //   isScrollControlled: true,
-    //   padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-    //   margin: EdgeInsets.zero,
-    //   body: NoteDialog(
-    //     initValue: productNote ?? '',
-    //     onResult: (value) {
-    //       _draftingInvoiceBloc.add(UpdateProductNoteEvent(
-    //         productNote: value,
-    //         productId: productId,
-    //       ));
-    //     },
-    //   ),
-    // );
+    showXBottomSheet(
+      context,
+      key: GlobalAppKey.productNoteDialogKey,
+      isScrollControlled: true,
+      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
+      margin: EdgeInsets.zero,
+      body: NoteDialog(
+        initValue: productNote ?? '',
+        onResult: (value) {
+          _draftingInvoiceBloc.add(UpdateProductNoteEvent(
+            productNote: value,
+            productId: productId,
+          ));
+        },
+      ),
+    );
   }
 
   ///
   /// handle edit repurchase price
   ///
   _onHandleEditRepurchasePrice(ProductTable product) {
-    // showXBottomSheet(
-    //   context,
-    //   key: GlobalAppKey.productNoteDialogKey,
-    //   isScrollControlled: true,
-    //   padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-    //   margin: EdgeInsets.zero,
-    //   body: RepurchasePriceDialog(
-    //     initValue: product.repurchasePrice ?? 0,
-    //     onResult: (value) {
-    //       _draftingInvoiceBloc.add(UpdateRepurchasePriceProductEvent(
-    //           productId: product.id,
-    //           repurchasePrice: value,
-    //           productType: product.productChildType));
-    //     },
-    //   ),
-    // );
+    showXBottomSheet(
+      context,
+      key: GlobalAppKey.productNoteDialogKey,
+      isScrollControlled: true,
+      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
+      margin: EdgeInsets.zero,
+      body: RepurchasePriceDialog(
+        initValue: product.repurchasePrice ?? 0,
+        onResult: (value) {
+          _draftingInvoiceBloc.add(UpdateRepurchasePriceProductEvent(
+              productId: product.id,
+              repurchasePrice: value,
+              productType: product.productChildType));
+        },
+      ),
+    );
   }
 
   ///
   /// handle check repurchase price
   ///
   _onHandleCheckRepurchasePrice(ProductTable product) {
-    // _draftingInvoiceBloc.add(UpdateCheckRepurchaseProductEvent(
-    //     productId: product.id,
-    //     isCheck: !product.isCheckRepurchasePrice,
-    //     productType: product.productChildType));
+    _draftingInvoiceBloc.add(UpdateCheckRepurchaseProductEvent(
+        productId: product.id,
+        isCheck: !product.isCheckRepurchasePrice,
+        productType: product.productChildType));
   }
 
   ///
   /// handle attach imei
   ///
   _onHandleAttachImei(ProductTable product) {
-    // showXBottomSheet(
-    //   context,
-    //   key: GlobalAppKey.imeiAttachDialogKey,
-    //   body: ImeiAttachDialog(
-    //     imeiStr: product.externalImeiNo,
-    //     onPressedAttach: (imeiStr) {
-    //       _draftingInvoiceBloc.add(
-    //           UpdateAttachImeiEvent(imeiStr: imeiStr, productId: product.id));
-    //     },
-    //   ),
-    // );
+    showXBottomSheet(
+      context,
+      key: GlobalAppKey.imeiAttachDialogKey,
+      body: ImeiAttachDialog(
+        imeiStr: product.externalImeiNo,
+        onPressedAttach: (imeiStr) {
+          _draftingInvoiceBloc.add(
+              UpdateAttachImeiEvent(imeiStr: imeiStr, productId: product.id));
+        },
+      ),
+    );
   }
 
   // xử lý action của sản phẩm cha
@@ -288,7 +306,7 @@ class _ProductsBasicInformationWidgetState
         _onAddGift(product);
         break;
       case XProductOperationAction.note:
-        // _onAddProductNote(productNote: product.note, productId: product.id);
+        _onAddProductNote(productNote: product.note, productId: product.id);
         break;
       case XProductOperationAction.addAttachImei:
         _onHandleAttachImei(product);
@@ -302,7 +320,7 @@ class _ProductsBasicInformationWidgetState
   }
 
   _onCopyData(ProductTable product) {
-    // Utils.copyToClipboard(context, text: product.getDataCopy);
+    Utils.copyToClipboard(context, text: product.getDataCopy);
   }
 
   // xử lý action của các thằng con
@@ -340,9 +358,5 @@ class _ProductsBasicInformationWidgetState
       default:
         break;
     }
-  }
-
-  void _onHandleAddMoreProduct() {
-    mainRouter.pushNamed(context, routeName: RouteName.search);
   }
 }

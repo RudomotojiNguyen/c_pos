@@ -1,5 +1,3 @@
-import 'package:c_pos/presentation/widgets/widgets.dart';
-
 import '../../presentation/utils/utils.dart';
 import '../datasources/remote/customer_api.dart';
 import '../models/customer_model.dart';
@@ -12,6 +10,7 @@ abstract class CustomerServices {
     required int page,
     required int size,
     String? phoneNumber,
+    String? customerName,
   });
 
   Future<CustomerModel> getCustomerInfoById({required int customerId});
@@ -20,11 +19,6 @@ abstract class CustomerServices {
       Map<String, dynamic> params);
 
   Future<double> checkOTPUsePoint(Map<String, dynamic> params);
-
-  Future<(String, CustomerModel?)> getCustomerOTPToUseDMem(
-      Map<String, dynamic> params);
-
-  Future<bool> checkOTPUseDMem(Map<String, dynamic> params);
 
   Future<bool> updateCustomerInfo({
     required Map<String, dynamic> params,

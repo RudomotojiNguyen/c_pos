@@ -5,9 +5,9 @@ class CouponItemLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return XPlaceHolder(
-      width: 120.sp,
-      height: 120.sp,
+    return const XPlaceHolder(
+      width: 120,
+      height: 120,
     );
   }
 }

@@ -77,7 +77,7 @@ class NoteDetailWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 12.sp),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.all(AppRadius.l),
             color: AppColors.primaryLightColor,
           ),
           child: Text(

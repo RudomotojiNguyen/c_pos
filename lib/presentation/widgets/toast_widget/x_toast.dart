@@ -81,7 +81,7 @@ class XToast {
       // foregroundColor: Colors.black,
       padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 16.sp),
       // margin: EdgeInsets.symmetric(horizontal: 12.sp).copyWith(bottom: 8.sp),
-      borderRadius: BorderRadius.circular(16.sp),
+      borderRadius: BorderRadius.all(AppRadius.l),
       boxShadow: const [
         BoxShadow(
           color: Color(0x07000000),

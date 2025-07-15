@@ -75,7 +75,7 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
         //   }
       },
       builder: (context, state) {
-        List<ProductTable> products = state.products;
+        List<ProductTable> products = state.products ?? [];
 
         if ((products.isNotEmpty) &&
             [
@@ -125,7 +125,7 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
   /// METHOD
   ///
 
-  _onShowDialogSubmitTradeInForm() {
-    // showXBottomSheet(context, body: const TradeInConfirmDialog());
-  }
+  // _onShowDialogSubmitTradeInForm() {
+  //   // showXBottomSheet(context, body: const TradeInConfirmDialog());
+  // }
 }

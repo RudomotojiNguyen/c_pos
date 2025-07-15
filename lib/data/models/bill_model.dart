@@ -3,6 +3,7 @@ import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
+import '../datasources/local_db/local_db.dart';
 import 'bill_item_model.dart';
 import 'customer_model.dart';
 import 'customer_type_model.dart';
@@ -466,20 +467,20 @@ class BillModel {
         fullName: technicalName,
       );
 
-  // CustomerTable get getCustomerInfo => CustomerTable()
-  //   ..customerId = customerId
-  //   ..fullName = customerName
-  //   ..phoneNo = getCustomerPhone
-  //   ..email = customerEmail
-  //   ..dateOfBirth = customerDOB
-  //   ..city = customerCity
-  //   ..district = customerDistrict
-  //   ..ward = customerWard
-  //   ..address = customerAddress
-  //   ..type = customerType?.id
-  //   ..indentifyNo = customerIndentifyNo
-  //   ..gender = customerGender?.getGender ?? XGenderType.other
-  //   ..appellation = customerGender?.getGender ?? XGenderType.other;
+  CustomerTable get getCustomerInfo => CustomerTable()
+    ..customerId = customerId
+    ..fullName = customerName
+    ..phoneNo = getCustomerPhone
+    ..email = customerEmail
+    ..dateOfBirth = customerDOB
+    ..city = customerCity
+    ..district = customerDistrict
+    ..ward = customerWard
+    ..address = customerAddress
+    ..type = customerType?.id
+    ..indentifyNo = customerIndentifyNo
+    ..gender = customerGender?.getGender ?? XGenderType.other
+    ..appellation = customerGender?.getGender ?? XGenderType.other;
 
   String get customerRankName => customerType?.name ?? '';
 

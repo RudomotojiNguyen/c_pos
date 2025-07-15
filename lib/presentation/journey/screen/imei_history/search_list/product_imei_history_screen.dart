@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../widgets/widgets.dart';
 import '../../product/bloc/product_bloc.dart';

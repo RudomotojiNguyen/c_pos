@@ -17,7 +17,7 @@ class XStatus extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
       decoration: BoxDecoration(
         color: bgStatusColor,
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: BorderRadius.all(AppRadius.xxm),
       ),
       child: Text(
         statusStr,

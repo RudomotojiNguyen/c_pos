@@ -71,9 +71,9 @@ class _CustomersScreenState extends XStateWidget<CustomersScreen> {
     return BlocBuilder<CustomerBloc, CustomerState>(
       bloc: _customerBloc,
       buildWhen: (previous, current) =>
-          current is GetCustomersSuccess || current is IsLoadingGetCustomers,
+          current is GetCustomersSuccess || current is UpdateIsLoading,
       builder: (context, state) {
-        if (state is IsLoadingGetCustomers) {
+        if (state is UpdateIsLoading) {
           return ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
             itemBuilder: (context, index) {

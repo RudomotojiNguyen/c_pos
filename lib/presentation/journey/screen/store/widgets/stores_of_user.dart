@@ -112,7 +112,7 @@ class UserStoreExchangeItem extends StatelessWidget {
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Row(
         children: [

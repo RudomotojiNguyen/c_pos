@@ -21,11 +21,11 @@ class _PaymentInformationWidgetState extends State<PaymentInformationWidget> {
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
           current is UpdateCalculatorPriceSuccess ||
-          current is GetDraftingInvoiceDetailSuccess ||
-          current is GetDraftingInvoiceDetailLoading,
+          current is GetCurrentDraftDataSuccess ||
+          current is IsGettingDetail,
       builder: (context, state) {
-        if ((state.products.isEmpty) ||
-            [CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+        if ((state.products?.isEmpty ?? true) ||
+            {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
 

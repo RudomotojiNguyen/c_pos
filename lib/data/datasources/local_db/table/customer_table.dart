@@ -13,25 +13,25 @@ part 'extensions/customer_table_extension.dart';
 class CustomerTable {
   Id id = Isar.autoIncrement;
 
-  int? customerId; // id khách hàng
-  String? fullName; // tên khách hàng
-  String? lastName; // họ khách hàng
-  String? phoneNo; // số điện thoại khách hàng
-  String? dateOfBirth; // ngày sinh khách hàng
-  int? city; // thành phố khách hàng
-  int? district; // quận khách hàng
-  int? ward; // phường khách hàng
-  String? address; // địa chỉ khách hàng
-  int? point; // điểm khách hàng
-  String? email; // email khách hàng
-  String? indentifyNo; // số CMND khách hàng
+  int? customerId;
+  String? fullName;
+  String? lastName;
+  String? phoneNo;
+  String? email;
+  String? dateOfBirth;
+  int? city;
+  int? district;
+  int? ward;
+  String? address;
+  int? type;
+  int? point;
+  String? indentifyNo;
 
-  // notes: gender và appellation là 2 trường lưu trùng
+  @Enumerated(EnumType.ordinal)
+  XGenderType gender = XGenderType.none;
+
   @Enumerated(EnumType.ordinal)
   XGenderType appellation = XGenderType.none;
-
-  // thời gian tạo khách hàng
-  DateTime createdAt = DateTime.now();
 
   /// dùng khi khách hàng muốn trừ điểm
   String? discountByPointStr;
@@ -44,4 +44,80 @@ class CustomerTable {
   set discountByPoint(OtpCustomerPointModel? value) {
     discountByPointStr = value?.toString();
   }
+
+  void copyWith(CustomerModel data) {
+    /// nếu cập nhật vào khách hàng khác thì lấy khách đó
+    /// ngược lại thì cập nhật các trường
+    if (data.id != customerId) {
+      customerId = data.id;
+      fullName = data.fullName;
+      lastName = data.lastName;
+      appellation = data.getGender;
+      phoneNo = data.phoneNo;
+      gender = data.getGender;
+      email = data.email;
+      dateOfBirth = data.dateOfBirth;
+      city = data.city;
+      district = data.district;
+      ward = data.ward;
+      address = data.address;
+      type = data.type;
+      point = data.point;
+      indentifyNo = data.identifyNo;
+      discountByPoint = null;
+    } else {
+      customerId = data.id ?? customerId;
+      fullName = data.fullName ?? fullName;
+      lastName = data.lastName ?? lastName;
+      appellation = data.getGender;
+      phoneNo = data.phoneNo ?? phoneNo;
+      gender = data.getGender;
+      email = data.email ?? email;
+      dateOfBirth = data.dateOfBirth ?? dateOfBirth;
+      city = data.city ?? city;
+      district = data.district ?? district;
+      ward = data.ward ?? ward;
+      address = data.address ?? address;
+      type = data.type ?? type;
+      point = data.point ?? point;
+      indentifyNo = data.identifyNo ?? indentifyNo;
+    }
+  }
+
+  void clearCustomerData() {
+    customerId = null;
+    fullName = null;
+    lastName = null;
+    appellation = XGenderType.none;
+    gender = XGenderType.none;
+    email = null;
+    dateOfBirth = null;
+    city = null;
+    district = null;
+    ward = null;
+    address = null;
+    type = null;
+    point = null;
+    indentifyNo = null;
+    discountByPointStr = null;
+  }
+
+  @ignore
+  CustomerModel get convertToModel => CustomerModel(
+        id: customerId,
+        fullName: fullName,
+        lastName: lastName,
+        appellation: appellation.getValue,
+        phoneNo: phoneNo,
+        gender: gender,
+        email: email,
+        dateOfBirth: dateOfBirth,
+        city: city,
+        district: district,
+        ward: ward,
+        address: address,
+        type: type,
+        point: point,
+        identifyNo: indentifyNo,
+      );
 }

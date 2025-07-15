@@ -47,7 +47,7 @@ class XSummeryPaymentInfo extends StatelessWidget {
               context,
               title: 'Tổng CK từng SP',
               value: totalDiscountPriceOfBillItem,
-              expression: Expression.minus,
+              expression: XExpression.minus,
             ),
           ],
           if (discountOfBill > 0) ...[
@@ -56,7 +56,7 @@ class XSummeryPaymentInfo extends StatelessWidget {
               context,
               title: 'CK tổng hóa đơn',
               value: discountOfBill,
-              expression: Expression.minus,
+              expression: XExpression.minus,
             ),
           ],
           if (discountOfPoint > 0) ...[
@@ -65,7 +65,7 @@ class XSummeryPaymentInfo extends StatelessWidget {
               context,
               title: 'Trừ điểm',
               value: discountOfPoint,
-              expression: Expression.minus,
+              expression: XExpression.minus,
             ),
           ],
           if (totalPrePayment > 0) ...[
@@ -74,7 +74,7 @@ class XSummeryPaymentInfo extends StatelessWidget {
               context,
               title: 'Đã thanh toán trước',
               value: totalPrePayment,
-              expression: Expression.minus,
+              expression: XExpression.minus,
             ),
           ],
           const XDivider(),
@@ -92,7 +92,7 @@ class XSummeryPaymentInfo extends StatelessWidget {
     BuildContext context, {
     required String title,
     required double value,
-    Expression expression = Expression.none,
+    XExpression expression = XExpression.none,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

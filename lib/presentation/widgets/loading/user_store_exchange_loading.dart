@@ -18,25 +18,25 @@ class UserStoreExchangeLoading extends StatelessWidget {
           padding: EdgeInsets.all(16.sp),
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.all(AppRadius.l),
           ),
           child: Row(
             children: [
-              XPlaceHolder(
-                width: 56.sp,
-                height: 56.sp,
+              const XPlaceHolder(
+                width: 56,
+                height: 56,
               ),
               BoxSpacer.s16,
-              Expanded(
+              const Expanded(
                 child: XPlaceHolder(
                   width: double.infinity,
-                  height: 12.sp,
+                  height: 12,
                 ),
               ),
               BoxSpacer.s16,
-              XPlaceHolder(
-                width: 56.sp,
-                height: 32.sp,
+              const XPlaceHolder(
+                width: 56,
+                height: 32,
               ),
             ],
           ),

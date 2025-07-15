@@ -18,7 +18,7 @@ class ExchangeHistoryLoading extends StatelessWidget {
           padding: EdgeInsets.all(16.sp),
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.all(AppRadius.l),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,20 +29,20 @@ class ExchangeHistoryLoading extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      XPlaceHolder(
-                        width: 120.sp,
-                        height: 12.sp,
+                      const XPlaceHolder(
+                        width: 120,
+                        height: 12,
                       ),
                       BoxSpacer.s4,
-                      XPlaceHolder(
-                        width: 40.sp,
-                        height: 12.sp,
+                      const XPlaceHolder(
+                        width: 40,
+                        height: 12,
                       ),
                     ],
                   ),
-                  XPlaceHolder(
-                    width: 40.sp,
-                    height: 18.sp,
+                  const XPlaceHolder(
+                    width: 40,
+                    height: 18,
                   ),
                 ],
               ),
@@ -60,19 +60,19 @@ class ExchangeHistoryLoading extends StatelessWidget {
                           width: 200.sp,
                           decoration: BoxDecoration(
                             color: AppColors.disabledColor,
-                            borderRadius: BorderRadius.circular(8.sp),
+                            borderRadius: BorderRadius.all(AppRadius.xxm),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              XPlaceHolder(
-                                width: 120.sp,
-                                height: 12.sp,
+                              const XPlaceHolder(
+                                width: 120,
+                                height: 12,
                               ),
                               BoxSpacer.s4,
-                              XPlaceHolder(
-                                width: 200.sp,
-                                height: 12.sp,
+                              const XPlaceHolder(
+                                width: 200,
+                                height: 12,
                               ),
                             ],
                           ),
@@ -86,19 +86,19 @@ class ExchangeHistoryLoading extends StatelessWidget {
                           width: 200.sp,
                           decoration: BoxDecoration(
                             color: AppColors.disabledColor,
-                            borderRadius: BorderRadius.circular(8.sp),
+                            borderRadius: BorderRadius.all(AppRadius.xxm),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              XPlaceHolder(
-                                width: 120.sp,
-                                height: 12.sp,
+                              const XPlaceHolder(
+                                width: 120,
+                                height: 12,
                               ),
                               BoxSpacer.s4,
-                              XPlaceHolder(
-                                width: 180.sp,
-                                height: 12.sp,
+                              const XPlaceHolder(
+                                width: 180,
+                                height: 12,
                               ),
                             ],
                           ),
@@ -120,14 +120,14 @@ class ExchangeHistoryLoading extends StatelessWidget {
                 ],
               ),
               const XDivider(),
-              XPlaceHolder(
-                width: 200.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 200,
+                height: 12,
               ),
               BoxSpacer.s4,
-              XPlaceHolder(
-                width: 80.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 80,
+                height: 12,
               ),
             ],
           ),

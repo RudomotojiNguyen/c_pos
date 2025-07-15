@@ -78,7 +78,8 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
       children: [
         XBaseButton(
           baseButtonType: widget.baseButtonType ?? BaseButtonType.basic,
-          secondaryWidget: _secondaryWidget(),
+          secondaryWidgetBuilder: (closeOverlay) =>
+              _secondaryWidget(closeOverlay),
           onPressed: () => widget.onPressed?.call(),
           decorationChildIsOverlay: widget.decorationChildIsOverlay,
           paddingChildIsOverlay: widget.paddingChildIsOverlay,
@@ -217,14 +218,17 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
     );
   }
 
-  Widget _secondaryWidget() {
+  Widget _secondaryWidget(VoidCallback closeOverlay) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: widget.productOperationActions
           .map((e) => RowFunctionWidget(
                 title: e.getTitle,
                 icon: e.getIcon,
-                onPressed: () => widget.onPressed?.call(action: e),
+                onPressed: () {
+                  widget.onPressed?.call(action: e);
+                  closeOverlay();
+                },
               ))
           .toList(),
     );

@@ -27,17 +27,18 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     return BlocConsumer<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailSuccess ||
-          ((previous.products.isEmpty || current.products.isEmpty) &&
+          current is GetCurrentDraftDataSuccess ||
+          (((previous.products?.isEmpty ?? true) ||
+                  (current.products?.isEmpty ?? true)) &&
               current is UpdateProductsSuccess),
       listener: (context, state) {
-        if (state is GetDraftingInvoiceDetailSuccess) {
+        if (state is GetCurrentDraftDataSuccess) {
           getAccountants(state.cartType ?? CartType.retail);
         }
       },
       builder: (context, state) {
-        if (state.products.isEmpty ||
-            [CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+        if ((state.products?.isEmpty ?? true) ||
+            {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
 
@@ -51,7 +52,9 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
           rightIcon: XBaseButton(
             key: baseButtonKey,
             baseButtonType: BaseButtonType.tapOperation,
-            secondaryWidget: _widgetAddMethod(),
+            // secondaryWidget: _widgetAddMethod(),
+            secondaryWidgetBuilder: (closeOverlay) =>
+                _widgetAddMethod(closeOverlay),
             child: Icon(
               Icons.add_circle_rounded,
               color: AppColors.primaryColor,
@@ -82,45 +85,54 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
         if (state > 0) {
           return Container(
             decoration: BoxDecoration(
-              color: AppColors.warningColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8.sp),
+              color: AppColors.warningColor.withValues(alpha: .1),
+              borderRadius: BorderRadius.all(AppRadius.xxm),
               border: Border.all(width: 1.sp, color: AppColors.warningColor),
             ),
             padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 8.sp),
             child: Text.rich(
-              TextSpan(text: 'Còn thiếu', style: AppFont.t.s().w500, children: [
-                const TextSpan(text: ' '),
-                TextSpan(
-                  text: state.formatCurrency,
-                  style: AppFont.t.s().w900,
-                ),
-                const TextSpan(text: ' '),
-                const TextSpan(text: 'để hoàn thành đơn'),
-              ]),
+              TextSpan(
+                text: 'Còn thiếu',
+                style: AppFont.t.s(),
+                children: [
+                  const TextSpan(text: ' '),
+                  TextSpan(
+                    text: state.formatCurrency,
+                    style: AppFont.t.s().copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                  ),
+                  const TextSpan(text: ' '),
+                  const TextSpan(text: 'để hoàn thành đơn'),
+                ],
+              ),
             ),
           );
         }
         if (state < 0) {
           return Container(
             decoration: BoxDecoration(
-              color: AppColors.warningColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8.sp),
+              color: AppColors.warningColor.withValues(alpha: .1),
+              borderRadius: BorderRadius.all(AppRadius.xxm),
               border: Border.all(width: 1.sp, color: AppColors.warningColor),
             ),
             padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 8.sp),
             child: Text.rich(
               TextSpan(
-                  text: 'Đã thêm dư',
-                  style: AppFont.t.s().w500,
-                  children: [
-                    const TextSpan(text: ' '),
-                    TextSpan(
-                      text: state.formatCurrency,
-                      style: AppFont.t.s().w900,
-                    ),
-                    const TextSpan(text: ' '),
-                    const TextSpan(text: 'điều chỉnh lại để tránh sai sót'),
-                  ]),
+                text: 'Đã thêm dư',
+                style: AppFont.t.s(),
+                children: [
+                  const TextSpan(text: ' '),
+                  TextSpan(
+                    text: state.formatCurrency,
+                    style: AppFont.t.s().copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                  ),
+                  const TextSpan(text: ' '),
+                  const TextSpan(text: 'điều chỉnh lại để tránh sai sót'),
+                ],
+              ),
             ),
           );
         }
@@ -143,8 +155,11 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                 .add(RemovePaymentMethodEvent(id: paymentMethodId));
           },
           onUpdate: (paymentMethod) {
-            _onSelectMethod(context,
-                paymentType: PaymentType.cash, paymentMethod: paymentMethod);
+            _onSelectMethod(
+              context,
+              paymentType: PaymentType.cash,
+              paymentMethod: paymentMethod,
+            );
           },
         );
       },
@@ -165,8 +180,11 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                 .add(RemovePaymentMethodEvent(id: paymentMethodId));
           },
           onUpdate: (paymentMethod) {
-            _onSelectMethod(context,
-                paymentType: PaymentType.credit, paymentMethod: paymentMethod);
+            _onSelectMethod(
+              context,
+              paymentType: PaymentType.credit,
+              paymentMethod: paymentMethod,
+            );
           },
         );
       },
@@ -187,9 +205,11 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                 .add(RemovePaymentMethodEvent(id: paymentMethodId));
           },
           onUpdate: (paymentMethod) {
-            _onSelectMethod(context,
-                paymentType: PaymentType.transfer,
-                paymentMethod: paymentMethod);
+            _onSelectMethod(
+              context,
+              paymentType: PaymentType.transfer,
+              paymentMethod: paymentMethod,
+            );
           },
         );
       },
@@ -210,32 +230,37 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                 .add(RemovePaymentMethodEvent(id: paymentMethodId));
           },
           onUpdate: (paymentMethod) {
-            _onSelectMethod(context,
-                paymentType: PaymentType.installment,
-                paymentMethod: paymentMethod);
+            _onSelectMethod(
+              context,
+              paymentType: PaymentType.installment,
+              paymentMethod: paymentMethod,
+            );
           },
         );
       },
     );
   }
 
-  Widget _widgetAddMethod() {
+  Widget _widgetAddMethod(VoidCallback closeOverlay) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.sp),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
             bloc: _draftingInvoiceBloc,
             buildWhen: (previous, current) =>
                 current is UpdatePaymentMethodSuccess ||
-                current is GetDraftingInvoiceDetailLoading,
+                current is IsGettingDetail,
             builder: (context, state) {
               if ((state.paymentByCash ?? []).isNotEmpty) {
                 return BoxSpacer.blank;
               }
               return _rowPayment(
                 onPressed: () {
+                  closeOverlay();
                   _onSelectMethod(context, paymentType: PaymentType.cash);
                 },
                 title: PaymentType.cash.getTitle,
@@ -244,12 +269,14 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
           ),
           _rowPayment(
             onPressed: () {
+              closeOverlay();
               _onSelectMethod(context, paymentType: PaymentType.credit);
             },
             title: PaymentType.credit.getTitle,
           ),
           _rowPayment(
             onPressed: () {
+              closeOverlay();
               _onSelectMethod(context, paymentType: PaymentType.transfer);
             },
             title: PaymentType.transfer.getTitle,
@@ -258,15 +285,18 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
             bloc: _draftingInvoiceBloc,
             buildWhen: (previous, current) =>
                 current is UpdatePaymentMethodSuccess ||
-                current is GetDraftingInvoiceDetailLoading,
+                current is IsGettingDetail,
             builder: (context, state) {
               if ((state.paymentByInstallment ?? []).isNotEmpty) {
                 return BoxSpacer.blank;
               }
               return _rowPayment(
                 onPressed: () {
-                  _onSelectMethod(context,
-                      paymentType: PaymentType.installment);
+                  closeOverlay();
+                  _onSelectMethod(
+                    context,
+                    paymentType: PaymentType.installment,
+                  );
                 },
                 title: PaymentType.installment.getTitle,
               );
@@ -277,16 +307,13 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     );
   }
 
-  Widget _rowPayment({
-    required String title,
-    required Function()? onPressed,
-  }) {
+  Widget _rowPayment({required String title, required Function()? onPressed}) {
     return XBaseButton(
       padding: EdgeInsets.symmetric(vertical: 6.sp, horizontal: 18.sp),
       onPressed: onPressed,
       child: Text(
         title,
-        style: AppFont.t.s().w600,
+        style: AppFont.t.s(),
       ),
     );
   }
@@ -303,8 +330,11 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     _paymentBloc.add(GetPaymentEnumEvent());
   }
 
-  _onSelectMethod(BuildContext context,
-      {required PaymentType paymentType, PaymentMethodTable? paymentMethod}) {
+  _onSelectMethod(
+    BuildContext context, {
+    required PaymentType paymentType,
+    PaymentMethodTable? paymentMethod,
+  }) {
     baseButtonKey.currentState?.removeOverlay();
     showXBottomSheet(
       context,

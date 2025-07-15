@@ -20,10 +20,10 @@ class ConditionBillItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 12.sp),
       decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(16.sp),
+          borderRadius: BorderRadius.all(AppRadius.l),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8.sp,
               offset: const Offset(0, 1), // changes position of shadow
             ),

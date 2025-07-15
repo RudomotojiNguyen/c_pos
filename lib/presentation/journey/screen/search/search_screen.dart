@@ -14,7 +14,7 @@ import '../../../../common/enum/enum.dart';
 import '../../../theme/themes.dart';
 import '../../../widgets/widgets.dart';
 import '../../router.dart';
-import '../drafting_invoice/bloc/drafting_invoice_bloc.dart';
+import '../drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 import 'bloc/search_product_bloc.dart';
 import 'widgets/products_search.dart';
 

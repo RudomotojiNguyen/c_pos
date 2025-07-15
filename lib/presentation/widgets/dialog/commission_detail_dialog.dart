@@ -34,10 +34,10 @@ class CommissionDetailDialog extends StatelessWidget {
                   EdgeInsets.symmetric(vertical: 8.sp).copyWith(left: 16.sp),
               decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.circular(16.sp),
+                borderRadius: BorderRadius.all(AppRadius.l),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8.sp,
                     offset: const Offset(0, 1), // changes position of shadow
                   ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
 import '../../theme/themes.dart';
@@ -13,14 +12,14 @@ class ProductItemLoading extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          XPlaceHolder(
-            height: 60.sp,
-            width: 60.sp,
+          const XPlaceHolder(
+            height: 60,
+            width: 60,
           ),
           BoxSpacer.s16,
           Expanded(
@@ -28,27 +27,27 @@ class ProductItemLoading extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                XPlaceHolder(
-                  width: 200.sp,
-                  height: 12.sp,
+                const XPlaceHolder(
+                  width: 200,
+                  height: 12,
                 ),
                 BoxSpacer.s8,
-                XPlaceHolder(
-                  width: 60.sp,
-                  height: 12.sp,
+                const XPlaceHolder(
+                  width: 60,
+                  height: 12,
                 ),
                 BoxSpacer.s8,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    XPlaceHolder(
-                      width: 100.sp,
-                      height: 12.sp,
+                    const XPlaceHolder(
+                      width: 100,
+                      height: 12,
                     ),
                     BoxSpacer.s8,
-                    XPlaceHolder(
-                      width: 36.sp,
-                      height: 12.sp,
+                    const XPlaceHolder(
+                      width: 36,
+                      height: 12,
                     ),
                   ],
                 ),

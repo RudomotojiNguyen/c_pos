@@ -32,10 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
       bloc: _authBloc,
       listener: (context, state) {
         if (state is GetProfileSuccess) {
-          MainRouter.instance.pushNamed(context, routeName: RouteName.mainCore);
+          MainRouter.instance
+              .pushReplace(context, routeName: RouteName.mainCore);
         }
         if (state is LogoutSuccess) {
-          MainRouter.instance.pushNamed(context, routeName: RouteName.login);
+          MainRouter.instance.pushReplace(context, routeName: RouteName.login);
         }
       },
       child: Scaffold(

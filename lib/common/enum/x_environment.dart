@@ -11,8 +11,6 @@ extension XEnvironmentExtension on XEnvironment {
         return 'stag';
       case XEnvironment.local:
         return 'local';
-      default:
-        return '';
     }
   }
 
@@ -26,8 +24,6 @@ extension XEnvironmentExtension on XEnvironment {
         return 'res/configuration/stag.json';
       case XEnvironment.local:
         return 'res/configuration/local.json';
-      default:
-        return '';
     }
   }
 }

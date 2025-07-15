@@ -21,7 +21,7 @@ class XToggleButton extends StatelessWidget {
         height: 28.sp,
         padding: EdgeInsets.all(2.sp),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.sp),
+          borderRadius: BorderRadius.all(AppRadius.xl),
           color: isOn ? AppColors.successColor : Colors.grey.shade300,
         ),
         child: AnimatedAlign(
@@ -36,7 +36,7 @@ class XToggleButton extends StatelessWidget {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   spreadRadius: 1.sp,
                   blurRadius: 4,
                   offset: Offset(0.sp, 2.sp), // tạo hiệu ứng bóng cho nút

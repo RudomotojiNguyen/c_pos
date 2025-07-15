@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 
+import '../../models/customer_model.dart';
 import '../../models/response/base_response.dart';
+import '../../models/response/paginated_response.dart';
 
 part 'customer_api.g.dart';
 
@@ -21,7 +23,7 @@ abstract class CustomerApi {
 
   /// lấy mã otp để tiêu điểm
   /// params: {customerId, pointUse, phoneNumber}
-  @POST('v1/customers/otp')
+  @POST('customer/mobile/otp')
   Future<BaseResponse> getCustomerOTPToChangePoint(
       @Body() Map<String, dynamic> params);
 
@@ -42,9 +44,10 @@ abstract class CustomerApi {
   ///
   @GET('v1/customers')
   Future<BaseResponse> getCustomers({
-    @Query('pageSize') required int pageSize,
     @Query('page') required int page,
+    @Query('size') required int size,
     @Query('customerPhone') String? customerPhone,
+    @Query('customerName') String? customerName,
   });
 
   /// lấy thông tin khách hàng

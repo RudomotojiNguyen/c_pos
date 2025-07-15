@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../theme/themes.dart';
@@ -40,15 +41,15 @@ class XPlaceHolder extends StatelessWidget {
         ]);
 
     return SizedBox(
-      width: width,
-      height: height,
+      width: width.sp,
+      height: height.sp,
       child: Shimmer(
         gradient: gradient,
         child: Container(
-          width: width,
-          height: height,
+          width: width.sp,
+          height: height.sp,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.all(AppRadius.size(borderRadius)),
             color: AppColors.shimmerBaseColor,
           ),
         ),

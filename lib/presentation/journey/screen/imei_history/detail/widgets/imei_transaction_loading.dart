@@ -24,19 +24,19 @@ class ImeiTransactionLoading extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XPlaceHolder(
-                width: 80.sp,
-                height: 8.sp,
+              const XPlaceHolder(
+                width: 80,
+                height: 8,
               ),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 180.sp,
-                height: 8.sp,
+              const XPlaceHolder(
+                width: 180,
+                height: 8,
               ),
               BoxSpacer.s4,
-              XPlaceHolder(
-                width: 180.sp,
-                height: 8.sp,
+              const XPlaceHolder(
+                width: 180,
+                height: 8,
               ),
             ],
           ),

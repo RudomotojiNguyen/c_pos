@@ -27,16 +27,15 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailSuccess ||
-          current is GetDraftingInvoiceDetailLoading,
+          current is GetCurrentDraftDataSuccess || current is IsGettingDetail,
       builder: (context, state) {
         if (state.checkNullDraft ||
-            [CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+            {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.customer.svg(
+          iconTitle: Assets.svg.person.svg(
             width: 22.sp,
             height: 22.sp,
           ),
@@ -88,8 +87,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
               content: SearchEmployeeDialog(
                 employees: state.employees,
                 callback: (result) {
-                  _draftingInvoiceBloc
-                      .add(UpdateSaleInfoOfBillEvent(employee: result));
+                  _draftingInvoiceBloc.add(UpdateSaleInfoOfBillEvent(result));
                 },
               ),
             );
@@ -115,8 +113,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
               content: SearchEmployeeDialog(
                 employees: state.employees,
                 callback: (result) {
-                  _draftingInvoiceBloc
-                      .add(UpdateTechInfoOfBillEvent(employee: result));
+                  _draftingInvoiceBloc.add(UpdateTechInfoOfBillEvent(result));
                 },
               ),
             );
@@ -142,37 +139,39 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
         padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 4.sp),
         decoration: BoxDecoration(
           color: AppColors.white,
-          border: Border.all(
-            width: 1.sp,
-            color: colorStatus,
-          ),
-          borderRadius: BorderRadius.circular(16.sp),
+          border: Border.all(width: 1.sp, color: colorStatus),
+          borderRadius: BorderRadius.all(AppRadius.l),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               title,
-              style: AppFont.t.s().w700.copyWith(color: colorStatus),
+              style: AppFont.t.s().copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colorStatus,
+                  ),
             ),
             BoxSpacer.s8,
             if (value.isEmpty) ...[
               Text(
                 'Trống NV',
-                style: AppFont.t.s().w700.copyWith(color: colorStatus),
+                style: AppFont.t.s().copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: colorStatus,
+                    ),
               ),
             ] else ...[
               Text(
                 value,
-                style: AppFont.t.s().w700.copyWith(color: employeeColor),
+                style: AppFont.t.s().copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: employeeColor,
+                    ),
               ),
             ],
             BoxSpacer.s8,
-            Icon(
-              Icons.edit_note,
-              color: colorStatus,
-              size: 18.sp,
-            ),
+            Icon(Icons.edit_note, color: colorStatus, size: 18.sp),
           ],
         ),
       ),

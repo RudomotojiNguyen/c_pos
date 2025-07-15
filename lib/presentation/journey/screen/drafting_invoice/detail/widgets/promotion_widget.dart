@@ -21,19 +21,20 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailLoading ||
-          current is GetDraftingInvoiceDetailSuccess ||
-          (((previous.products.isEmpty) || (current.products.isEmpty)) &&
+          current is IsGettingDetail ||
+          current is GetCurrentDraftDataSuccess ||
+          (((previous.products?.isEmpty ?? true) ||
+                  (current.products?.isEmpty ?? true)) &&
               current is UpdateProductsSuccess),
       builder: (context, state) {
-        if ((state.products.isEmpty) ||
-            [CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+        if ((state.products?.isEmpty ?? true) ||
+            {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
 
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.discount.svg(
+          iconTitle: Assets.svg.discountCoupon.svg(
             width: 24.sp,
             height: 24.sp,
           ),
@@ -86,13 +87,14 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
           padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
           decoration: BoxDecoration(
             color: AppColors.lightGreyColor,
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.all(AppRadius.l),
           ),
           child: Row(
             children: [
               _contentDiscount(
-                  discountAmount: state,
-                  couponCode: _draftingInvoiceBloc.state.couponDiscountCode),
+                discountAmount: state,
+                couponCode: _draftingInvoiceBloc.state.couponDiscountCode,
+              ),
               BoxSpacer.s16,
               XBaseButton(
                 onPressed: onPressedEdit,
@@ -100,7 +102,7 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
                   width: 24.sp,
                   height: 24.sp,
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -108,8 +110,10 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
     );
   }
 
-  Widget _contentDiscount(
-      {String? couponCode, required double discountAmount}) {
+  Widget _contentDiscount({
+    String? couponCode,
+    required double discountAmount,
+  }) {
     if (couponCode.isNotNullOrEmpty) {
       return Expanded(
         child: Text.rich(
@@ -119,12 +123,16 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
             children: [
               TextSpan(
                 text: discountAmount.formatCurrency,
-                style: AppFont.t.s().w800,
+                style: AppFont.t.s().copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
               ),
               const TextSpan(text: ' với mã '),
               TextSpan(
                 text: couponCode,
-                style: AppFont.t.s().w800,
+                style: AppFont.t.s().copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
               ),
             ],
           ),
@@ -139,7 +147,9 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
           children: [
             TextSpan(
               text: discountAmount.formatCurrency,
-              style: AppFont.t.s().w800,
+              style: AppFont.t.s().copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
             ),
           ],
         ),
@@ -159,14 +169,16 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
       margin: EdgeInsets.zero,
       body: DiscountDialog(
         customerId: state.customer?.customerId,
-        products: state.products,
+        products: state.products ?? [],
         couponCode: state.couponDiscountCode,
         discountAmount: state.discountTotalBill,
         callBack: (String? couponCode, double? discountAmount) {
-          _draftingInvoiceBloc.add(SetDiscountTotalBillInfoEvent(
-            code: couponCode,
-            amount: discountAmount,
-          ));
+          _draftingInvoiceBloc.add(
+            SetDiscountTotalBillInfoEvent(
+              code: couponCode,
+              amount: discountAmount,
+            ),
+          );
         },
       ),
     );

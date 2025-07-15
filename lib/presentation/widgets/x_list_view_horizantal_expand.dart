@@ -77,7 +77,7 @@ class MeasureSize extends StatefulWidget {
   const MeasureSize({super.key, required this.child, required this.onChange});
 
   @override
-  _MeasureSizeState createState() => _MeasureSizeState();
+  State<MeasureSize> createState() => _MeasureSizeState();
 }
 
 class _MeasureSizeState extends State<MeasureSize> {

@@ -59,7 +59,7 @@ class _CommissionItemDetailState extends State<CommissionItemDetail>
         return Container(
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(8.sp),
+            borderRadius: BorderRadius.all(AppRadius.xxm),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

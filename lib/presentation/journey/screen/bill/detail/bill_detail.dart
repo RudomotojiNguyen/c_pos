@@ -157,20 +157,6 @@ class _BillDetailState extends XStateWidget<BillDetail> {
         if (billDetail != null) {
           List<Widget> operations = [];
 
-          //   if (featuresFlag.contains(XFeatureFlagEnum.attachWarrantyImei)) {
-          //     // bảo hành
-          //     operations.add(XBaseButton(
-          //       padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 16.sp),
-          //       onPressed: () {
-          //         // todo: cho chọn sản phẩm để bảo hành
-          //       },
-          //       child: Text(
-          //         'Tạo bảo hành',
-          //         style: AppFont.t.s(11),
-          //       ),
-          //     ));
-          //   }
-
           if (billDetail.checkCanEditBill) {
             // edit phiếu
             operations.add(XBaseButton(
@@ -191,16 +177,8 @@ class _BillDetailState extends XStateWidget<BillDetail> {
           if (operations.isNotEmpty) {
             return XBaseButton(
               baseButtonType: BaseButtonType.tapOperation,
-              secondaryWidget: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16.sp),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: operations,
-                ),
-              ),
+              secondaryWidgetBuilder: (closeOverlay) =>
+                  _renderSecondaryWidget(operations, closeOverlay),
               child: Icon(
                 Icons.more_vert,
                 size: 24.sp,
@@ -212,6 +190,25 @@ class _BillDetailState extends XStateWidget<BillDetail> {
 
         return BoxSpacer.blank;
       },
+    );
+  }
+
+  Widget _renderSecondaryWidget(
+      List<Widget> operations, VoidCallback closeOverlay) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.all(AppRadius.l),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: operations
+            .map((e) => GestureDetector(
+                  onTap: closeOverlay,
+                  child: e,
+                ))
+            .toList(),
+      ),
     );
   }
 

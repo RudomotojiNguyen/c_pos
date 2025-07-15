@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../enum/enum.dart';
@@ -41,5 +42,9 @@ extension DatetimeExtensions on DateTime {
     } else {
       return XMomentTimeEnum.evening;
     }
+  }
+
+  TimeOfDay convertDateTimeToTimeOfDay() {
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }

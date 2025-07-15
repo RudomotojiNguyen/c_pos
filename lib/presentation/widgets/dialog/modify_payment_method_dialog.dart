@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/configs/box.dart';
 import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
-import '../theme/colors.dart';
+import '../theme/themes.dart';
 import '../widgets/widgets.dart';
 
 mixin DialogHelper {
@@ -61,7 +61,7 @@ mixin DialogHelper {
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.sp),
+            borderRadius: BorderRadius.all(AppRadius.xxm),
           ),
           child: Container(
             padding: padding,
@@ -106,7 +106,7 @@ mixin DialogHelper {
           child: Dialog(
             alignment: alignment,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(32.sp),
+              borderRadius: BorderRadius.all(AppRadius.xxl),
             ),
             child: Padding(
               padding: EdgeInsets.all(18.sp),
@@ -198,7 +198,7 @@ mixin DialogHelper {
                   EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
               decoration: BoxDecoration(
                 color: bgColor ?? AppColors.white,
-                borderRadius: BorderRadius.circular(32.sp),
+                borderRadius: BorderRadius.all(AppRadius.xxl),
               ),
               child: body,
             ),
@@ -228,7 +228,7 @@ mixin DialogHelper {
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32.sp),
+            borderRadius: BorderRadius.all(AppRadius.xxl),
           ),
           child: Padding(
               padding: EdgeInsets.all(18.sp),
@@ -309,7 +309,7 @@ mixin DialogHelper {
               margin: EdgeInsets.only(top: 120.sp),
               decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.circular(32.sp),
+                borderRadius: BorderRadius.all(AppRadius.xxl),
               ),
               child: ScanCodeDialog(
                 typeSelect: typeSelect,

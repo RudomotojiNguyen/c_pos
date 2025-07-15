@@ -7,7 +7,6 @@ extension XSortEnumExtension on XSortEnum {
       case XSortEnum.asc:
         return 'ASC';
       case XSortEnum.desc:
-      default:
         return 'DESC';
     }
   }

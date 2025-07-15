@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/extensions/extension.dart';
+import '../theme/themes.dart';
 
 class XColumnInfoWidget extends StatelessWidget {
   const XColumnInfoWidget(
@@ -20,7 +21,7 @@ class XColumnInfoWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.sp),
+            borderRadius: BorderRadius.all(AppRadius.xxm),
             color: Colors.grey.shade200,
           ),
           child: Row(

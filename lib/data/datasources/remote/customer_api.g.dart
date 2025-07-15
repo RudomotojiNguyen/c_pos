@@ -104,7 +104,7 @@ class _CustomerApi implements CustomerApi {
     )
         .compose(
           _dio.options,
-          'v1/customers/otp',
+          'customer/mobile/otp',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -197,15 +197,17 @@ class _CustomerApi implements CustomerApi {
 
   @override
   Future<BaseResponse> getCustomers({
-    required int pageSize,
     required int page,
+    required int size,
     String? customerPhone,
+    String? customerName,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'pageSize': pageSize,
       r'page': page,
+      r'size': size,
       r'customerPhone': customerPhone,
+      r'customerName': customerName,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

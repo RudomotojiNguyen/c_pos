@@ -3,6 +3,8 @@ import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
+import '../datasources/local_db/local_db.dart';
+import 'product_imei_model.dart';
 
 class OrderItemModel {
   String? id;
@@ -136,4 +138,26 @@ class OrderItemModel {
   double get getDiscountPrice => discountAmount ?? 0;
 
   int get getQuantity => quantity ?? 0;
+
+  // todo: check với nhiều loại sản phẩn, voucher, chiết khấu tay,...
+  ProductTable get convertToProductTable => ProductTable()
+    ..itemId = id
+    ..quantity = quantity
+    ..productName = productName
+    ..imei = ProductImeiModel(imeiNo: imeiNo)
+    ..productCode = productCode
+    ..barCode = barCode
+    ..originalPrice = originalPrice
+    ..sellingPrice = sellingPrice
+    ..createdAt = createdAt
+    ..companyId = companyId
+    ..note = note
+    ..merchantId = merchantId
+    ..belongToWarrantyImei = belongToWarrantyImei
+    ..discountProgramId = discountProgramId
+    ..discountType = discountType
+    ..discountAmount = discountAmount
+    ..productType = productType
+    ..productId = productId
+    ..repurchasePrice = repurchasePrice;
 }

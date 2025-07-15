@@ -33,40 +33,41 @@ const CustomerTableSchema = CollectionSchema(
       name: r'city',
       type: IsarType.long,
     ),
-    r'createdAt': PropertySchema(
-      id: 3,
-      name: r'createdAt',
-      type: IsarType.dateTime,
-    ),
     r'customerId': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'customerId',
       type: IsarType.long,
     ),
     r'dateOfBirth': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'dateOfBirth',
       type: IsarType.string,
     ),
     r'discountByPointStr': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'discountByPointStr',
       type: IsarType.string,
     ),
     r'district': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'district',
       type: IsarType.long,
     ),
     r'email': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'email',
       type: IsarType.string,
     ),
     r'fullName': PropertySchema(
-      id: 9,
+      id: 8,
       name: r'fullName',
       type: IsarType.string,
+    ),
+    r'gender': PropertySchema(
+      id: 9,
+      name: r'gender',
+      type: IsarType.byte,
+      enumMap: _CustomerTablegenderEnumValueMap,
     ),
     r'indentifyNo': PropertySchema(
       id: 10,
@@ -88,8 +89,13 @@ const CustomerTableSchema = CollectionSchema(
       name: r'point',
       type: IsarType.long,
     ),
-    r'ward': PropertySchema(
+    r'type': PropertySchema(
       id: 14,
+      name: r'type',
+      type: IsarType.long,
+    ),
+    r'ward': PropertySchema(
+      id: 15,
       name: r'ward',
       type: IsarType.long,
     )
@@ -174,18 +180,19 @@ void _customerTableSerialize(
   writer.writeString(offsets[0], object.address);
   writer.writeByte(offsets[1], object.appellation.index);
   writer.writeLong(offsets[2], object.city);
-  writer.writeDateTime(offsets[3], object.createdAt);
-  writer.writeLong(offsets[4], object.customerId);
-  writer.writeString(offsets[5], object.dateOfBirth);
-  writer.writeString(offsets[6], object.discountByPointStr);
-  writer.writeLong(offsets[7], object.district);
-  writer.writeString(offsets[8], object.email);
-  writer.writeString(offsets[9], object.fullName);
+  writer.writeLong(offsets[3], object.customerId);
+  writer.writeString(offsets[4], object.dateOfBirth);
+  writer.writeString(offsets[5], object.discountByPointStr);
+  writer.writeLong(offsets[6], object.district);
+  writer.writeString(offsets[7], object.email);
+  writer.writeString(offsets[8], object.fullName);
+  writer.writeByte(offsets[9], object.gender.index);
   writer.writeString(offsets[10], object.indentifyNo);
   writer.writeString(offsets[11], object.lastName);
   writer.writeString(offsets[12], object.phoneNo);
   writer.writeLong(offsets[13], object.point);
-  writer.writeLong(offsets[14], object.ward);
+  writer.writeLong(offsets[14], object.type);
+  writer.writeLong(offsets[15], object.ward);
 }
 
 CustomerTable _customerTableDeserialize(
@@ -200,19 +207,22 @@ CustomerTable _customerTableDeserialize(
           reader.readByteOrNull(offsets[1])] ??
       XGenderType.male;
   object.city = reader.readLongOrNull(offsets[2]);
-  object.createdAt = reader.readDateTime(offsets[3]);
-  object.customerId = reader.readLongOrNull(offsets[4]);
-  object.dateOfBirth = reader.readStringOrNull(offsets[5]);
-  object.discountByPointStr = reader.readStringOrNull(offsets[6]);
-  object.district = reader.readLongOrNull(offsets[7]);
-  object.email = reader.readStringOrNull(offsets[8]);
-  object.fullName = reader.readStringOrNull(offsets[9]);
+  object.customerId = reader.readLongOrNull(offsets[3]);
+  object.dateOfBirth = reader.readStringOrNull(offsets[4]);
+  object.discountByPointStr = reader.readStringOrNull(offsets[5]);
+  object.district = reader.readLongOrNull(offsets[6]);
+  object.email = reader.readStringOrNull(offsets[7]);
+  object.fullName = reader.readStringOrNull(offsets[8]);
+  object.gender =
+      _CustomerTablegenderValueEnumMap[reader.readByteOrNull(offsets[9])] ??
+          XGenderType.male;
   object.id = id;
   object.indentifyNo = reader.readStringOrNull(offsets[10]);
   object.lastName = reader.readStringOrNull(offsets[11]);
   object.phoneNo = reader.readStringOrNull(offsets[12]);
   object.point = reader.readLongOrNull(offsets[13]);
-  object.ward = reader.readLongOrNull(offsets[14]);
+  object.type = reader.readLongOrNull(offsets[14]);
+  object.ward = reader.readLongOrNull(offsets[15]);
   return object;
 }
 
@@ -232,19 +242,20 @@ P _customerTableDeserializeProp<P>(
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
-      return (reader.readDateTime(offset)) as P;
-    case 4:
       return (reader.readLongOrNull(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
-    case 7:
       return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (_CustomerTablegenderValueEnumMap[reader.readByteOrNull(offset)] ??
+          XGenderType.male) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
@@ -254,6 +265,8 @@ P _customerTableDeserializeProp<P>(
     case 13:
       return (reader.readLongOrNull(offset)) as P;
     case 14:
+      return (reader.readLongOrNull(offset)) as P;
+    case 15:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -267,6 +280,18 @@ const _CustomerTableappellationEnumValueMap = {
   'none': 3,
 };
 const _CustomerTableappellationValueEnumMap = {
+  0: XGenderType.male,
+  1: XGenderType.female,
+  2: XGenderType.other,
+  3: XGenderType.none,
+};
+const _CustomerTablegenderEnumValueMap = {
+  'male': 0,
+  'female': 1,
+  'other': 2,
+  'none': 3,
+};
+const _CustomerTablegenderValueEnumMap = {
   0: XGenderType.male,
   1: XGenderType.female,
   2: XGenderType.other,
@@ -644,62 +669,6 @@ extension CustomerTableQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'city',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
-      createdAtEqualTo(DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
-      createdAtGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
-      createdAtLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
-      createdAtBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'createdAt',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1472,6 +1441,62 @@ extension CustomerTableQueryFilter
     });
   }
 
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      genderEqualTo(XGenderType value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'gender',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      genderGreaterThan(
+    XGenderType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'gender',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      genderLessThan(
+    XGenderType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'gender',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      genderBetween(
+    XGenderType lower,
+    XGenderType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'gender',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -2063,6 +2088,79 @@ extension CustomerTableQueryFilter
   }
 
   QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      typeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'type',
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      typeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'type',
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition> typeEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      typeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
+      typeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition> typeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'type',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
       wardIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2181,19 +2279,6 @@ extension CustomerTableQuerySortBy
     });
   }
 
-  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy>
-      sortByCreatedAtDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
-    });
-  }
-
   QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByCustomerId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customerId', Sort.asc);
@@ -2272,6 +2357,18 @@ extension CustomerTableQuerySortBy
     });
   }
 
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByGender() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'gender', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByGenderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'gender', Sort.desc);
+    });
+  }
+
   QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByIndentifyNo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'indentifyNo', Sort.asc);
@@ -2319,6 +2416,18 @@ extension CustomerTableQuerySortBy
   QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByPointDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'point', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> sortByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.desc);
     });
   }
 
@@ -2371,19 +2480,6 @@ extension CustomerTableQuerySortThenBy
   QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByCityDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'city', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy>
-      thenByCreatedAtDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
@@ -2465,6 +2561,18 @@ extension CustomerTableQuerySortThenBy
     });
   }
 
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByGender() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'gender', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByGenderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'gender', Sort.desc);
+    });
+  }
+
   QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -2527,6 +2635,18 @@ extension CustomerTableQuerySortThenBy
     });
   }
 
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.desc);
+    });
+  }
+
   QueryBuilder<CustomerTable, CustomerTable, QAfterSortBy> thenByWard() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'ward', Sort.asc);
@@ -2559,12 +2679,6 @@ extension CustomerTableQueryWhereDistinct
   QueryBuilder<CustomerTable, CustomerTable, QDistinct> distinctByCity() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'city');
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QDistinct> distinctByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'createdAt');
     });
   }
 
@@ -2609,6 +2723,12 @@ extension CustomerTableQueryWhereDistinct
     });
   }
 
+  QueryBuilder<CustomerTable, CustomerTable, QDistinct> distinctByGender() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'gender');
+    });
+  }
+
   QueryBuilder<CustomerTable, CustomerTable, QDistinct> distinctByIndentifyNo(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2633,6 +2753,12 @@ extension CustomerTableQueryWhereDistinct
   QueryBuilder<CustomerTable, CustomerTable, QDistinct> distinctByPoint() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'point');
+    });
+  }
+
+  QueryBuilder<CustomerTable, CustomerTable, QDistinct> distinctByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'type');
     });
   }
 
@@ -2667,12 +2793,6 @@ extension CustomerTableQueryProperty
   QueryBuilder<CustomerTable, int?, QQueryOperations> cityProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'city');
-    });
-  }
-
-  QueryBuilder<CustomerTable, DateTime, QQueryOperations> createdAtProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'createdAt');
     });
   }
 
@@ -2713,6 +2833,12 @@ extension CustomerTableQueryProperty
     });
   }
 
+  QueryBuilder<CustomerTable, XGenderType, QQueryOperations> genderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'gender');
+    });
+  }
+
   QueryBuilder<CustomerTable, String?, QQueryOperations> indentifyNoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'indentifyNo');
@@ -2734,6 +2860,12 @@ extension CustomerTableQueryProperty
   QueryBuilder<CustomerTable, int?, QQueryOperations> pointProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'point');
+    });
+  }
+
+  QueryBuilder<CustomerTable, int?, QQueryOperations> typeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'type');
     });
   }
 

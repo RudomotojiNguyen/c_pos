@@ -32,7 +32,7 @@ class ImeiHistoryItemWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16.sp),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: BorderRadius.all(AppRadius.xxm),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -61,7 +61,7 @@ class ImeiHistoryItemWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
             decoration: BoxDecoration(
                 color: colorStatus?.withAlpha(30) ?? AppColors.lightGreyColor,
-                borderRadius: BorderRadius.circular(4.sp)),
+                borderRadius: BorderRadius.all(AppRadius.xs)),
             child: Text(
               status,
               style: AppFont.t.s(11).w700.copyWith(

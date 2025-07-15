@@ -114,11 +114,11 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16.sp),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: BorderRadius.all(AppRadius.xxm),
           color: bgColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8.sp,
               offset: const Offset(0, 1), // changes position of shadow
             ),
@@ -156,11 +156,11 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
               width: double.maxFinite,
               padding: EdgeInsets.symmetric(vertical: 16.sp),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.sp),
+                borderRadius: BorderRadius.all(AppRadius.xxm),
                 color: AppColors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8.sp,
                     offset: const Offset(0, 1), // changes position of shadow
                   ),

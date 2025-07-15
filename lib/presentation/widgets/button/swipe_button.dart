@@ -28,6 +28,8 @@ class _XSwipeButtonState extends State<XSwipeButton> {
   late final SwipeData swipeData;
   final double sliderHeight = 70.0;
   final double sliderButtonWidth = 70.0;
+  BorderRadius get getBorderRadius =>
+      BorderRadius.all(Radius.circular(sliderHeight / 2));
 
   @override
   void initState() {
@@ -60,7 +62,7 @@ class _XSwipeButtonState extends State<XSwipeButton> {
               color: isPaymentSuccessful
                   ? widget.subBackgroundColor
                   : widget.backgroundColor,
-              borderRadius: BorderRadius.circular(sliderHeight / 2),
+              borderRadius: getBorderRadius,
             ),
             child: Stack(
               alignment: Alignment.centerLeft,
@@ -85,7 +87,7 @@ class _XSwipeButtonState extends State<XSwipeButton> {
                         color: isPaymentSuccessful
                             ? Colors.transparent
                             : widget.backgroundColor,
-                        borderRadius: BorderRadius.circular(sliderHeight / 2),
+                        borderRadius: getBorderRadius,
                       ),
                     );
                   },
@@ -176,8 +178,7 @@ class _XSwipeButtonState extends State<XSwipeButton> {
                             height: sliderHeight,
                             decoration: BoxDecoration(
                               color: widget.backgroundColor,
-                              borderRadius:
-                                  BorderRadius.circular(sliderHeight / 2),
+                              borderRadius: getBorderRadius,
                               boxShadow: const [
                                 BoxShadow(
                                   color: Color.fromRGBO(0, 0, 0, 0.2),

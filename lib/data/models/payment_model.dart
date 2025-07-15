@@ -17,6 +17,7 @@ class PaymentModel {
   String? creditCardNo;
   String? customerIndentifyNo;
   String? paymentCode;
+  int? status;
 
   // int? status;
   // int? viaQRCode;
@@ -43,7 +44,7 @@ class PaymentModel {
     this.creditCardNo,
     this.customerIndentifyNo,
     this.paymentCode,
-    // this.status,
+    this.status,
     // this.viaQRCode,
     this.createdAt,
     this.updatedAt,
@@ -67,7 +68,7 @@ class PaymentModel {
     creditCardNo = json['creditCardNo'];
     customerIndentifyNo = json['customerIndentifyNo'];
     paymentCode = json['paymentCode'];
-    // status = json['status'];
+    status = json['status'];
     // viaQRCode = json['viaQRCode'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

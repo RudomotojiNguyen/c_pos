@@ -20,8 +20,6 @@ extension PaymentTypeExtension on PaymentType {
         return 'Trả góp';
       case PaymentType.refund:
         return 'Hoàn tiền';
-      default:
-        return '';
     }
   }
 
@@ -37,8 +35,6 @@ extension PaymentTypeExtension on PaymentType {
         return 4;
       case PaymentType.refund:
         return 6;
-      default:
-        return 0;
     }
   }
 }

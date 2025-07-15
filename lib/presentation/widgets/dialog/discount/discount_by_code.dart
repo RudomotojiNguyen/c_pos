@@ -118,7 +118,7 @@ class _DiscountByCodeState extends State<DiscountByCode>
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 4.sp, horizontal: 16.sp),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.sp),
+                borderRadius: BorderRadius.all(AppRadius.xxm),
                 color: AppColors.primaryColor,
                 boxShadow: [
                   BoxShadow(

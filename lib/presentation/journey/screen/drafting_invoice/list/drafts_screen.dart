@@ -15,7 +15,7 @@ import '../../../../../common/enum/enum.dart';
 import '../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../theme/themes.dart';
 import '../../../router.dart';
-import '../bloc/drafting_invoice_bloc.dart';
+import 'bloc/drafting_invoices_bloc.dart';
 
 part 'widgets/drafts_widget.dart';
 part 'widgets/draft_item.dart';
@@ -30,13 +30,13 @@ class DraftsScreen extends StatefulWidget {
 }
 
 class _DraftsScreenState extends XStateWidget<DraftsScreen> {
-  final DraftingInvoiceBloc _draftingInvoiceBloc =
-      getIt.get<DraftingInvoiceBloc>();
+  final DraftingInvoicesBloc _draftingInvoicesBloc =
+      getIt.get<DraftingInvoicesBloc>();
 
   @override
   void initState() {
     super.initState();
-    _draftingInvoiceBloc.add(GetDraftingInvoiceListEvent());
+    _draftingInvoicesBloc.add(GetDraftingInvoiceListEvent());
   }
 
   @override

@@ -25,12 +25,11 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
         if (state == null ||
             state.getCustomerPhone.isNullOrEmpty ||
             state.isDefaultAccount ||
-            [
+            {
               CartType.tradeIn,
-              CartType.warranty,
               CartType.order,
               CartType.updateOrder,
-            ].contains(_draftingInvoiceBloc.state.cartType)) {
+            }.contains(_draftingInvoiceBloc.state.cartType)) {
           return BoxSpacer.blank;
         }
         return XContainer(
@@ -76,7 +75,7 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
           children: [
             Text(
               'Tiêu điểm',
-              style: AppFont.t.s(16),
+              style: AppFont.t.s(),
             ),
             XToggleButton(
               isOn: isOn,
@@ -96,7 +95,7 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
             margin: EdgeInsets.only(top: 8.sp),
             decoration: BoxDecoration(
               color: AppColors.lightGreyColor,
-              borderRadius: BorderRadius.circular(16.sp),
+              borderRadius: BorderRadius.all(AppRadius.l),
             ),
             child: Text.rich(
               TextSpan(
@@ -104,14 +103,21 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
                 style: AppFont.t.s(),
                 children: [
                   TextSpan(
-                    text: (customerPoint.pointWillUse ?? 0).formatPoint,
-                    style: AppFont.t.s(16).w800,
+                    text:
+                        '${(customerPoint.pointWillUse ?? 0).formatNumber} điểm',
+                    style: AppFont.t.s().copyWith(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16.sp,
+                        ),
                   ),
                   const TextSpan(text: ' tương đương '),
                   TextSpan(
                     text: (customerPoint.amountTransferFromPoint ?? 0)
                         .formatCurrency,
-                    style: AppFont.t.s(16).w800,
+                    style: AppFont.t.s().copyWith(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16.sp,
+                        ),
                   ),
                 ],
               ),
@@ -126,37 +132,11 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
   /// METHOD
   ///
 
-  // void _disableDMem(CustomerDMemInfo customerDMemInfo) {
-  //   _draftingInvoiceBloc.add(UpdateCustomerDMemInformationEvent(
-  //       customerDMemInfo.copyWith(isValidOTP: false)));
-  // }
-
-  // void onPressUseDMem() {
-  //   // todo: kiểm tra nếu có dmem thì hỏi để xác nhận
-  //   showXBottomSheet(
-  //     context,
-  //     padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-  //     body: OtpFormWidget(
-  //       length: 6,
-  //       type: DiscountMemberType.dMem,
-  //       customerPhone: customer?.getCustomerPhone ?? '',
-  //       customerId: customer?.customerId,
-  //       onCompleted: (point, amount, otpCodeDmem, newCustomerInfo) {
-  //         _draftingInvoiceBloc.add(UpdateCustomerDMemInformationEvent(
-  //             _draftingInvoiceBloc.state.customerDMemInfo
-  //                 ?.copyWith(isValidOTP: true, otpCodeDmem: otpCodeDmem)));
-  //       },
-  //     ),
-  //   );
-  // }
-
   void _disableUsePoint() {
-    _draftingInvoiceBloc
-        .add(const UpdateDiscountBillByPointEvent(discountByPoint: null));
+    _draftingInvoiceBloc.add(ClearCouponEvent());
   }
 
   void onPressUsePoint() {
-    // todo: kiểm tra nếu có dmem thì hỏi để xác nhận
     showXBottomSheet(
       context,
       padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
@@ -171,13 +151,14 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
               (_draftingInvoiceBloc.state.discountTotalBillByPoint ??
                       OtpCustomerPointModel())
                   .copyWith(
-                      pointWillUse: point,
-                      amountTransferFromPoint: amount,
-                      isValidOTP: true,
-                      otpCodeDmem: otpCodeDmem);
+            pointWillUse: point,
+            amountTransferFromPoint: amount,
+            isValidOTP: true,
+            otpCodeDmem: otpCodeDmem,
+          );
 
-          _draftingInvoiceBloc.add(
-              UpdateDiscountBillByPointEvent(discountByPoint: discountByPoint));
+          _draftingInvoiceBloc
+              .add(UpdateDiscountBillByPointEvent(discountByPoint));
         },
       ),
     );

@@ -12,7 +12,7 @@ class _ContentPageWidgetState extends State<ContentPageWidget> {
   Widget build(BuildContext context) {
     final List<Widget> tabs = [
       // const ToolScreen(),
-      HomeScreen(),
+      const HomeScreen(),
       // SettingScreen(),
     ];
 

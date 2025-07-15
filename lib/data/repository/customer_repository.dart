@@ -9,6 +9,7 @@ abstract class CustomerRepository {
     required int page,
     required int size,
     String? phoneNumber,
+    String? customerName,
   });
 
   Future<CustomerModel> getCustomerInfoById({required int customerId});
@@ -22,16 +23,6 @@ abstract class CustomerRepository {
     required int customerId,
     required String otpCode,
     required int pointUse,
-  });
-
-  Future<(String, CustomerModel?)> getCustomerOTPToUseDMem({
-    required String phoneNumber,
-    required int isCheckBlackList,
-  });
-
-  Future<bool> checkOTPUseDMem({
-    required int customerId,
-    required String otpCode,
   });
 
   Future<bool> updateCustomerInfo({

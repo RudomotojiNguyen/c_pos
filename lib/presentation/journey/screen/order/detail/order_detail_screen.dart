@@ -141,10 +141,10 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
           if (orderDetail.getOrderStatus != StatusEnum.success) {
             return XBaseButton(
               baseButtonType: BaseButtonType.tapOperation,
-              secondaryWidget: Container(
+              secondaryWidgetBuilder: (closeOverlay) => Container(
                 decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16.sp),
+                  borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -153,6 +153,7 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.sp, horizontal: 16.sp),
                       onPressed: () {
+                        closeOverlay();
                         _convertToCartTable(
                           typeCart: CartType.updateOrder,
                           orderDetail: orderDetail,
@@ -167,6 +168,7 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.sp, horizontal: 16.sp),
                       onPressed: () {
+                        closeOverlay();
                         _convertToCartTable(
                           typeCart: CartType.retail,
                           orderDetail: orderDetail,

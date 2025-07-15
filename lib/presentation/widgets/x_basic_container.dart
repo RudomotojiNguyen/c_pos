@@ -23,7 +23,7 @@ class XBasicContainer extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.primaryColor,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

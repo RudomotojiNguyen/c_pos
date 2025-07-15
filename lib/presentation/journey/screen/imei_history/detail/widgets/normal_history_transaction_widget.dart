@@ -145,7 +145,7 @@ class ImeiTransactionWidget extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16.sp, left: 8.sp),
       decoration: BoxDecoration(
         color: AppColors.lightGreyColor,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

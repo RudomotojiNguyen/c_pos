@@ -7,7 +7,7 @@ import '../../../common/di/injection/injection.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/models/stock_model.dart';
 import '../../journey/screen/stock/bloc/stock_bloc.dart';
-import '../../theme/colors.dart';
+import '../../theme/themes.dart';
 import '../widgets.dart';
 
 class StockDialog extends StatefulWidget {
@@ -78,32 +78,32 @@ class _StockDialogState extends State<StockDialog> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        XPlaceHolder(
-          width: 80.sp,
-          height: 80.sp,
+        const XPlaceHolder(
+          width: 80,
+          height: 80,
         ),
         BoxSpacer.s8,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            XPlaceHolder(
-              width: 200.sp,
-              height: 12.sp,
+            const XPlaceHolder(
+              width: 200,
+              height: 12,
             ),
             BoxSpacer.s8,
-            XPlaceHolder(
-              width: 80.sp,
-              height: 12.sp,
+            const XPlaceHolder(
+              width: 80,
+              height: 12,
             ),
             BoxSpacer.s8,
-            XPlaceHolder(
-              width: 120.sp,
-              height: 12.sp,
+            const XPlaceHolder(
+              width: 120,
+              height: 12,
             ),
             BoxSpacer.s8,
-            XPlaceHolder(
-              width: 240.sp,
-              height: 12.sp,
+            const XPlaceHolder(
+              width: 240,
+              height: 12,
             ),
           ],
         )
@@ -123,7 +123,7 @@ class _StockDialogState extends State<StockDialog> {
         color: quantityInStock > 0
             ? AppColors.diamondWhite
             : AppColors.neutral3Color,
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: BorderRadius.all(AppRadius.xxm),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

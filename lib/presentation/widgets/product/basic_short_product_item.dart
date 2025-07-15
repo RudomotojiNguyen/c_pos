@@ -33,7 +33,7 @@ class BasicShortProductItem extends StatelessWidget {
       onPressed: baseButtonType != BaseButtonType.basic
           ? null
           : () => onPressed?.call(action: XProductOperationAction.detail),
-      secondaryWidget: _secondaryWidget(),
+      secondaryWidgetBuilder: (closeOverlay) => _secondaryWidget(closeOverlay),
       baseButtonType: baseButtonType,
       paddingChildIsOverlay: paddingIsOverlay,
       decorationChildIsOverlay: decorationIsOverlay,
@@ -76,14 +76,17 @@ class BasicShortProductItem extends StatelessWidget {
     );
   }
 
-  Widget _secondaryWidget() {
+  Widget _secondaryWidget(VoidCallback closeOverlay) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: productOperationActions
           .map((e) => RowFunctionWidget(
                 title: e.getTitle,
                 icon: e.getIcon,
-                onPressed: () => onPressed?.call(action: e),
+                onPressed: () {
+                  onPressed?.call(action: e);
+                  closeOverlay();
+                },
               ))
           .toList(),
     );

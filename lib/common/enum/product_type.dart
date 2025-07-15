@@ -23,7 +23,6 @@ extension ProductTypeExtension on ProductType {
       case ProductType.warranty:
         return 4;
       case ProductType.normal:
-      default:
         return 1;
     }
   }

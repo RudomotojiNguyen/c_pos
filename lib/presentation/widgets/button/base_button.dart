@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../theme/themes.dart';
+import '../widgets.dart';
+
 enum BaseButtonType { basic, longPressOperation, tapOperation }
 
 enum ArrowDirection { down, up }
@@ -10,16 +13,17 @@ enum ArrowDirection { down, up }
 class XBaseButton extends StatefulWidget {
   final GestureTapCallback? onPressed;
   final GestureTapCallback? onLongPress;
-  final Widget? child;
+  final Widget Function(VoidCallback closeOverlay)? secondaryWidgetBuilder;
   final EdgeInsetsGeometry? padding;
   final double? width;
   final bool disable;
-  final Widget? secondaryWidget;
+  final Widget? child;
   final BaseButtonType baseButtonType;
   final Decoration? decoration;
   final Decoration? decorationChildIsOverlay;
   final EdgeInsetsGeometry? paddingChildIsOverlay;
   final EdgeInsetsGeometry? margin;
+  final BoxConstraints? constraints;
 
   const XBaseButton({
     super.key,
@@ -29,12 +33,13 @@ class XBaseButton extends StatefulWidget {
     this.padding,
     this.width,
     this.disable = false,
-    this.secondaryWidget,
+    this.secondaryWidgetBuilder,
     this.baseButtonType = BaseButtonType.basic,
     this.decoration,
     this.decorationChildIsOverlay,
     this.paddingChildIsOverlay,
     this.margin,
+    this.constraints,
   });
 
   @override
@@ -51,15 +56,12 @@ class XBaseButtonState extends State<XBaseButton>
 
   final Duration duration = const Duration(milliseconds: 300);
 
-  // StreamController để theo dõi trạng thái hoạt ảnh
   final StreamController<bool> _animationCompletedController =
       StreamController<bool>.broadcast();
 
-  // Phương thức stream để theo dõi trạng thái hoạt ảnh hoàn thành
   Stream<bool> get animationCompletedStream =>
       _animationCompletedController.stream;
 
-  // GlobalKeys cho child và secondaryWidget
   final GlobalKey _childKey = GlobalKey();
   final GlobalKey _secondaryWidgetKey = GlobalKey();
 
@@ -67,28 +69,15 @@ class XBaseButtonState extends State<XBaseButton>
   void initState() {
     super.initState();
 
-    // Controller for secondary widget scale
-    _controller = AnimationController(
-      duration: duration,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _controller = AnimationController(duration: duration, vsync: this);
+    _scaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
-    // Controller for zoom effect on widget.child
-    _zoomController = AnimationController(
-      duration: duration,
-      vsync: this,
-    );
+    _zoomController = AnimationController(duration: duration, vsync: this);
     _zoomAnimation = Tween<double>(begin: 1.0, end: 1.009).animate(
-      CurvedAnimation(
-        parent: _zoomController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _zoomController, curve: Curves.easeInOut),
     );
   }
 
@@ -106,16 +95,15 @@ class XBaseButtonState extends State<XBaseButton>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.disable ? null : () => onPress(context),
-      onLongPress: () => longPress(context),
+      onLongPress: widget.disable ? null : () => longPress(context),
       child: Container(
         key: _childKey,
         width: widget.width,
         padding: widget.padding ?? EdgeInsets.zero,
         margin: widget.margin,
+        constraints: widget.constraints,
         decoration: widget.decoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(8.sp),
-            ),
+            BoxDecoration(borderRadius: BorderRadius.all(AppRadius.xxm)),
         child: widget.child,
       ),
     );
@@ -139,13 +127,11 @@ class XBaseButtonState extends State<XBaseButton>
     }
   }
 
-  removeOverlay() async {
+  // Hàm này vẫn giữ nguyên, là nơi duy nhất để xóa overlay
+  Future<void> removeOverlay() async {
     if (_overlayEntry == null || _controller.isDismissed) return;
 
-    await Future.wait([
-      _controller.reverse(),
-      _zoomController.reverse(),
-    ]);
+    await Future.wait([_controller.reverse(), _zoomController.reverse()]);
 
     _overlayEntry?.remove();
     _overlayEntry = null;
@@ -156,6 +142,11 @@ class XBaseButtonState extends State<XBaseButton>
   }
 
   void _showOverlay(BuildContext context) {
+    if (_overlayEntry != null) {
+      // Ngăn chặn hiển thị overlay nhiều lần
+      return;
+    }
+
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
     final screenSize = MediaQuery.of(context).size;
@@ -192,7 +183,6 @@ class XBaseButtonState extends State<XBaseButton>
       bool showSecondaryAbove =
           spaceBelow < secondaryHeight && spaceAbove > secondaryHeight;
 
-      // Bước 2: Cập nhật vị trí và opacity
       addOverlay(
         left: left,
         top: overlayTop,
@@ -226,8 +216,6 @@ class XBaseButtonState extends State<XBaseButton>
     double? newLeft;
     double? newRight;
 
-    // nếu right > maxOffset thì newRight = null và newLeft = left + childWidth > maxOffset ? 200.sp : childWidth;
-    // ngược lại thì lấy theo right và left là null
     if (right > maxOffset) {
       newRight = null;
       newLeft = left + childWidth > maxOffset ? 200.sp : childWidth;
@@ -236,16 +224,20 @@ class XBaseButtonState extends State<XBaseButton>
       newLeft = null;
     }
 
-    ///
     _overlayEntry?.remove();
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         clipBehavior: Clip.none,
         children: [
-          GestureDetector(
-            onPanDown: (details) => removeOverlay(),
-            child: Container(
-              color: Colors.black.withOpacity(0.2),
+          // Lớp nền mờ, bắt mọi chạm bên ngoài child và secondaryWidget
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                removeOverlay();
+              },
+              child: Container(
+                color: Colors.white.withValues(alpha: 0.8),
+              ),
             ),
           ),
           Positioned(
@@ -257,6 +249,7 @@ class XBaseButtonState extends State<XBaseButton>
                 color: Colors.transparent,
                 child: GestureDetector(
                   onTap: () {
+                    // Nếu chạm lại vào nút chính, đóng overlay và kích hoạt lại onPressed của nút chính
                     removeOverlay();
                     if (widget.onPressed != null) {
                       widget.onPressed!();
@@ -275,19 +268,17 @@ class XBaseButtonState extends State<XBaseButton>
               ),
             ),
           ),
-          // Nếu hiển thị secondaryWidget phía trên
           if (showSecondaryAbove) ...[
             Positioned(
-              top: top - (secondaryHeight + 16.sp),
+              top: top - (secondaryHeight + 12.sp),
               left: newLeft,
               right: newRight,
               child: _secondWidget(opacity, direction: ArrowDirection.down),
             ),
           ],
-          // Nếu hiển thị secondaryWidget phía dưới
           if (!showSecondaryAbove) ...[
             Positioned(
-              top: childHeight + 16.sp + top,
+              top: childHeight + 12.sp + top,
               left: newLeft,
               right: newRight,
               child: _secondWidget(opacity),
@@ -299,26 +290,36 @@ class XBaseButtonState extends State<XBaseButton>
     Overlay.of(context).insert(_overlayEntry!);
   }
 
-  Widget _secondWidget(double opacity,
-      {ArrowDirection direction = ArrowDirection.up}) {
+  Widget _secondWidget(
+    double opacity, {
+    ArrowDirection direction = ArrowDirection.up,
+  }) {
+    // SỬ DỤNG secondaryWidgetBuilder TỪ XBaseButton
+    Widget secondaryContent =
+        widget.secondaryWidgetBuilder?.call(removeOverlay) ??
+            const SizedBox.shrink();
+
     return Opacity(
       opacity: opacity,
       child: Material(
         color: Colors.transparent,
-        child: CustomPaint(
-          painter: MessageBubblePainter(Colors.white, direction: direction),
-          child: ScaleTransition(
-            scale: _scaleAnimation,
-            child: GestureDetector(
-              onPanDown: (details) {
-                if (_overlayEntry != null) {
-                  removeOverlay();
-                }
-              },
-              child: SizedBox(
-                key: _secondaryWidgetKey,
-                child: widget.secondaryWidget,
-              ),
+        child: ScaleTransition(
+          scale: _scaleAnimation,
+          child: GestureDetector(
+            // GestureDetector này để đóng overlay khi chạm vào khoảng trống
+            // trong secondaryWidget (ví dụ: nền của XGlassContainer)
+            onTap: () {
+              if (_overlayEntry != null) {
+                removeOverlay();
+              }
+            },
+            // Quan trọng: Cho phép các sự kiện chạm truyền qua đến các widget con
+            behavior: HitTestBehavior.translucent,
+            child: XGlassContainer(
+              key: _secondaryWidgetKey,
+              bgColor: Colors.white.withValues(alpha: 0.7),
+              child:
+                  secondaryContent, // SỬ DỤNG secondaryContent ĐÃ ĐƯỢC XÂY DỰNG
             ),
           ),
         ),
@@ -327,6 +328,7 @@ class XBaseButtonState extends State<XBaseButton>
   }
 }
 
+// Giữ nguyên MessageBubblePainter
 class MessageBubblePainter extends CustomPainter {
   final Color color;
   final ArrowDirection direction;
@@ -341,7 +343,6 @@ class MessageBubblePainter extends CustomPainter {
 
     final path = Path();
 
-    // Draw the main rectangle (bubble)
     final radius = 12.sp;
     final minMax = 8.sp;
     final widthArrow = 5.sp;
@@ -351,20 +352,23 @@ class MessageBubblePainter extends CustomPainter {
     path.quadraticBezierTo(size.width, 0, size.width, radius);
     path.lineTo(size.width, size.height - radius);
     path.quadraticBezierTo(
-        size.width, size.height, size.width - radius, size.height);
+      size.width,
+      size.height,
+      size.width - radius,
+      size.height,
+    );
     path.lineTo(radius, size.height);
     path.quadraticBezierTo(0, size.height, 0, size.height - radius);
     path.lineTo(0, radius);
     path.quadraticBezierTo(0, 0, radius, 0);
 
-    // Draw the message bubble arrow (pointer) based on direction
     double pointMove = size.width * 3 / 4;
     if (direction == ArrowDirection.down) {
-      path.moveTo(pointMove - widthArrow, size.height); // Adjust for down arrow
+      path.moveTo(pointMove - widthArrow, size.height);
       path.lineTo(pointMove, size.height + minMax);
       path.lineTo(pointMove + widthArrow, size.height);
     } else {
-      path.moveTo(pointMove - widthArrow, 0); // Adjust for up arrow
+      path.moveTo(pointMove - widthArrow, 0);
       path.lineTo(pointMove, -minMax);
       path.lineTo(pointMove + widthArrow, 0);
     }

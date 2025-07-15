@@ -15,7 +15,9 @@ abstract class BaseTheme {
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       cardColor: cardColor,
       dividerColor: dividerColor,
-      dialogBackgroundColor: Colors.white,
+      dialogTheme: const DialogTheme(
+        backgroundColor: Colors.white,
+      ),
       indicatorColor: onPrimarySurfaceColor,
       textTheme: textTheme,
       applyElevationOverlayColor: isDark,
@@ -59,7 +61,7 @@ abstract class BaseTheme {
 
   Color? get errorColor => AppColors.errorColor;
 
-  Color? get dividerColor => colorScheme.onSurface.withOpacity(0.12);
+  Color? get dividerColor => colorScheme.onSurface.withValues(alpha: 0.12);
 
   Color? get splashColor => Colors.transparent;
 

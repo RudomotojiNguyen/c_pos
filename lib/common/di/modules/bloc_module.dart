@@ -1,5 +1,5 @@
 import 'package:c_pos/common/di/injection/injection.dart';
-import 'package:c_pos/presentation/journey/screen/drafting_invoice/bloc/drafting_invoice_bloc.dart';
+import 'package:c_pos/presentation/journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 
 import '../../../data/datasources/local_data/local_data.dart';
 import '../../../data/repository/address_repositories.dart';
@@ -23,6 +23,7 @@ import '../../../presentation/journey/screen/category/bloc/category_bloc.dart';
 import '../../../presentation/journey/screen/commission/bloc/affiliate_bloc.dart';
 import '../../../presentation/journey/screen/coupon/bloc/coupon_bloc.dart';
 import '../../../presentation/journey/screen/customer/bloc/customer_bloc.dart';
+import '../../../presentation/journey/screen/drafting_invoice/list/bloc/drafting_invoices_bloc.dart';
 import '../../../presentation/journey/screen/employee/bloc/employee_bloc.dart';
 import '../../../presentation/journey/screen/global_bloc/global_core_bloc.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
@@ -68,8 +69,14 @@ class BlocModule extends DIModule {
           stockRepository: getIt.get<StockRepository>()))
       ..registerLazySingleton(() =>
           CategoryBloc(categoryRepository: getIt.get<CategoryRepository>()))
+      ..registerLazySingleton(() => DraftingInvoiceBloc(
+            draftingStorage: getIt.get<DraftingStorage>(),
+            productRepository: getIt.get<ProductRepository>(),
+            billRepository: getIt.get<BillRepository>(),
+            orderRepository: getIt.get<OrderRepository>(),
+          ))
       ..registerLazySingleton(() =>
-          DraftingInvoiceBloc(draftingStorage: getIt.get<DraftingStorage>()))
+          DraftingInvoicesBloc(draftingStorage: getIt.get<DraftingStorage>()))
       ..registerFactory(() => EmployeeBloc(getIt.get<EmployeeRepositories>()))
       ..registerFactory(() => WarrantyBloc(getIt.get<WarrantyRepositories>()))
       ..registerFactory(() => CouponBloc(

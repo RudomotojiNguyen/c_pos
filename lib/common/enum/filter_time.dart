@@ -11,8 +11,6 @@ extension FilterTimeExtension on FilterTime {
         return '3 ngày trước';
       case FilterTime.over3DayAgo:
         return 'Hơn 3 ngày trước';
-      default:
-        return '';
     }
   }
 
@@ -25,7 +23,6 @@ extension FilterTimeExtension on FilterTime {
       case FilterTime.over3DayAgo:
         return 3;
       case FilterTime.all:
-      default:
         return null;
     }
   }

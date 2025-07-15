@@ -22,7 +22,7 @@ class ShortTransactionInfoWidget extends StatelessWidget {
       margin: EdgeInsets.only(top: 8.sp),
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
         color: AppColors.primaryLightColor,
       ),
       child: Column(

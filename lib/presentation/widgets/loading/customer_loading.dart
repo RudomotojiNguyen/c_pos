@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../theme/colors.dart';
+import '../../theme/themes.dart';
 import '../widgets.dart';
 
 class CustomerLoading extends StatelessWidget {
@@ -14,34 +14,34 @@ class CustomerLoading extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(80.sp),
-            child: XPlaceHolder(
-              width: 80.sp,
-              height: 80.sp,
+            borderRadius: BorderRadius.all(AppRadius.xxxl),
+            child: const XPlaceHolder(
+              width: 80,
+              height: 80,
             ),
           ),
           BoxSpacer.s8,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XPlaceHolder(
-                width: 200.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 200,
+                height: 12,
               ),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 120.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 120,
+                height: 12,
               ),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 80.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 80,
+                height: 12,
               ),
             ],
           )

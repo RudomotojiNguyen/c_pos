@@ -58,8 +58,6 @@ class _XGridViewState extends State<XGridView> {
         return _buildMasonryGridView();
       case XGridViewType.normal:
         return _buildNormalGridView();
-      default:
-        return Container();
     }
   }
 

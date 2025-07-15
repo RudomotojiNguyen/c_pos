@@ -22,7 +22,7 @@ extension XDateTimeEnumExtension on XDateTimeEnum {
       case XDateTimeEnum.defaultDateTime:
         return 'yyyy-MM-ddTHH:mm:ss.sssZ';
       case XDateTimeEnum.defaultDateTimeBasic:
-        return 'yyyy-MM-dd HH:mm:ss';
+        return 'yyyy-MM-dd HH:mm:ss.sss';
       case XDateTimeEnum.yearMonthDay:
         return 'yyyy-MM-dd';
       case XDateTimeEnum.yearMonth:
@@ -30,7 +30,6 @@ extension XDateTimeEnumExtension on XDateTimeEnum {
       case XDateTimeEnum.secondDayMonthYear:
         return 'dd-MM-yyyy';
       case XDateTimeEnum.dayMonthYear:
-      default:
         return 'dd/MM/yyyy';
     }
   }

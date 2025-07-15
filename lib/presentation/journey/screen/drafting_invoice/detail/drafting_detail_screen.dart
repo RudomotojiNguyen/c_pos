@@ -11,17 +11,21 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
+import '../../../../../data/models/base_enum_model.dart';
 import '../../../../../data/models/employee_model.dart';
 import '../../../../../data/models/otp_customer_point_model.dart';
+import '../../../../../data/models/product_imei_model.dart';
 import '../../../../../data/models/product_model.dart';
 import '../../../../../gen/gen.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
+import '../../../../utils/utils.dart';
 import '../../../router.dart';
 import '../../customer/bloc/customer_bloc.dart';
 import '../../employee/bloc/employee_bloc.dart';
+import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
-import '../bloc/drafting_invoice_bloc.dart';
+import 'bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
 import 'widgets/suggest_notes_dialog.dart';
 
@@ -38,6 +42,10 @@ part 'widgets/payment_method_detail_widget.dart';
 part 'widgets/products_basic_information_widget.dart';
 part 'widgets/product_item_widget.dart';
 part 'widgets/group_product_children_widget.dart';
+part 'widgets/product_trade_in_widget.dart';
+part 'widgets/device_status_widget.dart';
+part 'widgets/delivery_widget.dart';
+part 'widgets/order_sub_detail_widget.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});
@@ -57,8 +65,7 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _draftingInvoiceBloc
-        .add(GetDraftingInvoiceDetailEvent(id: widget.id.toInt()));
+    _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
   }
 
   @override
@@ -73,20 +80,19 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
       titleWidget: BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
         bloc: _draftingInvoiceBloc,
         buildWhen: (previous, current) =>
-            current is GetDraftingInvoiceDetailSuccess ||
-            current is GetDraftingInvoiceDetailLoading ||
-            current is GetDraftingInvoiceDetailError,
+            current is GetCurrentDraftDataSuccess ||
+            current is IsGettingDetail ||
+            current is GetCurrentDraftDataError,
         builder: (context, state) {
-          if (state is GetDraftingInvoiceDetailLoading) {
-            return XPlaceHolder(width: 60.sp, height: 40.sp);
+          if (state is IsGettingDetail) {
+            return const XPlaceHolder(width: 60, height: 40);
           }
-          if (state is GetDraftingInvoiceDetailError) {
-            return Text(
-              'Thông tin đơn hàng',
-              style: AppFont.t.s(16).w600,
+          if (state is GetCurrentDraftDataError) {
+            return const EmptyDataWidget(
+              emptyMessage: 'Thông tin',
             );
           }
-          if (state is GetDraftingInvoiceDetailSuccess) {
+          if (state is GetCurrentDraftDataSuccess) {
             return Text(
               state.cartType!.getScreenTitle,
               style: AppFont.t.s(16).w600,
@@ -100,29 +106,29 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
 
   @override
   Widget buildContentView(BuildContext context) {
-    return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
+    return BlocConsumer<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailSuccess ||
-          current is GetDraftingInvoiceDetailLoading ||
-          current is GetDraftingInvoiceDetailError,
+          current is GetCurrentDraftDataSuccess ||
+          current is IsGettingDetail ||
+          current is GetCurrentDraftDataError,
+      listener: _listener,
       builder: (context, state) {
-        if (state is GetDraftingInvoiceDetailLoading) {
+        if (state is IsGettingDetail) {
           return const XLoading();
         }
-        if (state is GetDraftingInvoiceDetailError) {
+        if (state is GetCurrentDraftDataError) {
           return const EmptyDataWidget(
             emptyMessage: 'Lỗi khi lấy thông tin đơn nháp',
           );
         }
-        if (state is GetDraftingInvoiceDetailSuccess) {
+        if (state is GetCurrentDraftDataSuccess) {
           return SmartRefresher(
             controller: _refreshController,
             enablePullDown: true,
             header: const RefreshWidget(),
             onRefresh: () async {
-              _draftingInvoiceBloc
-                  .add(GetDraftingInvoiceDetailEvent(id: widget.id.toInt()));
+              _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
               _refreshController.refreshCompleted();
             },
             child: SingleChildScrollView(
@@ -130,18 +136,25 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // hiện thông tin billnumber và ordernumber
                   _orderInfo(),
 
                   // hiện ở tất cả CartType
                   const CustomerBillInformationWidget(),
 
                   // CartType là tradeIn
-                  const TypeTradeInWidget(),
+                  /// todo: nào làm thêm phần thu cũ thì xem làm lại chỗ này
+                  // const TypeTradeInWidget(),
+                  // const ProductTradeInWidget(),
+                  // const DeviceStatusWidget(),
 
                   // CartType là updateOrder, order, updateBill, retail
+                  // warranty: EmployeeOfBillWidget, BillNoteWidget
                   const EmployeeOfBillWidget(),
                   const ProductsBasicInformationWidget(),
                   const BillNoteWidget(),
+                  const DeliveryWidget(),
+                  const OrderSubDetailWidget(),
                   const PromotionWidget(),
                   const MemberDiscountWidget(),
                   const PaymentInformationWidget(),
@@ -164,14 +177,15 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
   Widget summaryAmountWidget() {
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
-      buildWhen: (previous, current) => current is UpdateCalculatorPriceSuccess,
+      buildWhen: (previous, current) => current is GetCurrentDraftDataSuccess,
       builder: (context, state) {
-        if (state.cartType == CartType.tradeIn) {
+        if (state is GetCurrentDraftDataSuccess &&
+            state.cartType == CartType.tradeIn) {
           return SummaryAmountWidget(
             summaryType: SummaryType.tradeIn,
             productBuyingPrice: state.productBuyingPrice,
             totalCriteriaPrice: state.totalCriteriaPrice,
-            finalBuyingPrice: state.finalBuyingPrice,
+            estimationBuyingPrice: state.estimationBuyingPrice,
           );
         }
         return BoxSpacer.blank;
@@ -182,14 +196,41 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
   Widget _orderInfo() {
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
-      buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailSuccess,
+      buildWhen: (previous, current) => current is GetCurrentDraftDataSuccess,
       builder: (context, state) {
-        if (state is GetDraftingInvoiceDetailSuccess && state.orderId != null) {
+        if (state is GetCurrentDraftDataSuccess && state.orderId != null) {
           return InfoIdUpdateWidget(orderId: state.orderId!);
         }
         return BoxSpacer.blank;
       },
     );
+  }
+}
+
+extension _DraftDetailScreenStateExtension on _DraftingDetailScreenState {
+  void _listener(BuildContext context, DraftingInvoiceState state) {
+    if (state is CreateTradeInbillSuccess) {
+      MainRouter.instance.goNamed(context, routeName: RouteName.tradeIn);
+    }
+    if (state is UpdateProductsSuccess) {
+      MainRouter.instance.popUtil(
+        context,
+        routeName: RouteName.drafts,
+      );
+    }
+    if (state is CreateBillSuccess) {
+      MainRouter.instance.goNamed(
+        context,
+        routeName: RouteName.bills,
+        queryParameters: {'billId': state.id.toString()},
+      );
+    }
+    if (state is CreateOrderSuccess) {
+      MainRouter.instance.goNamed(
+        context,
+        routeName: RouteName.orders,
+        queryParameters: {'orderId': state.newBillNum.toString()},
+      );
+    }
   }
 }

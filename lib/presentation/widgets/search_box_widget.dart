@@ -49,7 +49,7 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
       padding: EdgeInsets.symmetric(horizontal: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(64.sp),
+        borderRadius: BorderRadius.all(AppRadius.xxxl),
         boxShadow: context.boxShadow,
       ),
       child: Row(

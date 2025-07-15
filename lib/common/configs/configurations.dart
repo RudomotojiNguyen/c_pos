@@ -67,8 +67,6 @@ class Configurations {
         response = await rootBundle.loadString(Assets.configuration.dev);
       case XEnvironment.local:
         response = await rootBundle.loadString(Assets.configuration.local);
-      default:
-        break;
     }
 
     final data = await json.decode(response);

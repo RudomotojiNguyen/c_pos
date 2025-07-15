@@ -82,3 +82,57 @@ final class GetTradeinTransactionSuccess extends ProductState {
           listImeiHistory: state.listImeiHistory,
         );
 }
+
+/// start imei fifo
+final class OnLoadingGetProductImei extends ProductState {
+  OnLoadingGetProductImei({
+    required ProductState state,
+  }) : super(
+          pageInfo: state.pageInfo,
+          filterImeiHistory: state.filterImeiHistory,
+          listImeiHistory: state.listImeiHistory,
+        );
+}
+
+final class GetProductImeiDataSuccess extends ProductState {
+  final ProductImeiModel? obsoleteImei;
+  final List<ProductImeiModel>? productListImei;
+  final List<ProductImeiModel>? productsImeiSearchText;
+
+  GetProductImeiDataSuccess({
+    required ProductState state,
+    required this.obsoleteImei,
+    required this.productListImei,
+    required this.productsImeiSearchText,
+  }) : super(
+          pageInfo: state.pageInfo,
+          filterImeiHistory: state.filterImeiHistory,
+          listImeiHistory: state.listImeiHistory,
+        );
+}
+
+/// end imei fifo
+
+/// start reason select imei
+final class OnLoadingGetReasonSelectImei extends ProductState {
+  OnLoadingGetReasonSelectImei({
+    required ProductState state,
+  }) : super(
+          pageInfo: state.pageInfo,
+          filterImeiHistory: state.filterImeiHistory,
+          listImeiHistory: state.listImeiHistory,
+        );
+}
+
+final class GetReasonSelectImeiSuccess extends ProductState {
+  final List<String> reasons;
+
+  GetReasonSelectImeiSuccess({
+    required ProductState state,
+    required this.reasons,
+  }) : super(
+          pageInfo: state.pageInfo,
+          filterImeiHistory: state.filterImeiHistory,
+          listImeiHistory: state.listImeiHistory,
+        );
+}

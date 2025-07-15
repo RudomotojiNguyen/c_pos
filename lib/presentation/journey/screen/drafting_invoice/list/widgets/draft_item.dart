@@ -16,12 +16,11 @@ class DraftItem extends StatefulWidget {
 
 class _DraftItemState extends State<DraftItem> {
   final DraftingStorage _draftingStorage = getIt.get<DraftingStorage>();
-  final DraftingInvoiceBloc _draftingInvoiceBloc =
-      getIt.get<DraftingInvoiceBloc>();
+  final DraftingInvoicesBloc _draftingInvoicesBloc =
+      getIt.get<DraftingInvoicesBloc>();
   StreamSubscription<void>? _cartSubscription;
 
   int get getDraftId => widget.cartDetail.id;
-  final GlobalKey<XBaseButtonState> _btnKey = GlobalKey<XBaseButtonState>();
 
   @override
   void initState() {
@@ -33,10 +32,10 @@ class _DraftItemState extends State<DraftItem> {
         // và cập nhật lại state của widget
 
         if (mounted) {
-          _draftingStorage.getDraftingInvoice(draftId: getDraftId).then(
+          _draftingStorage.getCart(getDraftId).then(
             (cart) {
               if (cart != null) {
-                _draftingInvoiceBloc.add(
+                _draftingInvoicesBloc.add(
                     UpdateDraftEvent(cartDetail: cart, index: widget.index));
               }
             },
@@ -56,10 +55,10 @@ class _DraftItemState extends State<DraftItem> {
   @override
   Widget build(BuildContext context) {
     return XBaseButton(
-      key: _btnKey,
       baseButtonType: BaseButtonType.longPressOperation,
       onPressed: onPress,
-      secondaryWidget: _secondaryWidget(context),
+      secondaryWidgetBuilder: (closeOverlay) =>
+          _secondaryWidget(context, closeOverlay),
       child: _widget(),
     );
   }
@@ -73,7 +72,7 @@ class _DraftItemState extends State<DraftItem> {
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Column(
         children: [
@@ -114,7 +113,7 @@ class _DraftItemState extends State<DraftItem> {
     );
   }
 
-  Widget _secondaryWidget(BuildContext context) {
+  Widget _secondaryWidget(BuildContext context, VoidCallback closeOverlay) {
     return Container(
       padding: EdgeInsets.all(8.sp),
       child: Column(
@@ -129,18 +128,10 @@ class _DraftItemState extends State<DraftItem> {
               size: 20.sp,
             ),
             onPressed: () {
-              final XBaseButtonState? btnState = _btnKey.currentState;
-              if (btnState != null) {
-                btnState.animationCompletedStream.listen(
-                  (event) {
-                    if (event) {
-                      _draftingInvoiceBloc.add(
-                        RemoveDraftingInvoiceEvent(id: widget.cartDetail.id),
-                      );
-                    }
-                  },
-                );
-              }
+              closeOverlay();
+              _draftingInvoicesBloc.add(
+                RemoveDraftingInvoiceEvent(id: widget.cartDetail.id),
+              );
             },
           ),
           BoxSpacer.s8,
@@ -152,16 +143,8 @@ class _DraftItemState extends State<DraftItem> {
               size: 18.sp,
             ),
             onPressed: () {
-              final XBaseButtonState? btnState = _btnKey.currentState;
-              if (btnState != null) {
-                btnState.animationCompletedStream.listen(
-                  (event) {
-                    if (event) {
-                      // TODO: tạo phiếu kpvđ
-                    }
-                  },
-                );
-              }
+              closeOverlay();
+              // TODO: tạo phiếu kpvđ
             },
           ),
         ],

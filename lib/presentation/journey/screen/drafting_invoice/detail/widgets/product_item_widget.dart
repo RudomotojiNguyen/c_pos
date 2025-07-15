@@ -32,8 +32,6 @@ class ProductItemWidget extends StatefulWidget {
 }
 
 class _ProductItemWidgetState extends State<ProductItemWidget> {
-  final GlobalKey<XBaseButtonState> _btnKey = GlobalKey<XBaseButtonState>();
-
   final ValueNotifier<int> quantityController = ValueNotifier(1);
 
   @override
@@ -50,14 +48,14 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           XBaseButton(
-            key: _btnKey,
             baseButtonType: BaseButtonType.tapOperation,
-            secondaryWidget: _renderOperation(context),
+            secondaryWidgetBuilder: (closeOverlay) =>
+                _renderOperation(context, closeOverlay),
             child: Container(
               padding: EdgeInsets.all(8.sp),
               decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.circular(8.sp),
+                borderRadius: BorderRadius.all(AppRadius.xxm),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.shadowColor,
@@ -77,7 +75,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     );
   }
 
-  Widget _renderOperation(BuildContext context) {
+  Widget _renderOperation(BuildContext context, VoidCallback closeOverlay) {
     return Container(
       padding: EdgeInsets.all(8.sp),
       child: Column(
@@ -87,8 +85,11 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           RowFunctionWidget(
             title: XProductOperationAction.detail.getTitle,
             icon: XProductOperationAction.detail.getIcon,
-            onPressed: () => onHandleClick(widget.callBackParentAction(
-                action: XProductOperationAction.detail)),
+            onPressed: () {
+              closeOverlay();
+              widget.callBackParentAction(
+                  action: XProductOperationAction.detail);
+            },
           ),
           // RowFunctionWidget(
           //   title: XProductOperationAction.copyData.getTitle,
@@ -101,8 +102,11 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             RowFunctionWidget(
               title: XProductOperationAction.addImei.getTitle,
               icon: XProductOperationAction.addImei.getIcon,
-              onPressed: () => onHandleClick(widget.callBackParentAction(
-                  action: XProductOperationAction.addImei)),
+              onPressed: () {
+                closeOverlay();
+                widget.callBackParentAction(
+                    action: XProductOperationAction.addImei);
+              },
             ),
           ],
           if (widget.product.isBelongToWarrantyImei) ...[
@@ -110,8 +114,11 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             RowFunctionWidget(
               title: XProductOperationAction.addAttachImei.getTitle,
               icon: XProductOperationAction.addAttachImei.getIcon,
-              onPressed: () => onHandleClick(widget.callBackParentAction(
-                  action: XProductOperationAction.addAttachImei)),
+              onPressed: () {
+                closeOverlay();
+                widget.callBackParentAction(
+                    action: XProductOperationAction.addAttachImei);
+              },
             ),
           ],
           // BoxSpacer.s8,
@@ -132,15 +139,21 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           RowFunctionWidget(
             title: XProductOperationAction.remove.getTitle,
             icon: XProductOperationAction.remove.getIcon,
-            onPressed: () => onHandleClick(widget.callBackParentAction(
-                action: XProductOperationAction.remove)),
+            onPressed: () {
+              closeOverlay();
+              widget.callBackParentAction(
+                  action: XProductOperationAction.remove);
+            },
           ),
           BoxSpacer.s8,
           RowFunctionWidget(
             title: XProductOperationAction.discountByHand.getTitle,
             icon: XProductOperationAction.discountByHand.getIcon,
-            onPressed: () => onHandleClick(widget.callBackParentAction(
-                action: XProductOperationAction.discountByHand)),
+            onPressed: () {
+              closeOverlay();
+              widget.callBackParentAction(
+                  action: XProductOperationAction.discountByHand);
+            },
           ),
         ],
       ),
@@ -205,7 +218,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                       padding: EdgeInsets.all(1.sp),
                       decoration: BoxDecoration(
                           color: AppColors.neutralColor,
-                          borderRadius: BorderRadius.circular(4.sp)),
+                          borderRadius: BorderRadius.all(AppRadius.xs)),
                       child: Icon(
                         Icons.add,
                         size: 18.sp,
@@ -229,7 +242,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                       padding: EdgeInsets.all(1.sp),
                       decoration: BoxDecoration(
                           color: AppColors.neutralColor,
-                          borderRadius: BorderRadius.circular(4.sp)),
+                          borderRadius: BorderRadius.all(AppRadius.xs)),
                       child: Icon(
                         Icons.remove,
                         size: 18.sp,
@@ -334,19 +347,5 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
 
     widget.callBackParentAction(
         action: XProductOperationAction.updateQuantity, quantity: newQuantity);
-  }
-
-  void onHandleClick(Function? func) {
-    if (func == null) return;
-    final XBaseButtonState? btnState = _btnKey.currentState;
-    if (btnState != null) {
-      btnState.animationCompletedStream.listen(
-        (event) {
-          if (event) {
-            func();
-          }
-        },
-      );
-    }
   }
 }

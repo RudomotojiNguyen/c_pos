@@ -8,8 +8,8 @@ class DraftsWidget extends StatefulWidget {
 }
 
 class _DraftsWidgetState extends State<DraftsWidget> {
-  final DraftingInvoiceBloc _draftingInvoiceBloc =
-      getIt.get<DraftingInvoiceBloc>();
+  final DraftingInvoicesBloc _draftingInvoicesBloc =
+      getIt.get<DraftingInvoicesBloc>();
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -23,15 +23,15 @@ class _DraftsWidgetState extends State<DraftsWidget> {
   @override
   Widget build(BuildContext context) {
     int crossAxisCount = context.isSmallScreen ? 1 : 2;
-    return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
-      bloc: _draftingInvoiceBloc,
+    return BlocBuilder<DraftingInvoicesBloc, DraftingInvoicesState>(
+      bloc: _draftingInvoicesBloc,
       builder: (context, state) {
-        if (state is GetDraftingInvoiceLoading) {
+        if (state is GetDraftingInvoicesLoading) {
           return const XLoading();
         }
 
         if (state.draftingInvoiceList.isEmpty ||
-            state is GetDraftingInvoiceError) {
+            state is GetDraftingInvoicesError) {
           return const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -47,7 +47,7 @@ class _DraftsWidgetState extends State<DraftsWidget> {
           enablePullDown: true,
           header: const RefreshWidget(),
           onRefresh: () async {
-            _draftingInvoiceBloc.add(GetDraftingInvoiceListEvent());
+            _draftingInvoicesBloc.add(GetDraftingInvoiceListEvent());
             _refreshController.refreshCompleted();
           },
           child: SingleChildScrollView(

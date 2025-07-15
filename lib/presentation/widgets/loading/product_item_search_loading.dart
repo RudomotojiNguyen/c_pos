@@ -13,7 +13,7 @@ class ProductItemSearchLoading extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
       child: Column(
@@ -30,33 +30,33 @@ class ProductItemSearchLoading extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        XPlaceHolder(
-          width: 80.sp,
-          height: 80.sp,
+        const XPlaceHolder(
+          width: 80,
+          height: 80,
         ),
         BoxSpacer.s8,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XPlaceHolder(
-                width: 100.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 100,
+                height: 12,
               ),
               BoxSpacer.s2,
-              XPlaceHolder(
-                width: 50.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 50,
+                height: 12,
               ),
               BoxSpacer.s12,
-              XPlaceHolder(
-                width: 80.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 80,
+                height: 12,
               ),
               BoxSpacer.s2,
-              XPlaceHolder(
-                width: 40.sp,
-                height: 10.sp,
+              const XPlaceHolder(
+                width: 40,
+                height: 10,
               ),
             ],
           ),
@@ -81,9 +81,9 @@ class ProductItemSearchLoading extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return XPlaceHolder(
-                      width: 60.sp,
-                      height: 8.sp,
+                    return const XPlaceHolder(
+                      width: 60,
+                      height: 8,
                     );
                   },
                   separatorBuilder: (context, index) => BoxSpacer.s8,

@@ -33,8 +33,6 @@ extension FilterBillAndOrderTypeExtension on FilterBillAndOrderType {
         return 'Mua tại quầy';
       case FilterBillAndOrderType.delivery:
         return 'Chuyển hàng';
-      default:
-        return '';
     }
   }
 
@@ -57,7 +55,6 @@ extension FilterBillAndOrderTypeExtension on FilterBillAndOrderType {
       case FilterBillAndOrderType.delivery:
         return 3;
       case FilterBillAndOrderType.all:
-      default:
         return null;
     }
   }

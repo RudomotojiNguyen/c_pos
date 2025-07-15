@@ -13,42 +13,42 @@ class ShortProductItemLoadingWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
+          const Center(
             child: XPlaceHolder(
-              width: 100.sp,
-              height: 100.sp,
+              width: 100,
+              height: 100,
             ),
           ),
           BoxSpacer.s16,
-          XPlaceHolder(
-            width: 80.sp,
-            height: 12.sp,
+          const XPlaceHolder(
+            width: 80,
+            height: 12,
           ),
           BoxSpacer.s8,
-          XPlaceHolder(
+          const XPlaceHolder(
             width: double.infinity,
-            height: 12.sp,
+            height: 12,
           ),
           BoxSpacer.s2,
-          XPlaceHolder(
-            width: 50.sp,
-            height: 12.sp,
+          const XPlaceHolder(
+            width: 50,
+            height: 12,
           ),
           BoxSpacer.s8,
-          XPlaceHolder(
-            width: 120.sp,
-            height: 16.sp,
+          const XPlaceHolder(
+            width: 120,
+            height: 16,
           ),
           BoxSpacer.s4,
-          XPlaceHolder(
-            width: 100.sp,
-            height: 10.sp,
+          const XPlaceHolder(
+            width: 100,
+            height: 10,
           ),
         ],
       ),

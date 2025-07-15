@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:c_pos/common/enum/enum.dart';
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/models/filter/filter_imei_history_model.dart';
 import '../../../../../data/models/imei_history_model.dart';
 import '../../../../../data/models/imei_transaction_model.dart';
+import '../../../../../data/models/product_imei_model.dart';
 import '../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../data/models/store_model.dart';
 import '../../../../../data/models/trade_in_transaction_model.dart';
@@ -46,6 +48,113 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     /// lấy lịch sử thu cũ của imei
     on<GetImeiTradeinTransactionEvent>(_onGetImeiTradeinTransaction);
+
+    /// lấy danh sách imei FIFO
+    on<GetProductObsoleteImeiEvent>(_onGetProductObsoleteImei);
+
+    /// lấy danh sách lý do chọn imei
+    on<GetReasonSelectImeiEvent>(_onGetReasonSelectImei);
+
+    /// lấy danh sách imei theo từ khóa
+    on<GetProductImeiSearchTextEvent>(_onGetProductImeiSearchText);
+  }
+
+  FutureOr<void> _onGetProductImeiSearchText(
+    GetProductImeiSearchTextEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    List<ProductImeiModel> listImei =
+        (state as GetProductImeiDataSuccess).productListImei ?? [];
+    ProductImeiModel? obsoleteImei =
+        (state as GetProductImeiDataSuccess).obsoleteImei;
+    try {
+      if (event.search.isNullOrEmpty) {
+        emit(
+          GetProductImeiDataSuccess(
+            state: state,
+            obsoleteImei: obsoleteImei,
+            productListImei: listImei,
+            productsImeiSearchText: listImei,
+          ),
+        );
+
+        return;
+      }
+
+      emit(OnLoadingGetProductImei(state: state));
+
+      List<ProductImeiModel> data = listImei
+          .where(
+            (e) => e.getImeiNoValue
+                .toLowerCase()
+                .contains(event.search!.toStrSearch),
+          )
+          .toList();
+
+      emit(
+        GetProductImeiDataSuccess(
+          state: state,
+          obsoleteImei: obsoleteImei,
+          productListImei: listImei,
+          productsImeiSearchText: data.isEmpty ? listImei : data,
+        ),
+      );
+    } catch (e) {
+      _loggerHelper.logError(message: 'GetProductImeiSearchTextEvent', obj: e);
+      emit(
+        GetProductImeiDataSuccess(
+          state: state,
+          obsoleteImei: obsoleteImei,
+          productListImei: listImei,
+          productsImeiSearchText: listImei,
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onGetReasonSelectImei(
+    GetReasonSelectImeiEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    try {
+      emit(OnLoadingGetReasonSelectImei(state: state));
+      final res = await productRepository.getReasonSelectImei();
+      emit(GetReasonSelectImeiSuccess(state: state, reasons: res));
+    } catch (e) {
+      _loggerHelper.logError(message: 'GetReasonSelectImeiEvent', obj: e);
+      emit(GetReasonSelectImeiSuccess(state: state, reasons: const []));
+    }
+  }
+
+  FutureOr<void> _onGetProductObsoleteImei(
+    GetProductObsoleteImeiEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    try {
+      emit(OnLoadingGetProductImei(state: state));
+      final res = await Future.wait([
+        getHeightPriorityImei(event.productId),
+        getImeiList(event.productId),
+      ]);
+      emit(
+        GetProductImeiDataSuccess(
+          state: state,
+          obsoleteImei: res[0] as ProductImeiModel?,
+          productListImei: res[1] as List<ProductImeiModel>?,
+          productsImeiSearchText: res[1] as List<ProductImeiModel>?,
+        ),
+      );
+    } catch (e) {
+      _loggerHelper.logError(message: 'GetProductObsoleteImeiEvent', obj: e);
+      emit(
+        GetProductImeiDataSuccess(
+          state: state,
+          obsoleteImei: null,
+          productListImei: const [],
+          productsImeiSearchText: const [],
+        ),
+      );
+    }
   }
 
   FutureOr<void> _onGetMoreImeiTransaction(
@@ -210,6 +319,35 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           state: state, filterImeiHistory: const FilterImeiHistoryModel()));
     } catch (e) {
       _loggerHelper.logError(message: 'SetDefaultImeiFilterEvent', obj: e);
+    }
+  }
+}
+
+extension ProductBlocExtension on ProductBloc {
+  Future<ProductImeiModel?> getHeightPriorityImei(String productId) async {
+    try {
+      final res = await productRepository.getImei(
+        limit: 1,
+        productId: productId,
+      );
+      if (res.isNotEmpty) {
+        return res.first;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<ProductImeiModel>> getImeiList(String productId) async {
+    try {
+      final res = await productRepository.getImei(
+        limit: 20,
+        productId: productId,
+      );
+      return res;
+    } catch (e) {
+      return [];
     }
   }
 }

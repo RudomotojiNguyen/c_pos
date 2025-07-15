@@ -10,7 +10,7 @@ class CustomerModel {
   String? lastName;
   int? appellation;
   String? phoneNo;
-  int? gender;
+  XGenderType? gender;
   String? email;
   String? dateOfBirth;
   int? city;
@@ -61,7 +61,7 @@ class CustomerModel {
     lastName = json['lastName'];
     appellation = json['appellation'];
     phoneNo = json['phoneNumber'] ?? json['phoneNo'];
-    gender = json['gender'];
+    gender = (json['gender'] as int?)?.getGender;
     email = json['email'];
     dateOfBirth = json['dateOfBirth'];
     city = json['city'];
@@ -111,7 +111,7 @@ class CustomerModel {
     this.lastName = lastName ?? this.lastName;
     this.appellation = appellation?.getValue ?? this.appellation;
     this.phoneNo = phoneNo ?? this.phoneNo;
-    this.gender = gender?.getValue ?? this.gender;
+    this.gender = gender ?? this.gender;
     this.email = email ?? this.email;
     this.dateOfBirth = dateOfBirth ?? this.dateOfBirth;
     this.city = city ?? this.city;
@@ -140,13 +140,7 @@ class CustomerModel {
 
   int get getPoint => point ?? 0;
 
-  XGenderType get getGender {
-    if (appellation == XGenderType.male.getValue ||
-        gender == XGenderType.male.getValue) return XGenderType.male;
-    if (appellation == XGenderType.female.getValue ||
-        gender == XGenderType.female.getValue) return XGenderType.female;
-    return XGenderType.none;
-  }
+  XGenderType get getGender => gender ?? XGenderType.none;
 
   CustomerTable get convertToTable => CustomerTable()
     ..customerId = id

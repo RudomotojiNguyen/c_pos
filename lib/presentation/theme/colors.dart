@@ -30,5 +30,5 @@ class AppColors {
 
   static const greenLightColor = Color(0xFFE3F9F0);
 
-  static final shadowColor = Colors.grey.withOpacity(0.2);
+  static final shadowColor = Colors.grey.withValues(alpha: 0.2);
 }

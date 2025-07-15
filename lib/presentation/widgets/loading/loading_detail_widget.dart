@@ -38,13 +38,13 @@ class LoadingDetailWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BoxSpacer.s8,
-          XPlaceHolder(width: 100.sp, height: 12.sp),
+          const XPlaceHolder(width: 100, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: 160.sp, height: 12.sp),
+          const XPlaceHolder(width: 160, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: 160.sp, height: 12.sp),
+          const XPlaceHolder(width: 160, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: 160.sp, height: 12.sp),
+          const XPlaceHolder(width: 160, height: 12),
         ],
       ),
     );
@@ -56,17 +56,17 @@ class LoadingDetailWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BoxSpacer.s8,
-          XPlaceHolder(width: 100.sp, height: 12.sp),
+          const XPlaceHolder(width: 100, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: 160.sp, height: 12.sp),
+          const XPlaceHolder(width: 160, height: 12),
         ],
       ),
     );
@@ -78,17 +78,17 @@ class LoadingDetailWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BoxSpacer.s8,
-          XPlaceHolder(width: 100.sp, height: 12.sp),
+          const XPlaceHolder(width: 100, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: double.infinity, height: 12.sp),
+          const XPlaceHolder(width: double.infinity, height: 12),
           BoxSpacer.s8,
-          XPlaceHolder(width: 160.sp, height: 12.sp),
+          const XPlaceHolder(width: 160, height: 12),
         ],
       ),
     );
@@ -102,17 +102,17 @@ class LoadingDetailWidget extends StatelessWidget {
           BoxSpacer.s8,
           Row(
             children: [
-              XPlaceHolder(
-                width: 80.sp,
-                height: 80.sp,
+              const XPlaceHolder(
+                width: 80,
+                height: 80,
               ),
               BoxSpacer.s8,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  XPlaceHolder(width: 160.sp, height: 12.sp),
+                  const XPlaceHolder(width: 160, height: 12),
                   BoxSpacer.s8,
-                  XPlaceHolder(width: 100.sp, height: 12.sp),
+                  const XPlaceHolder(width: 100, height: 12),
                 ],
               )
             ],

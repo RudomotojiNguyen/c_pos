@@ -114,7 +114,7 @@ class ExchangeHistoryItem extends StatelessWidget {
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +164,7 @@ class ExchangeHistoryItem extends StatelessWidget {
                       width: 200.sp,
                       decoration: BoxDecoration(
                         color: AppColors.disabledColor,
-                        borderRadius: BorderRadius.circular(8.sp),
+                        borderRadius: BorderRadius.all(AppRadius.xxm),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,7 +191,7 @@ class ExchangeHistoryItem extends StatelessWidget {
                       width: 200.sp,
                       decoration: BoxDecoration(
                         color: AppColors.disabledColor,
-                        borderRadius: BorderRadius.circular(8.sp),
+                        borderRadius: BorderRadius.all(AppRadius.xxm),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,

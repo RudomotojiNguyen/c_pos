@@ -16,7 +16,7 @@ final class MainInitial extends MainState {
 }
 
 final class UpdateInTabSelect extends MainState {
-  UpdateInTabSelect({
+  const UpdateInTabSelect({
     required MainState state,
     required super.tabIndex,
   }) : super();

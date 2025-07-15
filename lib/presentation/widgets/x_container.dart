@@ -72,7 +72,9 @@ class _XContainerState extends State<XContainer>
       padding: widget.padding ??
           EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(widget.borderRadius ?? 16.sp),
+        borderRadius: widget.borderRadius == null
+            ? BorderRadius.all(AppRadius.l)
+            : BorderRadius.all(Radius.circular(widget.borderRadius!)),
         color: widget.bgColor ?? AppColors.white,
       ),
       child: Column(

@@ -13,7 +13,7 @@ class ImeiHistoryItemLoading extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: BorderRadius.all(AppRadius.xxm),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,18 +29,18 @@ class ImeiHistoryItemLoading extends StatelessWidget {
   Widget _topInfo() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.sp),
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           XPlaceHolder(
-            width: 50.sp,
-            height: 12.sp,
+            width: 50,
+            height: 12,
           ),
           XPlaceHolder(
-            width: 80.sp,
-            height: 24.sp,
-            borderRadius: 16.sp,
+            width: 80,
+            height: 24,
+            borderRadius: 16.0,
           ),
         ],
       ),

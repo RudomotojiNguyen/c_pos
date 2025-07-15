@@ -10,7 +10,7 @@ import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../router.dart';
-import '../../drafting_invoice/bloc/drafting_invoice_bloc.dart';
+import '../../drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 
 enum ProductItemType { view, addOn }
 
@@ -62,7 +62,7 @@ class _ProductItemInCartState extends State<ProductItemInCart>
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(16.sp),
+          borderRadius: BorderRadius.all(AppRadius.l),
         ),
         padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
         child: renderProductInfo(),
@@ -130,21 +130,21 @@ class _ProductItemInCartState extends State<ProductItemInCart>
             ],
           ),
         ),
-        if (widget.product.isExistInStock) ...[
-          XButton(
-            type: XButtonType.transparent,
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.sp,
-              vertical: 8.sp,
-            ),
-            onPressed: _addProduct,
-            child: Icon(
-              Icons.add_circle, //Icons.add_circle_outline,
-              size: 20.sp,
-              color: AppColors.primaryColor,
-            ),
-          )
-        ],
+        // if (widget.product.isExistInStock) ...[
+        XButton(
+          type: XButtonType.transparent,
+          padding: EdgeInsets.symmetric(
+            horizontal: 8.sp,
+            vertical: 8.sp,
+          ),
+          onPressed: _addProduct,
+          child: Icon(
+            Icons.add_circle, //Icons.add_circle_outline,
+            size: 20.sp,
+            color: AppColors.primaryColor,
+          ),
+        )
+        // ],
       ],
     );
   }
@@ -163,23 +163,21 @@ class _ProductItemInCartState extends State<ProductItemInCart>
 
   _addProduct() async {
     _draftingInvoiceBloc.add(AddProductEvent(widget.product.convertToTable()));
-    // MainRouter.instance.popUtil(
-    //   context,
-    //   routeName: RouteName.drafts,
-    //   queryParameters: {
-    //     'draftId': '',
-    //     'currentDraftId': _draftingInvoiceBloc.state.currentDraftId.toString()
-    //   },
-    // );
+    MainRouter.instance.popUtil(
+      context,
+      routeName: RouteName.drafts,
+      queryParameters: {
+        'draftId': '',
+        'currentDraftId': _draftingInvoiceBloc.state.currentDraftId.toString()
+      },
+    );
     // if (currentDraftId != null) {
     //   final res = await _searchProductBloc.onAddProduct(
     //       product: widget.product, cartId: currentDraftId!);
     //   if (res) {
-    //     XToast.showPositiveSuccess(
-    //         message: 'Đã thêm sp vào đơn hàng');
+    //     XToast.showPositiveSuccess(message: 'Đã thêm sp vào đơn hàng');
     //   } else {
-    //     XToast.showPositiveSuccess(
-    //         message: 'Thêm sp vào đơn hàng bị lỗi');
+    //     XToast.showPositiveSuccess(message: 'Thêm sp vào đơn hàng bị lỗi');
     //   }
     // }
   }

@@ -30,11 +30,11 @@ class BadRequestException extends AppException {
         );
 }
 
-class UnauthorisedException extends DioError {
+class UnauthorisedException extends DioException {
   UnauthorisedException({
     required super.requestOptions,
     super.response,
   }) : super(
-          type: DioErrorType.unknown,
+          type: DioExceptionType.unknown,
         );
 }

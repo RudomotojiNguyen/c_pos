@@ -121,7 +121,7 @@ class _FormCreateRequestExchangeStoreState
             width: 240.sp,
             decoration: BoxDecoration(
               color: AppColors.disabledColor,
-              borderRadius: BorderRadius.circular(8.sp),
+              borderRadius: BorderRadius.all(AppRadius.xxm),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ class _FormCreateRequestExchangeStoreState
         builder: (context, state) {
           return XBaseButton(
             baseButtonType: BaseButtonType.tapOperation,
-            secondaryWidget: Container(
+            secondaryWidgetBuilder: (closeOverlay) => Container(
               height: 300.sp,
               width: 300.sp,
               padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
@@ -169,6 +169,7 @@ class _FormCreateRequestExchangeStoreState
                     ),
                     onPressed: () {
                       selectedItemNotifier.value = store;
+                      closeOverlay();
                     },
                   );
                 },
@@ -181,7 +182,7 @@ class _FormCreateRequestExchangeStoreState
               width: 240.sp,
               decoration: BoxDecoration(
                 color: AppColors.disabledColor,
-                borderRadius: BorderRadius.circular(8.sp),
+                borderRadius: BorderRadius.all(AppRadius.xxm),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,

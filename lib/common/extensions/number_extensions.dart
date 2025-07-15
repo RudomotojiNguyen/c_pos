@@ -11,6 +11,11 @@ extension NumberExtensions on num {
         .join(':');
   }
 
+  TypeSelect get getTypeSelect =>
+      TypeSelectExtension.mapTypeSelect[this] ?? TypeSelect.none;
+
+  XGenderType get getGender => GenderExtension.map[this] ?? XGenderType.other;
+
   String formatCountdownTimer() {
     final duration = Duration(seconds: toInt());
     return [duration.inHours, duration.inMinutes, duration.inSeconds]

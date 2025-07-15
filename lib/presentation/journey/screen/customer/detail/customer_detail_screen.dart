@@ -89,11 +89,9 @@ class _CustomerDetailScreenState extends XStateWidget<CustomerDetailScreen> {
       bloc: _customerBloc,
       listener: _onListeningCustomerInfo,
       buildWhen: (previous, current) =>
-          current is GetCustomerDetailSuccess ||
-          current is IsLoadingCustomerDetail ||
-          current is GetCustomerDetailError,
+          current is GetCustomerDetailSuccess || current is UpdateIsLoading,
       builder: (context, state) {
-        if (state is IsLoadingCustomerDetail) {
+        if (state is UpdateIsLoading) {
           return const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -517,7 +515,7 @@ extension _CustomerDetailScreenExtension on _CustomerDetailScreenState {
             ?.formatDateTime(format: XDateTimeEnum.yearMonthDay),
       );
 
-      _customerBloc.add(UpdateCustomerDetailEvent(currentCustomer!));
+      _customerBloc.add(UpdateCustomerEvent(currentCustomer!));
     } else {
       XToast.showWarningMessage(
           message: 'Hãy nhập đầy đủ thông tin khách hàng');

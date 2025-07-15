@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../common/constants/go_router.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/extensions/extension.dart';
+import '../../../theme/themes.dart';
 import '../login/bloc/auth_bloc.dart';
 import '../setting/widgets/profile_widget.dart';
 
@@ -151,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.sp),
+                  borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Lottie.asset(
                   Assets.lottie.cashOnDelivery,
@@ -244,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.sp),
+                  borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Lottie.asset(
                   Assets.lottie.customerSupport,
@@ -281,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.sp),
+                  borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Lottie.asset(
                   Assets.lottie.inventory,
@@ -332,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(8.sp),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.sp),
+          borderRadius: BorderRadius.all(AppRadius.l),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

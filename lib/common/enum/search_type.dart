@@ -39,8 +39,6 @@ extension SearchTypeExtension on SearchType {
       case SearchType.orderPhoneNumber:
       case SearchType.billPhoneNumber:
         return 'Số điện thoại';
-      default:
-        return '';
     }
   }
 
@@ -69,8 +67,6 @@ extension SearchTypeExtension on SearchType {
       case SearchType.orderPhoneNumber:
       case SearchType.billPhoneNumber:
         return 'SDT';
-      default:
-        return '';
     }
   }
 
@@ -99,7 +95,6 @@ extension SearchTypeExtension on SearchType {
       case SearchType.product:
         return 1;
       case SearchType.all:
-      default:
         return null;
     }
   }

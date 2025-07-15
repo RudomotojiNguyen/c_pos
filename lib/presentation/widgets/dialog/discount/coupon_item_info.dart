@@ -121,7 +121,7 @@ class CouponItemInfo extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 4.sp, horizontal: 4.sp),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32.sp),
+                      borderRadius: BorderRadius.all(AppRadius.xxl),
                       color: AppColors.white,
                       boxShadow: [
                         BoxShadow(
@@ -142,7 +142,7 @@ class CouponItemInfo extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 4.sp, horizontal: 16.sp),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32.sp),
+                      borderRadius: BorderRadius.all(AppRadius.xxl),
                       color: AppColors.white,
                       boxShadow: [
                         BoxShadow(

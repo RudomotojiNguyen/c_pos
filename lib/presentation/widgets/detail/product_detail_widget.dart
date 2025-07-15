@@ -71,7 +71,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                   externalImeiNo: product.externalImeiNo,
                   baseButtonType: BaseButtonType.tapOperation,
                   decorationChildIsOverlay: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.sp),
+                    borderRadius: BorderRadius.all(AppRadius.l),
                     color: AppColors.white,
                   ),
                   paddingChildIsOverlay:
@@ -84,7 +84,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                           action: action, productChild: productChild),
                   baseButtonTypeChild: BaseButtonType.tapOperation,
                   decorationChildIsOverlayChild: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.sp),
+                    borderRadius: BorderRadius.all(AppRadius.l),
                     color: AppColors.white,
                   ),
                   paddingChildIsOverlayChild:

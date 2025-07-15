@@ -32,9 +32,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.userStorage,
     required this.draftingStorage,
   }) : super(AuthInitial()) {
+    /// đăng nhập
     on<LoginEvent>(_onLogin);
+
+    /// đăng xuất
     on<LogoutEvent>(_onLogout);
+
+    /// lấy thông tin user
     on<GetUserProfileEvent>(_onGetUserProfile);
+
+    /// thay đổi mật khẩu
     on<ChangePasswordEvent>(_onChangePassword);
   }
 

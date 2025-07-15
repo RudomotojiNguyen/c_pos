@@ -157,7 +157,7 @@ class XBasicDropDown<T> extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10.sp),
           decoration: BoxDecoration(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(8.sp),
+              borderRadius: BorderRadius.all(AppRadius.xxm),
               border: Border.all(
                 color: AppColors.dividerColor,
                 width: 0.5.sp,

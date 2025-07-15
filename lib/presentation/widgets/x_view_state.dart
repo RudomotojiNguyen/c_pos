@@ -64,7 +64,6 @@ class XViewStateWidget extends StatelessWidget {
       case XStateType.login:
         return 'Mời bạn đăng nhập để trãi nghiệm các tính năng của ứng dụng';
       case XStateType.error:
-      default:
         return 'Đã có lỗi xảy ra, vui lòng thử lại sau';
     }
   }

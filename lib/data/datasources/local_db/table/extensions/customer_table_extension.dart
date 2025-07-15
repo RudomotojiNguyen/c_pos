@@ -9,77 +9,32 @@ extension CustomerTableExtension on CustomerTable {
 
   String get getCustomerPhone => phoneNo ?? '';
 
+  int get getMaxPoint => point ?? 0;
+
   bool get isNullCustomer =>
       getCustomerFullName.isNullOrEmpty || getCustomerPhone.isNullOrEmpty;
 
-  bool get isDefaultAccount => false;
+  bool get isDefaultAccount => customerId == -1;
 
-  int get getMaxPoint => point ?? 0;
+  Map<String, dynamic> formatTradeInBodyData() {
+    Map<String, dynamic> data = {};
 
-  CustomerModel get convertToModel => CustomerModel(
-        id: customerId,
-        fullName: fullName,
-        lastName: lastName,
-        appellation: appellation.getValue,
-        phoneNo: phoneNo,
-        gender: appellation.getValue,
-        email: email,
-        dateOfBirth: dateOfBirth,
-        city: city,
-        district: district,
-        ward: ward,
-        address: address,
-        // type: type,
-        point: point,
-        identifyNo: indentifyNo,
-      );
+    data['id'] = id;
+    data['fullName'] = fullName;
+    data['appellation'] = appellation;
+    data['phoneNo'] = phoneNo;
+    data['gender'] = gender.getValue;
+    data['appellation'] = gender.getValue;
+    data['indentifyNo'] = indentifyNo;
+    data['email'] = email;
+    data['dateOfBirth'] =
+        dateOfBirth?.formatDate(format: XDateTimeEnum.secondDayMonthYear);
+    data['city'] = city;
+    data['district'] = district;
+    data['ward'] = ward;
+    data['address'] = address;
+    data['type'] = type ?? 1;
 
-  void clearCustomerData() {
-    customerId = null;
-    fullName = null;
-    lastName = null;
-    appellation = XGenderType.none;
-    email = null;
-    dateOfBirth = null;
-    city = null;
-    district = null;
-    ward = null;
-    address = null;
-    point = null;
-    indentifyNo = null;
-  }
-
-  void copyWith(CustomerModel data) {
-    /// nếu cập nhật vào khách hàng khác thì lấy khách đó
-    /// ngược lại thì cập nhật các trường
-    if (data.id != customerId) {
-      customerId = data.id;
-      fullName = data.fullName;
-      lastName = data.lastName;
-      appellation = data.getGender;
-      phoneNo = data.phoneNo;
-      email = data.email;
-      dateOfBirth = data.dateOfBirth;
-      city = data.city;
-      district = data.district;
-      ward = data.ward;
-      address = data.address;
-      point = data.point;
-      indentifyNo = data.identifyNo;
-    } else {
-      customerId = data.id ?? customerId;
-      fullName = data.fullName ?? fullName;
-      lastName = data.lastName ?? lastName;
-      appellation = data.getGender;
-      phoneNo = data.phoneNo ?? phoneNo;
-      email = data.email ?? email;
-      dateOfBirth = data.dateOfBirth ?? dateOfBirth;
-      city = data.city ?? city;
-      district = data.district ?? district;
-      ward = data.ward ?? ward;
-      address = data.address ?? address;
-      point = data.point ?? point;
-      indentifyNo = data.identifyNo ?? indentifyNo;
-    }
+    return data;
   }
 }

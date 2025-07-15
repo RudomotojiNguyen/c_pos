@@ -1,1 +1,1 @@
-enum DiscountMemberType { point, dMem, none }
+enum DiscountMemberType { point, none }

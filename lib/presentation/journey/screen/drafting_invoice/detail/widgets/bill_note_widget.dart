@@ -21,13 +21,14 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailLoading ||
-          current is GetDraftingInvoiceDetailSuccess ||
-          (((previous.products.isEmpty) || (current.products.isEmpty)) &&
-              current is UpdateDraftEvent),
+          current is IsGettingDetail ||
+          current is GetCurrentDraftDataSuccess ||
+          (((previous.products?.isEmpty ?? true) ||
+                  (current.products?.isEmpty ?? true)) &&
+              current is UpdateProductsSuccess),
       builder: (context, state) {
-        if (state.products.isEmpty ||
-            [CartType.tradeIn, CartType.warranty].contains(state.cartType)) {
+        if ((state.products?.isEmpty ?? true) ||
+            {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
         return XContainer(
@@ -65,28 +66,41 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   Widget _suggestWarrantyNote(BuildContext ctx) {
     return XBaseButton(
       onPressed: () {
-        showXBottomSheet(ctx,
-            enableDrag: true,
-            padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-            margin: EdgeInsets.zero.copyWith(top: 60.sp),
-            body: SuggestNotesDialog(
-          callBack: (Map<int, String> result) {
-            String joinResult = _draftingInvoiceBloc.state.warrantyNote ?? '';
-            joinResult += '\n';
-            joinResult += result.values.join('\n');
+        showXBottomSheet(
+          ctx,
+          enableDrag: true,
+          padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
+          margin: EdgeInsets.zero.copyWith(top: 60.sp),
+          body: SuggestNotesDialog(
+            callBack: (Map<int, String> result) {
+              String joinResult = _draftingInvoiceBloc.state.warrantyNote ?? '';
+              joinResult += '\n';
+              joinResult += result.values.join('\n');
 
-            _draftingInvoiceBloc.add(UpdateNoteEvent(
-                warrantyNote: joinResult,
-                saleNote: _draftingInvoiceBloc.state.saleNote));
-          },
-        ));
+              _draftingInvoiceBloc.add(
+                UpdateNoteEvent(
+                  warrantyNote: joinResult,
+                  saleNote: _draftingInvoiceBloc.state.saleNote,
+                ),
+              );
+            },
+          ),
+        );
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          Assets.svg.ai.svg(
+            width: 18.sp,
+            height: 18.sp,
+          ),
+          BoxSpacer.s8,
           Text(
             'Gợi ý ghi chú BH',
-            style: AppFont.t.s(10),
+            style: AppFont.t.s().copyWith(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 10.sp,
+                ),
           ),
         ],
       ),
@@ -111,10 +125,12 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
               title: 'CSKH',
               value: state!,
               onRemove: () {
-                _draftingInvoiceBloc.add(UpdateNoteEvent(
-                  saleNote: null,
-                  warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
-                ));
+                _draftingInvoiceBloc.add(
+                  UpdateNoteEvent(
+                    saleNote: null,
+                    warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
+                  ),
+                );
               },
             ),
           ],
@@ -140,10 +156,12 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
               title: 'Bảo hành',
               value: state!,
               onRemove: () {
-                _draftingInvoiceBloc.add(UpdateNoteEvent(
-                  saleNote: _draftingInvoiceBloc.state.saleNote,
-                  warrantyNote: null,
-                ));
+                _draftingInvoiceBloc.add(
+                  UpdateNoteEvent(
+                    saleNote: _draftingInvoiceBloc.state.saleNote,
+                    warrantyNote: null,
+                  ),
+                );
               },
             ),
           ],
@@ -164,10 +182,7 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
         Row(
           children: [
             Expanded(
-              child: Text(
-                title,
-                style: AppFont.t.s(),
-              ),
+              child: Text(title, style: AppFont.t.s()),
             ),
             XBaseButton(
               onPressed: onRemove,
@@ -182,7 +197,7 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
           padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
           decoration: BoxDecoration(
             color: AppColors.lightGreyColor,
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.all(AppRadius.l),
           ),
           child: Text(
             value.trim(),
@@ -199,20 +214,24 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   /// METHOD
   ///
   void onPressedEdit(BuildContext ctx) {
-    showXBottomSheet(ctx,
-        enableDrag: true,
-        padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-        margin: EdgeInsets.zero.copyWith(top: 60.sp),
-        body: ModifyNoteDialog(
-          saleNote: _draftingInvoiceBloc.state.saleNote,
-          warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
-          callBackResult: (sale, warranty) {
-            Navigator.pop(ctx);
-            _draftingInvoiceBloc.add(UpdateNoteEvent(
+    showXBottomSheet(
+      ctx,
+      enableDrag: true,
+      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
+      margin: EdgeInsets.zero.copyWith(top: 60.sp),
+      body: ModifyNoteDialog(
+        saleNote: _draftingInvoiceBloc.state.saleNote,
+        warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
+        callBackResult: (sale, warranty) {
+          Navigator.pop(ctx);
+          _draftingInvoiceBloc.add(
+            UpdateNoteEvent(
               saleNote: sale.isNotEmpty ? sale : null,
               warrantyNote: warranty.isNotEmpty ? warranty : null,
-            ));
-          },
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 }

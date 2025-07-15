@@ -15,7 +15,7 @@ class XContainerLoading extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
         color: AppColors.white,
       ),
       child: Column(
@@ -23,14 +23,14 @@ class XContainerLoading extends StatelessWidget {
         children: [
           Row(
             children: [
-              XPlaceHolder(
-                width: 32.sp,
-                height: 32.sp,
+              const XPlaceHolder(
+                width: 32,
+                height: 32,
               ),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 80.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 80,
+                height: 12,
               ),
             ],
           ),

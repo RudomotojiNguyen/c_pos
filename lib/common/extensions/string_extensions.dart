@@ -74,7 +74,8 @@ extension StringExtensions on String {
         : (this == 'percent' ? DiscountType.percent : DiscountType.amount);
   }
 
-  String formatDate({String format = 'dd/MM/yyyy', int duration = 0}) {
+  String formatDate(
+      {XDateTimeEnum format = XDateTimeEnum.dayMonthYear, int duration = 0}) {
     try {
       // Chuyển thành DateTime và áp dụng UTC+0
       DateTime dateTime = DateTime.parse(this).toUtc();
@@ -83,7 +84,7 @@ extension StringExtensions on String {
       DateTime dateTimeInUtcPlus7 = dateTime.add(Duration(hours: duration));
 
       // Định dạng thời gian theo dạng dd/MM/yyyy
-      return DateFormat(format).format(dateTimeInUtcPlus7);
+      return DateFormat(format.getValue).format(dateTimeInUtcPlus7);
     } catch (e) {
       return '';
     }

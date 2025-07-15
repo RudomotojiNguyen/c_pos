@@ -15,7 +15,7 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
   final List<TradeInType> types = [
     TradeInType.tradeIn,
     TradeInType.buyingOldItems,
-    TradeInType.exchangeWarranty
+    TradeInType.exchangeWarranty,
   ];
 
   @override
@@ -36,11 +36,11 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
-          current is GetDraftingInvoiceDetailSuccess ||
+          current is GetCurrentDraftDataSuccess ||
           current is UpdateTradeInTypeSuccess,
       builder: (context, state) {
         if (!state.checkNullDraft &&
-            [CartType.tradeIn].contains(state.cartType)) {
+            {CartType.tradeIn}.contains(state.cartType)) {
           return XContainer(
             margin: EdgeInsets.only(top: 16.sp),
             iconTitle: Assets.svg.checklist.svg(
@@ -58,18 +58,19 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
                 return XBaseButton(
                   onPressed: () {
                     if (!isSelected) {
-                      _draftingInvoiceBloc
-                          .add(UpdateTradeInTypeEvent(type: type));
+                      _draftingInvoiceBloc.add(UpdateTradeInTypeEvent(type));
                     }
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                        vertical: 16.sp, horizontal: 16.sp),
+                      vertical: 16.sp,
+                      horizontal: 16.sp,
+                    ),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? AppColors.pinkLightColor
                           : AppColors.white,
-                      borderRadius: BorderRadius.circular(8.sp),
+                      borderRadius: BorderRadius.all(AppRadius.xxm),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

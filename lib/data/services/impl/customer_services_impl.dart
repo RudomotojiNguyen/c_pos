@@ -6,19 +6,25 @@ class CustomerServicesImpl implements CustomerServices {
   CustomerServicesImpl({required this.customerApi});
 
   @override
-  Future<PaginatedResponse<CustomerModel>> getCustomers(
-      {required int page, required int size, String? phoneNumber}) async {
-    final res = await customerApi.getCustomers(
-        page: page, pageSize: size, customerPhone: phoneNumber);
-
-    return PaginatedResponse.fromJson(
-        res.data, (json) => CustomerModel.fromJson(json));
-  }
-
-  @override
-  Future<bool> checkOTPUseDMem(Map<String, dynamic> params) {
-    return customerApi.checkOtpIsGenerated(params).then((value) {
-      return value.data as bool;
+  Future<PaginatedResponse<CustomerModel>> getCustomers({
+    required int page,
+    required int size,
+    String? phoneNumber,
+    String? customerName,
+  }) {
+    return customerApi
+        .getCustomers(
+      page: page,
+      size: size,
+      customerPhone: phoneNumber,
+      customerName: customerName,
+    )
+        .then((value) {
+      return PaginatedResponse.fromJson(
+        value.data,
+        (json) => CustomerModel.fromJson(json),
+        // itemsKey: 'list_customer',
+      );
     });
   }
 
@@ -31,24 +37,12 @@ class CustomerServicesImpl implements CustomerServices {
 
   @override
   Future<(String, double)> getCustomerOTPToChangePoint(
-      Map<String, dynamic> params) {
+    Map<String, dynamic> params,
+  ) {
     return customerApi.getCustomerOTPToChangePoint(params).then((value) {
       String otp = value.data['otp'] as String;
       double moneyUsePoint = Utils.toDouble(value.data['moneyUsePoint']);
       return (otp, moneyUsePoint);
-    });
-  }
-
-  @override
-  Future<(String, CustomerModel?)> getCustomerOTPToUseDMem(
-      Map<String, dynamic> params) {
-    return customerApi.getOtpByPhone(params).then((value) {
-      String otp = value.data['otp'] ?? '';
-      CustomerModel? customer = value.data.containsKey('customer')
-          ? CustomerModel.fromJson(value.data['customer'])
-          : null;
-
-      return (otp, customer);
     });
   }
 

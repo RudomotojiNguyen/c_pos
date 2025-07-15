@@ -177,9 +177,12 @@ extension ProductTableExtension on ProductTable {
         : finalProductDiscountAmount;
   }
 
-  List<ProductTable> get products => getIt.isRegistered<DraftingInvoiceBloc>()
-      ? (getIt.get<DraftingInvoiceBloc>().state.products ?? [])
-      : [];
+  List<ProductTable> get products {
+    if (getIt.isRegistered<DraftingInvoiceBloc>()) {
+      return getIt.get<DraftingInvoiceBloc>().state.products ?? [];
+    }
+    return [];
+  }
 
   double get discountForCombo =>
       products.totalDiscountPriceWhenBuyingImeiAndComboProduct;

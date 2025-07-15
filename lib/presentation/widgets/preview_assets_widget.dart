@@ -73,7 +73,7 @@ class _PreviewAssetsWidgetState extends State<PreviewAssetsWidget> {
         right: 16.sp,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white.withOpacity(0.1),
+        color: AppColors.white.withValues(alpha: 0.1),
       ),
       child: Row(
         children: [

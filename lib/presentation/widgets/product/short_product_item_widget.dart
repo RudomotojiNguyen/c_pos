@@ -27,7 +27,7 @@ class ShortProductItemWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
       ),
       padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
       child: Column(

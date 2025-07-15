@@ -45,10 +45,9 @@ class _CustomerHistoryScreenState extends XStateWidget<CustomerHistoryScreen> {
     return BlocBuilder<CustomerBloc, CustomerState>(
       bloc: _customerBloc,
       buildWhen: (previous, current) =>
-          current is GetCustomerDetailSuccess ||
-          current is IsLoadingCustomerDetail,
+          current is GetCustomerDetailSuccess || current is UpdateIsLoading,
       builder: (context, state) {
-        if (state is IsLoadingCustomerDetail) {
+        if (state is UpdateIsLoading) {
           return _loadingWidget();
         }
 
@@ -112,9 +111,9 @@ class _CustomerHistoryScreenState extends XStateWidget<CustomerHistoryScreen> {
             children: [
               ...List.generate(
                   4,
-                  (index) => XPlaceHolder(
-                        width: 80.sp,
-                        height: 16.sp,
+                  (index) => const XPlaceHolder(
+                        width: 80,
+                        height: 16,
                       )),
             ],
           ),

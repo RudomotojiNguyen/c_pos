@@ -154,6 +154,9 @@ class XTextFieldState<T> extends State<XTextField<T>> {
   final ValueNotifier<TimeOfDay?> timeController = ValueNotifier(null);
   final ValueNotifier<String?> valueButtonController = ValueNotifier(null);
 
+  /// get state
+  BorderRadius get getBorderRadius => BorderRadius.all(AppRadius.l);
+
   @override
   void initState() {
     super.initState();
@@ -293,8 +296,6 @@ class XTextFieldState<T> extends State<XTextField<T>> {
         return _formMultipleDateInput();
       case TextInputStyle.button:
         return _buttonWidget();
-      default:
-        return BoxSpacer.blank;
     }
   }
 
@@ -303,10 +304,10 @@ class XTextFieldState<T> extends State<XTextField<T>> {
       onPressed: widget.onPress,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: getBorderRadius,
           border: Border.all(
             width: 1.sp,
-            color: AppColors.dividerColor.withOpacity(.5),
+            color: AppColors.dividerColor.withValues(alpha: .5),
           ),
           color: AppColors.white,
         ),
@@ -498,7 +499,7 @@ class XTextFieldState<T> extends State<XTextField<T>> {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 8.sp),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: getBorderRadius,
           border: Border.all(
             width: 1.sp,
             color: AppColors.dividerColor,
@@ -552,24 +553,29 @@ class XTextFieldState<T> extends State<XTextField<T>> {
   InputDecoration _decoration(BuildContext context) {
     return InputDecoration(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.dividerColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.dividerColor.withValues(alpha: .5)),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.dividerColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.dividerColor.withValues(alpha: .5)),
       ),
       disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.dividerColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.dividerColor.withValues(alpha: .5)),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.dividerColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.dividerColor.withValues(alpha: .5)),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.errorColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.errorColor.withValues(alpha: .5)),
       ),
       counterText: '',
       alignLabelWithHint: true,
@@ -611,24 +617,26 @@ class XTextFieldState<T> extends State<XTextField<T>> {
   InputDecoration _roundedDecoration(BuildContext context) {
     return InputDecoration(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.dividerColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.dividerColor.withValues(alpha: .5)),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: AppColors.dividerColor),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: AppColors.dividerColor),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: Colors.red.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide: BorderSide(color: Colors.red.withValues(alpha: .5)),
       ),
       disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
-        borderSide: BorderSide(color: AppColors.dividerColor.withOpacity(.5)),
+        borderRadius: getBorderRadius,
+        borderSide:
+            BorderSide(color: AppColors.dividerColor.withValues(alpha: .5)),
       ),
       counterText: '',
       alignLabelWithHint: true,
@@ -648,23 +656,23 @@ class XTextFieldState<T> extends State<XTextField<T>> {
   InputDecoration _searchDecoration(BuildContext context) {
     return InputDecoration(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: Colors.white),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: Colors.white),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: Colors.white),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: Colors.white),
       ),
       disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: getBorderRadius,
         borderSide: const BorderSide(color: Colors.white),
       ),
       counterText: '',
@@ -697,7 +705,7 @@ class XTextFieldState<T> extends State<XTextField<T>> {
             elevation: 1.0,
             color: AppColors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.sp),
+              borderRadius: BorderRadius.all(AppRadius.l),
             ),
             child: ValueListenableBuilder<List<T>?>(
               valueListenable: items,

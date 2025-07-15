@@ -18,7 +18,7 @@ class TransactionItemLoading extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(8.sp),
+        borderRadius: BorderRadius.all(AppRadius.xxm),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -43,21 +43,21 @@ class TransactionItemLoading extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XPlaceHolder(
-                width: 50.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 50,
+                height: 12,
               ),
               BoxSpacer.s2,
-              XPlaceHolder(
-                width: 100.sp,
-                height: 12.sp,
+              const XPlaceHolder(
+                width: 100,
+                height: 12,
               ),
             ],
           ),
-          XPlaceHolder(
-            width: 80.sp,
-            height: 24.sp,
-            borderRadius: 16.sp,
+          const XPlaceHolder(
+            width: 80,
+            height: 24,
+            borderRadius: 16,
           ),
         ],
       ),
@@ -76,9 +76,9 @@ class TransactionItemLoading extends StatelessWidget {
             children: [
               Text('Khách hàng', style: AppFont.t.s(11).w600.neutral2),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 90.sp,
-                height: 16.sp,
+              const XPlaceHolder(
+                width: 90,
+                height: 16,
               ),
             ],
           ),
@@ -90,9 +90,9 @@ class TransactionItemLoading extends StatelessWidget {
                 style: AppFont.t.s(11).w600.neutral2,
               ),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 90.sp,
-                height: 16.sp,
+              const XPlaceHolder(
+                width: 90,
+                height: 16,
               ),
             ],
           ),
@@ -116,9 +116,9 @@ class TransactionItemLoading extends StatelessWidget {
                 style: AppFont.t.s(11).w600.neutral2,
               ),
               BoxSpacer.s8,
-              XPlaceHolder(
-                width: 160.sp,
-                height: 18.sp,
+              const XPlaceHolder(
+                width: 160,
+                height: 18,
               ),
             ],
           ),

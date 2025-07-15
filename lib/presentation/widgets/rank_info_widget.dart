@@ -14,7 +14,7 @@ class RankInfoWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.sp, horizontal: 8.sp),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.sp),
+        borderRadius: BorderRadius.all(AppRadius.l),
         color: AppColors.informationColor.withAlpha(30),
       ),
       child: Row(

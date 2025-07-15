@@ -18,8 +18,6 @@ extension PaymentTransactionExtension on PaymentTransaction {
         return 3;
       case PaymentTransaction.installment:
         return 4;
-      default:
-        return 0;
     }
   }
 }

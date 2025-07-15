@@ -6,7 +6,6 @@ import '../../../../common/di/injection/injection.dart';
 import '../../../mixins/dialog_mixins.dart';
 import '../../../widgets/widgets.dart';
 import '../../router.dart';
-import '../global_bloc/global_core_bloc.dart';
 import '../home/home_screen.dart';
 import '../login/bloc/auth_bloc.dart';
 import '../setting/bloc/setting_bloc.dart';

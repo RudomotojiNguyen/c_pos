@@ -91,6 +91,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/add-to-cart.svg
   SvgGenImage get addToCart => const SvgGenImage('assets/svg/add-to-cart.svg');
 
+  /// File path: assets/svg/ai.svg
+  SvgGenImage get ai => const SvgGenImage('assets/svg/ai.svg');
+
   /// File path: assets/svg/barcode.svg
   SvgGenImage get barcode => const SvgGenImage('assets/svg/barcode.svg');
 
@@ -176,6 +179,7 @@ class $AssetsSvgGen {
   /// List of all assets
   List<SvgGenImage> get values => [
         addToCart,
+        ai,
         barcode,
         bill,
         cash,

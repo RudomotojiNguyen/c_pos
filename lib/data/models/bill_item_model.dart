@@ -2,8 +2,10 @@ import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
+import '../datasources/local_db/local_db.dart';
 import 'discount_program_model.dart';
 import 'product_discount_model.dart';
+import 'product_imei_model.dart';
 import 'product_model.dart';
 import 'voucher_model.dart';
 
@@ -289,62 +291,62 @@ class BillItemModel {
   int get getQuantity => quantity ?? 0;
 
   // todo: check với nhiều loại sản phẩn, voucher, chiết khấu tay,...
-  // ProductTable get convertToProductTable => ProductTable()
-  //       ..itemId = id
-  //       ..quantity = quantity
-  //       ..productName = productName
-  //       ..imei = ProductImeiModel(imeiNo: imeiNo)
-  //       ..productCode = productCode
-  //       ..barCode = barCode
-  //       ..sellingPrice = sellingPrice
-  //       ..createdAt = createdAt
-  //       ..note = note
-  //       ..merchantId = merchantId
-  //       ..belongToWarrantyImei = belongToWarrantyImei
-  //       ..discountProgramId = discountProgramId
-  //       ..discountType = discountType
-  //       ..discountAmount = discountAmount
-  //       ..productType = productType
-  //       ..productId = productId
-  //       ..repurchasePrice = repurchasePrice
-  //       ..promotionId = promotionId
-  //       ..accessoryGroupId = accessoryGroupId
-  //       ..accessoryGroupCode = accessoryGroupCode
-  //       ..note = note
-  //       ..flexibleComboId = flexibleComboId
-  //       ..flexibleComboItemId = flexibleComboItemId
-  //       ..merchantId = merchantId
-  //       ..belongBillDetailId =
-  //           belongBillDetailId // Id sản phẩm gốc trong hóa đơn bán hàng
-  //       // ..newProductId = newProductId
-  //       // ..newQuantity = newQuantity
-  //       // ..newProductPrice = newProductPrice
-  //       // ..newProductType = newProductType
-  //       // ..newProductName = newProductName
-  //       // ..newProductCode = newProductCode
-  //       // ..newImeiCode = newImeiCode
-  //       // ..newImeiId = newImeiId
-  //       // ..newTotalPrice = newTotalPrice
-  //       // ..isLostProduct = isLostProduct
-  //       ..warrantyMonthNo = warrantyMonthNo
-  //       ..selectImeiReason = selectImeiReason
-  //       ..warrantyReasonId = warrantyReasonId // lý do bảo hành
-  //       ..warrantyAddress = warrantyAddress
-  //       ..warrantyPhone = warrantyPhone
-  //       ..warrantyDescription = warrantyDescription
-  //       ..customerDiscountForProduct = getProductDiscount
-  //       ..discountProgramId = discountProgramId
-  //       ..productCategory = productCategory
-  //       ..productWebCategory = productWebCategory
-  //       ..externalImeiNo = externalImeiNo
-  //       ..belongToWarrantyImei = belongToWarrantyImei
-  //       // ..discountProgram = discountProgram
-  //       ..externalImeiId = externalImeiId
-  //     // ..vouchers = vouchers
-  //     // ..gifts = gifts
-  //     // ..attachs = attachs
-  //     // ..allowViewFullExternalImeiNo = allowViewFullExternalImeiNo
-  //     ;
+  ProductTable get convertToProductTable => ProductTable()
+        ..itemId = id
+        ..quantity = quantity
+        ..productName = productName
+        ..imei = ProductImeiModel(imeiNo: imeiNo)
+        ..productCode = productCode
+        ..barCode = barCode
+        ..sellingPrice = sellingPrice
+        ..createdAt = createdAt
+        ..note = note
+        ..merchantId = merchantId
+        ..belongToWarrantyImei = belongToWarrantyImei
+        ..discountProgramId = discountProgramId
+        ..discountType = discountType
+        ..discountAmount = discountAmount
+        ..productType = productType
+        ..productId = productId
+        ..repurchasePrice = repurchasePrice
+        ..promotionId = promotionId
+        ..accessoryGroupId = accessoryGroupId
+        ..accessoryGroupCode = accessoryGroupCode
+        ..note = note
+        ..flexibleComboId = flexibleComboId
+        ..flexibleComboItemId = flexibleComboItemId
+        ..merchantId = merchantId
+        ..belongBillDetailId =
+            belongBillDetailId // Id sản phẩm gốc trong hóa đơn bán hàng
+        // ..newProductId = newProductId
+        // ..newQuantity = newQuantity
+        // ..newProductPrice = newProductPrice
+        // ..newProductType = newProductType
+        // ..newProductName = newProductName
+        // ..newProductCode = newProductCode
+        // ..newImeiCode = newImeiCode
+        // ..newImeiId = newImeiId
+        // ..newTotalPrice = newTotalPrice
+        // ..isLostProduct = isLostProduct
+        ..warrantyMonthNo = warrantyMonthNo
+        ..selectImeiReason = selectImeiReason
+        ..warrantyReasonId = warrantyReasonId // lý do bảo hành
+        ..warrantyAddress = warrantyAddress
+        ..warrantyPhone = warrantyPhone
+        ..warrantyDescription = warrantyDescription
+        ..customerDiscountForProduct = getProductDiscount
+        ..discountProgramId = discountProgramId
+        ..productCategory = productCategory
+        ..productWebCategory = productWebCategory
+        ..externalImeiNo = externalImeiNo
+        ..belongToWarrantyImei = belongToWarrantyImei
+        // ..discountProgram = discountProgram
+        ..externalImeiId = externalImeiId
+      // ..vouchers = vouchers
+      // ..gifts = gifts
+      // ..attachs = attachs
+      // ..allowViewFullExternalImeiNo = allowViewFullExternalImeiNo
+      ;
 
   ProductDiscountModel get getProductDiscount => ProductDiscountModel(
         id: customerTypeId?.toString(),
@@ -367,29 +369,29 @@ class BillItemModel {
         barCode: barCode,
       );
 
-  // List<ProductTable> get getConvertGifts =>
-  //     gifts
-  //         ?.map((e) =>
-  //             e.convertToProductTable..productChildType = ProductType.gift)
-  //         .toList() ??
-  //     [];
+  List<ProductTable> get getConvertGifts =>
+      gifts
+          ?.map((e) =>
+              e.convertToProductTable..productChildType = ProductType.gift)
+          .toList() ??
+      [];
 
-  // List<ProductTable> get getConvertAttaches =>
-  //     attaches
-  //         ?.map((e) =>
-  //             e.convertToProductTable..productChildType = ProductType.attach)
-  //         .toList() ??
-  //     [];
+  List<ProductTable> get getConvertAttaches =>
+      attaches
+          ?.map((e) =>
+              e.convertToProductTable..productChildType = ProductType.attach)
+          .toList() ??
+      [];
 
-  // List<ProductTable> get getConvertWarranty =>
-  //     warranty
-  //         ?.map((e) =>
-  //             e.convertToProductTable..productChildType = ProductType.warranty)
-  //         .toList() ??
-  //     [];
+  List<ProductTable> get getConvertWarranty =>
+      warranty
+          ?.map((e) =>
+              e.convertToProductTable..productChildType = ProductType.warranty)
+          .toList() ??
+      [];
 
-  // List<VoucherTable> get getConvertVouchers =>
-  //     vouchers?.map((e) => e.convertToTable).toList() ?? [];
+  List<VoucherTable> get getConvertVouchers =>
+      vouchers?.map((e) => e.convertToTable).toList() ?? [];
 
   // tính lại tiền sản phẩm
   double get calculateTotalPrice => (productPrice ?? 0) * (quantity ?? 1);

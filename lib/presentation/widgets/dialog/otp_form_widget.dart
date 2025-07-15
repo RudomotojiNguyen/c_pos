@@ -68,9 +68,6 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
     super.initState();
     _controllers = List.generate(widget.length, (_) => TextEditingController());
     _focusNodes = List.generate(widget.length, (_) => FocusNode());
-    if (widget.type == DiscountMemberType.dMem) {
-      _enableInputOtpController.value = true;
-    }
   }
 
   @override
@@ -114,13 +111,6 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.type == DiscountMemberType.dMem) ...[
-              Text(
-                'Chiết khấu thành viên',
-                style: AppFont.t.s(),
-              ),
-              BoxSpacer.s8,
-            ],
             if (widget.type == DiscountMemberType.point) ...[
               Text(
                 'Tiêu điểm',
@@ -219,22 +209,23 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.sp),
+                  borderRadius: BorderRadius.all(AppRadius.xxm),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.sp),
+                  borderRadius: BorderRadius.all(AppRadius.xxm),
                   borderSide: const BorderSide(color: AppColors.dividerColor),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.sp),
+                  borderRadius: BorderRadius.all(AppRadius.xxm),
                   borderSide: const BorderSide(color: AppColors.dividerColor),
                 ),
                 errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.sp),
-                  borderSide: BorderSide(color: Colors.red.withOpacity(.5)),
+                  borderRadius: BorderRadius.all(AppRadius.xxm),
+                  borderSide:
+                      BorderSide(color: Colors.red.withValues(alpha: .5)),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.sp),
+                  borderRadius: BorderRadius.all(AppRadius.xxm),
                   borderSide: const BorderSide(color: Colors.transparent),
                 ),
                 counterText: '',
@@ -289,7 +280,7 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
                       color: isValidInput
                           ? AppColors.primaryColor
                           : AppColors.disabledActionColor,
-                      borderRadius: BorderRadius.circular(8.sp),
+                      borderRadius: BorderRadius.all(AppRadius.xxm),
                     ),
                     child: Icon(
                       Icons.arrow_forward,

@@ -1,4 +1,7 @@
+import 'package:c_pos/common/enum/enum.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/models/customer_model.dart';
 
 class AppConstants {
   static const screenWidth = 1170.0;
@@ -21,6 +24,15 @@ class AppConstants {
   static const defaultImage = 'https://didongviet.vn/NoImage.png';
 
   static const comboExtraDiscountAmount = 50000;
+
+  static CustomerModel defaultCustomer = CustomerModel(
+    id: -1,
+    // tài khoản mặc định để là -1 để ẩn những thứ cẩn ẩn
+    phoneNo: '0123456789',
+    fullName: 'Khách hàng mặc định',
+    appellation: XGenderType.male.getValue,
+    gender: XGenderType.male,
+  );
 }
 
 class CacheKeys {

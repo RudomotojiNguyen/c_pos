@@ -221,7 +221,7 @@ class _NoteItemState extends State<NoteItem> {
                 color: value
                     ? AppColors.pinkLightColor
                     : AppColors.primaryLightColor,
-                borderRadius: BorderRadius.circular(16.sp),
+                borderRadius: BorderRadius.all(AppRadius.l),
               ),
               child: child,
             );
