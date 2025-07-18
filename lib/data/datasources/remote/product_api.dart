@@ -123,9 +123,9 @@ abstract class ProductApi {
   ///            customerPhone: String,
   ///            billNumber: int,
   ///          };
-  @POST('customer/discount')
-  Future<BaseResponse> getProductDiscountInfoByCustomer(
-      @Body() Map<String, dynamic> params);
+  // @POST('customer/discount')
+  // Future<BaseResponse> getProductDiscountInfoByCustomer(
+  //     @Body() Map<String, dynamic> params);
 
   /// lấy imeis
   /// với phần lấy imei ưu tiên có thể truyền limit là 1

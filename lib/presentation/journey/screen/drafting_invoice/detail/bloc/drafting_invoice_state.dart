@@ -5,10 +5,7 @@ sealed class DraftingInvoiceState extends Equatable {
   const DraftingInvoiceState({
     this.currentDraftId,
     this.customer,
-    this.saleInfo,
-    this.technicalInfo,
     this.products,
-    this.customerRankName,
     this.billId,
     this.orderId,
     this.customerNote,
@@ -55,10 +52,7 @@ sealed class DraftingInvoiceState extends Equatable {
 
   ///
   final CustomerTable? customer;
-  final EmployeeModel? saleInfo;
-  final EmployeeModel? technicalInfo;
   final List<ProductTable>? products;
-  final String? customerRankName;
   final String? billId;
   final int? orderId;
   final int? billNumber; // số hóa đơn
@@ -124,10 +118,7 @@ sealed class DraftingInvoiceState extends Equatable {
   List<Object?> get props => [
         currentDraftId,
         customer,
-        saleInfo,
-        technicalInfo,
         products,
-        customerRankName,
         billId,
         orderId,
         customerNote,
@@ -254,10 +245,7 @@ final class GetCurrentDraftDataSuccess extends DraftingInvoiceState {
     //
     super.currentDraftId,
     super.customer,
-    super.saleInfo,
-    super.technicalInfo,
     super.products,
-    super.customerRankName,
     super.billId,
     super.billNumber,
     super.orderId,
@@ -306,10 +294,8 @@ final class UpdateCustomerSuccess extends DraftingInvoiceState {
     required super.discountTotalBillByPoint,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
+
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -351,63 +337,13 @@ final class UpdateCustomerSuccess extends DraftingInvoiceState {
 }
 
 //
-final class UpdateSaleInfoSuccess extends DraftingInvoiceState {
-  UpdateSaleInfoSuccess({
-    required DraftingInvoiceState state,
-    required super.saleInfo,
-  }) : super(
-          currentDraftId: state.currentDraftId,
-          customer: state.customer,
-          technicalInfo: state.technicalInfo,
-          products: state.products,
-          customerRankName: state.customerRankName,
-          billId: state.billId,
-          billNumber: state.billNumber,
-          orderId: state.orderId,
-          customerNote: state.customerNote,
-          warrantyNote: state.warrantyNote,
-          saleNote: state.saleNote,
-          isDefaultInfo: state.isDefaultInfo,
-          vatChecked: state.vatChecked,
-          isCountPoint: state.isCountPoint,
-          cartType: state.cartType,
-          discountTotalBill: state.discountTotalBill,
-          couponDiscountCode: state.couponDiscountCode,
-          productTradeIn: state.productTradeIn,
-          productImei: state.productImei,
-          isEstimateCost: state.isEstimateCost,
-          isSoldByCompany: state.isSoldByCompany,
-          method: state.method,
-          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
-          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
-          discountOfBill: state.discountOfBill,
-          totalPrePayment: state.totalPrePayment,
-          finalPrice: state.finalPrice,
-          mustPay: state.mustPay,
-          paymentByCash: state.paymentByCash,
-          paymentByTransfer: state.paymentByTransfer,
-          paymentByCredit: state.paymentByCredit,
-          paymentByInstallment: state.paymentByInstallment,
-          deliveryFee: state.deliveryFee,
-          orderSubDetail: state.orderSubDetail,
-          tradeInType: state.tradeInType,
-          product: state.product,
-          programingSelected: state.programingSelected,
-          estimationBuyingPrice: state.estimationBuyingPrice,
-          productBuyingPrice: state.productBuyingPrice,
-          totalCriteriaPrice: state.totalCriteriaPrice,
-          tradeInProgramId: state.tradeInProgramId,
-        );
-}
 
 final class IsLoadingDetailState extends DraftingInvoiceState {
   IsLoadingDetailState({required DraftingInvoiceState state})
       : super(
           currentDraftId: state.currentDraftId,
           customer: state.customer,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -435,7 +371,6 @@ final class IsLoadingDetailState extends DraftingInvoiceState {
           paymentByTransfer: state.paymentByTransfer,
           paymentByCredit: state.paymentByCredit,
           paymentByInstallment: state.paymentByInstallment,
-          saleInfo: state.saleInfo,
           deliveryFee: state.deliveryFee,
           orderSubDetail: state.orderSubDetail,
           tradeInType: state.tradeInType,
@@ -449,54 +384,6 @@ final class IsLoadingDetailState extends DraftingInvoiceState {
 }
 
 //
-final class UpdateTechInfoSuccess extends DraftingInvoiceState {
-  UpdateTechInfoSuccess({
-    required DraftingInvoiceState state,
-    required super.technicalInfo,
-  }) : super(
-          currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          customer: state.customer,
-          products: state.products,
-          customerRankName: state.customerRankName,
-          billId: state.billId,
-          billNumber: state.billNumber,
-          orderId: state.orderId,
-          customerNote: state.customerNote,
-          warrantyNote: state.warrantyNote,
-          saleNote: state.saleNote,
-          isDefaultInfo: state.isDefaultInfo,
-          vatChecked: state.vatChecked,
-          isCountPoint: state.isCountPoint,
-          cartType: state.cartType,
-          discountTotalBill: state.discountTotalBill,
-          couponDiscountCode: state.couponDiscountCode,
-          productTradeIn: state.productTradeIn,
-          productImei: state.productImei,
-          isEstimateCost: state.isEstimateCost,
-          isSoldByCompany: state.isSoldByCompany,
-          method: state.method,
-          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
-          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
-          discountOfBill: state.discountOfBill,
-          totalPrePayment: state.totalPrePayment,
-          finalPrice: state.finalPrice,
-          mustPay: state.mustPay,
-          paymentByCash: state.paymentByCash,
-          paymentByTransfer: state.paymentByTransfer,
-          paymentByCredit: state.paymentByCredit,
-          paymentByInstallment: state.paymentByInstallment,
-          deliveryFee: state.deliveryFee,
-          orderSubDetail: state.orderSubDetail,
-          tradeInType: state.tradeInType,
-          product: state.product,
-          programingSelected: state.programingSelected,
-          estimationBuyingPrice: state.estimationBuyingPrice,
-          productBuyingPrice: state.productBuyingPrice,
-          totalCriteriaPrice: state.totalCriteriaPrice,
-          tradeInProgramId: state.tradeInProgramId,
-        );
-}
 
 final class UpdateBillNoteSuccess extends DraftingInvoiceState {
   UpdateBillNoteSuccess({
@@ -505,10 +392,7 @@ final class UpdateBillNoteSuccess extends DraftingInvoiceState {
     required super.warrantyNote,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -552,10 +436,7 @@ final class UpdateProductsSuccess extends DraftingInvoiceState {
     required super.products,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           customer: state.customer,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -604,10 +485,7 @@ final class UpdatePaymentMethodSuccess extends DraftingInvoiceState {
     required super.paymentByInstallment,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -651,10 +529,7 @@ final class UpdateCouponDiscountSuccess extends DraftingInvoiceState {
     required super.discountTotalBill,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -699,10 +574,7 @@ final class UpdateAmountDiscountTotalBillSuccess extends DraftingInvoiceState {
     required super.discountTotalBill,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -748,10 +620,7 @@ final class UpdateDiscountBillByPointSuccess extends DraftingInvoiceState {
     required super.discountTotalBillByPoint,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -811,10 +680,7 @@ final class UpdateCalculatorPriceSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           customer: state.customer,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -892,10 +758,7 @@ final class UpdateDeliveryFeeSuccess extends DraftingInvoiceState {
     required super.deliveryFee,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -941,10 +804,7 @@ final class UpdateOrderSubDetailSuccess extends DraftingInvoiceState {
     required super.orderSubDetail,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -992,10 +852,7 @@ final class UpdateTradeInTypeSuccess extends DraftingInvoiceState {
     required super.tradeInType,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1041,10 +898,7 @@ final class UpdateProductTradeInSuccess extends DraftingInvoiceState {
     required super.product,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1090,10 +944,7 @@ final class UpdateTradeInProgramSelectedSuccess extends DraftingInvoiceState {
     required super.programingSelected,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1141,10 +992,7 @@ final class UpdatePriceOverViewTradeInSuccess extends DraftingInvoiceState {
     required super.totalCriteriaPrice,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1188,10 +1036,7 @@ final class UpdateTradeInProgram extends DraftingInvoiceState {
     required super.tradeInProgramId,
   }) : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1252,10 +1097,7 @@ final class AddProductFromSearchToCartSuccess extends DraftingInvoiceState {
   AddProductFromSearchToCartSuccess({required DraftingInvoiceState state})
       : super(
           currentDraftId: state.currentDraftId,
-          saleInfo: state.saleInfo,
-          technicalInfo: state.technicalInfo,
           products: state.products,
-          customerRankName: state.customerRankName,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,

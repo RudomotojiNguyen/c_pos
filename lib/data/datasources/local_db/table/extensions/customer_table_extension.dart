@@ -33,7 +33,7 @@ extension CustomerTableExtension on CustomerTable {
     data['district'] = district;
     data['ward'] = ward;
     data['address'] = address;
-    data['type'] = type ?? 1;
+    data['type'] = type.getValueType;
 
     return data;
   }

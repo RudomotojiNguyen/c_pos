@@ -51,8 +51,8 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
             children: [
               _billNotes(),
               _warrantyNotes(),
-              BoxSpacer.s16,
-              _suggestWarrantyNote(context),
+              // BoxSpacer.s16,
+              // _suggestWarrantyNote(context),
             ],
           ),
         );
@@ -63,49 +63,49 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   ///
   /// WIDGET
   ///
-  Widget _suggestWarrantyNote(BuildContext ctx) {
-    return XBaseButton(
-      onPressed: () {
-        showXBottomSheet(
-          ctx,
-          enableDrag: true,
-          padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-          margin: EdgeInsets.zero.copyWith(top: 60.sp),
-          body: SuggestNotesDialog(
-            callBack: (Map<int, String> result) {
-              String joinResult = _draftingInvoiceBloc.state.warrantyNote ?? '';
-              joinResult += '\n';
-              joinResult += result.values.join('\n');
+  // Widget _suggestWarrantyNote(BuildContext ctx) {
+  //   return XBaseButton(
+  //     onPressed: () {
+  //       showXBottomSheet(
+  //         ctx,
+  //         enableDrag: true,
+  //         padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
+  //         margin: EdgeInsets.zero.copyWith(top: 60.sp),
+  //         body: SuggestNotesDialog(
+  //           callBack: (Map<int, String> result) {
+  //             String joinResult = _draftingInvoiceBloc.state.warrantyNote ?? '';
+  //             joinResult += '\n';
+  //             joinResult += result.values.join('\n');
 
-              _draftingInvoiceBloc.add(
-                UpdateNoteEvent(
-                  warrantyNote: joinResult,
-                  saleNote: _draftingInvoiceBloc.state.saleNote,
-                ),
-              );
-            },
-          ),
-        );
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Assets.svg.ai.svg(
-            width: 18.sp,
-            height: 18.sp,
-          ),
-          BoxSpacer.s8,
-          Text(
-            'Gợi ý ghi chú BH',
-            style: AppFont.t.s().copyWith(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 10.sp,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
+  //             _draftingInvoiceBloc.add(
+  //               UpdateNoteEvent(
+  //                 warrantyNote: joinResult,
+  //                 saleNote: _draftingInvoiceBloc.state.saleNote,
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       );
+  //     },
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.end,
+  //       children: [
+  //         Assets.svg.ai.svg(
+  //           width: 18.sp,
+  //           height: 18.sp,
+  //         ),
+  //         BoxSpacer.s8,
+  //         Text(
+  //           'Gợi ý ghi chú BH',
+  //           style: AppFont.t.s().copyWith(
+  //                 fontWeight: FontWeight.normal,
+  //                 fontSize: 10.sp,
+  //               ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _billNotes() {
     return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState, String?>(

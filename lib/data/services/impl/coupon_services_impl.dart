@@ -12,16 +12,10 @@ class CouponServicesImpl implements CouponServices {
       required List<ProductTable> listProduct,
       int? customerId}) {
     List<Map<String, dynamic>> products = [];
-    List<Map<String, dynamic>> warranties = [];
 
     for (var product in listProduct) {
       products.add(product.toJsonCheckCoupon());
-      for (var warranty in product.getWarranties) {
-        warranties.add(warranty.toJsonWarrantyCheckCoupon());
-      }
     }
-
-    products.addAll(warranties);
 
     return couponApi.checkCoupon({
       "couponCode": couponCode,

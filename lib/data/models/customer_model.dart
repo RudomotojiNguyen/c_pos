@@ -17,7 +17,7 @@ class CustomerModel {
   int? district;
   int? ward;
   String? address;
-  int? type;
+  XCustomerType? type;
   int? inChargeEmployeeId;
   String? note;
   int? totalBoughtAmount;
@@ -68,7 +68,7 @@ class CustomerModel {
     district = json['district'];
     ward = json['ward'];
     address = json['address'];
-    type = json['type'];
+    type = (json['type'] as int?)?.getCustomerType;
     inChargeEmployeeId = json['inChargeEmployeeId'];
     note = json['note'];
     totalBoughtAmount = json['totalBuyedAmount'];
@@ -94,7 +94,7 @@ class CustomerModel {
     int? district,
     int? ward,
     String? address,
-    int? type,
+    XCustomerType? type,
     int? inChargeEmployeeId,
     String? note,
     int? totalBoughtAmount,

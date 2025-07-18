@@ -29,47 +29,12 @@ class DraftingInvoiceTable {
   @Enumerated(EnumType.ordinal)
   late TradeInType tradeInType;
 
-  /// Giảm giá theo loại nào: DMem/Point
+  /// Giảm giá theo loại nào: Point
   @Enumerated(EnumType.ordinal)
   DiscountMemberType discountMemberType = DiscountMemberType.none;
 
   /// Thông tin của khách hàng
   final customer = IsarLink<CustomerTable>();
-
-  ///Thông tin nhân viên bán
-  String? saleInfoStr;
-
-  @ignore
-  EmployeeModel? get saleInfo =>
-      saleInfoStr != null ? EmployeeModel().toModel(saleInfoStr!) : null;
-
-  set saleInfo(EmployeeModel? value) {
-    saleInfoStr = value != null ? jsonEncode(value.toJson()) : null;
-  }
-
-  /// Thông tin nhân viên hỗ trợ kỹ thuật
-  String? technicalInfoStr;
-
-  @ignore
-  EmployeeModel? get technicalInfo => technicalInfoStr != null
-      ? EmployeeModel().toModel(technicalInfoStr!)
-      : null;
-
-  set technicalInfo(EmployeeModel? value) {
-    technicalInfoStr = value?.toString();
-  }
-
-  /// Thông tin nhân viên bảo hành
-  String? warrantyInfoStr;
-
-  @ignore
-  EmployeeModel? get warrantyInfo => warrantyInfoStr != null
-      ? EmployeeModel().toModel(warrantyInfoStr!)
-      : null;
-
-  set warrantyInfo(EmployeeModel? value) {
-    warrantyInfoStr = value?.toString();
-  }
 
   ///
   int? billNumber;
@@ -94,9 +59,6 @@ class DraftingInvoiceTable {
 
   /// thời gian tạo đơn
   late DateTime createdDate;
-
-  /// tên hạng của khách
-  String? customerRankName;
 
   /// id của đơn khi cập nhật bill
   String? billId;

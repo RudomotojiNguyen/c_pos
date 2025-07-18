@@ -86,7 +86,6 @@ class _DraftItemState extends State<DraftItem> {
             customerName: widget.cartDetail.getCustomerName,
             customerPhone: widget.cartDetail.getCustomerPhone,
             customerId: widget.cartDetail.getCustomerId,
-            customerRank: widget.cartDetail.getCustomerRank,
           ),
           if (widget.cartDetail.getProducts.isNotEmpty) ...[
             Column(
@@ -132,19 +131,6 @@ class _DraftItemState extends State<DraftItem> {
               _draftingInvoicesBloc.add(
                 RemoveDraftingInvoiceEvent(id: widget.cartDetail.id),
               );
-            },
-          ),
-          BoxSpacer.s8,
-          XRowButton(
-            title: 'Tạo phiếu KPVĐ',
-            icon: Icon(
-              Icons.add_comment_outlined,
-              color: AppColors.primaryColor,
-              size: 18.sp,
-            ),
-            onPressed: () {
-              closeOverlay();
-              // TODO: tạo phiếu kpvđ
             },
           ),
         ],

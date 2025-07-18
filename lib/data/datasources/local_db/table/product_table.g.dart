@@ -82,290 +82,265 @@ const ProductTableSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.string,
     ),
-    r'customerDiscountForProductStr': PropertySchema(
-      id: 13,
-      name: r'customerDiscountForProductStr',
-      type: IsarType.string,
-    ),
     r'discountAmount': PropertySchema(
-      id: 14,
+      id: 13,
       name: r'discountAmount',
       type: IsarType.double,
     ),
     r'discountByHandStr': PropertySchema(
-      id: 15,
+      id: 14,
       name: r'discountByHandStr',
       type: IsarType.string,
     ),
     r'discountPrice': PropertySchema(
-      id: 16,
+      id: 15,
       name: r'discountPrice',
       type: IsarType.double,
     ),
     r'discountProgramId': PropertySchema(
-      id: 17,
+      id: 16,
       name: r'discountProgramId',
       type: IsarType.long,
     ),
     r'discountType': PropertySchema(
-      id: 18,
+      id: 17,
       name: r'discountType',
       type: IsarType.long,
     ),
     r'discountValue': PropertySchema(
-      id: 19,
+      id: 18,
       name: r'discountValue',
       type: IsarType.double,
     ),
-    r'externalImeiId': PropertySchema(
-      id: 20,
-      name: r'externalImeiId',
-      type: IsarType.string,
-    ),
     r'externalImeiNo': PropertySchema(
-      id: 21,
+      id: 19,
       name: r'externalImeiNo',
       type: IsarType.string,
     ),
     r'flexibleComboId': PropertySchema(
-      id: 22,
+      id: 20,
       name: r'flexibleComboId',
       type: IsarType.string,
     ),
     r'flexibleComboItemId': PropertySchema(
-      id: 23,
+      id: 21,
       name: r'flexibleComboItemId',
       type: IsarType.string,
     ),
     r'fromPrice': PropertySchema(
-      id: 24,
+      id: 22,
       name: r'fromPrice',
       type: IsarType.double,
     ),
     r'fulfillmentType': PropertySchema(
-      id: 25,
+      id: 23,
       name: r'fulfillmentType',
       type: IsarType.long,
     ),
     r'image': PropertySchema(
-      id: 26,
+      id: 24,
       name: r'image',
       type: IsarType.string,
     ),
     r'imeiStr': PropertySchema(
-      id: 27,
+      id: 25,
       name: r'imeiStr',
       type: IsarType.string,
     ),
     r'isComboProduct': PropertySchema(
-      id: 28,
+      id: 26,
       name: r'isComboProduct',
       type: IsarType.bool,
     ),
-    r'isLostProduct': PropertySchema(
-      id: 29,
-      name: r'isLostProduct',
-      type: IsarType.bool,
-    ),
     r'isRepurchasePrice': PropertySchema(
-      id: 30,
+      id: 27,
       name: r'isRepurchasePrice',
       type: IsarType.bool,
     ),
     r'itemId': PropertySchema(
-      id: 31,
+      id: 28,
       name: r'itemId',
       type: IsarType.string,
     ),
+    r'itemType': PropertySchema(
+      id: 29,
+      name: r'itemType',
+      type: IsarType.byte,
+      enumMap: _ProductTableitemTypeEnumValueMap,
+    ),
     r'listedPrice': PropertySchema(
-      id: 32,
+      id: 30,
       name: r'listedPrice',
       type: IsarType.double,
     ),
     r'merchantId': PropertySchema(
-      id: 33,
+      id: 31,
       name: r'merchantId',
       type: IsarType.long,
     ),
     r'note': PropertySchema(
-      id: 34,
+      id: 32,
       name: r'note',
       type: IsarType.string,
     ),
     r'originalPrice': PropertySchema(
-      id: 35,
+      id: 33,
       name: r'originalPrice',
       type: IsarType.double,
     ),
     r'parentProductId': PropertySchema(
-      id: 36,
+      id: 34,
       name: r'parentProductId',
       type: IsarType.string,
     ),
     r'productCategory': PropertySchema(
-      id: 37,
+      id: 35,
       name: r'productCategory',
       type: IsarType.long,
     ),
     r'productChildComboStr': PropertySchema(
-      id: 38,
+      id: 36,
       name: r'productChildComboStr',
       type: IsarType.string,
     ),
     r'productChildStr': PropertySchema(
-      id: 39,
+      id: 37,
       name: r'productChildStr',
       type: IsarType.string,
     ),
-    r'productChildType': PropertySchema(
-      id: 40,
-      name: r'productChildType',
-      type: IsarType.byte,
-      enumMap: _ProductTableproductChildTypeEnumValueMap,
-    ),
     r'productCode': PropertySchema(
-      id: 41,
+      id: 38,
       name: r'productCode',
       type: IsarType.string,
     ),
     r'productCodeVat': PropertySchema(
-      id: 42,
+      id: 39,
       name: r'productCodeVat',
       type: IsarType.string,
     ),
     r'productId': PropertySchema(
-      id: 43,
+      id: 40,
       name: r'productId',
       type: IsarType.string,
     ),
     r'productInComboQuantity': PropertySchema(
-      id: 44,
+      id: 41,
       name: r'productInComboQuantity',
       type: IsarType.long,
     ),
     r'productName': PropertySchema(
-      id: 45,
+      id: 42,
       name: r'productName',
       type: IsarType.string,
     ),
     r'productNameVat': PropertySchema(
-      id: 46,
+      id: 43,
       name: r'productNameVat',
       type: IsarType.string,
     ),
     r'productTradeName': PropertySchema(
-      id: 47,
+      id: 44,
       name: r'productTradeName',
       type: IsarType.string,
     ),
     r'productType': PropertySchema(
-      id: 48,
+      id: 45,
       name: r'productType',
       type: IsarType.byte,
       enumMap: _ProductTableproductTypeEnumValueMap,
     ),
     r'productWebCategory': PropertySchema(
-      id: 49,
+      id: 46,
       name: r'productWebCategory',
       type: IsarType.long,
     ),
     r'promotionId': PropertySchema(
-      id: 50,
+      id: 47,
       name: r'promotionId',
       type: IsarType.long,
     ),
     r'quantity': PropertySchema(
-      id: 51,
+      id: 48,
       name: r'quantity',
       type: IsarType.long,
     ),
     r'repurchasePrice': PropertySchema(
-      id: 52,
+      id: 49,
       name: r'repurchasePrice',
       type: IsarType.double,
     ),
     r'returnSellingPrice': PropertySchema(
-      id: 53,
+      id: 50,
       name: r'returnSellingPrice',
       type: IsarType.long,
     ),
     r'selectImeiReason': PropertySchema(
-      id: 54,
+      id: 51,
       name: r'selectImeiReason',
       type: IsarType.string,
     ),
     r'sellingPrice': PropertySchema(
-      id: 55,
+      id: 52,
       name: r'sellingPrice',
       type: IsarType.double,
     ),
     r'status': PropertySchema(
-      id: 56,
+      id: 53,
       name: r'status',
       type: IsarType.long,
     ),
     r'toPrice': PropertySchema(
-      id: 57,
+      id: 54,
       name: r'toPrice',
       type: IsarType.double,
     ),
     r'totalQuantityInStock': PropertySchema(
-      id: 58,
+      id: 55,
       name: r'totalQuantityInStock',
       type: IsarType.long,
     ),
     r'totalQuantityInStore': PropertySchema(
-      id: 59,
+      id: 56,
       name: r'totalQuantityInStore',
       type: IsarType.long,
     ),
     r'totalQuantityInTransfer': PropertySchema(
-      id: 60,
+      id: 57,
       name: r'totalQuantityInTransfer',
       type: IsarType.long,
     ),
     r'unitId': PropertySchema(
-      id: 61,
+      id: 58,
       name: r'unitId',
       type: IsarType.long,
     ),
     r'warrantyAddress': PropertySchema(
-      id: 62,
+      id: 59,
       name: r'warrantyAddress',
       type: IsarType.string,
     ),
     r'warrantyDescription': PropertySchema(
-      id: 63,
+      id: 60,
       name: r'warrantyDescription',
       type: IsarType.string,
     ),
     r'warrantyMonthNo': PropertySchema(
-      id: 64,
+      id: 61,
       name: r'warrantyMonthNo',
       type: IsarType.long,
     ),
     r'warrantyPackageId': PropertySchema(
-      id: 65,
+      id: 62,
       name: r'warrantyPackageId',
       type: IsarType.long,
     ),
     r'warrantyPhone': PropertySchema(
-      id: 66,
+      id: 63,
       name: r'warrantyPhone',
       type: IsarType.string,
     ),
-    r'warrantyReasonId': PropertySchema(
-      id: 67,
-      name: r'warrantyReasonId',
-      type: IsarType.long,
-    ),
-    r'warrantyReasonName': PropertySchema(
-      id: 68,
-      name: r'warrantyReasonName',
-      type: IsarType.string,
-    ),
     r'wholesalePrice': PropertySchema(
-      id: 69,
+      id: 64,
       name: r'wholesalePrice',
       type: IsarType.double,
     )
@@ -377,12 +352,6 @@ const ProductTableSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
-    r'replacedWarrantyProduct': LinkSchema(
-      id: -4697711767684760299,
-      name: r'replacedWarrantyProduct',
-      target: r'ProductTable',
-      single: true,
-    ),
     r'productsGift': LinkSchema(
       id: 7430769507470497752,
       name: r'productsGift',
@@ -393,18 +362,6 @@ const ProductTableSchema = CollectionSchema(
       id: -6354753507187001068,
       name: r'productsAttach',
       target: r'ProductTable',
-      single: false,
-    ),
-    r'productsWarranty': LinkSchema(
-      id: -2422344224974256649,
-      name: r'productsWarranty',
-      target: r'ProductTable',
-      single: false,
-    ),
-    r'vouchers': LinkSchema(
-      id: -2352622683454902743,
-      name: r'vouchers',
-      target: r'VoucherTable',
       single: false,
     )
   },
@@ -476,19 +433,7 @@ int _productTableEstimateSize(
     }
   }
   {
-    final value = object.customerDiscountForProductStr;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.discountByHandStr;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.externalImeiId;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -613,12 +558,6 @@ int _productTableEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.warrantyReasonName;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
   return bytesCount;
 }
 
@@ -641,63 +580,58 @@ void _productTableSerialize(
   writer.writeString(offsets[10], object.comboId);
   writer.writeLong(offsets[11], object.companyId);
   writer.writeString(offsets[12], object.createdAt);
-  writer.writeString(offsets[13], object.customerDiscountForProductStr);
-  writer.writeDouble(offsets[14], object.discountAmount);
-  writer.writeString(offsets[15], object.discountByHandStr);
-  writer.writeDouble(offsets[16], object.discountPrice);
-  writer.writeLong(offsets[17], object.discountProgramId);
-  writer.writeLong(offsets[18], object.discountType);
-  writer.writeDouble(offsets[19], object.discountValue);
-  writer.writeString(offsets[20], object.externalImeiId);
-  writer.writeString(offsets[21], object.externalImeiNo);
-  writer.writeString(offsets[22], object.flexibleComboId);
-  writer.writeString(offsets[23], object.flexibleComboItemId);
-  writer.writeDouble(offsets[24], object.fromPrice);
-  writer.writeLong(offsets[25], object.fulfillmentType);
-  writer.writeString(offsets[26], object.image);
-  writer.writeString(offsets[27], object.imeiStr);
-  writer.writeBool(offsets[28], object.isComboProduct);
-  writer.writeBool(offsets[29], object.isLostProduct);
-  writer.writeBool(offsets[30], object.isRepurchasePrice);
-  writer.writeString(offsets[31], object.itemId);
-  writer.writeDouble(offsets[32], object.listedPrice);
-  writer.writeLong(offsets[33], object.merchantId);
-  writer.writeString(offsets[34], object.note);
-  writer.writeDouble(offsets[35], object.originalPrice);
-  writer.writeString(offsets[36], object.parentProductId);
-  writer.writeLong(offsets[37], object.productCategory);
-  writer.writeString(offsets[38], object.productChildComboStr);
-  writer.writeString(offsets[39], object.productChildStr);
-  writer.writeByte(offsets[40], object.productChildType.index);
-  writer.writeString(offsets[41], object.productCode);
-  writer.writeString(offsets[42], object.productCodeVat);
-  writer.writeString(offsets[43], object.productId);
-  writer.writeLong(offsets[44], object.productInComboQuantity);
-  writer.writeString(offsets[45], object.productName);
-  writer.writeString(offsets[46], object.productNameVat);
-  writer.writeString(offsets[47], object.productTradeName);
-  writer.writeByte(offsets[48], object.productType.index);
-  writer.writeLong(offsets[49], object.productWebCategory);
-  writer.writeLong(offsets[50], object.promotionId);
-  writer.writeLong(offsets[51], object.quantity);
-  writer.writeDouble(offsets[52], object.repurchasePrice);
-  writer.writeLong(offsets[53], object.returnSellingPrice);
-  writer.writeString(offsets[54], object.selectImeiReason);
-  writer.writeDouble(offsets[55], object.sellingPrice);
-  writer.writeLong(offsets[56], object.status);
-  writer.writeDouble(offsets[57], object.toPrice);
-  writer.writeLong(offsets[58], object.totalQuantityInStock);
-  writer.writeLong(offsets[59], object.totalQuantityInStore);
-  writer.writeLong(offsets[60], object.totalQuantityInTransfer);
-  writer.writeLong(offsets[61], object.unitId);
-  writer.writeString(offsets[62], object.warrantyAddress);
-  writer.writeString(offsets[63], object.warrantyDescription);
-  writer.writeLong(offsets[64], object.warrantyMonthNo);
-  writer.writeLong(offsets[65], object.warrantyPackageId);
-  writer.writeString(offsets[66], object.warrantyPhone);
-  writer.writeLong(offsets[67], object.warrantyReasonId);
-  writer.writeString(offsets[68], object.warrantyReasonName);
-  writer.writeDouble(offsets[69], object.wholesalePrice);
+  writer.writeDouble(offsets[13], object.discountAmount);
+  writer.writeString(offsets[14], object.discountByHandStr);
+  writer.writeDouble(offsets[15], object.discountPrice);
+  writer.writeLong(offsets[16], object.discountProgramId);
+  writer.writeLong(offsets[17], object.discountType);
+  writer.writeDouble(offsets[18], object.discountValue);
+  writer.writeString(offsets[19], object.externalImeiNo);
+  writer.writeString(offsets[20], object.flexibleComboId);
+  writer.writeString(offsets[21], object.flexibleComboItemId);
+  writer.writeDouble(offsets[22], object.fromPrice);
+  writer.writeLong(offsets[23], object.fulfillmentType);
+  writer.writeString(offsets[24], object.image);
+  writer.writeString(offsets[25], object.imeiStr);
+  writer.writeBool(offsets[26], object.isComboProduct);
+  writer.writeBool(offsets[27], object.isRepurchasePrice);
+  writer.writeString(offsets[28], object.itemId);
+  writer.writeByte(offsets[29], object.itemType.index);
+  writer.writeDouble(offsets[30], object.listedPrice);
+  writer.writeLong(offsets[31], object.merchantId);
+  writer.writeString(offsets[32], object.note);
+  writer.writeDouble(offsets[33], object.originalPrice);
+  writer.writeString(offsets[34], object.parentProductId);
+  writer.writeLong(offsets[35], object.productCategory);
+  writer.writeString(offsets[36], object.productChildComboStr);
+  writer.writeString(offsets[37], object.productChildStr);
+  writer.writeString(offsets[38], object.productCode);
+  writer.writeString(offsets[39], object.productCodeVat);
+  writer.writeString(offsets[40], object.productId);
+  writer.writeLong(offsets[41], object.productInComboQuantity);
+  writer.writeString(offsets[42], object.productName);
+  writer.writeString(offsets[43], object.productNameVat);
+  writer.writeString(offsets[44], object.productTradeName);
+  writer.writeByte(offsets[45], object.productType.index);
+  writer.writeLong(offsets[46], object.productWebCategory);
+  writer.writeLong(offsets[47], object.promotionId);
+  writer.writeLong(offsets[48], object.quantity);
+  writer.writeDouble(offsets[49], object.repurchasePrice);
+  writer.writeLong(offsets[50], object.returnSellingPrice);
+  writer.writeString(offsets[51], object.selectImeiReason);
+  writer.writeDouble(offsets[52], object.sellingPrice);
+  writer.writeLong(offsets[53], object.status);
+  writer.writeDouble(offsets[54], object.toPrice);
+  writer.writeLong(offsets[55], object.totalQuantityInStock);
+  writer.writeLong(offsets[56], object.totalQuantityInStore);
+  writer.writeLong(offsets[57], object.totalQuantityInTransfer);
+  writer.writeLong(offsets[58], object.unitId);
+  writer.writeString(offsets[59], object.warrantyAddress);
+  writer.writeString(offsets[60], object.warrantyDescription);
+  writer.writeLong(offsets[61], object.warrantyMonthNo);
+  writer.writeLong(offsets[62], object.warrantyPackageId);
+  writer.writeString(offsets[63], object.warrantyPhone);
+  writer.writeDouble(offsets[64], object.wholesalePrice);
 }
 
 ProductTable _productTableDeserialize(
@@ -717,72 +651,67 @@ ProductTable _productTableDeserialize(
     comboId: reader.readStringOrNull(offsets[10]),
     companyId: reader.readLongOrNull(offsets[11]),
     createdAt: reader.readStringOrNull(offsets[12]),
-    discountAmount: reader.readDoubleOrNull(offsets[14]),
-    discountByHandStr: reader.readStringOrNull(offsets[15]),
-    discountPrice: reader.readDoubleOrNull(offsets[16]),
-    discountProgramId: reader.readLongOrNull(offsets[17]),
-    discountType: reader.readLongOrNull(offsets[18]),
-    discountValue: reader.readDoubleOrNull(offsets[19]),
-    externalImeiNo: reader.readStringOrNull(offsets[21]),
-    flexibleComboItemId: reader.readStringOrNull(offsets[23]),
-    fromPrice: reader.readDoubleOrNull(offsets[24]),
-    fulfillmentType: reader.readLongOrNull(offsets[25]),
-    image: reader.readStringOrNull(offsets[26]),
-    imeiStr: reader.readStringOrNull(offsets[27]),
-    isComboProduct: reader.readBoolOrNull(offsets[28]),
-    itemId: reader.readStringOrNull(offsets[31]),
-    listedPrice: reader.readDoubleOrNull(offsets[32]),
-    merchantId: reader.readLongOrNull(offsets[33]),
-    note: reader.readStringOrNull(offsets[34]),
-    originalPrice: reader.readDoubleOrNull(offsets[35]),
-    parentProductId: reader.readStringOrNull(offsets[36]),
-    productCategory: reader.readLongOrNull(offsets[37]),
-    productChildType: _ProductTableproductChildTypeValueEnumMap[
-            reader.readByteOrNull(offsets[40])] ??
-        ProductType.normal,
-    productCode: reader.readStringOrNull(offsets[41]),
-    productCodeVat: reader.readStringOrNull(offsets[42]),
-    productId: reader.readStringOrNull(offsets[43]),
-    productInComboQuantity: reader.readLongOrNull(offsets[44]),
-    productName: reader.readStringOrNull(offsets[45]),
-    productNameVat: reader.readStringOrNull(offsets[46]),
-    productTradeName: reader.readStringOrNull(offsets[47]),
+    discountAmount: reader.readDoubleOrNull(offsets[13]),
+    discountByHandStr: reader.readStringOrNull(offsets[14]),
+    discountPrice: reader.readDoubleOrNull(offsets[15]),
+    discountProgramId: reader.readLongOrNull(offsets[16]),
+    discountType: reader.readLongOrNull(offsets[17]),
+    discountValue: reader.readDoubleOrNull(offsets[18]),
+    externalImeiNo: reader.readStringOrNull(offsets[19]),
+    flexibleComboItemId: reader.readStringOrNull(offsets[21]),
+    fromPrice: reader.readDoubleOrNull(offsets[22]),
+    fulfillmentType: reader.readLongOrNull(offsets[23]),
+    image: reader.readStringOrNull(offsets[24]),
+    imeiStr: reader.readStringOrNull(offsets[25]),
+    isComboProduct: reader.readBoolOrNull(offsets[26]),
+    itemId: reader.readStringOrNull(offsets[28]),
+    itemType:
+        _ProductTableitemTypeValueEnumMap[reader.readByteOrNull(offsets[29])] ??
+            XItemType.main,
+    listedPrice: reader.readDoubleOrNull(offsets[30]),
+    merchantId: reader.readLongOrNull(offsets[31]),
+    note: reader.readStringOrNull(offsets[32]),
+    originalPrice: reader.readDoubleOrNull(offsets[33]),
+    parentProductId: reader.readStringOrNull(offsets[34]),
+    productCategory: reader.readLongOrNull(offsets[35]),
+    productCode: reader.readStringOrNull(offsets[38]),
+    productCodeVat: reader.readStringOrNull(offsets[39]),
+    productId: reader.readStringOrNull(offsets[40]),
+    productInComboQuantity: reader.readLongOrNull(offsets[41]),
+    productName: reader.readStringOrNull(offsets[42]),
+    productNameVat: reader.readStringOrNull(offsets[43]),
+    productTradeName: reader.readStringOrNull(offsets[44]),
     productType: _ProductTableproductTypeValueEnumMap[
-            reader.readByteOrNull(offsets[48])] ??
+            reader.readByteOrNull(offsets[45])] ??
         ProductType.normal,
-    productWebCategory: reader.readLongOrNull(offsets[49]),
-    promotionId: reader.readLongOrNull(offsets[50]),
-    quantity: reader.readLongOrNull(offsets[51]),
-    repurchasePrice: reader.readDoubleOrNull(offsets[52]),
-    returnSellingPrice: reader.readLongOrNull(offsets[53]),
-    selectImeiReason: reader.readStringOrNull(offsets[54]),
-    sellingPrice: reader.readDoubleOrNull(offsets[55]),
-    status: reader.readLongOrNull(offsets[56]),
-    toPrice: reader.readDoubleOrNull(offsets[57]),
-    totalQuantityInStock: reader.readLongOrNull(offsets[58]),
-    totalQuantityInStore: reader.readLongOrNull(offsets[59]),
-    totalQuantityInTransfer: reader.readLongOrNull(offsets[60]),
-    unitId: reader.readLongOrNull(offsets[61]),
-    warrantyAddress: reader.readStringOrNull(offsets[62]),
-    warrantyDescription: reader.readStringOrNull(offsets[63]),
-    warrantyMonthNo: reader.readLongOrNull(offsets[64]),
-    warrantyPackageId: reader.readLongOrNull(offsets[65]),
-    warrantyPhone: reader.readStringOrNull(offsets[66]),
-    wholesalePrice: reader.readDoubleOrNull(offsets[69]),
+    productWebCategory: reader.readLongOrNull(offsets[46]),
+    promotionId: reader.readLongOrNull(offsets[47]),
+    quantity: reader.readLongOrNull(offsets[48]),
+    repurchasePrice: reader.readDoubleOrNull(offsets[49]),
+    returnSellingPrice: reader.readLongOrNull(offsets[50]),
+    selectImeiReason: reader.readStringOrNull(offsets[51]),
+    sellingPrice: reader.readDoubleOrNull(offsets[52]),
+    status: reader.readLongOrNull(offsets[53]),
+    toPrice: reader.readDoubleOrNull(offsets[54]),
+    totalQuantityInStock: reader.readLongOrNull(offsets[55]),
+    totalQuantityInStore: reader.readLongOrNull(offsets[56]),
+    totalQuantityInTransfer: reader.readLongOrNull(offsets[57]),
+    unitId: reader.readLongOrNull(offsets[58]),
+    warrantyAddress: reader.readStringOrNull(offsets[59]),
+    warrantyDescription: reader.readStringOrNull(offsets[60]),
+    warrantyMonthNo: reader.readLongOrNull(offsets[61]),
+    warrantyPackageId: reader.readLongOrNull(offsets[62]),
+    warrantyPhone: reader.readStringOrNull(offsets[63]),
+    wholesalePrice: reader.readDoubleOrNull(offsets[64]),
   );
   object.accessoryGroupCode = reader.readStringOrNull(offsets[0]);
   object.attachedImei = reader.readStringOrNull(offsets[3]);
   object.belongBillDetailId = reader.readStringOrNull(offsets[5]);
-  object.customerDiscountForProductStr = reader.readStringOrNull(offsets[13]);
-  object.externalImeiId = reader.readStringOrNull(offsets[20]);
-  object.flexibleComboId = reader.readStringOrNull(offsets[22]);
+  object.flexibleComboId = reader.readStringOrNull(offsets[20]);
   object.id = id;
-  object.isLostProduct = reader.readBoolOrNull(offsets[29]);
-  object.isRepurchasePrice = reader.readBoolOrNull(offsets[30]);
-  object.productChildComboStr = reader.readStringOrNull(offsets[38]);
-  object.productChildStr = reader.readStringOrNull(offsets[39]);
-  object.warrantyReasonId = reader.readLongOrNull(offsets[67]);
-  object.warrantyReasonName = reader.readStringOrNull(offsets[68]);
+  object.isRepurchasePrice = reader.readBoolOrNull(offsets[27]);
+  object.productChildComboStr = reader.readStringOrNull(offsets[36]);
+  object.productChildStr = reader.readStringOrNull(offsets[37]);
   return object;
 }
 
@@ -820,159 +749,141 @@ P _productTableDeserializeProp<P>(
     case 12:
       return (reader.readStringOrNull(offset)) as P;
     case 13:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 14:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 15:
       return (reader.readStringOrNull(offset)) as P;
-    case 16:
+    case 15:
       return (reader.readDoubleOrNull(offset)) as P;
+    case 16:
+      return (reader.readLongOrNull(offset)) as P;
     case 17:
       return (reader.readLongOrNull(offset)) as P;
     case 18:
-      return (reader.readLongOrNull(offset)) as P;
-    case 19:
       return (reader.readDoubleOrNull(offset)) as P;
+    case 19:
+      return (reader.readStringOrNull(offset)) as P;
     case 20:
       return (reader.readStringOrNull(offset)) as P;
     case 21:
       return (reader.readStringOrNull(offset)) as P;
     case 22:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 23:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 24:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 25:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 26:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 27:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 28:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 29:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 30:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 31:
       return (reader.readStringOrNull(offset)) as P;
-    case 32:
+    case 29:
+      return (_ProductTableitemTypeValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          XItemType.main) as P;
+    case 30:
       return (reader.readDoubleOrNull(offset)) as P;
-    case 33:
+    case 31:
       return (reader.readLongOrNull(offset)) as P;
+    case 32:
+      return (reader.readStringOrNull(offset)) as P;
+    case 33:
+      return (reader.readDoubleOrNull(offset)) as P;
     case 34:
       return (reader.readStringOrNull(offset)) as P;
     case 35:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 36:
       return (reader.readStringOrNull(offset)) as P;
     case 37:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 38:
       return (reader.readStringOrNull(offset)) as P;
     case 39:
       return (reader.readStringOrNull(offset)) as P;
     case 40:
-      return (_ProductTableproductChildTypeValueEnumMap[
-              reader.readByteOrNull(offset)] ??
-          ProductType.normal) as P;
-    case 41:
       return (reader.readStringOrNull(offset)) as P;
+    case 41:
+      return (reader.readLongOrNull(offset)) as P;
     case 42:
       return (reader.readStringOrNull(offset)) as P;
     case 43:
       return (reader.readStringOrNull(offset)) as P;
     case 44:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 45:
-      return (reader.readStringOrNull(offset)) as P;
-    case 46:
-      return (reader.readStringOrNull(offset)) as P;
-    case 47:
-      return (reader.readStringOrNull(offset)) as P;
-    case 48:
       return (_ProductTableproductTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           ProductType.normal) as P;
-    case 49:
+    case 46:
       return (reader.readLongOrNull(offset)) as P;
+    case 47:
+      return (reader.readLongOrNull(offset)) as P;
+    case 48:
+      return (reader.readLongOrNull(offset)) as P;
+    case 49:
+      return (reader.readDoubleOrNull(offset)) as P;
     case 50:
       return (reader.readLongOrNull(offset)) as P;
     case 51:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 52:
       return (reader.readDoubleOrNull(offset)) as P;
     case 53:
       return (reader.readLongOrNull(offset)) as P;
     case 54:
-      return (reader.readStringOrNull(offset)) as P;
-    case 55:
       return (reader.readDoubleOrNull(offset)) as P;
+    case 55:
+      return (reader.readLongOrNull(offset)) as P;
     case 56:
       return (reader.readLongOrNull(offset)) as P;
     case 57:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 58:
       return (reader.readLongOrNull(offset)) as P;
     case 59:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 60:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 61:
       return (reader.readLongOrNull(offset)) as P;
     case 62:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 63:
       return (reader.readStringOrNull(offset)) as P;
     case 64:
-      return (reader.readLongOrNull(offset)) as P;
-    case 65:
-      return (reader.readLongOrNull(offset)) as P;
-    case 66:
-      return (reader.readStringOrNull(offset)) as P;
-    case 67:
-      return (reader.readLongOrNull(offset)) as P;
-    case 68:
-      return (reader.readStringOrNull(offset)) as P;
-    case 69:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _ProductTableproductChildTypeEnumValueMap = {
-  'normal': 0,
-  'imei': 1,
-  'combo': 2,
-  'warranty': 3,
-  'gift': 4,
-  'attach': 5,
+const _ProductTableitemTypeEnumValueMap = {
+  'main': 0,
+  'gift': 1,
+  'attach': 2,
 };
-const _ProductTableproductChildTypeValueEnumMap = {
-  0: ProductType.normal,
-  1: ProductType.imei,
-  2: ProductType.combo,
-  3: ProductType.warranty,
-  4: ProductType.gift,
-  5: ProductType.attach,
+const _ProductTableitemTypeValueEnumMap = {
+  0: XItemType.main,
+  1: XItemType.gift,
+  2: XItemType.attach,
 };
 const _ProductTableproductTypeEnumValueMap = {
   'normal': 0,
   'imei': 1,
   'combo': 2,
-  'warranty': 3,
-  'gift': 4,
-  'attach': 5,
+  'component': 3,
+  'service': 4,
 };
 const _ProductTableproductTypeValueEnumMap = {
   0: ProductType.normal,
   1: ProductType.imei,
   2: ProductType.combo,
-  3: ProductType.warranty,
-  4: ProductType.gift,
-  5: ProductType.attach,
+  3: ProductType.component,
+  4: ProductType.service,
 };
 
 Id _productTableGetId(ProductTable object) {
@@ -980,28 +891,16 @@ Id _productTableGetId(ProductTable object) {
 }
 
 List<IsarLinkBase<dynamic>> _productTableGetLinks(ProductTable object) {
-  return [
-    object.replacedWarrantyProduct,
-    object.productsGift,
-    object.productsAttach,
-    object.productsWarranty,
-    object.vouchers
-  ];
+  return [object.productsGift, object.productsAttach];
 }
 
 void _productTableAttach(
     IsarCollection<dynamic> col, Id id, ProductTable object) {
   object.id = id;
-  object.replacedWarrantyProduct.attach(
-      col, col.isar.collection<ProductTable>(), r'replacedWarrantyProduct', id);
   object.productsGift
       .attach(col, col.isar.collection<ProductTable>(), r'productsGift', id);
   object.productsAttach
       .attach(col, col.isar.collection<ProductTable>(), r'productsAttach', id);
-  object.productsWarranty.attach(
-      col, col.isar.collection<ProductTable>(), r'productsWarranty', id);
-  object.vouchers
-      .attach(col, col.isar.collection<VoucherTable>(), r'vouchers', id);
 }
 
 extension ProductTableQueryWhereSort
@@ -2716,162 +2615,6 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'customerDiscountForProductStr',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'customerDiscountForProductStr',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'customerDiscountForProductStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'customerDiscountForProductStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'customerDiscountForProductStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'customerDiscountForProductStr',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'customerDiscountForProductStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'customerDiscountForProductStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrContains(String value,
-          {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'customerDiscountForProductStr',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrMatches(String pattern,
-          {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'customerDiscountForProductStr',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'customerDiscountForProductStr',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      customerDiscountForProductStrIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'customerDiscountForProductStr',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       discountAmountIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -3421,160 +3164,6 @@ extension ProductTableQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'externalImeiId',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'externalImeiId',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'externalImeiId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'externalImeiId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'externalImeiId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'externalImeiId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'externalImeiId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'externalImeiId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'externalImeiId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'externalImeiId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'externalImeiId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      externalImeiIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'externalImeiId',
-        value: '',
       ));
     });
   }
@@ -4587,34 +4176,6 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      isLostProductIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isLostProduct',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      isLostProductIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isLostProduct',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      isLostProductEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isLostProduct',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       isRepurchasePriceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -4791,6 +4352,62 @@ extension ProductTableQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'itemId',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      itemTypeEqualTo(XItemType value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'itemType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      itemTypeGreaterThan(
+    XItemType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'itemType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      itemTypeLessThan(
+    XItemType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'itemType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      itemTypeBetween(
+    XItemType lower,
+    XItemType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'itemType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -5720,62 +5337,6 @@ extension ProductTableQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'productChildStr',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productChildTypeEqualTo(ProductType value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'productChildType',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productChildTypeGreaterThan(
-    ProductType value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'productChildType',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productChildTypeLessThan(
-    ProductType value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'productChildType',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productChildTypeBetween(
-    ProductType lower,
-    ProductType upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'productChildType',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }
@@ -8515,234 +8076,6 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'warrantyReasonId',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'warrantyReasonId',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonIdEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'warrantyReasonId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'warrantyReasonId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'warrantyReasonId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonIdBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'warrantyReasonId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'warrantyReasonName',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'warrantyReasonName',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'warrantyReasonName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'warrantyReasonName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'warrantyReasonName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'warrantyReasonName',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'warrantyReasonName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'warrantyReasonName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'warrantyReasonName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'warrantyReasonName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'warrantyReasonName',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyReasonNameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'warrantyReasonName',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       wholesalePriceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -8832,20 +8165,6 @@ extension ProductTableQueryObject
 
 extension ProductTableQueryLinks
     on QueryBuilder<ProductTable, ProductTable, QFilterCondition> {
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      replacedWarrantyProduct(FilterQuery<ProductTable> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'replacedWarrantyProduct');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      replacedWarrantyProductIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'replacedWarrantyProduct', 0, true, 0, true);
-    });
-  }
-
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition> productsGift(
       FilterQuery<ProductTable> q) {
     return QueryBuilder.apply(this, (query) {
@@ -8965,129 +8284,6 @@ extension ProductTableQueryLinks
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'productsAttach', lower, includeLower, upper, includeUpper);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarranty(FilterQuery<ProductTable> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'productsWarranty');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarrantyLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'productsWarranty', length, true, length, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarrantyIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'productsWarranty', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarrantyIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'productsWarranty', 0, false, 999999, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarrantyLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'productsWarranty', 0, true, length, include);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarrantyLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'productsWarranty', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      productsWarrantyLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'productsWarranty', lower, includeLower, upper, includeUpper);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition> vouchers(
-      FilterQuery<VoucherTable> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'vouchers');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      vouchersLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'vouchers', length, true, length, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      vouchersIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'vouchers', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      vouchersIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'vouchers', 0, false, 999999, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      vouchersLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'vouchers', 0, true, length, include);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      vouchersLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'vouchers', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      vouchersLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'vouchers', lower, includeLower, upper, includeUpper);
     });
   }
 }
@@ -9261,20 +8457,6 @@ extension ProductTableQuerySortBy
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByCustomerDiscountForProductStr() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'customerDiscountForProductStr', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByCustomerDiscountForProductStrDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'customerDiscountForProductStr', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       sortByDiscountAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountAmount', Sort.asc);
@@ -9352,20 +8534,6 @@ extension ProductTableQuerySortBy
       sortByDiscountValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountValue', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByExternalImeiId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'externalImeiId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByExternalImeiIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'externalImeiId', Sort.desc);
     });
   }
 
@@ -9475,19 +8643,6 @@ extension ProductTableQuerySortBy
     });
   }
 
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> sortByIsLostProduct() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLostProduct', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByIsLostProductDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLostProduct', Sort.desc);
-    });
-  }
-
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       sortByIsRepurchasePrice() {
     return QueryBuilder.apply(this, (query) {
@@ -9511,6 +8666,18 @@ extension ProductTableQuerySortBy
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy> sortByItemIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'itemId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> sortByItemType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'itemType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> sortByItemTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'itemType', Sort.desc);
     });
   }
 
@@ -9618,20 +8785,6 @@ extension ProductTableQuerySortBy
       sortByProductChildStrDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'productChildStr', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByProductChildType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'productChildType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByProductChildTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'productChildType', Sort.desc);
     });
   }
 
@@ -9984,34 +9137,6 @@ extension ProductTableQuerySortBy
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByWarrantyReasonId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByWarrantyReasonIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByWarrantyReasonName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonName', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByWarrantyReasonNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonName', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       sortByWholesalePrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'wholesalePrice', Sort.asc);
@@ -10195,20 +9320,6 @@ extension ProductTableQuerySortThenBy
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByCustomerDiscountForProductStr() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'customerDiscountForProductStr', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByCustomerDiscountForProductStrDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'customerDiscountForProductStr', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       thenByDiscountAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountAmount', Sort.asc);
@@ -10286,20 +9397,6 @@ extension ProductTableQuerySortThenBy
       thenByDiscountValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'discountValue', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByExternalImeiId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'externalImeiId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByExternalImeiIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'externalImeiId', Sort.desc);
     });
   }
 
@@ -10421,19 +9518,6 @@ extension ProductTableQuerySortThenBy
     });
   }
 
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> thenByIsLostProduct() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLostProduct', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByIsLostProductDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isLostProduct', Sort.desc);
-    });
-  }
-
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       thenByIsRepurchasePrice() {
     return QueryBuilder.apply(this, (query) {
@@ -10457,6 +9541,18 @@ extension ProductTableQuerySortThenBy
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy> thenByItemIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'itemId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> thenByItemType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'itemType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> thenByItemTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'itemType', Sort.desc);
     });
   }
 
@@ -10564,20 +9660,6 @@ extension ProductTableQuerySortThenBy
       thenByProductChildStrDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'productChildStr', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByProductChildType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'productChildType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByProductChildTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'productChildType', Sort.desc);
     });
   }
 
@@ -10930,34 +10012,6 @@ extension ProductTableQuerySortThenBy
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByWarrantyReasonId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByWarrantyReasonIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByWarrantyReasonName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonName', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByWarrantyReasonNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'warrantyReasonName', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       thenByWholesalePrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'wholesalePrice', Sort.asc);
@@ -11066,14 +10120,6 @@ extension ProductTableQueryWhereDistinct
   }
 
   QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByCustomerDiscountForProductStr({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'customerDiscountForProductStr',
-          caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
       distinctByDiscountAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'discountAmount');
@@ -11112,14 +10158,6 @@ extension ProductTableQueryWhereDistinct
       distinctByDiscountValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'discountValue');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QDistinct> distinctByExternalImeiId(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'externalImeiId',
-          caseSensitive: caseSensitive);
     });
   }
 
@@ -11182,13 +10220,6 @@ extension ProductTableQueryWhereDistinct
   }
 
   QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByIsLostProduct() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isLostProduct');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
       distinctByIsRepurchasePrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isRepurchasePrice');
@@ -11199,6 +10230,12 @@ extension ProductTableQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'itemId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QDistinct> distinctByItemType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'itemType');
     });
   }
 
@@ -11256,13 +10293,6 @@ extension ProductTableQueryWhereDistinct
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'productChildStr',
           caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByProductChildType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'productChildType');
     });
   }
 
@@ -11449,21 +10479,6 @@ extension ProductTableQueryWhereDistinct
   }
 
   QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByWarrantyReasonId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'warrantyReasonId');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByWarrantyReasonName({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'warrantyReasonName',
-          caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
       distinctByWholesalePrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'wholesalePrice');
@@ -11561,13 +10576,6 @@ extension ProductTableQueryProperty
     });
   }
 
-  QueryBuilder<ProductTable, String?, QQueryOperations>
-      customerDiscountForProductStrProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'customerDiscountForProductStr');
-    });
-  }
-
   QueryBuilder<ProductTable, double?, QQueryOperations>
       discountAmountProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -11606,13 +10614,6 @@ extension ProductTableQueryProperty
       discountValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'discountValue');
-    });
-  }
-
-  QueryBuilder<ProductTable, String?, QQueryOperations>
-      externalImeiIdProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'externalImeiId');
     });
   }
 
@@ -11667,12 +10668,6 @@ extension ProductTableQueryProperty
     });
   }
 
-  QueryBuilder<ProductTable, bool?, QQueryOperations> isLostProductProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isLostProduct');
-    });
-  }
-
   QueryBuilder<ProductTable, bool?, QQueryOperations>
       isRepurchasePriceProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -11683,6 +10678,12 @@ extension ProductTableQueryProperty
   QueryBuilder<ProductTable, String?, QQueryOperations> itemIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'itemId');
+    });
+  }
+
+  QueryBuilder<ProductTable, XItemType, QQueryOperations> itemTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'itemType');
     });
   }
 
@@ -11735,13 +10736,6 @@ extension ProductTableQueryProperty
       productChildStrProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'productChildStr');
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductType, QQueryOperations>
-      productChildTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'productChildType');
     });
   }
 
@@ -11914,20 +10908,6 @@ extension ProductTableQueryProperty
       warrantyPhoneProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'warrantyPhone');
-    });
-  }
-
-  QueryBuilder<ProductTable, int?, QQueryOperations>
-      warrantyReasonIdProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'warrantyReasonId');
-    });
-  }
-
-  QueryBuilder<ProductTable, String?, QQueryOperations>
-      warrantyReasonNameProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'warrantyReasonName');
     });
   }
 

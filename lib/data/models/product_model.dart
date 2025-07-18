@@ -16,7 +16,7 @@ class ProductModel {
   int? returnSellingPrice;
   String? parentProductId;
   String? barCode;
-  int? status;
+  XProductStatus? status;
   late ProductType productType;
   String? brand;
   int? productCategory;
@@ -142,7 +142,7 @@ class ProductModel {
     returnSellingPrice = json['returnSellingPrice'];
     parentProductId = json['parentProductId'];
     barCode = json['barCode'];
-    status = json['status'];
+    status = (json['status'] as int?)?.getProductStatus;
     brand = json['brand'];
     productCategory = json['productCategory'];
     productWebCategory = json['productWebCategory'];
@@ -267,12 +267,7 @@ class ProductModel {
 
   /// giá bán
   double get getSellingPrice {
-    switch (productType) {
-      case ProductType.attach:
-        return getRepurchasePrice;
-      default:
-        return sellingPrice ?? 0;
-    }
+    return sellingPrice ?? 0;
   }
 
   /// giá bán sau chiết khấu
@@ -345,7 +340,7 @@ class ProductModel {
         returnSellingPrice: returnSellingPrice,
         parentProductId: parentProductId,
         barCode: barCode,
-        status: status,
+        status: status?.getValueNum,
         productType: productType,
         brand: brand,
         productCategory: productCategory,

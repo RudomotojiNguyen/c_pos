@@ -32,7 +32,7 @@ class DiscountOtpFormWidget extends StatefulWidget {
   final Function(
     int point,
     double amount,
-    String otpCodeDmem,
+    String otpCode,
     CustomerModel? newCustomerInfo,
   ) onCompleted;
   final DiscountMemberType type;

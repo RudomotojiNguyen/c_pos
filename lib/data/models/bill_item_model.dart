@@ -4,10 +4,8 @@ import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
 import '../datasources/local_db/local_db.dart';
 import 'discount_program_model.dart';
-import 'product_discount_model.dart';
 import 'product_imei_model.dart';
 import 'product_model.dart';
-import 'voucher_model.dart';
 
 class BillItemModel {
   String? id;
@@ -50,7 +48,6 @@ class BillItemModel {
   String? flexibleComboId;
   String? flexibleComboName;
   String? flexibleComboItemId;
-  int? warrantyReasonId;
   String? warrantyReasonName;
   String? newProductId;
   String? newProductName;
@@ -73,7 +70,6 @@ class BillItemModel {
   double? customerDiscountSellingPrice;
   double? customerDiscountMaxAmount;
   String? externalImeiNo;
-  List<VoucherModel>? vouchers;
   DiscountProgramModel? discountProgram;
   bool? statusVieon;
   String? selectImeiReason;
@@ -82,11 +78,9 @@ class BillItemModel {
   bool? allowViewFullExternalImeiNo;
   bool? isSoftwareProduct;
   bool? isVieonProduct;
-  String? externalImeiId;
 
   List<BillItemModel>? gifts;
   List<BillItemModel>? attaches;
-  List<BillItemModel>? warranty;
 
   BillItemModel({
     this.id,
@@ -128,7 +122,6 @@ class BillItemModel {
     this.flexibleComboId,
     this.flexibleComboName,
     this.flexibleComboItemId,
-    this.warrantyReasonId,
     this.warrantyReasonName,
     this.newProductId,
     this.newProductName,
@@ -151,7 +144,6 @@ class BillItemModel {
     this.customerDiscountSellingPrice,
     this.customerDiscountMaxAmount,
     this.externalImeiNo,
-    this.vouchers,
     this.discountProgram,
     this.statusVieon,
     this.selectImeiReason,
@@ -162,7 +154,6 @@ class BillItemModel {
     this.isVieonProduct,
     this.gifts,
     this.attaches,
-    this.warranty,
   });
 
   BillItemModel.fromJson(Map<String, dynamic> json) {
@@ -213,7 +204,6 @@ class BillItemModel {
     flexibleComboId = json['flexibleComboId'];
     flexibleComboName = json['flexibleComboName'];
     flexibleComboItemId = json['flexibleComboItemId'];
-    warrantyReasonId = json['warrantyReasonId'];
     warrantyReasonName = json['warrantyReasonName'];
     newProductId = json['newProductId'];
     newProductName = json['newProductName'];
@@ -240,13 +230,6 @@ class BillItemModel {
         (json['customerDiscountMaxAmount'] as num?)?.toDouble();
     externalImeiNo = json['externalImeiNo'];
 
-    if (json['vouchers'] != null) {
-      vouchers = <VoucherModel>[];
-      json['vouchers'].forEach((v) {
-        vouchers!.add(VoucherModel.fromJson(v));
-      });
-    }
-
     discountProgram = json['discountProgram'] != null
         ? DiscountProgramModel.fromJson(json['discountProgram'])
         : null;
@@ -268,12 +251,6 @@ class BillItemModel {
       attaches = <BillItemModel>[];
       json['attaches'].forEach((v) {
         attaches!.add(BillItemModel.fromJson(v));
-      });
-    }
-    if (json['warranty'] != null) {
-      warranty = <BillItemModel>[];
-      json['warranty'].forEach((v) {
-        warranty!.add(BillItemModel.fromJson(v));
       });
     }
   }
@@ -330,31 +307,19 @@ class BillItemModel {
         // ..isLostProduct = isLostProduct
         ..warrantyMonthNo = warrantyMonthNo
         ..selectImeiReason = selectImeiReason
-        ..warrantyReasonId = warrantyReasonId // lý do bảo hành
         ..warrantyAddress = warrantyAddress
         ..warrantyPhone = warrantyPhone
         ..warrantyDescription = warrantyDescription
-        ..customerDiscountForProduct = getProductDiscount
         ..discountProgramId = discountProgramId
         ..productCategory = productCategory
         ..productWebCategory = productWebCategory
         ..externalImeiNo = externalImeiNo
         ..belongToWarrantyImei = belongToWarrantyImei
-        // ..discountProgram = discountProgram
-        ..externalImeiId = externalImeiId
-      // ..vouchers = vouchers
+      // ..discountProgram = discountProgram
       // ..gifts = gifts
       // ..attachs = attachs
       // ..allowViewFullExternalImeiNo = allowViewFullExternalImeiNo
       ;
-
-  ProductDiscountModel get getProductDiscount => ProductDiscountModel(
-        id: customerTypeId?.toString(),
-        typeDiscount: customerDiscountType?.getDiscountType,
-        value: customerDiscountAmount,
-        sellingPrice: customerDiscountSellingPrice,
-        maxValue: customerDiscountMaxAmount,
-      );
 
   ProductModel toProductModel() => ProductModel(
         productType: productType,
@@ -371,27 +336,15 @@ class BillItemModel {
 
   List<ProductTable> get getConvertGifts =>
       gifts
-          ?.map((e) =>
-              e.convertToProductTable..productChildType = ProductType.gift)
+          ?.map((e) => e.convertToProductTable..itemType = XItemType.gift)
           .toList() ??
       [];
 
   List<ProductTable> get getConvertAttaches =>
       attaches
-          ?.map((e) =>
-              e.convertToProductTable..productChildType = ProductType.attach)
+          ?.map((e) => e.convertToProductTable..itemType = XItemType.attach)
           .toList() ??
       [];
-
-  List<ProductTable> get getConvertWarranty =>
-      warranty
-          ?.map((e) =>
-              e.convertToProductTable..productChildType = ProductType.warranty)
-          .toList() ??
-      [];
-
-  List<VoucherTable> get getConvertVouchers =>
-      vouchers?.map((e) => e.convertToTable).toList() ?? [];
 
   // tính lại tiền sản phẩm
   double get calculateTotalPrice => (productPrice ?? 0) * (quantity ?? 1);

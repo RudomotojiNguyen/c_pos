@@ -5,9 +5,9 @@ import '../../../../common/enum/enum.dart';
 import '../../../models/customer_model.dart';
 import '../../../models/otp_customer_point_model.dart';
 
-part 'customer_table.g.dart';
-
 part 'extensions/customer_table_extension.dart';
+
+part 'customer_table.g.dart';
 
 @Collection()
 class CustomerTable {
@@ -23,7 +23,10 @@ class CustomerTable {
   int? district;
   int? ward;
   String? address;
-  int? type;
+
+  @Enumerated(EnumType.ordinal)
+  XCustomerType type = XCustomerType.none;
+
   int? point;
   String? indentifyNo;
 
@@ -61,7 +64,7 @@ class CustomerTable {
       district = data.district;
       ward = data.ward;
       address = data.address;
-      type = data.type;
+      type = data.type ?? XCustomerType.none;
       point = data.point;
       indentifyNo = data.identifyNo;
       discountByPoint = null;
@@ -96,7 +99,7 @@ class CustomerTable {
     district = null;
     ward = null;
     address = null;
-    type = null;
+    type = XCustomerType.none;
     point = null;
     indentifyNo = null;
     discountByPointStr = null;

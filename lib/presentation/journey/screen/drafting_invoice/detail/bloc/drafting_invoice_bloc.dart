@@ -62,12 +62,6 @@ class DraftingInvoiceBloc
     /// xóa thông tin khách hàng
     on<ClearCustomerEvent>(_onClearCustomer);
 
-    /// cập nhật thông tin nhân viên bán hàng
-    on<UpdateSaleInfoOfBillEvent>(_onUpdateSaleInfoOfBill);
-
-    /// cập nhật thông tin nhân viên kỹ thuật
-    on<UpdateTechInfoOfBillEvent>(_onUpdateTechInfoOfBill);
-
     /// thêm sản phẩm vào đơn nháp
     on<AddProductEvent>(_onAddProduct);
 
@@ -994,10 +988,8 @@ class DraftingInvoiceBloc
       final res = await draftingStorage.updateItemToCart(
         product: event.product,
         cartId: currentDraftId,
-        vouchers: event.vouchers,
         gifts: event.gifts,
         attaches: event.attaches,
-        warranties: event.warranties,
       );
       if (res != null) {
         emit(UpdateProductsSuccess(state: state, products: res.getProducts));
@@ -1019,10 +1011,8 @@ class DraftingInvoiceBloc
       final res = await _addItemToCart(
         product: event.product,
         cartId: currentDraftId,
-        vouchers: event.vouchers,
         gifts: event.gifts,
         attaches: event.attaches,
-        warranties: event.warranties,
       );
       if (res != null) {
         emit(UpdateProductsSuccess(state: state, products: res.getProducts));
@@ -1030,48 +1020,6 @@ class DraftingInvoiceBloc
       }
     } catch (e) {
       _loggerHelper.logError(message: 'AddProductEvent', obj: e);
-    }
-  }
-
-  FutureOr<void> _onUpdateTechInfoOfBill(
-    UpdateTechInfoOfBillEvent event,
-    Emitter<DraftingInvoiceState> emit,
-  ) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
-
-      final res = await draftingStorage.updateTechInfo(
-        techInfo: event.employee,
-        cartId: currentDraftId,
-      );
-      if (res != null) {
-        emit(
-          UpdateTechInfoSuccess(state: state, technicalInfo: res.technicalInfo),
-        );
-      }
-    } catch (e) {
-      _loggerHelper.logError(message: 'UpdateTechInfoOfBillEvent', obj: e);
-    }
-  }
-
-  FutureOr<void> _onUpdateSaleInfoOfBill(
-    UpdateSaleInfoOfBillEvent event,
-    Emitter<DraftingInvoiceState> emit,
-  ) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
-
-      final res = await draftingStorage.updateSaleInfo(
-        saleInfo: event.employee,
-        cartId: currentDraftId,
-      );
-      if (res != null) {
-        emit(UpdateSaleInfoSuccess(state: state, saleInfo: res.saleInfo));
-      }
-    } catch (e) {
-      _loggerHelper.logError(message: 'UpdateSaleInfoOfBillEvent', obj: e);
     }
   }
 
@@ -1122,10 +1070,7 @@ class DraftingInvoiceBloc
           billNumber: res.billNumber,
           currentDraftId: res.id,
           customer: res.getCustomer,
-          saleInfo: res.saleInfo,
-          technicalInfo: res.technicalInfo,
           products: res.getProducts,
-          customerRankName: res.customerRankName,
           billId: res.billId,
           customerNote: res.customerNote,
           warrantyNote: res.warrantyNote,
@@ -1185,16 +1130,12 @@ extension DraftDetailBlocExtension on DraftingInvoiceBloc {
     required int cartId,
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
-    List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   }) async {
     return await draftingStorage.addItemToCart(
       product: product,
       cartId: cartId,
-      vouchers: vouchers,
       gifts: gifts,
       attaches: attaches,
-      warranties: warranties,
     );
   }
 

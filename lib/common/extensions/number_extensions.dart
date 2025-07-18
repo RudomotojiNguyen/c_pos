@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 
-import '../constants/enum.dart';
 import '../enum/enum.dart';
 
 extension NumberExtensions on num {
@@ -36,15 +35,12 @@ extension NumberExtensions on num {
   XDiscountType get getDiscountType =>
       XDiscountTypeExtension.map[this] ?? XDiscountType.none;
 
-  DiscountType get convertDiscountType =>
-      this == 2 ? DiscountType.percent : DiscountType.amount;
-
   ExchangeStoreStatus get getExchangeStoreStatus =>
       ExchangeStoreStatusExtension.mapExchangeStoreStatus[this] ??
       ExchangeStoreStatus.none;
 
   ProductType get toProductType =>
-      ProductTypeExtension.mapProductType[this] ?? ProductType.normal;
+      ProductTypeExtension.map[this] ?? ProductType.normal;
 
   PaymentType get getPaymentType =>
       PaymentTypeExtension.map[this] ?? PaymentType.cash;
@@ -57,10 +53,6 @@ extension NumberExtensions on num {
   StatusEnum get getOrderStatus =>
       StatusFilterExtension.map[this] ?? StatusEnum.none;
 
-  SupportTicketStatus get getSupportTicketStatus =>
-      SupportTicketStatusExtension.mapSupportTicketStatus[this] ??
-      SupportTicketStatus.none;
-
   XExpression get getOperatorType =>
       XExpressionExtension.mapOperatorType[this] ?? XExpression.none;
 
@@ -72,4 +64,10 @@ extension NumberExtensions on num {
 
   TradeInType get getTradeInType =>
       TradeInTypeExtension.mapTradeInType[this] ?? TradeInType.undefine;
+
+  XCustomerType get getCustomerType =>
+      XCustomerTypeExtension.map[this] ?? XCustomerType.none;
+
+  XProductStatus get getProductStatus =>
+      XProductStatusExtension.map[this] ?? XProductStatus.none;
 }

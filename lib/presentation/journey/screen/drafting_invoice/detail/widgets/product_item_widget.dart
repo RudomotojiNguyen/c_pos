@@ -6,7 +6,6 @@ class ProductItemWidget extends StatefulWidget {
     required this.product,
     this.gifts = const [],
     this.attaches = const [],
-    this.warranties = const [],
     this.productsCombo = const [],
     required this.callBackChildAction,
     required this.callBackParentAction,
@@ -17,7 +16,6 @@ class ProductItemWidget extends StatefulWidget {
 
   final List<ProductTable> gifts;
   final List<ProductTable> attaches;
-  final List<ProductTable> warranties;
 
   final List<ProductModel> productsCombo;
 
@@ -69,7 +67,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           ),
           _giftsDetail(),
           _attachesDetail(),
-          _warrantiesDetail(),
         ],
       ),
     );
@@ -298,7 +295,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     return GroupProductChildrenWidget(
       title: 'Quà tặng',
       data: widget.gifts,
-      icon: ProductType.gift.getIconType(),
+      icon: XItemType.gift.getIconType(),
       callBackAction: widget.callBackChildAction,
     );
   }
@@ -308,17 +305,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     return GroupProductChildrenWidget(
       title: 'Bán kèm',
       data: widget.attaches,
-      icon: ProductType.attach.getIconType(),
-      callBackAction: widget.callBackChildAction,
-    );
-  }
-
-  Widget _warrantiesDetail() {
-    /// gói bảo hành
-    return GroupProductChildrenWidget(
-      title: 'Gói bảo hành',
-      data: widget.warranties,
-      icon: ProductType.warranty.getIconType(),
+      icon: XItemType.attach.getIconType(),
       callBackAction: widget.callBackChildAction,
     );
   }

@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/models/customer_model.dart';
-import '../../../../../data/models/customer_type_model.dart';
 import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/repository/customer_repository.dart';
 import '../../../../mixins/logger_helper.dart';
@@ -38,10 +37,10 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     /// thay đổi text ->
     on<OnchangeTextEvent>(_onChangeText);
 
-    /// lấy mã OTP để check DMEM hoặc dùng điểm
+    /// lấy mã OTP để check dùng điểm
     on<GetOTPEvent>(_onGetOTP);
 
-    /// check mã OTP cho DMEM hoặc  điểm
+    /// check mã OTP cho điểm
     on<CheckOTPEvent>(_onCheckOTP);
 
     /// cập nhật thông tin khách hàng

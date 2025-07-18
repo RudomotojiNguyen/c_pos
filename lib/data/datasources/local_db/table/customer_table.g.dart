@@ -92,7 +92,8 @@ const CustomerTableSchema = CollectionSchema(
     r'type': PropertySchema(
       id: 14,
       name: r'type',
-      type: IsarType.long,
+      type: IsarType.byte,
+      enumMap: _CustomerTabletypeEnumValueMap,
     ),
     r'ward': PropertySchema(
       id: 15,
@@ -191,7 +192,7 @@ void _customerTableSerialize(
   writer.writeString(offsets[11], object.lastName);
   writer.writeString(offsets[12], object.phoneNo);
   writer.writeLong(offsets[13], object.point);
-  writer.writeLong(offsets[14], object.type);
+  writer.writeByte(offsets[14], object.type.index);
   writer.writeLong(offsets[15], object.ward);
 }
 
@@ -221,7 +222,9 @@ CustomerTable _customerTableDeserialize(
   object.lastName = reader.readStringOrNull(offsets[11]);
   object.phoneNo = reader.readStringOrNull(offsets[12]);
   object.point = reader.readLongOrNull(offsets[13]);
-  object.type = reader.readLongOrNull(offsets[14]);
+  object.type =
+      _CustomerTabletypeValueEnumMap[reader.readByteOrNull(offsets[14])] ??
+          XCustomerType.none;
   object.ward = reader.readLongOrNull(offsets[15]);
   return object;
 }
@@ -265,7 +268,8 @@ P _customerTableDeserializeProp<P>(
     case 13:
       return (reader.readLongOrNull(offset)) as P;
     case 14:
-      return (reader.readLongOrNull(offset)) as P;
+      return (_CustomerTabletypeValueEnumMap[reader.readByteOrNull(offset)] ??
+          XCustomerType.none) as P;
     case 15:
       return (reader.readLongOrNull(offset)) as P;
     default:
@@ -296,6 +300,24 @@ const _CustomerTablegenderValueEnumMap = {
   1: XGenderType.female,
   2: XGenderType.other,
   3: XGenderType.none,
+};
+const _CustomerTabletypeEnumValueMap = {
+  'none': 0,
+  'retailCustomer': 1,
+  'wholesaleCustomer': 2,
+  'agency': 3,
+  'vip': 4,
+  'kol': 5,
+  'segmentRfm': 6,
+};
+const _CustomerTabletypeValueEnumMap = {
+  0: XCustomerType.none,
+  1: XCustomerType.retailCustomer,
+  2: XCustomerType.wholesaleCustomer,
+  3: XCustomerType.agency,
+  4: XCustomerType.vip,
+  5: XCustomerType.kol,
+  6: XCustomerType.segmentRfm,
 };
 
 Id _customerTableGetId(CustomerTable object) {
@@ -2087,26 +2109,8 @@ extension CustomerTableQueryFilter
     });
   }
 
-  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
-      typeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'type',
-      ));
-    });
-  }
-
-  QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
-      typeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'type',
-      ));
-    });
-  }
-
   QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition> typeEqualTo(
-      int? value) {
+      XCustomerType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'type',
@@ -2117,7 +2121,7 @@ extension CustomerTableQueryFilter
 
   QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
       typeGreaterThan(
-    int? value, {
+    XCustomerType value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2131,7 +2135,7 @@ extension CustomerTableQueryFilter
 
   QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition>
       typeLessThan(
-    int? value, {
+    XCustomerType value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2144,8 +2148,8 @@ extension CustomerTableQueryFilter
   }
 
   QueryBuilder<CustomerTable, CustomerTable, QAfterFilterCondition> typeBetween(
-    int? lower,
-    int? upper, {
+    XCustomerType lower,
+    XCustomerType upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -2863,7 +2867,7 @@ extension CustomerTableQueryProperty
     });
   }
 
-  QueryBuilder<CustomerTable, int?, QQueryOperations> typeProperty() {
+  QueryBuilder<CustomerTable, XCustomerType, QQueryOperations> typeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'type');
     });

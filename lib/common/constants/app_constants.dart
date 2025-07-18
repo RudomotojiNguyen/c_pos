@@ -23,8 +23,6 @@ class AppConstants {
 
   static const defaultImage = 'https://didongviet.vn/NoImage.png';
 
-  static const comboExtraDiscountAmount = 50000;
-
   static CustomerModel defaultCustomer = CustomerModel(
     id: -1,
     // tài khoản mặc định để là -1 để ẩn những thứ cẩn ẩn

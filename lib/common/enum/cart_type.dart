@@ -23,8 +23,6 @@ extension CartTypeExtension on CartType {
         return 'Đơn hàng';
       case CartType.tradeIn:
         return 'Định giá sản phẩm';
-      // case CartType.warranty:
-      //   return 'Bảo hành';
       default:
         return '';
     }
@@ -42,8 +40,6 @@ extension CartTypeExtension on CartType {
         return 'Cập nhật đơn hàng';
       case CartType.tradeIn:
         return 'Tạo phiếu định giá';
-      // case CartType.warranty:
-      //   return 'Phiếu bảo hành';
       default:
         return '';
     }
@@ -60,8 +56,6 @@ extension CartTypeExtension on CartType {
         return Assets.svg.bill.svg(width: width ?? 32.sp);
       case CartType.tradeIn:
         return Icon(Icons.phone_outlined, size: width ?? 30.sp);
-      // case CartType.warranty:
-      //   return Icon(Icons.shield, size: width ?? 30.sp);
       default:
         return BoxSpacer.blank;
     }

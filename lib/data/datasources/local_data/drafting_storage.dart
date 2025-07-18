@@ -5,7 +5,6 @@ import 'package:isar/isar.dart';
 import '../../../common/constants/app_constants.dart';
 import '../../../common/enum/enum.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
-import '../../../presentation/utils/utils.dart';
 import '../../models/auth_model.dart';
 import '../../models/bill_item_model.dart';
 import '../../models/bill_model.dart';
@@ -47,7 +46,6 @@ abstract class DraftingStorage {
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
     List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   });
 
   /// cập nhật thông tin tiêu điểm
@@ -67,7 +65,6 @@ abstract class DraftingStorage {
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
     List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   });
 
   /// cập nhật sản phẩm trong đơn
@@ -77,7 +74,6 @@ abstract class DraftingStorage {
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
     List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   });
 
   /// xóa đơn theo id
@@ -91,24 +87,6 @@ abstract class DraftingStorage {
 
   /// xóa thông tin khách hàng
   Future<DraftingInvoiceTable?> clearCustomerInfo({required int cartId});
-
-  /// cập nhật thông tin người bán
-  Future<DraftingInvoiceTable?> updateSaleInfo({
-    required EmployeeModel saleInfo,
-    required int cartId,
-  });
-
-  /// cập nhật thông tin nhân viên kỹ thuật
-  Future<DraftingInvoiceTable?> updateTechInfo({
-    required EmployeeModel techInfo,
-    required int cartId,
-  });
-
-  /// cập nhật thông tin nhân viên bảo hành
-  Future<DraftingInvoiceTable?> updateWarrantyInfo({
-    required EmployeeModel warrantyInfo,
-    required int cartId,
-  });
 
   /// đếm số bill chưa phục vụ
   Future<int> countTotalBill();
@@ -213,7 +191,7 @@ abstract class DraftingStorage {
     required int cartId,
     required int productId,
     required bool isCheck,
-    required ProductType productType,
+    required XItemType productType,
   });
 
   /// cập nhật giá mua lại sản phẩm
@@ -221,7 +199,7 @@ abstract class DraftingStorage {
     required int cartId,
     required int productId,
     required double repurchasePrice,
-    required ProductType productType,
+    required XItemType productType,
   });
 
   /// cập nhật imei sản phẩm

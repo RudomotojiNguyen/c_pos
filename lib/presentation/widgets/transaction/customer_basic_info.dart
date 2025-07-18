@@ -5,19 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/configs/box.dart';
 import '../../../gen/gen.dart';
 import '../../theme/themes.dart';
-import '../widgets.dart';
 
 class CustomerBasicInfo extends StatelessWidget {
-  const CustomerBasicInfo(
-      {super.key,
-      required this.customerName,
-      required this.customerPhone,
-      this.customerRank,
-      this.customerId});
+  const CustomerBasicInfo({
+    super.key,
+    required this.customerName,
+    required this.customerPhone,
+    this.customerId,
+  });
 
   final String customerName;
   final String customerPhone;
-  final String? customerRank;
   final int? customerId;
 
   @override
@@ -48,12 +46,6 @@ class CustomerBasicInfo extends StatelessWidget {
             ],
           ),
         ),
-        if (customerRank?.isNotNullOrEmpty ?? false) ...[
-          BoxSpacer.s8,
-          XStatus(
-            statusStr: customerRank!,
-          ),
-        ],
       ],
     );
   }

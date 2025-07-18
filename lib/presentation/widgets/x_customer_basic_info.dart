@@ -1,3 +1,4 @@
+import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,7 +90,8 @@ class XCustomerBasicInfo extends StatelessWidget {
           ),
           Column(
             children: [
-              if (customerId != null) ...[
+              if (customerId != null &&
+                  customerId != AppConstants.defaultCustomer.id) ...[
                 XBaseButton(
                   onPressed: () {
                     MainRouter.instance.pushNamed(

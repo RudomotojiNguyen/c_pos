@@ -119,7 +119,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                               isCopyImei: true,
                             ),
                           ],
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -151,24 +150,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                               ],
                             ],
                           ),
-
-                          // if (productBuyingPrice > 0) ...[
-                          //   BoxSpacer.s4,
-                          //   Text.rich(
-                          //     TextSpan(
-                          //       text: '',
-                          //       style: context.appTheme.textTheme.bodySmall!
-                          //           .copyWith(fontWeight: FontWeight.normal),
-                          //       children: [
-                          //         TextSpan(
-                          //           text: productBuyingPrice.formatCurrency,
-                          //           style: context.appTheme.textTheme.bodySmall!
-                          //               .copyWith(color: AppColors.primaryColor),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ],
                         ],
                       ),
                     ),
@@ -249,7 +230,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
 
         return BasicShortProductItem(
           product: e,
-          productType: ProductType.gift,
           baseButtonType: widget.baseButtonTypeChild,
           productOperationActions: productOperationActions,
           decorationIsOverlay: widget.decorationChildIsOverlayChild,
@@ -278,7 +258,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
 
         return BasicShortProductItem(
           product: e,
-          productType: ProductType.attach,
           baseButtonType: widget.baseButtonTypeChild,
           productOperationActions: productOperationActions,
           decorationIsOverlay: widget.decorationChildIsOverlayChild,

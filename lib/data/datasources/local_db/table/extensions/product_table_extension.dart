@@ -1,8 +1,6 @@
 part of '../product_table.dart';
 
 extension ProductTableExtension on ProductTable {
-  bool get checkIsComboProduct => isComboProduct ?? false;
-
   int get getMerchantId => merchantId ?? 1;
 
   String get getProductImei => imei?.imeiNo ?? '';
@@ -34,22 +32,6 @@ extension ProductTableExtension on ProductTable {
     return attachesSelected ?? [];
   }
 
-  /// lấy danh sách gói bảo hành đã chọn
-  List<ProductTable> get getWarranties {
-    if (warrantiesSelected == null && productsWarranty.isNotEmpty) {
-      return productsWarranty.map((e) => e).toList();
-    }
-    return warrantiesSelected ?? [];
-  }
-
-  /// lấy danh sách voucher đã chọn
-  List<VoucherTable> get getVouchers {
-    if (vouchersSelected == null && vouchers.isNotEmpty) {
-      return vouchers.map((e) => e).toList();
-    }
-    return vouchersSelected ?? [];
-  }
-
   /// lấy hình sản phẩm
   String get getImageThumbnail =>
       image.isNotNullOrEmpty ? image! : AppConstants.defaultImage;
@@ -71,8 +53,8 @@ extension ProductTableExtension on ProductTable {
 
   /// lấy giá bán của sản phẩm
   double get getSellingPrice {
-    switch (productChildType) {
-      case ProductType.gift:
+    switch (itemType) {
+      case XItemType.gift:
         return getRepurchasePrice;
       default:
         return sellingPrice ?? 0;
@@ -85,9 +67,7 @@ extension ProductTableExtension on ProductTable {
 
   /// giá sản phẩm sau khi tr chương trình và các giảm giá khác
   double get getProductPrice =>
-      (getSellingPrice * getQuantity) -
-      (calculateCustomerDiscountAmount) -
-      (calculatorProductDiscountAmount);
+      (getSellingPrice * getQuantity) - (calculatorProductDiscountAmount);
 
   /// tính tiền sản phẩm theo số lượng
   double get calculatorTotalSellingPrice => getSellingPrice * getQuantity;
@@ -100,21 +80,6 @@ extension ProductTableExtension on ProductTable {
 
   /// số lượng sản phẩm
   int get getQuantity => quantity ?? 1;
-
-  ///
-  XDiscountType get customerDiscountType =>
-      customerDiscountForProduct?.discountType ?? XDiscountType.none;
-
-  /// số tiền khách được giảm theo DMem
-  double get getCustomerSellingDiscount =>
-      customerDiscountForProduct?.sellingDiscount ?? 0;
-
-  /// giá trị khách được giảm theo DMem
-  double get getCustomerValueDiscount => customerDiscountForProduct?.value ?? 0;
-
-  /// số tiền tối đa khách được giảm theo DMem
-  double get getCustomerDiscountMaxAmount =>
-      customerDiscountForProduct?.maxValue ?? 0;
 
   /// lấy số tiền khách được giảm theo chiết khấu tay
   double get getDiscountAmountByHand {
@@ -140,38 +105,10 @@ extension ProductTableExtension on ProductTable {
             previousValue + element.calculatorTotalSellingPrice,
       );
 
-  /// tính tổng tiền gói bảo hành
-  double get totalPriceOfWarranties => getWarranties.fold(
-        0,
-        (previousValue, element) =>
-            previousValue + element.calculatorTotalSellingPrice,
-      );
-
-  /// tính số tiền được giảm giá theo voucher
-  double get calculatorAmountDiscountByVoucher =>
-      getVouchers.fold(0, (previousValue, element) {
-        int totalQuantity = element.cumulativeStringValues.isNotEmpty
-            ? Utils.countQuantityProductApplyMoreBuyMoreDiscount(
-                products,
-                getVouchers,
-              )
-            : getQuantity;
-
-        return previousValue +
-            Utils.discountAmountByVoucher(
-              usedVoucherQuantity: totalQuantity,
-              voucher: element,
-              sellingPrice: getSellingPrice,
-              quantity: getQuantity,
-            );
-      });
-
-  /// tính tổng tiền giảm giá của 1 SP = Ctr CK tự động + CK tay + voucher
+  /// tính tổng tiền giảm giá của 1 SP = Ctr CK tự động + CK tay
   double get calculatorProductDiscountAmount {
-    /// notes: kiểm tra lại không để tổng tiền giảm giá lớn hơn giá bán
-    final finalProductDiscountAmount = getDiscountAmount +
-        getDiscountAmountByHand +
-        calculatorAmountDiscountByVoucher;
+    final finalProductDiscountAmount =
+        getDiscountAmount + getDiscountAmountByHand;
     return finalProductDiscountAmount > calculatorTotalSellingPrice
         ? calculatorTotalSellingPrice
         : finalProductDiscountAmount;
@@ -184,71 +121,20 @@ extension ProductTableExtension on ProductTable {
     return [];
   }
 
-  double get discountForCombo =>
-      products.totalDiscountPriceWhenBuyingImeiAndComboProduct;
-
-  /// Tính phần giảm giá theo d-mem
-  /// Giảm $: giảm chính = số tiền, d-mem ko X quantity
-  ///         vd: Giá sau chiết khấu của KCL (SL:2) = 380k, d-mem 50k
-  ///         Giảm d-mem: 380 - 50
-  /// Giảm %: giảm % trên tổng giá sau CK, d-mem ko X quantity
-  ///         vd: Giá sau chiết khấu của KCL (SL:2) = 380k, d-mem 1%
-  ///         Giảm d-mem: 380 * 0.01
-  /// @param item
-  /// @param afterDiscountPrice number
-  ///
-  double get calculateCustomerDiscountAmount {
-    // discountAmount bao gồm: CK ctr, voucher, CK tay
-    // double discountAmount = calculatorProductDiscountAmount;
-    // if (isComboProduct == true) {
-    //   discountAmount = discountForCombo + calculatorProductDiscountAmount;
-    // }
-    // double afterDiscountPrice = getSellingPrice * getQuantity - discountAmount;
-
-    // if (customerDiscountType == DiscountType.percent) {
-    // double amount = (afterDiscountPrice * getCustomerValueDiscount) / 100;
-    // double maxValue = getCustomerDiscountMaxAmount;
-    // if (maxValue > 0) {
-    //   return amount <= maxValue ? amount : maxValue;
-    // } else {
-    //   return amount;
-    // }
-    // }
-    if (customerDiscountType == XDiscountType.amount) {
-      return getCustomerValueDiscount;
-    }
-    return 0;
-  }
-
-  /// tổng chiết khấu của sản phẩm, sản phẩm bán kèm, gới bảo hành
+  /// tổng chiết khấu của sản phẩm, sản phẩm bán kèm
   double get getTotalDiscountPriceOfProduct {
     double productAttachDiscountAmount = getAttaches.fold(
-      0,
-      (previousValue, attach) =>
-          previousValue +
-          attach.calculatorProductDiscountAmount +
-          attach.calculateCustomerDiscountAmount,
-    );
-    double productWarrantyDiscountAmount = getWarranties.fold(
-      0,
-      (previousValue, warranty) =>
-          previousValue +
-          warranty.calculatorProductDiscountAmount +
-          warranty.calculateCustomerDiscountAmount,
-    );
+        0,
+        (previousValue, attach) =>
+            previousValue + attach.calculatorProductDiscountAmount);
 
-    return calculatorProductDiscountAmount +
-        calculateCustomerDiscountAmount +
-        productAttachDiscountAmount +
-        productWarrantyDiscountAmount;
+    return calculatorProductDiscountAmount + productAttachDiscountAmount;
   }
 
   /// tính tiền sản phẩm chưa giảm giá gồm
-  /// giá bán của sản phẩm + tổng tiền sản phẩm mua kèm + tổng tiền gói bảo hành
+  /// giá bán của sản phẩm + tổng tiền sản phẩm mua kèm
   double get totalPriceNoneDiscount =>
-      calculatorTotalSellingPrice +
-      totalPriceOfAttaches +
-      totalPriceOfWarranties;
+      calculatorTotalSellingPrice + totalPriceOfAttaches;
 
   ///
   ///
@@ -256,14 +142,9 @@ extension ProductTableExtension on ProductTable {
 
   Map<String, dynamic> toJsonCheckCoupon() {
     Map<String, dynamic> data = <String, dynamic>{};
-    if (productType == ProductType.warranty) {
-      data['attachs'] = [];
-      data['gifts'] = [];
-    } else {
-      data['attachs'] =
-          getAttaches.map((e) => e.toJsonAttachCheckCoupon()).toList();
-      data['gifts'] = getGifts.map((e) => e.toJsonGiftCheckCoupon()).toList();
-    }
+    data['attachs'] =
+        getAttaches.map((e) => e.toJsonAttachCheckCoupon()).toList();
+    data['gifts'] = getGifts.map((e) => e.toJsonGiftCheckCoupon()).toList();
 
     data['discountAmount'] = discountAmount;
     data['discountProgramId'] = discountProgramId;
@@ -287,7 +168,7 @@ extension ProductTableExtension on ProductTable {
       "code": code,
       "repurchasePrice": repurchasePrice,
       "parentProductId": parentProductId,
-      "productType": ProductType.gift.getValueType,
+      "productType": XItemType.gift.getValueType,
       "productName": productName,
       "barCode": barCode,
       "originalPrice": originalPrice,
@@ -297,35 +178,6 @@ extension ProductTableExtension on ProductTable {
       "childs": [],
       "productCode": productCode,
       "isGiftTaken": true,
-    };
-  }
-
-  // format cho thông tin sp bảo hành
-  Map<String, dynamic> toJsonWarrantyCheckCoupon() {
-    return {
-      "id": productId,
-      "warrantyPackageId": warrantyPackageId,
-      "productId": productId,
-      "repurchasePrice": repurchasePrice,
-      "discountType": discountType,
-      "discountValue": discountValue,
-      "fromPrice": fromPrice,
-      "toPrice": toPrice,
-      "code": code,
-      "productName": productName,
-      "productCode": productCode,
-      "originalPrice": originalPrice,
-      "barCode": barCode,
-      "productType": ProductType.warranty.getValueType,
-      "parentProductId": parentProductId,
-      "sellingPrice": sellingPrice,
-      "totalQuantityInStock": totalQuantityInStock,
-      "totalQuantityInStore": totalQuantityInStore,
-      "childs": [],
-      "isGiftTaken": true,
-      "quantity": getQuantity,
-      "attachs": [],
-      "gifts": [],
     };
   }
 
@@ -340,7 +192,7 @@ extension ProductTableExtension on ProductTable {
       "repurchasePrice": repurchasePrice,
       "code": code,
       "barCode": barCode,
-      "productType": ProductType.attach.getValueType,
+      "productType": XItemType.attach.getValueType,
       "productName": productName,
       "productCode": productCode,
       "parentProductId": parentProductId,
@@ -355,7 +207,7 @@ extension ProductTableExtension on ProductTable {
     };
   }
 
-  Map<String, dynamic> toJsonCreate(double totalDiscountPrice) {
+  Map<String, dynamic> toJsonCreate() {
     Map<String, dynamic> data = <String, dynamic>{};
 
     data['id'] = itemId; // update bill cần field này
@@ -371,28 +223,16 @@ extension ProductTableExtension on ProductTable {
     data['repurchasePrice'] = 0;
     // data['isGiftTaken'] = true; // check lại thông tin này
     data['note'] = note ?? '';
-    data['gifts'] =
-        getGifts.map((e) => e.formatChild(ProductType.gift)).toList();
+    data['gifts'] = getGifts.map((e) => e.formatChild(XItemType.gift)).toList();
     data['attachs'] =
-        getAttaches.map((e) => e.formatChild(ProductType.attach)).toList();
-    data['warranty'] =
-        getWarranties.map((e) => e.formatChild(ProductType.warranty)).toList();
-    data['discountAmount'] = checkIsComboProduct
-        ? (calculatorProductDiscountAmount + totalDiscountPrice)
-        : calculatorProductDiscountAmount;
+        getAttaches.map((e) => e.formatChild(XItemType.attach)).toList();
+    data['discountAmount'] = calculatorProductDiscountAmount;
     data['discountType'] = getDiscountType.value;
     data['issuedVat'] = false;
     data['merchantId'] = getMerchantId;
-    data['vouchers'] = getVouchers.map((e) => e.toJson).toList();
     data['flexibleComboId'] = flexibleComboId;
     data['flexibleComboItemId'] = flexibleComboItemId;
 
-    data['customerDiscountType'] = customerDiscountType.getValueNum;
-    data['customerDiscountMaxAmount'] = customerDiscountForProduct?.maxValue;
-    data['customerDiscountAmount'] = customerDiscountForProduct?.value;
-    data['customerDiscountSellingPrice'] =
-        customerDiscountForProduct?.sellingPrice;
-    data['customerTypeId'] = customerDiscountForProduct?.id;
     data['externalImeiNo'] = externalImeiNo;
     data['selectImeiReason'] = selectImeiReason;
 
@@ -402,7 +242,7 @@ extension ProductTableExtension on ProductTable {
   /// format thông tin sản phẩm con
   /// Nếu sản phẩm có currentChild thì lấy currentChild,
   /// còn không sẽ check childs để lấy sản phẩm còn tồn.
-  Map<String, dynamic> formatChild(ProductType productType) {
+  Map<String, dynamic> formatChild(XItemType productType) {
     ProductModel? childOfItem = productChild;
 
     return {
@@ -431,22 +271,6 @@ extension ProductTableExtension on ProductTable {
     };
   }
 
-  /// lấy danh sách ids của toàn bộ sp từ cha tới con
-  List<String> get getProductIds {
-    List<String> data = [];
-    data.add(productId!);
-
-    data.addAll(getAttaches.map((e) => e.productId!).toList());
-    data.addAll(getWarranties.map((e) => e.productId!).toList());
-
-    return data;
-  }
-
-  /// cập nhật thông tin giảm giá theo DMEM
-  updateCustomerDiscountForProduct(Map<String, ProductDiscountModel?> data) {
-    customerDiscountForProduct = data[productId];
-  }
-
   /// kiểm tra xem thông tin điền đã đầy đủ hay chưa
   /// voới sp imei cần có thông tin imei
   bool get checkEnoughInformation {
@@ -454,35 +278,5 @@ extension ProductTableExtension on ProductTable {
       return imei?.imeiNo.isNotNullOrEmpty ?? false;
     }
     return true;
-  }
-
-  /// chuyển thành ProductModel cho phiếu KPVD
-  ProductModel get convertToModelKPVD {
-    return ProductModel(
-      id: productId,
-      productName: productName,
-      productCode: productCode,
-      productType: productType,
-      sellingPrice: sellingPrice,
-    );
-  }
-
-  Map<String, dynamic> toJsonCreateWarranty() {
-    Map<String, dynamic> data = <String, dynamic>{};
-
-    data['productId'] = productId.toString(); // vd "50003032"
-    data['quantity'] = getQuantity;
-    data['imeiCode'] = imei?.imeiNo;
-    data['warrantyReasonId'] = warrantyReasonId;
-    data['warrantyReasonName'] = warrantyReasonName;
-    data['isLostProduct'] = isLostProduct;
-    data['externalImeiNo'] = externalImeiNo; // imei đính kèm phụ kiện
-    data['billItemId'] = itemId; // vd "b2db0e83-74fa-46e3-9988-a8af8b3e570d"
-    data['newProductId'] =
-        replacedWarrantyProduct.value?.productId.toString(); // vd "50003032"
-    data['newImeiCode'] = replacedWarrantyProduct.value?.imei?.imeiNo;
-    data['selectImeiReason'] = selectImeiReason;
-
-    return data;
   }
 }

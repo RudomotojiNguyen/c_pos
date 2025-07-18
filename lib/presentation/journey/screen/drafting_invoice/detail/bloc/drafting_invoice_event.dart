@@ -32,18 +32,6 @@ final class UpdateDiscountBillByPointEvent extends DraftingInvoiceEvent {
   UpdateDiscountBillByPointEvent(this.discountByPoint);
 }
 
-final class UpdateSaleInfoOfBillEvent extends DraftingInvoiceEvent {
-  final EmployeeModel employee;
-
-  UpdateSaleInfoOfBillEvent(this.employee);
-}
-
-final class UpdateTechInfoOfBillEvent extends DraftingInvoiceEvent {
-  final EmployeeModel employee;
-
-  UpdateTechInfoOfBillEvent(this.employee);
-}
-
 final class UpdatePaymentMethodEvent extends DraftingInvoiceEvent {
   final PaymentMethodTable payment;
 
@@ -79,15 +67,11 @@ final class AddProductEvent extends DraftingInvoiceEvent {
   final ProductTable product;
   final List<ProductTable>? gifts;
   final List<ProductTable>? attaches;
-  final List<ProductTable>? warranties;
-  final List<VoucherTable>? vouchers;
 
   AddProductEvent(
     this.product, {
     this.gifts,
     this.attaches,
-    this.warranties,
-    this.vouchers,
   });
 }
 
@@ -95,15 +79,11 @@ final class UpdateProductEvent extends DraftingInvoiceEvent {
   final ProductTable product;
   final List<ProductTable>? gifts;
   final List<ProductTable>? attaches;
-  final List<ProductTable>? warranties;
-  final List<VoucherTable>? vouchers;
 
   UpdateProductEvent(
     this.product, {
     this.gifts,
     this.attaches,
-    this.warranties,
-    this.vouchers,
   });
 }
 
@@ -162,7 +142,7 @@ final class UpdateOrderSubDetailEvent extends DraftingInvoiceEvent {
 final class UpdateCheckRepurchaseProductEvent extends DraftingInvoiceEvent {
   final int productId;
   final bool isCheck;
-  final ProductType productType;
+  final XItemType productType;
 
   UpdateCheckRepurchaseProductEvent({
     required this.productId,
@@ -174,7 +154,7 @@ final class UpdateCheckRepurchaseProductEvent extends DraftingInvoiceEvent {
 final class UpdateRepurchasePriceProductEvent extends DraftingInvoiceEvent {
   final int productId;
   final double repurchasePrice;
-  final ProductType productType;
+  final XItemType productType;
 
   UpdateRepurchasePriceProductEvent({
     required this.productId,

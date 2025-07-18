@@ -18,7 +18,6 @@ class DraftingStorageImpl extends DraftingStorage {
     // clear toàn bộ data
     await isar.writeTxn(() async {
       await isar.customerTables.clear();
-      await isar.voucherTables.clear();
       await isar.paymentMethodTables.clear();
       await isar.productTables.clear();
       await isar.draftingInvoiceTables.clear();
@@ -53,7 +52,6 @@ class DraftingStorageImpl extends DraftingStorage {
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
     List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   }) async {
     DraftingInvoiceTable? currentDraft = await getCart(cartId);
     if (currentDraft == null) return null;
@@ -86,16 +84,6 @@ class DraftingStorageImpl extends DraftingStorage {
               attaches,
               (item) => isar.productTables.put(item),
             ),
-            _updateLinks<ProductTable>(
-              processedProduct.productsWarranty,
-              warranties,
-              (item) => isar.productTables.put(item),
-            ),
-            _updateLinks<VoucherTable>(
-              processedProduct.vouchers,
-              vouchers,
-              (item) => isar.voucherTables.put(item),
-            ),
           ]);
         }
       }
@@ -115,7 +103,6 @@ class DraftingStorageImpl extends DraftingStorage {
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
     List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   }) async {
     DraftingInvoiceTable? currentDraft = await getCart(cartId);
     if (currentDraft == null) return null;
@@ -140,29 +127,16 @@ class DraftingStorageImpl extends DraftingStorage {
         await _updateLinks<ProductTable>(processedProduct.productsGift, gifts, (
           item,
         ) {
-          item.productChildType = ProductType.gift;
+          item.itemType = XItemType.gift;
           return isar.productTables.put(item);
         });
         await _updateLinks<ProductTable>(
           processedProduct.productsAttach,
           attaches,
           (item) {
-            item.productChildType = ProductType.attach;
+            item.itemType = XItemType.attach;
             return isar.productTables.put(item);
           },
-        );
-        await _updateLinks<ProductTable>(
-          processedProduct.productsWarranty,
-          warranties,
-          (item) {
-            item.productChildType = ProductType.warranty;
-            return isar.productTables.put(item);
-          },
-        );
-        await _updateLinks<VoucherTable>(
-          processedProduct.vouchers,
-          vouchers,
-          (item) => isar.voucherTables.put(item),
         );
       }
 
@@ -185,7 +159,6 @@ class DraftingStorageImpl extends DraftingStorage {
     List<ProductTable>? gifts,
     List<ProductTable>? attaches,
     List<ProductTable>? warranties,
-    List<VoucherTable>? vouchers,
   }) async {
     DraftingInvoiceTable? currentDraft = await getCart(cartId);
     if (currentDraft == null) return null;
@@ -211,14 +184,6 @@ class DraftingStorageImpl extends DraftingStorage {
             isar.productTables.deleteAll(
               existingProduct.productsAttach.map((e) => e.id).toList(),
             ),
-          if (existingProduct.productsWarranty.isNotEmpty)
-            isar.productTables.deleteAll(
-              existingProduct.productsWarranty.map((e) => e.id).toList(),
-            ),
-          if (existingProduct.vouchers.isNotEmpty)
-            isar.voucherTables.deleteAll(
-              existingProduct.vouchers.map((e) => e.id).toList(),
-            ),
         ]);
 
         // Lưu lại thông tin sản phẩm sau khi cập nhật liên kết
@@ -235,27 +200,15 @@ class DraftingStorageImpl extends DraftingStorage {
             existingProduct.productsGift,
             gifts,
             (item) => isar.productTables.put(
-              item..productChildType = ProductType.gift,
+              item..itemType = XItemType.gift,
             ),
           ),
           _updateLinks<ProductTable>(
             existingProduct.productsAttach,
             attaches,
             (item) => isar.productTables.put(
-              item..productChildType = ProductType.attach,
+              item..itemType = XItemType.attach,
             ),
-          ),
-          _updateLinks<ProductTable>(
-            existingProduct.productsWarranty,
-            warranties,
-            (item) => isar.productTables.put(
-              item..productChildType = ProductType.warranty,
-            ),
-          ),
-          _updateLinks<VoucherTable>(
-            existingProduct.vouchers,
-            vouchers,
-            (item) => isar.voucherTables.put(item),
           ),
         ]);
 
@@ -398,51 +351,6 @@ class DraftingStorageImpl extends DraftingStorage {
   }
 
   @override
-  Future<DraftingInvoiceTable?> updateSaleInfo({
-    required EmployeeModel saleInfo,
-    required int cartId,
-  }) async {
-    DraftingInvoiceTable? currentDraft = await getCart(cartId);
-    if (currentDraft == null) return null;
-
-    await isar.writeTxn(() async {
-      currentDraft.saleInfo = saleInfo;
-      await isar.draftingInvoiceTables.put(currentDraft);
-    });
-    return currentDraft;
-  }
-
-  @override
-  Future<DraftingInvoiceTable?> updateTechInfo({
-    required EmployeeModel techInfo,
-    required int cartId,
-  }) async {
-    DraftingInvoiceTable? currentDraft = await getCart(cartId);
-    if (currentDraft == null) return null;
-
-    await isar.writeTxn(() async {
-      currentDraft.technicalInfo = techInfo;
-      await isar.draftingInvoiceTables.put(currentDraft);
-    });
-    return currentDraft;
-  }
-
-  @override
-  Future<DraftingInvoiceTable?> updateWarrantyInfo({
-    required EmployeeModel warrantyInfo,
-    required int cartId,
-  }) async {
-    DraftingInvoiceTable? currentDraft = await getCart(cartId);
-    if (currentDraft == null) return null;
-
-    await isar.writeTxn(() async {
-      currentDraft.warrantyInfo = warrantyInfo;
-      await isar.draftingInvoiceTables.put(currentDraft);
-    });
-    return currentDraft;
-  }
-
-  @override
   Future<DraftingInvoiceTable?> removeProductOnCart({
     required int productId,
     required int cartId,
@@ -450,13 +358,8 @@ class DraftingStorageImpl extends DraftingStorage {
     DraftingInvoiceTable? currentDraft = await getCart(cartId);
     if (currentDraft == null) return null;
 
-    for (final product in currentDraft.products) {
-      await product.replacedWarrantyProduct.load();
-    }
-
     await isar.writeTxn(() async {
       List<ProductTable> productsToRemove = [];
-      List<VoucherTable> vouchersToRemove = [];
 
       // Duyệt qua tất cả sản phẩm trong giỏ hàng
       currentDraft.products.removeWhere((product) {
@@ -466,19 +369,9 @@ class DraftingStorageImpl extends DraftingStorage {
           // Xóa toàn bộ liên kết của sản phẩm
           productsToRemove.addAll(product.getGifts);
           productsToRemove.addAll(product.getAttaches);
-          productsToRemove.addAll(product.getWarranties);
-          vouchersToRemove.addAll(product.getVouchers);
 
           product.productsGift.clear();
           product.productsAttach.clear();
-          product.productsWarranty.clear();
-          product.vouchers.clear();
-          product.vouchersSelected?.clear();
-
-          // xóa vouchers
-          for (var voucher in product.vouchers) {
-            isar.voucherTables.deleteSync(voucher.id); // Use synchronous delete
-          }
 
           return true; // Xóa sản phẩm khỏi danh sách giỏ hàng
         }
@@ -500,22 +393,6 @@ class DraftingStorageImpl extends DraftingStorage {
           return false;
         });
 
-        product.productsWarranty.removeWhere((warranty) {
-          if (warranty.id == productId) {
-            productsToRemove.add(warranty);
-            return true;
-          }
-          return false;
-        });
-
-        /// xử lý kiểm tra replacedWarrantyProduct có id giống vs productId
-        /// nếu giống đưa cái replacedWarrantyProduct vào productsToRemove để xoá ở hàm dưới
-        /// /// todo: sửa lại chỗ này
-        if (product.replacedWarrantyProduct.value?.id == productId) {
-          productsToRemove.add(product.replacedWarrantyProduct.value!);
-          product.replacedWarrantyProduct.value = null;
-        }
-
         return false;
       });
 
@@ -525,16 +402,12 @@ class DraftingStorageImpl extends DraftingStorage {
           Future.wait([
             product.productsGift.save(),
             product.productsAttach.save(),
-            product.productsWarranty.save(),
           ]),
       ]);
 
       // Xóa toàn bộ sản phẩm trong danh sách cần xóa khỏi database
       await isar.productTables.deleteAll(
         productsToRemove.map((e) => e.id).toList(),
-      );
-      await isar.voucherTables.deleteAll(
-        vouchersToRemove.map((e) => e.id).toList(),
       );
 
       // Cập nhật lại giỏ hàng
@@ -920,7 +793,7 @@ class DraftingStorageImpl extends DraftingStorage {
         ..district = orderDetail.customerDistrist
         ..ward = orderDetail.customerWard
         ..address = orderDetail.customerAddress
-        ..type = orderDetail.customerType
+        ..type = orderDetail.customerType ?? XCustomerType.none
         ..point = orderDetail.customerPoint
         ..indentifyNo = orderDetail.customerIndentifyNo
         ..gender = customer?.getGender ?? XGenderType.none
@@ -929,11 +802,8 @@ class DraftingStorageImpl extends DraftingStorage {
       cartTable ??= DraftingInvoiceTable()
         ..typeCart = typeCart
         ..tradeInType = TradeInType.undefine
-        ..saleInfo = orderDetail.getSaleInfo
-        ..technicalInfo = orderDetail.getTechInfo
         ..billNumber = orderDetail.billNumber
         ..createdDate = DateTime.now()
-        ..customerRankName = null // check
         ..orderId = orderDetail.id
         ..customerNote = orderDetail.customerNote
         ..warrantyNote = orderDetail.warrantyNote
@@ -1050,11 +920,8 @@ class DraftingStorageImpl extends DraftingStorage {
       ..typeCart = typeCart
       ..billId = billDetail.id
       ..tradeInType = TradeInType.undefine
-      ..saleInfo = billDetail.getSaleInfo
-      ..technicalInfo = billDetail.getTechInfo
       ..billNumber = billDetail.billNumber
       ..createdDate = DateTime.now()
-      ..customerRankName = billDetail.customerRankName
       ..customerNote = billDetail.customerNote
       ..warrantyNote = billDetail.warrantyNote
       ..saleNote = billDetail.saleNote
@@ -1081,54 +948,8 @@ class DraftingStorageImpl extends DraftingStorage {
         productTable.attachesSelected!.addAll(item.getConvertAttaches);
       }
 
-      productTable.vouchersSelected ??= [];
-      if (item.getConvertVouchers.isNotEmpty) {
-        productTable.vouchersSelected!.addAll(item.getConvertVouchers);
-      }
-
       productMap.putIfAbsent(productTable.itemId!, () => productTable);
     }
-
-    /// todo: tính lại discountAmount cho product
-    productMap.forEach((key, value) {
-      List<VoucherTable> vouchers = value.getVouchers;
-
-      double calculatorAmountDiscountByVoucher = vouchers.fold(0, (
-        previousValue,
-        element,
-      ) {
-        int totalQuantity = element.cumulativeStringValues.isNotEmpty
-            ? Utils.countQuantityProductApplyMoreBuyMoreDiscount(
-                productMap.values.toList(),
-                vouchers,
-              )
-            : value.getQuantity;
-
-        return previousValue +
-            Utils.discountAmountByVoucher(
-              usedVoucherQuantity: totalQuantity,
-              voucher: element,
-              sellingPrice: value.getSellingPrice,
-              quantity: value.getQuantity,
-            );
-      });
-
-      // set lại discountAmount cho product
-      double discountAmount =
-          value.getDiscountAmount - calculatorAmountDiscountByVoucher;
-
-      if (discountAmount < 0) {
-        discountAmount = 0;
-      }
-
-      // lưu vào chiết khấu tay
-      value
-        ..discountByHand = HandDiscount(type: 1, amount: discountAmount)
-        ..discountAmount = 0;
-
-      // set lại vào trong productMap
-      productMap[key] = value;
-    });
 
     // thanh toán
     List<PaymentMethodTable> payments = [];
@@ -1194,7 +1015,7 @@ class DraftingStorageImpl extends DraftingStorage {
               productCart.productsGift,
               originalProduct.getGifts,
               (item) {
-                item.productChildType = ProductType.gift;
+                item.itemType = XItemType.gift;
                 return isar.productTables.put(item);
               },
             ),
@@ -1202,15 +1023,8 @@ class DraftingStorageImpl extends DraftingStorage {
               productCart.productsAttach,
               originalProduct.getAttaches,
               (item) {
-                item.productChildType = ProductType.attach;
+                item.itemType = XItemType.attach;
                 return isar.productTables.put(item);
-              },
-            ),
-            _updateLinks<VoucherTable>(
-              productCart.vouchers,
-              originalProduct.getVouchers,
-              (item) {
-                return isar.voucherTables.put(item);
               },
             ),
           ]);
@@ -1248,7 +1062,6 @@ class DraftingStorageImpl extends DraftingStorage {
       ..billId = billDetail.id
       ..billNumber = billDetail.billNumber
       ..tradeInType = TradeInType.undefine
-      ..warrantyInfo = userInfo?.employee
       ..createdDate = DateTime.now();
 
     /// thông tin sản phẩm
@@ -1290,7 +1103,7 @@ class DraftingStorageImpl extends DraftingStorage {
     required int cartId,
     required int productId,
     required bool isCheck,
-    required ProductType productType,
+    required XItemType productType,
   }) async {
     DraftingInvoiceTable? cart = await _findCart(cartId: cartId);
     if (cart == null) return null;
@@ -1299,7 +1112,7 @@ class DraftingStorageImpl extends DraftingStorage {
     final product = await isar.productTables
         .filter()
         .idEqualTo(productId)
-        .productChildTypeEqualTo(productType)
+        .itemTypeEqualTo(productType)
         .findFirst();
 
     if (product == null) return null;
@@ -1320,7 +1133,7 @@ class DraftingStorageImpl extends DraftingStorage {
     required int cartId,
     required int productId,
     required double repurchasePrice,
-    required ProductType productType,
+    required XItemType productType,
   }) async {
     DraftingInvoiceTable? cart = await _findCart(cartId: cartId);
     if (cart == null) return null;
@@ -1329,7 +1142,7 @@ class DraftingStorageImpl extends DraftingStorage {
     final product = await isar.productTables
         .filter()
         .idEqualTo(productId)
-        .productChildTypeEqualTo(productType)
+        .itemTypeEqualTo(productType)
         .findFirst();
 
     if (product == null) return null;
@@ -1387,7 +1200,7 @@ class DraftingStorageImpl extends DraftingStorage {
       ProductTable? parentProduct = await isar.productTables
           .filter()
           .idEqualTo(parentProductId)
-          .productChildTypeEqualTo(ProductType.normal)
+          .itemTypeEqualTo(XItemType.gift)
           .findFirst();
 
       if (parentProduct == null) return null;
@@ -1404,7 +1217,7 @@ class DraftingStorageImpl extends DraftingStorage {
         parentProduct.productsGift,
         productsGift,
         (item) {
-          item.productChildType = ProductType.gift;
+          item.itemType = XItemType.gift;
           return isar.productTables.put(item);
         },
       );
@@ -1441,12 +1254,9 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
 
   Future<bool> _removeProductDependencies(ProductTable product) async {
     List<int> ids = [];
-    List<int> idsVoucher = [];
 
     final giftsProduct = product.getGifts;
     final attachesProduct = product.getAttaches;
-    final warrantiesProduct = product.getWarranties;
-    final vouchersProduct = product.getVouchers;
 
     // Xóa quà tặng
     if (giftsProduct.isNotEmpty) {
@@ -1458,22 +1268,8 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
       ids.addAll(attachesProduct.map((attach) => attach.id).toList());
     }
 
-    // Xóa gói bảo hành
-    if (warrantiesProduct.isNotEmpty) {
-      ids.addAll(warrantiesProduct.map((warranty) => warranty.id).toList());
-    }
-
-    // Xóa voucher
-    if (vouchersProduct.isNotEmpty) {
-      idsVoucher.addAll(vouchersProduct.map((voucher) => voucher.id).toList());
-    }
-
     if (ids.isNotEmpty) {
       await isar.productTables.deleteAll(ids);
-    }
-
-    if (idsVoucher.isNotEmpty) {
-      await isar.voucherTables.deleteAll(idsVoucher);
     }
 
     return true;
@@ -1496,10 +1292,7 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
       case CartType.updateBill:
       case CartType.order:
       case CartType.updateOrder:
-        newCart
-          ..saleInfo = userInfo?.employee
-          ..technicalInfo = userInfo?.employee
-          ..tradeInType = TradeInType.undefine;
+        newCart.tradeInType = TradeInType.undefine;
         break;
 
       case CartType.tradeIn:
@@ -1583,8 +1376,6 @@ extension DraftingStorageImplExtension on DraftingStorageImpl {
     // Tải dữ liệu liên quan (quà tặng, sản phẩm kèm theo, bảo hành)
     await Future.wait([
       product.productsGift.load(),
-      product.productsWarranty.load(),
-      product.vouchers.load(),
       product.productsAttach.load(),
     ]);
   }

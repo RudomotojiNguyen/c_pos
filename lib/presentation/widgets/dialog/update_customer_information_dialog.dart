@@ -10,7 +10,6 @@ import '../../../common/di/injection/injection.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/models/customer_model.dart';
-import '../../../data/models/customer_type_model.dart';
 import '../../journey/screen/customer/bloc/customer_bloc.dart';
 import '../../theme/themes.dart';
 import '../../utils/validation_utils.dart';
@@ -45,7 +44,6 @@ class _UpdateCustomerInformationDialogState
   final _kForm = GlobalKey<FormState>();
 
   CustomerModel customerInfo = CustomerModel();
-  CustomerTypeModel? customerType;
 
   Timer? _timer;
 

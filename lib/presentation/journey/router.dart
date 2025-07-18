@@ -265,7 +265,7 @@ class MainRouter {
           context.pop();
         }
       } else {
-        // TODO: check lại chỗ này nên đi về đâu
+        // todo: check lại chỗ này nên đi về đâu
         // for (var i = 0; i < routes.length; i++) {
         //   if (routes[i] == RouteName.main) break;
         //   context.pop();

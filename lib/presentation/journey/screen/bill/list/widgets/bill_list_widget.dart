@@ -101,7 +101,6 @@ class _BillListWidgetState extends State<BillListWidget> {
                   dateTime: item.getCreateDate,
                   status: item.type?.getTitle,
                   color: item.type?.getColor,
-                  customerRank: item.getCustomerRankName,
                   onPressed: () {
                     MainRouter.instance.pushNamed(
                       context,

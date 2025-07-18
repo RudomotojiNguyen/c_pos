@@ -29,7 +29,7 @@ class OtpFormWidget extends StatefulWidget {
   });
 
   final int length;
-  final Function(int point, double amount, String otpCodeDmem,
+  final Function(int point, double amount, String otpCode,
       CustomerModel? newCustomerInfo) onCompleted;
   final DiscountMemberType type;
   final String customerPhone;
@@ -111,13 +111,11 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.type == DiscountMemberType.point) ...[
-              Text(
-                'Tiêu điểm',
-                style: AppFont.t.s(),
-              ),
-              BoxSpacer.s8,
-            ],
+            Text(
+              'Tiêu điểm',
+              style: AppFont.t.s(),
+            ),
+            BoxSpacer.s8,
             _formInput(),
             BoxSpacer.s8,
             ValueListenableBuilder(
@@ -304,8 +302,7 @@ class _OtpFormWidgetState extends State<OtpFormWidget> {
         valueListenable: _enableInputOtpController,
         child: Text.rich(
           TextSpan(
-              text:
-                  'Nhập mã OTP đã có trong App Loyalty hoặc mã đã gửi tới số điện thoại của khách ',
+              text: 'Nhập mã OTP đã gửi tới số điện thoại của khách ',
               style: AppFont.t.s(),
               children: [
                 if (!getIt.get<Configurations>().isProduct) ...[

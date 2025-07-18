@@ -6,7 +6,6 @@ import '../../presentation/utils/utils.dart';
 import '../datasources/local_db/local_db.dart';
 import 'bill_item_model.dart';
 import 'customer_model.dart';
-import 'customer_type_model.dart';
 import 'employee_model.dart';
 import 'payment_model.dart';
 import 'product_model.dart';
@@ -115,7 +114,6 @@ class BillModel {
   CustomerModel? customer;
   String? orderSourceName;
   int? moneyUsePoint;
-  CustomerTypeModel? customerType;
   String? storeName;
   List<BillItemModel>? billItems;
   List<PaymentModel>? payments;
@@ -225,7 +223,6 @@ class BillModel {
     this.customer,
     this.orderSourceName,
     this.moneyUsePoint,
-    this.customerType,
     this.storeName,
     this.billItems,
     this.payments,
@@ -340,9 +337,6 @@ class BillModel {
         : null;
     orderSourceName = json['orderSourceName'];
     moneyUsePoint = json['moneyUsePoint'];
-    customerType = json['customerType'] != null
-        ? CustomerTypeModel.fromJson(json['customerType'])
-        : null;
     storeName = json['storeName'];
     if (json['billItems'] != null) {
       billItems = <BillItemModel>[];
@@ -393,8 +387,6 @@ class BillModel {
   String get getBillId => id?.toString() ?? '';
 
   double get getTotalAmountFinal => totalAmount ?? 0;
-
-  String get getCustomerRankName => customerType?.name ?? '';
 
   int get getOrderId => orderId ?? 0;
 
@@ -477,12 +469,9 @@ class BillModel {
     ..district = customerDistrict
     ..ward = customerWard
     ..address = customerAddress
-    ..type = customerType?.id
     ..indentifyNo = customerIndentifyNo
     ..gender = customerGender?.getGender ?? XGenderType.other
     ..appellation = customerGender?.getGender ?? XGenderType.other;
-
-  String get customerRankName => customerType?.name ?? '';
 
   double get getTotalPriceNoneDiscount => (billItems ?? []).fold(0,
       (previousValue, element) => previousValue + element.calculateTotalPrice);

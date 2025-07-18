@@ -51,12 +51,6 @@ abstract class ProductRepository {
     String? searchProduct,
   });
 
-  // Future<Map<String, ProductDiscountModel?>> getProductDiscountInfoByCustomer({
-  //   required List<ProductTable> products,
-  //   required String customerPhone,
-  //   int? billNumber,
-  // });
-
   Future<List<ProductImeiModel>> getImei({int? limit, String? productId});
 
   Future<List<String>> getReasonSelectImei();

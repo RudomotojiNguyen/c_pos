@@ -43,44 +43,44 @@ class _SearchBoxState extends State<SearchBox> {
   /// WIDGETS
   ///
 
-  Widget _dataSearchType(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        XTextButton(
-          title: SearchType.productName.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.productName);
-          },
-        ),
-        XTextButton(
-          title: SearchType.imei.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.imei);
-          },
-        ),
-        XTextButton(
-          title: SearchType.phoneProduct.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.phoneProduct);
-          },
-        ),
-        XTextButton(
-          title: SearchType.accessoriesProduct.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.accessoriesProduct);
-          },
-        ),
-        XTextButton(
-          title: SearchType.productCombo.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.productCombo);
-          },
-        ),
-      ],
-    );
-  }
+  // Widget _dataSearchType(BuildContext context) {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       XTextButton(
+  //         title: SearchType.productName.getTitle,
+  //         onPressed: () {
+  //           onChangeSearchTypeEvent(SearchType.productName);
+  //         },
+  //       ),
+  //       XTextButton(
+  //         title: SearchType.imei.getTitle,
+  //         onPressed: () {
+  //           onChangeSearchTypeEvent(SearchType.imei);
+  //         },
+  //       ),
+  //       XTextButton(
+  //         title: SearchType.phoneProduct.getTitle,
+  //         onPressed: () {
+  //           onChangeSearchTypeEvent(SearchType.phoneProduct);
+  //         },
+  //       ),
+  //       XTextButton(
+  //         title: SearchType.accessoriesProduct.getTitle,
+  //         onPressed: () {
+  //           onChangeSearchTypeEvent(SearchType.accessoriesProduct);
+  //         },
+  //       ),
+  //       XTextButton(
+  //         title: SearchType.productCombo.getTitle,
+  //         onPressed: () {
+  //           onChangeSearchTypeEvent(SearchType.productCombo);
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
   // Widget _contentSearchType(BuildContext context) {
   //   return Padding(

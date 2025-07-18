@@ -12,7 +12,6 @@ import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
 import '../../../../../data/models/base_enum_model.dart';
-import '../../../../../data/models/employee_model.dart';
 import '../../../../../data/models/otp_customer_point_model.dart';
 import '../../../../../data/models/product_imei_model.dart';
 import '../../../../../data/models/product_model.dart';
@@ -22,7 +21,6 @@ import '../../../../theme/themes.dart';
 import '../../../../utils/utils.dart';
 import '../../../router.dart';
 import '../../customer/bloc/customer_bloc.dart';
-import '../../employee/bloc/employee_bloc.dart';
 import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
 import 'bloc/drafting_invoice_bloc.dart';
@@ -31,7 +29,6 @@ import 'widgets/suggest_notes_dialog.dart';
 
 part 'widgets/bottom_price_widget.dart';
 part 'widgets/customer_basic_infofmation_widget.dart';
-part 'widgets/employee_of_bill_widget.dart';
 part 'widgets/bill_note_widget.dart';
 part 'widgets/promotion_widget.dart';
 part 'widgets/member_discount_widget.dart';
@@ -150,7 +147,7 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
 
                   // CartType là updateOrder, order, updateBill, retail
                   // warranty: EmployeeOfBillWidget, BillNoteWidget
-                  const EmployeeOfBillWidget(),
+                  // const EmployeeOfBillWidget(),
                   const ProductsBasicInformationWidget(),
                   const BillNoteWidget(),
                   const DeliveryWidget(),

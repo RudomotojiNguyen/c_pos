@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:c_pos/common/extensions/extension.dart';
-import 'package:c_pos/data/datasources/local_db/table/voucher_table.dart';
 import 'package:isar/isar.dart';
 
 import '../../../../common/constants/app_constants.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/enum/enum.dart';
 import '../../../../presentation/journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
-import '../../../../presentation/utils/utils.dart';
-import '../../../models/product_discount_model.dart';
 import '../../../models/product_imei_model.dart';
 import '../../../models/product_model.dart';
 
@@ -36,6 +33,10 @@ class ProductTable {
   set imei(ProductImeiModel? value) {
     imeiStr = value != null ? jsonEncode(value.toJson()) : null;
   }
+
+  /// loại item
+  @Enumerated(EnumType.ordinal)
+  XItemType itemType = XItemType.main;
 
   String? productName;
   String? productCode;
@@ -70,29 +71,6 @@ class ProductTable {
 
   int? appearTimes;
   String? belongBillDetailId;
-
-  /// tạo bảo hành
-  int? warrantyReasonId;
-  String? warrantyReasonName;
-  String? externalImeiId;
-  bool? isLostProduct; // bảo hành mất xác
-
-  final IsarLink<ProductTable> replacedWarrantyProduct =
-      IsarLink<ProductTable>();
-
-  /// D-mem: giảm giá SP theo phân loại khách
-  String? customerDiscountForProductStr;
-
-  @ignore
-  ProductDiscountModel? get customerDiscountForProduct =>
-      customerDiscountForProductStr != null
-          ? ProductDiscountModel().toModel(customerDiscountForProductStr!)
-          : null;
-
-  set customerDiscountForProduct(ProductDiscountModel? value) {
-    customerDiscountForProductStr =
-        value != null ? jsonEncode(value.toJson()) : null;
-  }
 
   ///
   String? externalImeiNo; // imei đính kèm cho phụ kiện
@@ -153,8 +131,6 @@ class ProductTable {
   int? cartId; //
   @Enumerated(EnumType.ordinal)
   ProductType productType; // loại sản phẩm
-  @Enumerated(EnumType.ordinal)
-  ProductType productChildType; // loại sản phẩm con lúc thêm vòa đơn
   String? productId; //
 
   /// warranty & attach & gift
@@ -179,15 +155,8 @@ class ProductTable {
   @ignore
   List<ProductTable>? attachesSelected;
 
-  final productsWarranty = IsarLinks<ProductTable>(); // gói bảo hành
-  @ignore
-  List<ProductTable>? warrantiesSelected;
-
-  final vouchers = IsarLinks<VoucherTable>(); // mã giảm giá
-  @ignore
-  List<VoucherTable>? vouchersSelected;
-
   ProductTable({
+    this.itemType = XItemType.main,
     this.itemId,
     this.appearTimes,
     this.externalImeiNo,
@@ -210,7 +179,6 @@ class ProductTable {
     this.barCode,
     this.status,
     this.productType = ProductType.normal,
-    this.productChildType = ProductType.normal,
     this.brand,
     this.productCategory,
     this.productWebCategory,

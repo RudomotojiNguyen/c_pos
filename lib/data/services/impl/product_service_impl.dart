@@ -163,23 +163,6 @@ class ProductServicesImpl implements ProductServices {
   }
 
   @override
-  Future<Map<String, ProductDiscountModel?>> getProductDiscountInfoByCustomer(
-      Map<String, dynamic> params) {
-    return productApi.getProductDiscountInfoByCustomer(params).then(
-      (value) {
-        Map<String, ProductDiscountModel?> data = {};
-
-        for (var product in value.data) {
-          data.putIfAbsent(
-              product['id'], () => ProductDiscountModel.fromJson(product));
-        }
-
-        return data;
-      },
-    );
-  }
-
-  @override
   Future<List<ProductImeiModel>> getImei(
       {int? limit, String? productId}) async {
     return productApi.getImei(limit: limit, productId: productId).then(

@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 
-import '../../models/customer_model.dart';
 import '../../models/response/base_response.dart';
-import '../../models/response/paginated_response.dart';
 
 part 'customer_api.g.dart';
 

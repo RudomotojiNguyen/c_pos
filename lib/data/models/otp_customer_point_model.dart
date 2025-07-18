@@ -4,13 +4,13 @@ class OtpCustomerPointModel {
   double? amountTransferFromPoint; // số tiền được quy đổi bằng điểm
   int? pointWillUse; // số điểm sẽ dùng
   bool? isValidOTP;
-  String? otpCodeDmem;
+  String? otpCode;
 
   OtpCustomerPointModel({
     this.amountTransferFromPoint,
     this.pointWillUse,
     this.isValidOTP,
-    this.otpCodeDmem,
+    this.otpCode,
   });
 
   Map<String, dynamic> toJson() {
@@ -19,7 +19,7 @@ class OtpCustomerPointModel {
     data['amountTransferFromPoint'] = amountTransferFromPoint;
     data['pointWillUse'] = pointWillUse;
     data['isValidOTP'] = isValidOTP;
-    data['otpCodeDmem'] = otpCodeDmem;
+    data['otpCode'] = otpCode;
 
     return data;
   }
@@ -28,7 +28,7 @@ class OtpCustomerPointModel {
     amountTransferFromPoint = json['amountTransferFromPoint'];
     pointWillUse = json['pointWillUse'];
     isValidOTP = json['isValidOTP'];
-    otpCodeDmem = json['otpCodeDmem'];
+    otpCode = json['otpCode'];
   }
 
   OtpCustomerPointModel toModel(String value) {
@@ -40,14 +40,14 @@ class OtpCustomerPointModel {
     double? amountTransferFromPoint,
     int? pointWillUse,
     bool? isValidOTP,
-    String? otpCodeDmem,
+    String? otpCode,
   }) {
     return OtpCustomerPointModel(
       amountTransferFromPoint:
           amountTransferFromPoint ?? this.amountTransferFromPoint,
       pointWillUse: pointWillUse ?? this.pointWillUse,
       isValidOTP: isValidOTP ?? this.isValidOTP,
-      otpCodeDmem: otpCodeDmem ?? this.otpCodeDmem,
+      otpCode: otpCode ?? this.otpCode,
     );
   }
 

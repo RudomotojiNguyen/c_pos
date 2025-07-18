@@ -29,7 +29,7 @@ class OrderModel {
   int? customerGender;
   String? customerDOB;
   int? customerPoint;
-  int? customerType;
+  XCustomerType? customerType;
   int? customerAppellation;
   String? checkDate;
   String? createdAt;
@@ -228,7 +228,7 @@ class OrderModel {
     customerGender = json['customerGender'];
     customerDOB = json['customerDOB'];
     customerPoint = json['customerPoint'];
-    customerType = json['customerType'];
+    customerType = (json['customerType'] as int?)?.getCustomerType;
     customerAppellation = json['customerAppellation'];
     checkDate = json['checkDate'];
     createdAt = json['createdAt'];

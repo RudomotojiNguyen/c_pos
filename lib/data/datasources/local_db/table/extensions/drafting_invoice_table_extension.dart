@@ -56,7 +56,6 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
   String get getCustomerName => getCustomer?.fullName ?? '';
   String get getCustomerPhone => getCustomer?.phoneNo ?? '';
   int get getCustomerId => getCustomer?.customerId ?? 0;
-  String get getCustomerRank => '';
 
   OtpCustomerPointModel? get discountByPoint => getCustomer?.discountByPoint;
 
@@ -215,11 +214,6 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
     data['customerLastName'] = getCustomer?.lastName;
     data['customerAppellation'] = getCustomer?.appellation.getValue;
     data['customerDOB'] = getCustomer?.dateOfBirth?.formatDate();
-    data['saleId'] = saleInfo?.saleId ?? userInfo.getUserId;
-    data['saleStoreId'] = saleInfo?.saleStoreId ??
-        userInfo.getStoreId; //thông tin nhân viên bán hàng
-    data['technicalId'] = technicalInfo?.employeeId ??
-        technicalInfo?.id; //thông tin nhân viên kỹ thuật
     data['customerNote'] = customerNote ?? saleNote;
     data['saleNote'] = saleNote;
     data['warrantyNote'] = warrantyNote;

@@ -65,20 +65,6 @@ final class UpdateIsLoading extends CustomerState {
         );
 }
 
-final class GetCustomerStatisticSuccess extends CustomerState {
-  final CustomerTypeModel? customerType;
-
-  GetCustomerStatisticSuccess({required CustomerState state, this.customerType})
-      : super(
-          isLoading: state.isLoading,
-          limit: state.limit,
-          currentPage: state.currentPage,
-          canLoadMore: state.canLoadMore,
-          isLoadMore: state.isLoadMore,
-          customers: state.customers,
-        );
-}
-
 final class GetOTPSuccess extends CustomerState {
   final String otp;
   final CustomerModel? customerInfo;

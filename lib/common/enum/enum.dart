@@ -7,8 +7,6 @@ export 'payment_type.dart';
 export 'method_deposit.dart';
 export 'status_enum.dart';
 export 'payment_transaction.dart';
-export 'support_ticket_status.dart';
-export 'ticket_type.dart';
 export 'x_expression.dart';
 export 'filter_bill_and_order_type.dart';
 export 'bill_type.dart';
@@ -20,9 +18,11 @@ export 'x_product_operation_action.dart';
 export 'discount_member_type.dart';
 export 'imei_status.dart';
 export 'trade_in_type.dart';
-export 'x_finance_recipient_object_type_enum.dart';
 export 'x_sort_enum.dart';
 export 'type_select_extension.dart';
+export 'x_item_type.dart';
+export 'x_customer_type.dart';
+export 'x_product_status.dart';
 
 enum XMomentTimeEnum { morning, evening }
 

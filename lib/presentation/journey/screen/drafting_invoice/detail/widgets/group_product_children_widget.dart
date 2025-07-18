@@ -148,9 +148,9 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
   List<Widget> _childOperation(VoidCallback closeOverlay) {
     List<Widget> data = [];
 
-    final productType = widget.product.productChildType;
+    final XItemType itemType = widget.product.itemType;
 
-    if (productType == ProductType.gift) {
+    if (itemType == XItemType.gift) {
       data = [
         RowFunctionWidget(
           title: XProductOperationAction.detail.getTitle,
@@ -186,7 +186,7 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
         ),
       ];
     }
-    if (productType == ProductType.attach) {
+    if (itemType == XItemType.attach) {
       data = [
         RowFunctionWidget(
           title: XProductOperationAction.detail.getTitle,
@@ -217,32 +217,6 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
           ),
         );
       }
-    }
-    if (productType == ProductType.warranty) {
-      data = [
-        RowFunctionWidget(
-          title: XProductOperationAction.detail.getTitle,
-          icon: XProductOperationAction.detail.getIcon,
-          onPressed: () {
-            closeOverlay();
-            widget.callBackAction(XProductOperationAction.detail);
-          },
-        ),
-        // RowFunctionWidget(
-        //   title: XProductOperationAction.addWarrantyImei.getTitle,
-        //   icon: XProductOperationAction.addWarrantyImei.getIcon,
-        //   onPressed: () =>
-        //       widget.callBackAction(XProductOperationAction.addWarrantyImei),
-        // ),
-        RowFunctionWidget(
-          title: XProductOperationAction.remove.getTitle,
-          icon: XProductOperationAction.remove.getIcon,
-          onPressed: () {
-            closeOverlay();
-            widget.callBackAction(XProductOperationAction.remove);
-          },
-        ),
-      ];
     }
 
     if (widget.product.productType == ProductType.imei) {

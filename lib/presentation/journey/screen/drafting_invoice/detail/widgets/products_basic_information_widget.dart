@@ -34,19 +34,11 @@ class _ProductsBasicInformationWidgetState
             (previous.customer?.getCustomerPhone.isNullOrEmpty ?? true)) {
           return true;
         }
-        if (current is UpdateSaleInfoSuccess && previous.saleInfo == null) {
-          return true;
-        }
-        if (current is UpdateTechInfoSuccess &&
-            previous.technicalInfo == null) {
-          return true;
-        }
+
         return false;
       },
       builder: (context, state) {
         if ((state.customer?.getCustomerPhoneNumber?.isNullOrEmpty ?? true) ||
-            state.saleInfo == null ||
-            state.technicalInfo == null ||
             {CartType.tradeIn}.contains(state.cartType)) {
           return BoxSpacer.blank;
         }
@@ -97,7 +89,6 @@ class _ProductsBasicInformationWidgetState
                       product: product,
                       gifts: product.getGifts,
                       attaches: product.getAttaches,
-                      warranties: product.getWarranties,
                       productsCombo: product.productChildCombo ?? [],
                       callBackChildAction: _onHandleChildAction,
                       callBackParentAction: ({required action, quantity}) =>
@@ -248,7 +239,7 @@ class _ProductsBasicInformationWidgetState
           _draftingInvoiceBloc.add(UpdateRepurchasePriceProductEvent(
               productId: product.id,
               repurchasePrice: value,
-              productType: product.productChildType));
+              productType: product.itemType));
         },
       ),
     );
@@ -261,7 +252,7 @@ class _ProductsBasicInformationWidgetState
     _draftingInvoiceBloc.add(UpdateCheckRepurchaseProductEvent(
         productId: product.id,
         isCheck: !product.isCheckRepurchasePrice,
-        productType: product.productChildType));
+        productType: product.itemType));
   }
 
   ///

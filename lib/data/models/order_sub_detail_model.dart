@@ -169,6 +169,6 @@ class OrderSubDetailModel {
 
   int? get getOrderStatusId => orderStatus?.id;
 
-  // TODO: thêm phần lý do hủy đơn
+  // todo: thêm phần lý do hủy đơn
   int? get getCancelStatusId => null;
 }

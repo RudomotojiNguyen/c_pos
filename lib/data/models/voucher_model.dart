@@ -4,7 +4,6 @@ import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
-import '../datasources/local_db/local_db.dart';
 
 class VoucherModel {
   int? voucherId;
@@ -34,21 +33,6 @@ class VoucherModel {
   List<String> get cumulativeStringValues => cumulativeValues != null
       ? cumulativeValues!.map((e) => jsonEncode(e.toJson())).toList()
       : [];
-
-  VoucherTable get convertToTable => VoucherTable(
-        voucherId: voucherId,
-        voucherDetailId: voucherDetailId,
-        voucherCode: voucherCode,
-        voucherName: voucherName,
-        value: value,
-        type: cumulativeValues?.isNotEmpty == true
-            ? XDiscountType.percent
-            : type ?? XDiscountType.none,
-        usable: usable,
-        voucherValue: voucherValue,
-        maxValue: maxValue,
-        cumulativeStringValues: cumulativeStringValues,
-      );
 
   VoucherModel.fromJson(Map<String, dynamic> json) {
     voucherId = json['voucherId'];

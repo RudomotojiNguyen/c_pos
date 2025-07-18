@@ -30,17 +30,6 @@ enum OperationType { add, minus }
 
 enum QuantitySelect { single, multiple }
 
-enum DiscountType {
-  none(0, ''),
-  percent(1, '%'),
-  amount(2, 'đ');
-
-  final int value;
-  final String unit;
-
-  const DiscountType(this.value, this.unit);
-}
-
 enum FilterParams {
   sortByOutstanding('sort_by_outstanding'),
   sortBySale('sort_by_sale'),

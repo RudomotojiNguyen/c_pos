@@ -100,7 +100,6 @@ class _BillDetailState extends XStateWidget<BillDetail> {
                   customerLocation: billDetail.getCustomerAddress,
                   customerDOB: billDetail.getCustomerDOB,
                   customerIdCart: '',
-                  customerTypeName: billDetail.getCustomerRankName,
                 ),
                 ProductDetailWidget(products: billDetail.products),
                 XSummeryPaymentInfo(

@@ -1,7 +1,6 @@
 import '../datasources/remote/product_api.dart';
 import '../models/imei_history_model.dart';
 import '../models/imei_transaction_model.dart';
-import '../models/product_discount_model.dart';
 import '../models/product_imei_model.dart';
 import '../models/product_model.dart';
 import '../models/response/paginated_response.dart';
@@ -51,9 +50,6 @@ abstract class ProductServices {
     required int pageSize,
     String? searchProduct,
   });
-
-  Future<Map<String, ProductDiscountModel?>> getProductDiscountInfoByCustomer(
-      Map<String, dynamic> params);
 
   Future<List<ProductImeiModel>> getImei({int? limit, String? productId});
 

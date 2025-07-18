@@ -19,7 +19,6 @@ class TransactionItem extends StatelessWidget {
     this.billType = BillType.undefine,
     this.color,
     this.onPressed,
-    this.customerRank,
   });
 
   final String id;
@@ -31,7 +30,6 @@ class TransactionItem extends StatelessWidget {
   final BillType billType;
   final Color? color;
   final Function()? onPressed;
-  final String? customerRank;
 
   @override
   Widget build(BuildContext context) {
@@ -144,10 +142,6 @@ class TransactionItem extends StatelessWidget {
               ),
             ],
           ),
-          if (customerRank.isNotNullOrEmpty) ...[
-            BoxSpacer.s8,
-            RankInfoWidget(customerRank: customerRank!),
-          ],
         ],
       ),
     );

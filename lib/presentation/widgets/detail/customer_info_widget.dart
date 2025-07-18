@@ -14,7 +14,6 @@ class CustomerInfoWidget extends StatelessWidget {
     required this.customerIdCart,
     required this.customerLocation,
     this.customerDOB,
-    this.customerTypeName,
   });
 
   final String customerName;
@@ -22,7 +21,6 @@ class CustomerInfoWidget extends StatelessWidget {
   final String customerIdCart;
   final String customerLocation;
   final String? customerDOB;
-  final String? customerTypeName;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,6 @@ class CustomerInfoWidget extends StatelessWidget {
         width: 22.sp,
         height: 22.sp,
       ),
-      rightIcon: _rightWidget(),
       title: customerName,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,13 +89,5 @@ class CustomerInfoWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _rightWidget() {
-    if (customerTypeName.isNotNullOrEmpty) {
-      return RankInfoWidget(customerRank: customerTypeName!);
-    }
-
-    return BoxSpacer.blank;
   }
 }

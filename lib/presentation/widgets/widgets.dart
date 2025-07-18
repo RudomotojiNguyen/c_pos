@@ -50,7 +50,6 @@ export 'button/x_row_button.dart';
 export 'row_detail.dart';
 export 'x_column_info_widget.dart';
 export 'transaction/transaction_item.dart';
-export 'rank_info_widget.dart';
 export 'search_box_widget.dart';
 export 'loading/loading_detail_widget.dart';
 export 'detail/product_detail_widget.dart';

@@ -146,7 +146,7 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
         type: DiscountMemberType.point,
         customerPhone: customer?.getCustomerPhone ?? '',
         customerId: customer?.customerId,
-        onCompleted: (point, amount, otpCodeDmem, newCustomerInfo) {
+        onCompleted: (point, amount, otpCode, newCustomerInfo) {
           OtpCustomerPointModel discountByPoint =
               (_draftingInvoiceBloc.state.discountTotalBillByPoint ??
                       OtpCustomerPointModel())
@@ -154,7 +154,7 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
             pointWillUse: point,
             amountTransferFromPoint: amount,
             isValidOTP: true,
-            otpCodeDmem: otpCodeDmem,
+            otpCode: otpCode,
           );
 
           _draftingInvoiceBloc

@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 
 import '../../presentation/utils/utils.dart';
-import '../constants/enum.dart';
 import '../constants/notification_constants.dart';
 import '../../common/extensions/extension.dart';
 import '../enum/enum.dart';
@@ -68,11 +67,8 @@ extension StringExtensions on String {
     }
   }
 
-  DiscountType get convertDiscountType {
-    return isNullOrEmpty
-        ? DiscountType.none
-        : (this == 'percent' ? DiscountType.percent : DiscountType.amount);
-  }
+  XDiscountType get getDiscountType =>
+      XDiscountTypeExtension.mapStr[this] ?? XDiscountType.none;
 
   String formatDate(
       {XDateTimeEnum format = XDateTimeEnum.dayMonthYear, int duration = 0}) {
@@ -131,17 +127,7 @@ extension StringExtensions on String {
     return dateTime;
   }
 
-  TicketType get getTicketType =>
-      TicketTypeExtension.mapTicketType[this] ?? TicketType.none;
-
   String get toStrSearch => removeUtf8.toLowerCase();
-
-  XDiscountType get getDiscountType =>
-      XDiscountTypeExtension.mapStr[this] ?? XDiscountType.none;
-
-  XFinanceRecipientObjectTypeEnum get getXFinanceRecipientObjectTypeEnum =>
-      XFinanceRecipientObjectTypeEnumExtension.map[this] ??
-      XFinanceRecipientObjectTypeEnum.none;
 }
 
 extension StringValidator on String {

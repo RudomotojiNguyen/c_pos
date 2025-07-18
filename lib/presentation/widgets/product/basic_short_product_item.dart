@@ -11,7 +11,6 @@ class BasicShortProductItem extends StatelessWidget {
   const BasicShortProductItem({
     super.key,
     required this.product,
-    required this.productType,
     this.onPressed,
     this.baseButtonType = BaseButtonType.basic,
     this.productOperationActions = const [],
@@ -20,7 +19,6 @@ class BasicShortProductItem extends StatelessWidget {
   });
 
   final ProductModel product;
-  final ProductType productType;
   final Function({XProductOperationAction? action})? onPressed;
   final BaseButtonType baseButtonType;
   final List<XProductOperationAction> productOperationActions;

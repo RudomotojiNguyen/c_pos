@@ -81,19 +81,6 @@ class ProductRepositoryImpl implements ProductRepository {
         searchProduct: searchProduct);
   }
 
-  // @override
-  // Future<Map<String, ProductDiscountModel?>> getProductDiscountInfoByCustomer(
-  //     {required List<ProductTable> products,
-  //     required String customerPhone,
-  //     int? billNumber}) {
-  //   Map<String, dynamic> data = {
-  //     'productIds': products.getUnitProductIds,
-  //     'customerPhone': customerPhone,
-  //     'billNumber': billNumber,
-  //   };
-  //   return productServices.getProductDiscountInfoByCustomer(data);
-  // }
-
   @override
   Future<List<ProductImeiModel>> getImei({int? limit, String? productId}) {
     return productServices.getImei(limit: limit, productId: productId);

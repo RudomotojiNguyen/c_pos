@@ -74,11 +74,10 @@ Future<void> main() async {
     Isar isar = await Isar.open(
       [
         UserTableSchema,
-        DraftingInvoiceTableSchema,
         CustomerTableSchema,
+        DraftingInvoiceTableSchema,
         ProductTableSchema,
         PaymentMethodTableSchema,
-        VoucherTableSchema,
       ],
       directory: dir,
     );
