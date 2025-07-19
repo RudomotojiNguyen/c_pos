@@ -77,12 +77,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           // employeeId: user.employeeId,
           isActive: user.isActive,
           accessToken: token,
-          // jobTitleId: user.jobTitleId,
           employee: EmployeeModel(
             id: user.employeeId,
             code: user.userCode,
             fullName: user.fullName,
             storeName: user.storeName,
+            jobTitleId: user.jobTitleId,
           ),
         );
         emit(GetProfileSuccess(state: state, userInfo: auth));

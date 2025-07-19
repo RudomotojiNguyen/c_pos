@@ -42,6 +42,7 @@ class _OrderSubDetailWidgetState extends State<OrderSubDetailWidget> {
   @override
   void initState() {
     super.initState();
+    initData(_draftingInvoiceBloc.state.orderSubDetail);
   }
 
   @override
@@ -56,31 +57,32 @@ class _OrderSubDetailWidgetState extends State<OrderSubDetailWidget> {
     super.dispose();
   }
 
+  initData(OrderSubDetailModel? orderSubDetail) {
+    _deliveryCodeController.text = orderSubDetail?.shipCode ?? '';
+    //
+    _orderSourceController.text = orderSubDetail?.orderSource?.getName ?? '';
+    orderSourceSelected = orderSubDetail?.orderSource;
+    //
+    _orderTypeController.text = orderSubDetail?.orderType?.getName ?? '';
+    orderTypeSelected = orderSubDetail?.orderType;
+    //
+    _orderStatusController.text = orderSubDetail?.orderStatus?.getName ?? '';
+    orderStatusSelected = orderSubDetail?.orderStatus;
+    //
+    datesComeToStore.value = [orderSubDetail?.dateComeToShop];
+    datesPayment.value = [orderSubDetail?.datePayFor];
+    //timeComeToStore ở controller là TimeOfDay, timeComToShop ở localDB là DateTime -> phải parse về đúng dạng hiển thị
+    timeComeToStore.value =
+        orderSubDetail?.timeComToShop?.convertDateTimeToTimeOfDay();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       listener: (context, state) {
         if (state is GetCurrentDraftDataSuccess) {
-          _deliveryCodeController.text = state.orderSubDetail?.shipCode ?? '';
-          //
-          _orderSourceController.text =
-              state.orderSubDetail?.orderSource?.getName ?? '';
-          orderSourceSelected = state.orderSubDetail?.orderSource;
-          //
-          _orderTypeController.text =
-              state.orderSubDetail?.orderType?.getName ?? '';
-          orderTypeSelected = state.orderSubDetail?.orderType;
-          //
-          _orderStatusController.text =
-              state.orderSubDetail?.orderStatus?.getName ?? '';
-          orderStatusSelected = state.orderSubDetail?.orderStatus;
-          //
-          datesComeToStore.value = [state.orderSubDetail?.dateComeToShop];
-          datesPayment.value = [state.orderSubDetail?.datePayFor];
-          //timeComeToStore ở controller là TimeOfDay, timeComToShop ở localDB là DateTime -> phải parse về đúng dạng hiển thị
-          timeComeToStore.value =
-              state.orderSubDetail?.timeComToShop?.convertDateTimeToTimeOfDay();
+          initData(state.orderSubDetail);
         }
       },
       buildWhen: (previous, current) =>

@@ -9,7 +9,6 @@ import '../../../../common/enum/enum.dart';
 import '../../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
 import '../../../models/auth_model.dart';
 import '../../../models/base_enum_model.dart';
-import '../../../models/employee_model.dart';
 import '../../../models/otp_customer_point_model.dart';
 import '../local_db.dart';
 

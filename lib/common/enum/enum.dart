@@ -23,6 +23,7 @@ export 'type_select_extension.dart';
 export 'x_item_type.dart';
 export 'x_customer_type.dart';
 export 'x_product_status.dart';
+export 'x_job_title.dart';
 
 enum XMomentTimeEnum { morning, evening }
 

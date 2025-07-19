@@ -176,7 +176,6 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
       StatusEnum.confirmed,
       StatusEnum.ready,
       StatusEnum.packing,
-      StatusEnum.customerCancel,
       StatusEnum.systemCancel,
     ];
     return Column(

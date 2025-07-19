@@ -6,3 +6,5 @@ sealed class GlobalCoreEvent {}
 final class GetOrderStatusEvent extends GlobalCoreEvent {}
 
 final class GetOrderSourceEvent extends GlobalCoreEvent {}
+
+final class GetOrderTypeEvent extends GlobalCoreEvent {}

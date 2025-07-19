@@ -1,3 +1,6 @@
+import 'package:c_pos/common/extensions/extension.dart';
+
+import '../../common/enum/x_job_title.dart';
 import '../datasources/local_db/table/user_table.dart';
 import 'employee_model.dart';
 
@@ -42,5 +45,8 @@ class AuthModel {
     ..isActive = isActive
     ..accessToken = accessToken
     ..fullName = employee?.fullName
+    ..jobTitleId = employee?.jobTitleId
     ..userCode = employee?.code;
+
+  XJobTitle get getJob => employee?.jobTitleId?.getJob ?? XJobTitle.none;
 }

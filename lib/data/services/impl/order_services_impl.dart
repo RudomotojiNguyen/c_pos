@@ -50,14 +50,14 @@ class OrderServicesImpl implements OrderServices {
   }
 
   @override
-  Future<List<BaseEnumModel>> getOrderSource() {
-    return orderApi.getOrderSources().then(
-      (value) {
-        return value.getListData.map<BaseEnumModel>((item) {
-          return BaseEnumModel.fromJson(item);
-        }).toList();
-      },
+  Future<List<BaseEnumModel>> getOrderSource() async {
+    final res = await orderApi.getOrderSources();
+    final data = PaginatedResponse.fromJson(
+      res.data,
+      (json) => BaseEnumModel.fromJson(json),
+      itemsKey: 'list_order_source',
     );
+    return data.items;
   }
 
   @override

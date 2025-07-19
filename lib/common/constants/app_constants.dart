@@ -1,4 +1,5 @@
 import 'package:c_pos/common/enum/enum.dart';
+import 'package:c_pos/data/models/base_enum_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/customer_model.dart';
@@ -67,3 +68,136 @@ enum TextStyleEnum {
   labelMedium,
   labelSmall,
 }
+
+class DataConstants {
+  static List<BaseEnumModel> orderType = [
+    BaseEnumModel(
+      id: FilterBillAndOrderType.store.getValue,
+      name: FilterBillAndOrderType.store.getTitle,
+    ),
+    BaseEnumModel(
+      id: FilterBillAndOrderType.preOrder.getValue,
+      name: FilterBillAndOrderType.preOrder.getTitle,
+    ),
+    BaseEnumModel(
+      id: FilterBillAndOrderType.delivery.getValue,
+      name: FilterBillAndOrderType.delivery.getTitle,
+    ),
+    BaseEnumModel(
+      id: FilterBillAndOrderType.deliveryByThirdParty.getValue,
+      name: FilterBillAndOrderType.deliveryByThirdParty.getTitle,
+    ),
+    BaseEnumModel(
+      id: FilterBillAndOrderType.website.getValue,
+      name: FilterBillAndOrderType.website.getTitle,
+    ),
+    BaseEnumModel(
+      id: FilterBillAndOrderType.unSelect.getValue,
+      name: FilterBillAndOrderType.unSelect.getTitle,
+    ),
+  ];
+
+  /// note: dành cho đơn hàng
+  static List<BaseEnumModel> orderStatusCr = [];
+  static List<BaseEnumModel> orderStatusDp = [];
+
+  static List<BaseEnumModel> orderStatusShop = [
+    BaseEnumModel(
+      id: StatusEnum.unSelect.getValue,
+      name: StatusEnum.unSelect.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.confirmed.getValue,
+      name: StatusEnum.confirmed.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.packing.getValue,
+      name: StatusEnum.packing.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.ready.getValue,
+      name: StatusEnum.ready.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.delivery.getValue,
+      name: StatusEnum.delivery.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.unSuccess.getValue,
+      name: StatusEnum.unSuccess.getTitle,
+    ),
+  ];
+
+  static List<BaseEnumModel> orderStatus = [
+    BaseEnumModel(
+      id: StatusEnum.unSelect.getValue,
+      name: StatusEnum.unSelect.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.newTransaction.getValue,
+      name: StatusEnum.newTransaction.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.confirming.getValue,
+      name: StatusEnum.confirming.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.noCatchPhone.getValue,
+      name: StatusEnum.noCatchPhone.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.tracking.getValue,
+      name: StatusEnum.tracking.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.keepDeposit.getValue,
+      name: StatusEnum.keepDeposit.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.confirmed.getValue,
+      name: StatusEnum.confirmed.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.packing.getValue,
+      name: StatusEnum.packing.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.ready.getValue,
+      name: StatusEnum.ready.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.delivery.getValue,
+      name: StatusEnum.delivery.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.success.getValue,
+      name: StatusEnum.success.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.refunded.getValue,
+      name: StatusEnum.refunded.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.unSuccess.getValue,
+      name: StatusEnum.unSuccess.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.systemCancel.getValue,
+      name: StatusEnum.systemCancel.getTitle,
+    ),
+    BaseEnumModel(
+      id: StatusEnum.crCancel.getValue,
+      name: StatusEnum.crCancel.getTitle,
+    ),
+  ];
+}
+
+
+// ORDER_TYPE: [
+//     { id: null, name: 'Chọn loại' },
+//     { id: 1, name: 'Mua tại quầy' },
+//     { id: 2, name: 'Đặt trước' },
+//     { id: 3, name: 'Tự vận chuyển' },
+//     { id: 4, name: 'Hãng vận chuyển (Ahamove, Nhất tín ...)' },
+//     { id: 5, name: 'Website' },
+//   ],

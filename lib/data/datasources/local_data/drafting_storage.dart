@@ -9,7 +9,6 @@ import '../../models/auth_model.dart';
 import '../../models/bill_item_model.dart';
 import '../../models/bill_model.dart';
 import '../../models/customer_model.dart';
-import '../../models/employee_model.dart';
 import '../../models/order_item.dart';
 import '../../models/order_model.dart';
 import '../../models/otp_customer_point_model.dart';

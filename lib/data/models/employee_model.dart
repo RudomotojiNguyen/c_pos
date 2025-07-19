@@ -5,57 +5,31 @@ import 'store_model.dart';
 
 class EmployeeModel {
   int? id;
-
   String? code;
-
   String? phoneNo;
-
   String? birthDay;
-
   int? jobTitleId;
-
   String? email;
-
   String? mobile;
-
   int? storeId;
-
   List<String>? listStoreId;
-
   String? address;
-
   String? createdAt;
-
   String? updatedAt;
-
   bool? deleted;
-
   bool? isActive;
-
   int? areaId;
-
   int? regionId;
-
   int? departmentId;
-
   int? personalAllowance;
-
   int? selfAllowance;
-
   int? dependent;
-
   String? commencementDate;
-
   bool? isPayPersonalIncomeTax;
-
   String? departmentUnit;
-
   int? transportationAllowanceAmount;
-
   int? employeeId;
-
   String? fullName;
-
   String? storeName;
 
   //

@@ -48,8 +48,11 @@ abstract class OrderApi {
 
   /// lấy nguồn đơn hàng
   ///
-  @GET('orderSources/getAll')
-  Future<BaseResponse> getOrderSources();
+  @GET('v1/order-sources')
+  // @GET('orderSources/getAll')
+  Future<BaseResponse> getOrderSources({
+    @Query('status') int status = 1,
+  });
 
   /// lấy nguồn các enum: status, cancelStatus, orderType
   ///

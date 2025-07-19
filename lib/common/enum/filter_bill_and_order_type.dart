@@ -9,7 +9,11 @@ enum FilterBillAndOrderType {
   preOrder,
   api,
   store,
-  delivery
+  delivery,
+  deliveryByThirdParty,
+  website,
+  //
+  unSelect,
 }
 
 extension FilterBillAndOrderTypeExtension on FilterBillAndOrderType {
@@ -32,7 +36,13 @@ extension FilterBillAndOrderTypeExtension on FilterBillAndOrderType {
       case FilterBillAndOrderType.store:
         return 'Mua tại quầy';
       case FilterBillAndOrderType.delivery:
-        return 'Chuyển hàng';
+        return 'Tự vận chuyển';
+      case FilterBillAndOrderType.deliveryByThirdParty:
+        return 'Hãng vận chuyển (Ahamove, Nhất tín ...)';
+      case FilterBillAndOrderType.website:
+        return 'Website';
+      case FilterBillAndOrderType.unSelect:
+        return 'Chọn loại';
     }
   }
 
@@ -55,6 +65,12 @@ extension FilterBillAndOrderTypeExtension on FilterBillAndOrderType {
       case FilterBillAndOrderType.delivery:
         return 3;
       case FilterBillAndOrderType.all:
+        return null;
+      case FilterBillAndOrderType.deliveryByThirdParty:
+        return 4;
+      case FilterBillAndOrderType.website:
+        return 5;
+      case FilterBillAndOrderType.unSelect:
         return null;
     }
   }

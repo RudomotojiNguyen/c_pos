@@ -14,6 +14,8 @@ import '../../../../widgets/widgets.dart';
 import '../../address/bloc/address_bloc.dart';
 import '../bloc/customer_bloc.dart';
 
+/// todo: thêm danh xưng và loại khách hàng
+
 class CustomerDetailScreen extends StatefulWidget {
   const CustomerDetailScreen({super.key, required this.customerId});
 

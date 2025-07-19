@@ -5,7 +5,7 @@ import '../../presentation/theme/themes.dart';
 enum StatusEnum {
   ready,
   packing,
-  customerCancel,
+  // customerCancel,
   systemCancel,
   all,
   none,
@@ -22,6 +22,7 @@ enum StatusEnum {
   agreeDeposit,
   tracking,
   keepDeposit,
+  unSelect,
 }
 
 extension StatusFilterExtension on StatusEnum {
@@ -41,7 +42,7 @@ extension StatusFilterExtension on StatusEnum {
     13: StatusEnum.agreeDeposit,
     14: StatusEnum.ready,
     15: StatusEnum.tracking,
-    16: StatusEnum.customerCancel,
+    // 16: StatusEnum.customerCancel,
     17: StatusEnum.keepDeposit,
   };
 
@@ -77,12 +78,14 @@ extension StatusFilterExtension on StatusEnum {
         return 'Đã chuẩn bị';
       case StatusEnum.tracking:
         return 'Đang theo dõi';
-      case StatusEnum.customerCancel:
-        return 'Khách hủy';
+      // case StatusEnum.customerCancel:
+      //   return 'Khách hủy';
       case StatusEnum.keepDeposit:
         return 'Giữ cọc';
       case StatusEnum.all:
         return 'Tất cả';
+      case StatusEnum.unSelect:
+        return 'Chọn trạng thái';
       default:
         return '';
     }
@@ -120,11 +123,12 @@ extension StatusFilterExtension on StatusEnum {
         return 14;
       case StatusEnum.tracking:
         return 15;
-      case StatusEnum.customerCancel:
-        return 16;
+      // case StatusEnum.customerCancel:
+      //   return 16;
       case StatusEnum.keepDeposit:
         return 17;
       case StatusEnum.all:
+      case StatusEnum.unSelect:
       default:
         return null;
     }
@@ -139,7 +143,7 @@ extension StatusFilterExtension on StatusEnum {
       case StatusEnum.delivery:
         return AppColors.warningColor;
 
-      case StatusEnum.customerCancel:
+      // case StatusEnum.customerCancel:
       case StatusEnum.systemCancel:
       case StatusEnum.unSuccess:
       case StatusEnum.refunded:

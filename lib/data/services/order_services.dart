@@ -3,6 +3,7 @@ import '../models/base_enum_model.dart';
 import '../models/config_enum_model.dart';
 import '../models/order_model.dart';
 import '../models/response/base_response.dart';
+import '../models/response/paginated_response.dart';
 
 part 'impl/order_services_impl.dart';
 

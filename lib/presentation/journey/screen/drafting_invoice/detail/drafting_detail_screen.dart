@@ -25,7 +25,6 @@ import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
 import 'bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
-import 'widgets/suggest_notes_dialog.dart';
 
 part 'widgets/bottom_price_widget.dart';
 part 'widgets/customer_basic_infofmation_widget.dart';

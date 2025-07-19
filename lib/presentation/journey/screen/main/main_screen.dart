@@ -6,6 +6,7 @@ import '../../../../common/di/injection/injection.dart';
 import '../../../mixins/dialog_mixins.dart';
 import '../../../widgets/widgets.dart';
 import '../../router.dart';
+import '../global_bloc/global_core_bloc.dart';
 import '../home/home_screen.dart';
 import '../login/bloc/auth_bloc.dart';
 import '../setting/bloc/setting_bloc.dart';
@@ -27,7 +28,7 @@ class _MainScreenState extends XStateWidget<MainScreen> {
   //     LocalNotificationServices.instance;
   final StoreBloc _storeBloc = getIt.get<StoreBloc>();
   final SettingBloc _settingBloc = getIt.get<SettingBloc>();
-  // final GlobalCoreBloc _globalCoreBloc = getIt.get<GlobalCoreBloc>();
+  final GlobalCoreBloc _globalCoreBloc = getIt.get<GlobalCoreBloc>();
   final AuthBloc _authBloc = getIt.get<AuthBloc>();
 
   final ValueNotifier<int> tabIndex = ValueNotifier(1);
@@ -38,8 +39,9 @@ class _MainScreenState extends XStateWidget<MainScreen> {
     _storeBloc.add(GetStoreEvent());
     getAppSetting();
     getToken();
-    // _globalCoreBloc.add(GetOrderStatusEvent());
-    // _globalCoreBloc.add(GetOrderSourceEvent());
+    _globalCoreBloc.add(GetOrderStatusEvent());
+    _globalCoreBloc.add(GetOrderSourceEvent());
+    _globalCoreBloc.add(GetOrderTypeEvent());
   }
 
   getAppSetting() {

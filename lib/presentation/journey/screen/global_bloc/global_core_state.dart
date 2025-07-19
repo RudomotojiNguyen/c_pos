@@ -28,17 +28,6 @@ final class GlobalCoreInitial extends GlobalCoreState {
   });
 }
 
-final class GetOrderStatusSuccess extends GlobalCoreState {
-  GetOrderStatusSuccess({
-    required GlobalCoreState state,
-    required super.orderStatus,
-    required super.cancelStatus,
-    required super.orderType,
-  }) : super(
-          orderSource: state.orderSource,
-        );
-}
-
 final class GetOrderSourceSuccess extends GlobalCoreState {
   GetOrderSourceSuccess({
     required GlobalCoreState state,
@@ -47,5 +36,27 @@ final class GetOrderSourceSuccess extends GlobalCoreState {
           orderStatus: state.orderStatus,
           cancelStatus: state.cancelStatus,
           orderType: state.orderType,
+        );
+}
+
+final class GetOrderTypeSuccess extends GlobalCoreState {
+  GetOrderTypeSuccess({
+    required GlobalCoreState state,
+    required super.orderType,
+  }) : super(
+          orderStatus: state.orderStatus,
+          cancelStatus: state.cancelStatus,
+          orderSource: state.orderSource,
+        );
+}
+
+final class GetOrderStatusSuccess extends GlobalCoreState {
+  GetOrderStatusSuccess({
+    required GlobalCoreState state,
+    required super.orderStatus,
+  }) : super(
+          orderSource: state.orderSource,
+          orderType: state.orderType,
+          cancelStatus: state.cancelStatus,
         );
 }

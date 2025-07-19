@@ -10,7 +10,6 @@ import '../../../../../../common/enum/enum.dart';
 import '../../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../../data/datasources/local_db/local_db.dart';
 import '../../../../../../data/models/customer_model.dart';
-import '../../../../../../data/models/employee_model.dart';
 import '../../../../../../data/models/order_model.dart';
 import '../../../../../../data/models/otp_customer_point_model.dart';
 import '../../../../../../data/models/product_imei_model.dart';

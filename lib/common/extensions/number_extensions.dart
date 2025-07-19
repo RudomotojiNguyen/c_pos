@@ -70,4 +70,6 @@ extension NumberExtensions on num {
 
   XProductStatus get getProductStatus =>
       XProductStatusExtension.map[this] ?? XProductStatus.none;
+
+  XJobTitle get getJob => XUserPermissionExtension.map[this] ?? XJobTitle.none;
 }

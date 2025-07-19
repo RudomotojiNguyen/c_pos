@@ -181,9 +181,9 @@ class _OrderApi implements OrderApi {
   }
 
   @override
-  Future<BaseResponse> getOrderSources() async {
+  Future<BaseResponse> getOrderSources({int status = 1}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'status': status};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BaseResponse>(Options(
@@ -193,7 +193,7 @@ class _OrderApi implements OrderApi {
     )
         .compose(
           _dio.options,
-          'orderSources/getAll',
+          'v1/order-sources',
           queryParameters: queryParameters,
           data: _data,
         )
