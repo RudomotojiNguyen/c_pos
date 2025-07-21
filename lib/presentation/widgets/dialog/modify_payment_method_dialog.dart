@@ -126,7 +126,7 @@ class _ModifyPaymentMethodDialogState extends State<ModifyPaymentMethodDialog> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if ([PaymentType.cash, PaymentType.transfer, PaymentType.credit]
+          if ({PaymentType.cash, PaymentType.transfer, PaymentType.credit}
               .contains(widget.paymentType)) ...[
             _renderAccount(),
             BoxSpacer.s16,

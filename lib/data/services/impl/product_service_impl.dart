@@ -6,6 +6,39 @@ class ProductServicesImpl implements ProductServices {
   ProductServicesImpl({required this.productApi});
 
   @override
+  Future<List<ProductModel>> productSearch({
+    String? searchProduct,
+    bool isInterestZero = false,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  }) async {
+    List<ProductModel> data = [];
+
+    if (searchType == SearchType.product) {
+      final res = await productApi.productSearch(
+        searchProduct: searchProduct,
+        isInterestZero: isInterestZero,
+        storeId: storeId,
+      );
+      for (var item in (res.data ?? [])) {
+        data.add(ProductModel.fromJson(item));
+      }
+    }
+
+    if (searchType == SearchType.imei) {
+      final res = await productApi.productSearchByImei(
+        imeiCode: searchProduct,
+        storeId: storeId,
+      );
+      for (var item in (res.data ?? [])) {
+        data.add(ProductModel.fromJson(item));
+      }
+    }
+
+    return data;
+  }
+
+  @override
   Future<List<ProductModel>> getProducts(
       {required int page,
       required int limit,
@@ -164,18 +197,16 @@ class ProductServicesImpl implements ProductServices {
 
   @override
   Future<List<ProductImeiModel>> getImei(
-      {int? limit, String? productId}) async {
-    return productApi.getImei(limit: limit, productId: productId).then(
-      (value) {
-        List<ProductImeiModel> data = [];
+      {String? productId, int? storeId}) async {
+    final res =
+        await productApi.getImei(productId: productId, storeId: storeId);
+    List<ProductImeiModel> data = [];
 
-        for (var imei in value.data) {
-          data.add(ProductImeiModel.fromJson(imei));
-        }
+    for (var imei in res.getListData) {
+      data.add(ProductImeiModel.fromJson(imei));
+    }
 
-        return data;
-      },
-    );
+    return data;
   }
 
   @override

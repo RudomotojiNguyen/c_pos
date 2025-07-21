@@ -24,6 +24,7 @@ sealed class DraftingInvoiceState extends Equatable {
     this.isSoldByCompany,
     this.method,
     this.billNumber,
+    this.currentStore,
     //
     required this.totalPriceNoneDiscount,
     required this.totalDiscountPriceOfBillItem,
@@ -63,6 +64,7 @@ sealed class DraftingInvoiceState extends Equatable {
   final bool? isDefaultInfo;
   final bool? vatChecked;
   final bool? isCountPoint;
+  final StoreModel? currentStore;
 
   final CartType? cartType;
   final double? discountTotalBill;
@@ -156,6 +158,7 @@ sealed class DraftingInvoiceState extends Equatable {
         estimationBuyingPrice,
         totalCriteriaPrice,
         tradeInProgramId,
+        currentStore,
       ];
 
   bool get checkNullDraft => currentDraftId == null;
@@ -184,6 +187,55 @@ final class DraftingInvoiceInitial extends DraftingInvoiceState {
     required super.estimationBuyingPrice,
     required super.totalCriteriaPrice,
   });
+}
+
+final class CreateFailed extends DraftingInvoiceState {
+  CreateFailed({required DraftingInvoiceState state})
+      : super(
+          currentDraftId: state.currentDraftId,
+          products: state.products,
+
+          customer: state.customer,
+          discountTotalBillByPoint: state.discountTotalBillByPoint,
+          billId: state.billId,
+          billNumber: state.billNumber,
+          orderId: state.orderId,
+          customerNote: state.customerNote,
+          warrantyNote: state.warrantyNote,
+          saleNote: state.saleNote,
+          isDefaultInfo: state.isDefaultInfo,
+          vatChecked: state.vatChecked,
+          isCountPoint: state.isCountPoint,
+          cartType: state.cartType,
+          discountTotalBill: state.discountTotalBill,
+          couponDiscountCode: state.couponDiscountCode,
+          productTradeIn: state.productTradeIn,
+          productImei: state.productImei,
+          isEstimateCost: state.isEstimateCost,
+          isSoldByCompany: state.isSoldByCompany,
+          method: state.method,
+          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
+          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
+          discountOfBill: state.discountOfBill,
+          totalPrePayment: state.totalPrePayment,
+          finalPrice: state.finalPrice,
+          mustPay: state.mustPay,
+          paymentByCash: state.paymentByCash,
+          paymentByTransfer: state.paymentByTransfer,
+          paymentByCredit: state.paymentByCredit,
+          paymentByInstallment: state.paymentByInstallment,
+          deliveryFee: state.deliveryFee,
+          orderSubDetail: state.orderSubDetail,
+          //
+          product: state.product,
+          programingSelected: state.programingSelected,
+          estimationBuyingPrice: state.estimationBuyingPrice,
+          productBuyingPrice: state.productBuyingPrice,
+          totalCriteriaPrice: state.totalCriteriaPrice,
+          tradeInType: state.tradeInType,
+          tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
+        );
 }
 
 final class DraftingInvoiceCreated extends DraftingInvoiceState {
@@ -284,6 +336,7 @@ final class GetCurrentDraftDataSuccess extends DraftingInvoiceState {
     required super.estimationBuyingPrice,
     required super.productBuyingPrice,
     required super.totalCriteriaPrice,
+    super.currentStore,
   });
 }
 
@@ -333,6 +386,7 @@ final class UpdateCustomerSuccess extends DraftingInvoiceState {
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInType: state.tradeInType,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -380,6 +434,7 @@ final class IsLoadingDetailState extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -427,6 +482,7 @@ final class UpdateBillNoteSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -473,6 +529,7 @@ final class UpdateProductsSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -519,6 +576,7 @@ final class UpdatePaymentMethodSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -565,6 +623,7 @@ final class UpdateCouponDiscountSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -611,6 +670,7 @@ final class UpdateAmountDiscountTotalBillSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -658,6 +718,7 @@ final class UpdateDiscountBillByPointSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -711,6 +772,7 @@ final class UpdateCalculatorPriceSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -795,6 +857,7 @@ final class UpdateDeliveryFeeSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -841,6 +904,7 @@ final class UpdateOrderSubDetailSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -889,6 +953,7 @@ final class UpdateTradeInTypeSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -935,6 +1000,7 @@ final class UpdateProductTradeInSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -981,6 +1047,7 @@ final class UpdateTradeInProgramSelectedSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -1027,6 +1094,7 @@ final class UpdatePriceOverViewTradeInSuccess extends DraftingInvoiceState {
           product: state.product,
           programingSelected: state.programingSelected,
           tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }
 
@@ -1073,6 +1141,7 @@ final class UpdateTradeInProgram extends DraftingInvoiceState {
           estimationBuyingPrice: state.estimationBuyingPrice,
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
+          currentStore: state.currentStore,
         );
 }
 
@@ -1096,6 +1165,54 @@ final class CreateTradeInbillSuccess extends DraftingInvoiceState {
 final class AddProductFromSearchToCartSuccess extends DraftingInvoiceState {
   AddProductFromSearchToCartSuccess({required DraftingInvoiceState state})
       : super(
+          currentDraftId: state.currentDraftId,
+          products: state.products,
+          billId: state.billId,
+          billNumber: state.billNumber,
+          orderId: state.orderId,
+          customerNote: state.customerNote,
+          warrantyNote: state.warrantyNote,
+          saleNote: state.saleNote,
+          discountTotalBill: state.discountTotalBill,
+          isDefaultInfo: state.isDefaultInfo,
+          vatChecked: state.vatChecked,
+          isCountPoint: state.isCountPoint,
+          cartType: state.cartType,
+          customer: state.customer,
+          couponDiscountCode: null,
+          productTradeIn: state.productTradeIn,
+          productImei: state.productImei,
+          isEstimateCost: state.isEstimateCost,
+          isSoldByCompany: state.isSoldByCompany,
+          method: state.method,
+          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
+          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
+          discountOfBill: state.discountOfBill,
+          totalPrePayment: state.totalPrePayment,
+          finalPrice: state.finalPrice,
+          mustPay: state.mustPay,
+          paymentByCash: state.paymentByCash,
+          paymentByTransfer: state.paymentByTransfer,
+          paymentByCredit: state.paymentByCredit,
+          paymentByInstallment: state.paymentByInstallment,
+          deliveryFee: state.deliveryFee,
+          orderSubDetail: state.orderSubDetail,
+          tradeInType: state.tradeInType,
+          product: state.product,
+          programingSelected: state.programingSelected,
+          estimationBuyingPrice: state.estimationBuyingPrice,
+          productBuyingPrice: state.productBuyingPrice,
+          totalCriteriaPrice: state.totalCriteriaPrice,
+          tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
+        );
+}
+
+final class UpdateCurrentStoreSuccess extends DraftingInvoiceState {
+  UpdateCurrentStoreSuccess({
+    required DraftingInvoiceState state,
+    required super.currentStore,
+  }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
           billId: state.billId,

@@ -1,6 +1,5 @@
 enum SearchType {
   product,
-  productName,
   phoneNumber,
   imei,
   all,
@@ -11,15 +10,14 @@ enum SearchType {
   orderId,
   orderPhoneNumber,
   billPhoneNumber,
+  service,
 }
 
 extension SearchTypeExtension on SearchType {
   String get getTitle {
     switch (this) {
       case SearchType.product:
-        return 'Sản phẩm (QRCode)';
-      case SearchType.productName:
-        return 'Tên sản phẩm';
+        return 'Sản phẩm';
       case SearchType.phoneNumber:
         return 'Số điện thoại';
       case SearchType.imei:
@@ -39,6 +37,8 @@ extension SearchTypeExtension on SearchType {
       case SearchType.orderPhoneNumber:
       case SearchType.billPhoneNumber:
         return 'Số điện thoại';
+      case SearchType.service:
+        return 'Dịch vụ';
     }
   }
 
@@ -46,8 +46,6 @@ extension SearchTypeExtension on SearchType {
     switch (this) {
       case SearchType.product:
         return 'SP';
-      case SearchType.productName:
-        return 'Tên SP';
       case SearchType.phoneNumber:
         return 'SDT';
       case SearchType.imei:
@@ -67,12 +65,13 @@ extension SearchTypeExtension on SearchType {
       case SearchType.orderPhoneNumber:
       case SearchType.billPhoneNumber:
         return 'SDT';
+      case SearchType.service:
+        return 'DV';
     }
   }
 
   int? get getValue {
     switch (this) {
-      case SearchType.productName:
       case SearchType.orderId:
       case SearchType.billId:
         return 1;
@@ -84,13 +83,12 @@ extension SearchTypeExtension on SearchType {
 
       case SearchType.phoneProduct:
       case SearchType.phoneNumber:
+      case SearchType.productCombo:
         return 3;
 
       case SearchType.accessoriesProduct:
+      case SearchType.service:
         return 4;
-
-      case SearchType.productCombo:
-        return 8;
 
       case SearchType.product:
         return 1;
@@ -107,7 +105,6 @@ extension SearchTypeExtension on SearchType {
         return 2;
       case SearchType.productCombo:
         return 3;
-      case SearchType.productName:
       case SearchType.orderId:
       case SearchType.orderPhoneNumber:
       case SearchType.phoneProduct:
@@ -117,6 +114,17 @@ extension SearchTypeExtension on SearchType {
       case SearchType.all:
       default:
         return null;
+    }
+  }
+
+  String get getHintText {
+    switch (this) {
+      case SearchType.product:
+        return 'Tìm kiếm theo tên, mã, mã vạch sản phẩm';
+      case SearchType.imei:
+        return 'Tìm kiếm theo mã imel';
+      default:
+        return '';
     }
   }
 }

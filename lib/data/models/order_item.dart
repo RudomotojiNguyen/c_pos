@@ -38,7 +38,6 @@ class OrderItemModel {
   int? totalQuantityInStore;
   String? productCode;
   int? companyId;
-  bool? belongToWarrantyImei;
   int? discountProgramId;
 
   OrderItemModel({
@@ -73,7 +72,6 @@ class OrderItemModel {
     this.totalQuantityInStore,
     this.productCode,
     this.companyId,
-    this.belongToWarrantyImei,
   });
 
   OrderItemModel.fromJson(Map<String, dynamic> json) {
@@ -123,7 +121,6 @@ class OrderItemModel {
     totalQuantityInStore = json['totalQuantityInStore'];
     productCode = json['productCode'];
     companyId = json['companyId'];
-    belongToWarrantyImei = json['belongToWarrantyImei'];
     discountProgramId = json['discountProgramId'];
   }
 
@@ -153,10 +150,9 @@ class OrderItemModel {
     ..companyId = companyId
     ..note = note
     ..merchantId = merchantId
-    ..belongToWarrantyImei = belongToWarrantyImei
     ..discountProgramId = discountProgramId
-    ..discountType = discountType
-    ..discountAmount = discountAmount
+    ..discountType = discountType ?? 1
+    ..discountAmount = discountAmount ?? 0
     ..productType = productType
     ..productId = productId
     ..repurchasePrice = repurchasePrice;

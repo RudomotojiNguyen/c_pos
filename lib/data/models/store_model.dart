@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../presentation/utils/utils.dart';
 
 class StoreModel {
@@ -44,7 +46,33 @@ class StoreModel {
     areaId = json['areaId'];
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'shortName': shortName,
+    };
+  }
+
   String get getName => name ?? '';
 
   int get getStoreId => id ?? -1;
+
+  String get getStoreName => storeName ?? '';
+
+  String get getAddress => address ?? '';
+
+  String get getShortName => shortName ?? '';
+
+  String get getSiteCode => siteCode ?? '';
+
+  StoreModel toModel(String value) {
+    final res = jsonDecode(value);
+    return StoreModel.fromJson(res);
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(toJson());
+  }
 }

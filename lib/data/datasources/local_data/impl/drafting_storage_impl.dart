@@ -46,6 +46,22 @@ class DraftingStorageImpl extends DraftingStorage {
   }
 
   @override
+  Future<DraftingInvoiceTable?> updateCurrentStore({
+    required int cartId,
+    required StoreModel? store,
+  }) async {
+    DraftingInvoiceTable? currentDraft = await getCart(cartId);
+    if (currentDraft == null) return null;
+
+    await isar.writeTxn(() async {
+      currentDraft.store = store;
+      await isar.draftingInvoiceTables.put(currentDraft);
+    });
+
+    return currentDraft;
+  }
+
+  @override
   Future<DraftingInvoiceTable?> addItemsToCart({
     required List<ProductTable> products,
     required int cartId,
@@ -801,10 +817,11 @@ class DraftingStorageImpl extends DraftingStorage {
 
       cartTable ??= DraftingInvoiceTable()
         ..typeCart = typeCart
-        ..tradeInType = TradeInType.undefine
+        ..preOrderId = orderDetail.preOrderId
         ..billNumber = orderDetail.billNumber
         ..createdDate = DateTime.now()
         ..orderId = orderDetail.id
+        ..store = orderDetail.getStore
         ..customerNote = orderDetail.customerNote
         ..warrantyNote = orderDetail.warrantyNote
         ..saleNote = orderDetail.saleNote
@@ -816,8 +833,10 @@ class DraftingStorageImpl extends DraftingStorage {
       customerInfo = cartTable.getCustomer;
 
       cartTable
+        ..preOrderId = orderDetail.preOrderId
         ..billNumber = orderDetail.billNumber
         ..orderId = orderDetail.id
+        ..store = orderDetail.getStore
         ..customerNote = orderDetail.customerNote
         ..warrantyNote = orderDetail.warrantyNote
         ..saleNote = orderDetail.saleNote
@@ -1159,34 +1178,6 @@ class DraftingStorageImpl extends DraftingStorage {
   }
 
   @override
-  Future<DraftingInvoiceTable?> updateAttachImei({
-    required int cartId,
-    required int productId,
-    required String imeiStr,
-  }) async {
-    DraftingInvoiceTable? currentDraft = await getCart(cartId);
-    if (currentDraft == null) return null;
-
-    await isar.writeTxn(() async {
-      final product = await isar.productTables.get(productId);
-
-      if (product == null) {
-        return currentDraft;
-      }
-
-      await _loadProductChild(product);
-
-      product.externalImeiNo = imeiStr;
-
-      await isar.productTables.put(product);
-
-      await currentDraft.products.load();
-    });
-
-    return currentDraft;
-  }
-
-  @override
   Future<DraftingInvoiceTable?> addProductGift({
     required int cartId,
     required ProductModel product,
@@ -1211,7 +1202,10 @@ class DraftingStorageImpl extends DraftingStorage {
       List<ProductTable> productsGift = parentProduct.getGifts;
 
       // thêm sản phẩm vào trong danh sách gift
-      productsGift.add(product.convertToTable(cartId: cartId));
+      productsGift.add(product.convertToTable(
+        cartId: cartId,
+        itemType: XItemType.gift,
+      ));
 
       await _updateLinks<ProductTable>(
         parentProduct.productsGift,

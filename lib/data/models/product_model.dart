@@ -41,8 +41,7 @@ class ProductModel {
   int? totalQuantityInStore;
   List<ProductModel>? products;
   List<ProductModel>? productsCombo;
-  bool? belongToWarrantyImei;
-  String? externalImeiNo;
+
   // type product warranty & attach & gift
   double? repurchasePrice;
   double? discountValue;
@@ -107,7 +106,6 @@ class ProductModel {
     this.fulfillmentType,
     this.totalQuantityInStore,
     this.products,
-    this.belongToWarrantyImei,
     this.discountProgramId,
     this.discountType,
     this.discountAmount,
@@ -125,7 +123,6 @@ class ProductModel {
     this.quantity,
     this.gifts,
     this.attachs,
-    this.externalImeiNo,
     this.productChildSelected,
     this.productsCombo,
     this.images,
@@ -180,7 +177,6 @@ class ProductModel {
       }
     }
 
-    belongToWarrantyImei = json['belongToWarrantyImei'];
     discountProgramId = json['discountProgramId'];
     discountType = json['discountType'];
     discountAmount = Utils.toDouble(json['discountAmount']);
@@ -215,8 +211,6 @@ class ProductModel {
         attachs!.add(ProductModel.fromJson(v));
       });
     }
-
-    externalImeiNo = json['externalImeiNo'];
 
     if (json['imageUrls'] != null) {
       images = <String>[];
@@ -316,7 +310,6 @@ class ProductModel {
             "inComboQuantity": 1,
             "totalQuantityInStock": e.totalQuantityInStock,
             "totalQuantityInStore": e.totalQuantityInStore,
-            "belongToWarrantyImei": e.belongToWarrantyImei,
           })
       .toList();
 
@@ -327,7 +320,13 @@ class ProductModel {
         warrantyDescription: warrantyDescription,
       );
 
-  ProductTable convertToTable({int? cartId, int quantity = 1}) => ProductTable(
+  ProductTable convertToTable({
+    int? cartId,
+    int quantity = 1,
+    required XItemType itemType,
+  }) =>
+      ProductTable(
+        itemType: itemType,
         cartId: cartId,
         image: imageUrl,
         quantity: quantity,
@@ -363,10 +362,7 @@ class ProductModel {
         unitId: unitId,
         fulfillmentType: fulfillmentType,
         totalQuantityInStore: totalQuantityInStore,
-        belongToWarrantyImei: belongToWarrantyImei,
         discountProgramId: discountProgramId,
-        discountType: discountType,
-        discountAmount: discountAmount,
         discountPrice: discountPrice,
         warrantyPackageId: warrantyPackageId,
         discountValue: discountValue,

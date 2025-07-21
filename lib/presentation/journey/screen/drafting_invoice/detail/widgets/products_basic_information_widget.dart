@@ -51,7 +51,9 @@ class _ProductsBasicInformationWidgetState
           title: 'Sản phẩm',
           rightIcon: XBaseButton(
             onPressed: () {
-              mainRouter.pushNamed(context, routeName: RouteName.search);
+              // mainRouter.pushNamed(context, routeName: RouteName.search);
+              /// chuyển thành hiện bottomsheet
+              _onAddProduct();
             },
             child: Icon(
               Icons.add_circle_rounded,
@@ -117,6 +119,18 @@ class _ProductsBasicInformationWidgetState
     );
   }
 
+  _onAddProduct() {
+    showXBottomSheet(
+      context,
+      isScrollControlled: false,
+      body: SearchProductDialog(
+        onSelectProduct: (result) {
+          _draftingInvoiceBloc.add(AddProductFromSearchToCartEvent(result));
+        },
+      ),
+    );
+  }
+
   ///
   /// handle delete product
   ///
@@ -173,6 +187,7 @@ class _ProductsBasicInformationWidgetState
       margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: ImeiOfProductDialog(
         productId: product.productId!,
+        storeId: _draftingInvoiceBloc.state.currentStore?.getStoreId,
         callback: (ProductImeiModel result) {
           _draftingInvoiceBloc.add(
               UpdateImeiOfProductEvent(productId: product.id, imei: result));
@@ -258,19 +273,19 @@ class _ProductsBasicInformationWidgetState
   ///
   /// handle attach imei
   ///
-  _onHandleAttachImei(ProductTable product) {
-    showXBottomSheet(
-      context,
-      key: GlobalAppKey.imeiAttachDialogKey,
-      body: ImeiAttachDialog(
-        imeiStr: product.externalImeiNo,
-        onPressedAttach: (imeiStr) {
-          _draftingInvoiceBloc.add(
-              UpdateAttachImeiEvent(imeiStr: imeiStr, productId: product.id));
-        },
-      ),
-    );
-  }
+  // _onHandleAttachImei(ProductTable product) {
+  //   showXBottomSheet(
+  //     context,
+  //     key: GlobalAppKey.imeiAttachDialogKey,
+  //     body: ImeiAttachDialog(
+  //       imeiStr: product.externalImeiNo,
+  //       onPressedAttach: (imeiStr) {
+  //         _draftingInvoiceBloc.add(
+  //             UpdateAttachImeiEvent(imeiStr: imeiStr, productId: product.id));
+  //       },
+  //     ),
+  //   );
+  // }
 
   // xử lý action của sản phẩm cha
   _onHandleParentAction(
@@ -299,9 +314,9 @@ class _ProductsBasicInformationWidgetState
       case XProductOperationAction.note:
         _onAddProductNote(productNote: product.note, productId: product.id);
         break;
-      case XProductOperationAction.addAttachImei:
-        _onHandleAttachImei(product);
-        break;
+      // case XProductOperationAction.addAttachImei:
+      //   _onHandleAttachImei(product);
+      //   break;
       case XProductOperationAction.copyData:
         _onCopyData(product);
         break;
@@ -343,9 +358,9 @@ class _ProductsBasicInformationWidgetState
         break;
       case XProductOperationAction.addWarrantyImei:
         break;
-      case XProductOperationAction.addAttachImei:
-        _onHandleAttachImei(productItem);
-        break;
+      // case XProductOperationAction.addAttachImei:
+      //   _onHandleAttachImei(productItem);
+      //   break;
       default:
         break;
     }

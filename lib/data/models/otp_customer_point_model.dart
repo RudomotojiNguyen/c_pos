@@ -55,4 +55,15 @@ class OtpCustomerPointModel {
   String toString() {
     return jsonEncode(toJson());
   }
+
+  Map<String, dynamic> formatCustomerPointCreateBill() {
+    Map<String, dynamic> data = {};
+
+    data['pointUse'] = pointWillUse ?? 0;
+    data['otpCode'] = otpCode;
+    data['subtractPoint'] = pointWillUse ?? 0;
+    data['subtractPointAmount'] = amountTransferFromPoint ?? 0;
+
+    return data;
+  }
 }

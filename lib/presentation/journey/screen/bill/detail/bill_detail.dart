@@ -193,7 +193,7 @@ class _BillDetailState extends XStateWidget<BillDetail> {
   }
 
   Widget _renderSecondaryWidget(
-      List<Widget> operations, VoidCallback closeOverlay) {
+      List<Widget> operations, Future<void> Function() closeOverlay) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -203,7 +203,9 @@ class _BillDetailState extends XStateWidget<BillDetail> {
         mainAxisSize: MainAxisSize.min,
         children: operations
             .map((e) => GestureDetector(
-                  onTap: closeOverlay,
+                  onTap: () async {
+                    await closeOverlay();
+                  },
                   child: e,
                 ))
             .toList(),

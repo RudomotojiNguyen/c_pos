@@ -21,9 +21,11 @@ class ImeiOfProductDialog extends StatefulWidget {
     super.key,
     required this.productId,
     required this.callback,
+    this.storeId,
   });
 
   final String productId;
+  final int? storeId;
   final Function(ProductImeiModel result) callback;
 
   @override
@@ -52,7 +54,10 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
   @override
   void initState() {
     super.initState();
-    _productBloc.add(GetProductObsoleteImeiEvent(widget.productId));
+    _productBloc.add(GetProductObsoleteImeiEvent(
+      widget.productId,
+      widget.storeId,
+    ));
   }
 
   @override
@@ -121,31 +126,10 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
       child: XButton(
         padding: EdgeInsets.symmetric(vertical: 12.sp),
         onPressed: () {
-          ProductState state = _productBloc.state;
           final result = imeiSelected.value;
           if (result != null) {
-            if (result.imeiNo ==
-                (state as GetProductImeiDataSuccess).obsoleteImei?.imeiNo) {
-              widget.callback(result);
-              Navigator.pop(context);
-            } else {
-              showXBottomSheet(
-                context,
-                enableDrag: true,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.sp,
-                  vertical: 20.sp,
-                ),
-                margin: EdgeInsets.zero.copyWith(top: 60.sp),
-                body: ReasonSelectImeiDialog(
-                  callback: (reason) {
-                    result.reasonSelect = reason;
-                    widget.callback(result);
-                    Navigator.pop(context);
-                  },
-                ),
-              );
-            }
+            widget.callback(result);
+            Navigator.pop(context);
           }
         },
         title: 'Xong',
@@ -154,13 +138,8 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
   }
 
   Widget _content() {
-    return BlocConsumer<ProductBloc, ProductState>(
+    return BlocBuilder<ProductBloc, ProductState>(
       bloc: _productBloc,
-      listener: (context, state) {
-        if (state is GetProductImeiDataSuccess) {
-          imeiSelected.value = state.obsoleteImei;
-        }
-      },
       builder: (context, state) {
         if (state is OnLoadingGetProductImei) {
           return ListView.separated(
@@ -174,11 +153,9 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
         }
 
         List<ProductImeiModel> imeiList = [];
-        ProductImeiModel? heightPriority;
 
         if (state is GetProductImeiDataSuccess) {
           imeiList = state.productsImeiSearchText ?? [];
-          heightPriority = state.obsoleteImei;
         }
 
         if (imeiList.isEmpty) {
@@ -202,7 +179,6 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
             ),
             itemBuilder: (context, index) {
               final ProductImeiModel imei = imeiList[index];
-              bool isHeightPriority = heightPriority?.imeiNo == imei.imeiNo;
               return XBaseButton(
                 onPressed: () => imeiSelected.value = imei,
                 child: Container(
@@ -212,11 +188,7 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(AppRadius.xxm),
-                    color: isHeightPriority
-                        ? AppColors.warningColor.withValues(
-                            alpha: .4,
-                          )
-                        : AppColors.white,
+                    color: AppColors.white,
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,11 +196,7 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
                     children: [
                       Text(
                         imei.getImeiNoValue,
-                        style: AppFont.t.s().copyWith(
-                              color: isHeightPriority
-                                  ? AppColors.neutralColor
-                                  : AppColors.neutral3Color,
-                            ),
+                        style: AppFont.t.s(),
                       ),
                       ValueListenableBuilder(
                         valueListenable: imeiSelected,

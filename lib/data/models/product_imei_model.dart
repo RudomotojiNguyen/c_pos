@@ -3,54 +3,42 @@ import 'dart:convert';
 import '../../presentation/utils/utils.dart';
 
 class ProductImeiModel {
-  String? id;
-  String? parentProductId;
-  String? productName;
-  String? barCode;
-  int? totalQuantityInStock;
-  double? listedPrice;
-  int? merchantId;
-  int? totalQuantityInStore;
+  int? id;
+  int? storeId;
   String? imeiNo;
+  String? productId;
+  double? originalPrice;
+  double? sellingPrice;
+  int? status;
 
-  /// lý do chọn imei không theo FIFO
-  String? reasonSelect;
-
-  ProductImeiModel({
-    this.id,
-    this.parentProductId,
-    this.productName,
-    this.barCode,
-    this.totalQuantityInStock,
-    this.listedPrice,
-    this.merchantId,
-    this.totalQuantityInStore,
-    this.imeiNo,
-  });
+  ProductImeiModel(
+      {this.id,
+      this.storeId,
+      this.imeiNo,
+      this.productId,
+      this.originalPrice,
+      this.sellingPrice,
+      this.status});
 
   ProductImeiModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    parentProductId = json['parentProductId'];
-    productName = json['productName'];
-    barCode = json['barCode'];
-    totalQuantityInStock = json['totalQuantityInStock'];
-    listedPrice = Utils.toDouble(json['listedPrice']);
-    merchantId = json['merchantId'];
-    totalQuantityInStore = json['totalQuantityInStore'];
+    storeId = json['storeId'];
     imeiNo = json['imeiNo'];
+    productId = json['productId'];
+    originalPrice = Utils.toDouble(json['originalPrice']);
+    sellingPrice = Utils.toDouble(json['sellingPrice']);
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
-    data['parentProductId'] = parentProductId;
-    data['productName'] = productName;
-    data['barCode'] = barCode;
-    data['totalQuantityInStock'] = totalQuantityInStock;
-    data['listedPrice'] = listedPrice;
-    data['merchantId'] = merchantId;
-    data['totalQuantityInStore'] = totalQuantityInStore;
+    data['storeId'] = storeId;
     data['imeiNo'] = imeiNo;
+    data['productId'] = productId;
+    data['originalPrice'] = originalPrice;
+    data['sellingPrice'] = sellingPrice;
+    data['status'] = status;
     return data;
   }
 

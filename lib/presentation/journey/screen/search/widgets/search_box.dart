@@ -21,21 +21,12 @@ class _SearchBoxState extends State<SearchBox> {
 
   @override
   Widget build(BuildContext context) {
-    // return XTextField(
-    //   hintText: 'Tìm sản phẩm ...',
-    //   controller: _searchController,
-    //   onChanged: (value) => _onChangeText(value),
-    //   suffixWidget: CustomizePopUpWidget(
-    //     content: _dataSearchType(context),
-    //     child: _contentSearchType(context),
-    //   ),
-    // );
     return SearchBoxWidget(
       onSearch: _onChangeText,
       searchController: _searchController,
       hintStr: 'Tìm sản phẩm ...',
-      // filterWidget: _dataSearchType(context),
-      // isFilter: false,
+      filterWidget: _dataSearchType(),
+      suffixWidget: _contentSearchType(),
     );
   }
 
@@ -43,60 +34,54 @@ class _SearchBoxState extends State<SearchBox> {
   /// WIDGETS
   ///
 
-  // Widget _dataSearchType(BuildContext context) {
-  //   return Column(
-  //     mainAxisSize: MainAxisSize.min,
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       XTextButton(
-  //         title: SearchType.productName.getTitle,
-  //         onPressed: () {
-  //           onChangeSearchTypeEvent(SearchType.productName);
-  //         },
-  //       ),
-  //       XTextButton(
-  //         title: SearchType.imei.getTitle,
-  //         onPressed: () {
-  //           onChangeSearchTypeEvent(SearchType.imei);
-  //         },
-  //       ),
-  //       XTextButton(
-  //         title: SearchType.phoneProduct.getTitle,
-  //         onPressed: () {
-  //           onChangeSearchTypeEvent(SearchType.phoneProduct);
-  //         },
-  //       ),
-  //       XTextButton(
-  //         title: SearchType.accessoriesProduct.getTitle,
-  //         onPressed: () {
-  //           onChangeSearchTypeEvent(SearchType.accessoriesProduct);
-  //         },
-  //       ),
-  //       XTextButton(
-  //         title: SearchType.productCombo.getTitle,
-  //         onPressed: () {
-  //           onChangeSearchTypeEvent(SearchType.productCombo);
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
+  Widget _dataSearchType() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        XTextButton(
+          title: SearchType.product.getTitle,
+          onPressed: () {
+            onChangeSearchTypeEvent(SearchType.product);
+          },
+        ),
+        XTextButton(
+          title: SearchType.imei.getTitle,
+          onPressed: () {
+            onChangeSearchTypeEvent(SearchType.imei);
+          },
+        ),
+        XTextButton(
+          title: SearchType.productCombo.getTitle,
+          onPressed: () {
+            onChangeSearchTypeEvent(SearchType.productCombo);
+          },
+        ),
+        XTextButton(
+          title: SearchType.service.getTitle,
+          onPressed: () {
+            onChangeSearchTypeEvent(SearchType.service);
+          },
+        ),
+      ],
+    );
+  }
 
-  // Widget _contentSearchType(BuildContext context) {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(vertical: 4.sp),
-  //     child: BlocBuilder<SearchProductBloc, SearchProductState>(
-  //       bloc: widget.searchProductBloc,
-  //       buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
-  //       builder: (context, state) {
-  //         return Text(
-  //           state.searchType.getShortTitle,
-  //           style: AppFont.t.s(),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
+  Widget _contentSearchType() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4.sp),
+      child: BlocBuilder<SearchProductBloc, SearchProductState>(
+        bloc: widget.searchProductBloc,
+        buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
+        builder: (context, state) {
+          return Text(
+            state.searchType.getShortTitle,
+            style: AppFont.t.s(),
+          );
+        },
+      ),
+    );
+  }
 
   ///
   ///   METHODS

@@ -233,7 +233,7 @@ extension StringCheckerExtensions on String? {
   }
 
   /// Returns the value of this number as an [double]
-  double toDouble() => double.parse(this!);
+  double toDouble() => double.tryParse(this ?? '0') ?? 0;
 
   /// Returns the value of this number as an [double] or null if can not be
   /// parsed.

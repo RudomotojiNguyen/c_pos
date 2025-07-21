@@ -28,10 +28,19 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             creditAccountants: [],
             installmentAccountants: [],
             paymentMethodsEnum: [])) {
+    /// lấy tài khoản tiền mặt
     on<GetCashAccountsEvent>(_onGetCashAccountants);
+
+    /// lấy tài khoản chuyển khoản
     on<GetTransferAccountsEvent>(_onGetTransferAccounts);
+
+    /// lấy tài khoản cà thẻ
     on<GetCreditAccountsEvent>(_onGetCreditAccounts);
+
+    /// lấy tài khoản trả góp
     on<GetInstallmentAccountsEvent>(_onGetInstallmentAccounts);
+
+    /// lấy phương thức thanh toán
     on<GetPaymentEnumEvent>(_onGetPaymentEnum);
   }
 

@@ -68,7 +68,6 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                   quantity: product.quantity ?? 0,
                   attachs: product.attachs ?? [],
                   gifts: product.gifts ?? [],
-                  externalImeiNo: product.externalImeiNo,
                   baseButtonType: BaseButtonType.tapOperation,
                   decorationChildIsOverlay: BoxDecoration(
                     borderRadius: BorderRadius.all(AppRadius.l),

@@ -64,14 +64,18 @@ class PaymentMethodTable {
 }
 
 extension PaymentMethodTableExtension on PaymentMethodTable {
+  /// format form thanh toán: tiền mặt, chuyển khoản, cà thẻ
   Map<String, dynamic> formatTransactionPayment() {
     Map<String, dynamic> data = <String, dynamic>{};
+
+    /// todo: hỏi lại 2 trường này
+    // data['id'] = '';
+    // data['transactionId'] = '';
 
     data['paymentRefId'] = accountDetail?.id;
     data['paymentRefCode'] = accountDetail?.code;
     data['paymentName'] = accountDetail?.name;
     data['paymentAmount'] = amount;
-    data['isPaymentByQr'] = true;
     data['paymentType'] = paymentType.getValue;
 
     if (paymentType == PaymentType.transfer) {
@@ -88,14 +92,40 @@ extension PaymentMethodTableExtension on PaymentMethodTable {
     return data;
   }
 
+  /// format form trả góp
   Map<String, dynamic> formatDepositPayment() {
     Map<String, dynamic> data = <String, dynamic>{};
+
+    /// todo: hỏi lại thông tin trả góp
+
+    // {
+    //   "id": "01eeda47-e6bc-45fc-9cf7-44ef24e10664",
+    //   "transactionId": null,
+    //   "customerIndentifyNo": null,
+    //   "loanApplicationId": null,
+    //   "installApplicationStatus": null,
+    //   "installmentAccountName": null,
+    //   "installmentProgramMonthNo": null,
+    //   "installmentProgramPrepayPercent": null,
+    //   "installmentProgramType": null,
+    //   "child": {
+    //     "id": "01eeda47-e6bc-45fc-9cf7-44ef24e10664",
+    //     "paymentRefId": null,
+    //     "paymentRefCode": null,
+    //     "paymentName": null,
+    //     "paymentAmount": null,
+    //     "paymentCode": null,
+    //     "transactionId": null,
+    //     "paymentType": 7,
+    //     "paymentOptionType": null,
+    //     "deleted": 1
+    //   }
+    // }
 
     data['paymentRefId'] = installmentMethod?.id;
     data['paymentRefCode'] = installmentMethod?.code;
     data['paymentName'] = installmentMethod?.name;
     data['paymentAmount'] = amount;
-    data['isPaymentByQr'] = false;
     data['paymentType'] = paymentType.getValue;
     data['paymentCode'] = conditionNumber;
     data['customerIndentifyNo'] = idCard;

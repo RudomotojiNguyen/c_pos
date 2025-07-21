@@ -15,6 +15,7 @@ import '../../models/otp_customer_point_model.dart';
 import '../../models/payment_model.dart';
 import '../../models/product_imei_model.dart';
 import '../../models/product_model.dart';
+import '../../models/store_model.dart';
 import '../local_db/local_db.dart';
 
 part 'impl/drafting_storage_impl.dart';
@@ -37,6 +38,12 @@ abstract class DraftingStorage {
 
   /// tạo đơn mới theo type được truyền vào
   Future<int?> createNewCart({required CartType typeCart});
+
+  /// cập nhật cửa hàng lên đơn
+  Future<DraftingInvoiceTable?> updateCurrentStore({
+    required int cartId,
+    required StoreModel? store,
+  });
 
   /// thêm nhiều sản phẩm vào đơn
   Future<DraftingInvoiceTable?> addItemsToCart({
@@ -202,11 +209,11 @@ abstract class DraftingStorage {
   });
 
   /// cập nhật imei sản phẩm
-  Future<DraftingInvoiceTable?> updateAttachImei({
-    required int cartId,
-    required int productId,
-    required String imeiStr,
-  });
+  // Future<DraftingInvoiceTable?> updateAttachImei({
+  //   required int cartId,
+  //   required int productId,
+  //   required String imeiStr,
+  // });
 
   /// thêm sản phẩm quà tặng
   Future<DraftingInvoiceTable?> addProductGift({

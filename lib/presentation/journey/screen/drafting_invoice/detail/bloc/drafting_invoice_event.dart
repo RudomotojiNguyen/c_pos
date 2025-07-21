@@ -63,17 +63,17 @@ final class UpdateNoteEvent extends DraftingInvoiceEvent {
 ///
 ///  -- event cho sản phẩm trong giỏ hàng --
 ///
-final class AddProductEvent extends DraftingInvoiceEvent {
-  final ProductTable product;
-  final List<ProductTable>? gifts;
-  final List<ProductTable>? attaches;
+// final class AddProductEvent extends DraftingInvoiceEvent {
+//   final ProductTable product;
+//   final List<ProductTable>? gifts;
+//   final List<ProductTable>? attaches;
 
-  AddProductEvent(
-    this.product, {
-    this.gifts,
-    this.attaches,
-  });
-}
+//   AddProductEvent(
+//     this.product, {
+//     this.gifts,
+//     this.attaches,
+//   });
+// }
 
 final class UpdateProductEvent extends DraftingInvoiceEvent {
   final ProductTable product;
@@ -163,13 +163,6 @@ final class UpdateRepurchasePriceProductEvent extends DraftingInvoiceEvent {
   });
 }
 
-final class UpdateAttachImeiEvent extends DraftingInvoiceEvent {
-  final String imeiStr;
-  final int productId;
-
-  UpdateAttachImeiEvent({required this.imeiStr, required this.productId});
-}
-
 /// for tradein
 
 final class UpdateTradeInTypeEvent extends DraftingInvoiceEvent {
@@ -225,4 +218,10 @@ final class CreateNewDraftingInvoiceEvent extends DraftingInvoiceEvent {
   final CartType typeCart;
 
   CreateNewDraftingInvoiceEvent({required this.typeCart});
+}
+
+final class UpdateCurrentStoreEvent extends DraftingInvoiceEvent {
+  final StoreModel? store;
+
+  UpdateCurrentStoreEvent({this.store});
 }

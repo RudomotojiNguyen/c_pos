@@ -72,7 +72,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     );
   }
 
-  Widget _renderOperation(BuildContext context, VoidCallback closeOverlay) {
+  Widget _renderOperation(
+      BuildContext context, Future<void> Function() closeOverlay) {
     return Container(
       padding: EdgeInsets.all(8.sp),
       child: Column(
@@ -82,8 +83,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           RowFunctionWidget(
             title: XProductOperationAction.detail.getTitle,
             icon: XProductOperationAction.detail.getIcon,
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               widget.callBackParentAction(
                   action: XProductOperationAction.detail);
             },
@@ -99,22 +100,10 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             RowFunctionWidget(
               title: XProductOperationAction.addImei.getTitle,
               icon: XProductOperationAction.addImei.getIcon,
-              onPressed: () {
-                closeOverlay();
+              onPressed: () async {
+                await closeOverlay();
                 widget.callBackParentAction(
                     action: XProductOperationAction.addImei);
-              },
-            ),
-          ],
-          if (widget.product.isBelongToWarrantyImei) ...[
-            BoxSpacer.s8,
-            RowFunctionWidget(
-              title: XProductOperationAction.addAttachImei.getTitle,
-              icon: XProductOperationAction.addAttachImei.getIcon,
-              onPressed: () {
-                closeOverlay();
-                widget.callBackParentAction(
-                    action: XProductOperationAction.addAttachImei);
               },
             ),
           ],
@@ -136,8 +125,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           RowFunctionWidget(
             title: XProductOperationAction.remove.getTitle,
             icon: XProductOperationAction.remove.getIcon,
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               widget.callBackParentAction(
                   action: XProductOperationAction.remove);
             },
@@ -146,8 +135,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           RowFunctionWidget(
             title: XProductOperationAction.discountByHand.getTitle,
             icon: XProductOperationAction.discountByHand.getIcon,
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               widget.callBackParentAction(
                   action: XProductOperationAction.discountByHand);
             },
@@ -185,7 +174,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                   ),
                   if (widget.product.getProductImei.isNotNullOrEmpty) ...[
                     Text(
-                      '(Imei: ${widget.product.getProductImei})',
+                      'Imei: ${widget.product.getProductImei}',
                       style: AppFont.t.s().neutral2,
                     ),
                   ],
@@ -280,12 +269,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             shrinkWrap: true,
           ),
         ],
-        if (widget.product.externalImeiNo.isNotNullOrEmpty) ...[
-          XImeiInfo(
-            imei: widget.product.externalImeiNo!,
-            isCopyImei: true,
-          ),
-        ]
       ],
     );
   }

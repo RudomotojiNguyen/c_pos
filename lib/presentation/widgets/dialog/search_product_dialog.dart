@@ -46,7 +46,6 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   @override
   void dispose() {
     _refreshController.dispose();
-    _searchController.dispose();
     _timer?.cancel();
     super.dispose();
   }
@@ -55,9 +54,10 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _renderSearchBox(),
         BoxSpacer.s16,
+        const HeaderDialog(title: 'Tìm kiếm sản phẩm'),
         Expanded(child: _renderProductList()),
+        _renderSearchBox(),
       ],
     );
   }
@@ -66,32 +66,46 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   /// WIDGET
   ///
   Widget _renderSearchBox() {
-    return XTextField(
-      backgroundColor: AppColors.transparent,
-      isEditMode: true,
-      controller: _searchController,
-      hintText: 'Nhập tên hoặc mã sản phẩm',
-      onChanged: _onChangeText,
-      prefixWidget: Icon(Icons.search, size: 24.sp, color: AppColors.iconColor),
+    return BlocBuilder<SearchProductBloc, SearchProductState>(
+      bloc: _searchProductBloc,
+      buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
+      builder: (context, state) {
+        return SearchBoxWidget(
+          onSearch: _onChangeText,
+          searchController: _searchController,
+          hintStr: state.searchType.getHintText,
+          filterWidget: _dataSearchType(),
+        );
+      },
+    );
+  }
+
+  Widget _dataSearchType() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        XTextButton(
+          title: SearchType.product.getTitle,
+          onPressed: () {
+            onChangeSearchTypeEvent(SearchType.product);
+          },
+        ),
+        XTextButton(
+          title: SearchType.imei.getTitle,
+          onPressed: () {
+            onChangeSearchTypeEvent(SearchType.imei);
+          },
+        ),
+      ],
     );
   }
 
   Widget _renderProductList() {
-    return BlocConsumer<SearchProductBloc, SearchProductState>(
+    return BlocBuilder<SearchProductBloc, SearchProductState>(
       bloc: _searchProductBloc,
       buildWhen: (previous, current) =>
           current is GetProductsSuccess || current is SearchLoading,
-      listener: (context, state) {
-        if (state is GetProductsSuccess) {
-          //
-        }
-        if (!state.pageInfo.checkCanLoadMore) {
-          _refreshController.loadNoData();
-        }
-        if (state.pageInfo.checkCanLoadMore) {
-          _refreshController.loadComplete();
-        }
-      },
       builder: (context, state) {
         if (state is SearchLoading) {
           return XGridView(
@@ -110,36 +124,19 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
 
         List<ProductModel> products = state.products;
         if (state.products.isEmpty) {
-          return Column(
+          return const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const EmptyDataWidget(emptyMessage: 'Không có sản phẩm cần tìm'),
-              if (_searchController.text.isNotEmpty &&
-                  !widget.isNeedInStock) ...[
-                BoxSpacer.s32,
-                XButton(
-                  onPressed: () {
-                    _onSelectProduct(
-                      ProductModel(
-                        productType: ProductType.normal,
-                        productName: _searchController.text,
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Thêm tên sản phẩm này',
-                    style: AppFont.t.s().white,
-                  ),
-                ),
-              ],
+              EmptyDataWidget(emptyMessage: 'Không có sản phẩm cần tìm'),
             ],
           );
         }
 
         return SmartRefresher(
           controller: _refreshController,
-          enablePullDown: false,
+          enablePullDown: true,
+          enablePullUp: false,
           header: const RefreshWidget(),
           onRefresh: () async {
             _refreshController.refreshCompleted();
@@ -182,15 +179,22 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
         Timer(const Duration(milliseconds: AppConstants.timeSearchValue), () {
       final String textValue = _searchController.text.trim();
       if (textValue.isNullOrEmpty) {
-        _searchProductBloc.add(RefreshProductsEvent());
+        _searchProductBloc
+            .add(RefreshProductsEvent(searchAction: SearchAction.addToCart));
       } else {
-        _searchProductBloc.add(OnSearchProductsEvent(textValue));
+        _searchProductBloc.add(OnSearchProductsEvent(textValue,
+            searchAction: SearchAction.addToCart));
       }
     });
   }
 
   _onSelectProduct(ProductModel product) {
     widget.onSelectProduct?.call(product);
+    Navigator.pop(context);
+  }
+
+  onChangeSearchTypeEvent(SearchType type) {
+    _searchProductBloc.add(ChangeSearchTypeEvent(searchType: type));
     Navigator.pop(context);
   }
 }

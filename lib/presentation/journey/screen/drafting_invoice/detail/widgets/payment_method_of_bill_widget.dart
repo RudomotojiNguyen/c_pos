@@ -241,7 +241,7 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     );
   }
 
-  Widget _widgetAddMethod(VoidCallback closeOverlay) {
+  Widget _widgetAddMethod(Future<void> Function() closeOverlay) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.sp),
       child: Column(
@@ -259,8 +259,8 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                 return BoxSpacer.blank;
               }
               return _rowPayment(
-                onPressed: () {
-                  closeOverlay();
+                onPressed: () async {
+                  await closeOverlay();
                   _onSelectMethod(context, paymentType: PaymentType.cash);
                 },
                 title: PaymentType.cash.getTitle,
@@ -268,15 +268,15 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
             },
           ),
           _rowPayment(
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               _onSelectMethod(context, paymentType: PaymentType.credit);
             },
             title: PaymentType.credit.getTitle,
           ),
           _rowPayment(
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               _onSelectMethod(context, paymentType: PaymentType.transfer);
             },
             title: PaymentType.transfer.getTitle,
@@ -291,8 +291,8 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                 return BoxSpacer.blank;
               }
               return _rowPayment(
-                onPressed: () {
-                  closeOverlay();
+                onPressed: () async {
+                  await closeOverlay();
                   _onSelectMethod(
                     context,
                     paymentType: PaymentType.installment,

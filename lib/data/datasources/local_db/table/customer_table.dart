@@ -1,3 +1,4 @@
+import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:isar/isar.dart';
 

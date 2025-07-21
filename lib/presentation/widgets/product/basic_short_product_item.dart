@@ -74,16 +74,16 @@ class BasicShortProductItem extends StatelessWidget {
     );
   }
 
-  Widget _secondaryWidget(VoidCallback closeOverlay) {
+  Widget _secondaryWidget(Future<void> Function() closeOverlay) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: productOperationActions
           .map((e) => RowFunctionWidget(
                 title: e.getTitle,
                 icon: e.getIcon,
-                onPressed: () {
+                onPressed: () async {
                   onPressed?.call(action: e);
-                  closeOverlay();
+                  await closeOverlay();
                 },
               ))
           .toList(),

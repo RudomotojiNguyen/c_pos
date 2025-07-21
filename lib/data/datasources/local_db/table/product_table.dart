@@ -67,14 +67,9 @@ class ProductTable {
   int? unitId;
   int? fulfillmentType;
   int? totalQuantityInStore;
-  bool? belongToWarrantyImei;
 
   int? appearTimes;
   String? belongBillDetailId;
-
-  ///
-  String? externalImeiNo; // imei đính kèm cho phụ kiện
-  String? selectImeiReason; // lý do chọn imei khác
 
   bool? isComboProduct;
   String? flexibleComboId; // id cu sản phẩm combo bọc bên ngoài
@@ -83,8 +78,8 @@ class ProductTable {
       flexibleComboItemId; //id của các item bên trong sp combo không phải sp thêm vào
   int? productInComboQuantity;
   int? discountProgramId;
-  int? discountType;
-  double? discountAmount;
+  int discountType = 1;
+  double discountAmount = 0;
   double? discountPrice;
 
   ///Giảm giá bằng tay
@@ -159,8 +154,6 @@ class ProductTable {
     this.itemType = XItemType.main,
     this.itemId,
     this.appearTimes,
-    this.externalImeiNo,
-    this.selectImeiReason,
     this.isComboProduct,
     this.flexibleComboItemId,
     this.comboId,
@@ -200,10 +193,7 @@ class ProductTable {
     this.unitId,
     this.fulfillmentType,
     this.totalQuantityInStore,
-    this.belongToWarrantyImei,
     this.discountProgramId,
-    this.discountType,
-    this.discountAmount,
     this.discountPrice,
     this.discountByHandStr,
     this.warrantyPackageId,

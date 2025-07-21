@@ -112,7 +112,8 @@ class _DraftItemState extends State<DraftItem> {
     );
   }
 
-  Widget _secondaryWidget(BuildContext context, VoidCallback closeOverlay) {
+  Widget _secondaryWidget(
+      BuildContext context, Future<void> Function() closeOverlay) {
     return Container(
       padding: EdgeInsets.all(8.sp),
       child: Column(
@@ -126,8 +127,8 @@ class _DraftItemState extends State<DraftItem> {
               color: AppColors.primaryColor,
               size: 20.sp,
             ),
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               _draftingInvoicesBloc.add(
                 RemoveDraftingInvoiceEvent(id: widget.cartDetail.id),
               );

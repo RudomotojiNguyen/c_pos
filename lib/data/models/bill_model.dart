@@ -9,6 +9,7 @@ import 'customer_model.dart';
 import 'employee_model.dart';
 import 'payment_model.dart';
 import 'product_model.dart';
+import 'store_model.dart';
 
 class BillModel {
   String? id;
@@ -414,7 +415,6 @@ class BillModel {
           discountAmount: e.getDiscountPrice,
           discountPrice: e.getDiscountPrice,
           quantity: e.getQuantity,
-          externalImeiNo: e.externalImeiNo,
           warrantyMonthNo: e.warrantyMonthNo,
           warrantyAddress: e.warrantyAddress,
           warrantyPhone: e.warrantyPhone,
@@ -495,6 +495,11 @@ class BillModel {
       calculateDiscountOfBill -
       calculateDiscountOfPoint -
       calculateTotalPrePayment;
+
+  StoreModel get getStore => StoreModel(
+        id: storeId,
+        name: storeName,
+      );
 }
 
 class OrderResourceModel {

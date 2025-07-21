@@ -51,8 +51,7 @@ class _SearchScreenState extends XStateWidget<SearchScreen> with DialogHelper {
               context,
               onResult: ({code, codes}) {
                 if (code.isNotNullOrEmpty) {
-                  // widget.searchProductBloc
-                  //     .add(OnSearchProductsEvent(code ?? ''));
+                  _searchProductBloc.add(OnSearchProductsEvent(code ?? ''));
                   // searchController.text = code ?? '';
                   context.hideKeyboard;
                 }

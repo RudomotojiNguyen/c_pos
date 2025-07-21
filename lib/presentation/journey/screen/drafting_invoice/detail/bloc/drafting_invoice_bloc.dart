@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:c_pos/presentation/mixins/logger_helper.dart';
@@ -14,6 +15,7 @@ import '../../../../../../data/models/order_model.dart';
 import '../../../../../../data/models/otp_customer_point_model.dart';
 import '../../../../../../data/models/product_imei_model.dart';
 import '../../../../../../data/models/product_model.dart';
+import '../../../../../../data/models/store_model.dart';
 import '../../../../../../data/models/trade_in/trade_in_program_creteria_group_option_model.dart';
 import '../../../../../../data/repository/bill_repository.dart';
 import '../../../../../../data/repository/order_repository.dart';
@@ -55,6 +57,9 @@ class DraftingInvoiceBloc
     /// lấy thông tin dơn nháp trong LS
     on<GetCurrentDraftEvent>(_onGetCurrentDraft);
 
+    /// cập nhật cửa hàng lên đơn
+    on<UpdateCurrentStoreEvent>(_onUpdateCurrentStore);
+
     /// cập nhật thông tin khách hàng trong đơn nháp
     on<UpdateCustomerInfoOfBillEvent>(_onUpdateCustomerInfoOfBill);
 
@@ -62,7 +67,7 @@ class DraftingInvoiceBloc
     on<ClearCustomerEvent>(_onClearCustomer);
 
     /// thêm sản phẩm vào đơn nháp
-    on<AddProductEvent>(_onAddProduct);
+    // on<AddProductEvent>(_onAddProduct);
 
     /// thêm/cập nhật sản phẩm vào đơn nháp
     on<UpdateProductEvent>(_onUpdateProduct);
@@ -100,9 +105,6 @@ class DraftingInvoiceBloc
 
     /// cập nhật giá mua lại sản phẩm
     on<UpdateRepurchasePriceProductEvent>(_onUpdateRepurchasePriceProduct);
-
-    /// cập nhật imei đính kèm sản phẩm trong giỏ
-    on<UpdateAttachImeiEvent>(_onUpdateAttachImei);
 
     /// cập nhật imei sản phẩm trong giỏ hàng
     on<UpdateImeiOfProductEvent>(_onUpdateImeiOfProduct);
@@ -147,6 +149,24 @@ class DraftingInvoiceBloc
     on<CreateNewDraftingInvoiceEvent>(_onCreateNewDraftingInvoice);
   }
 
+  FutureOr<void> _onUpdateCurrentStore(
+      UpdateCurrentStoreEvent event, Emitter<DraftingInvoiceState> emit) async {
+    try {
+      int? currentDraftId = state.currentDraftId;
+      if (currentDraftId == null) return;
+
+      final res = await draftingStorage.updateCurrentStore(
+        cartId: currentDraftId,
+        store: event.store,
+      );
+      if (res != null) {
+        emit(UpdateCurrentStoreSuccess(state: state, currentStore: res.store));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateCurrentStoreEvent', obj: e);
+    }
+  }
+
   FutureOr<void> _onCreateNewDraftingInvoice(
       CreateNewDraftingInvoiceEvent event,
       Emitter<DraftingInvoiceState> emit) async {
@@ -172,27 +192,25 @@ class DraftingInvoiceBloc
   ) async {
     try {
       XToast.loading();
-      ProductTable product = event.product.convertToTable();
+      ProductTable product =
+          event.product.convertToTable(itemType: XItemType.main);
+
+      /// todo: lấy giá ưu đãi
 
       // lấy danh sách quà tặng, chương trình khuyến mãi,
-      List<ProductModel> resGifts = await productRepository.getProductsAttach(
-        productId: product.productId!,
-      );
-
-      List<ProductTable> gifts =
-          resGifts.map((e) => e.convertToTable()).toList();
-
-      // kiểm tra nếu type là imei -> lấy imei FIFO
-      if (event.product.productType == ProductType.imei) {
-        final imei = await productRepository.getImei(
-          limit: 1,
-          productId: product.productId,
+      List<ProductModel> resGifts = [];
+      try {
+        resGifts = await productRepository.getProductsAttach(
+          productId: product.productId!,
         );
-
-        if (imei.isNotEmpty) {
-          product.imei = imei.first;
-        }
+      } catch (e) {
+        _loggerHelper.logError(
+            message: 'AddProductFromSearchToCartEvent', obj: e);
       }
+
+      List<ProductTable> gifts = resGifts
+          .map((e) => e.convertToTable(itemType: XItemType.gift))
+          .toList();
 
       // gọi tới service storage để lưu product
       final res = await _addItemToCart(
@@ -251,29 +269,6 @@ class DraftingInvoiceBloc
       }
     } catch (e) {
       _loggerHelper.logError(message: 'ApplyOrderEvent', obj: e);
-    }
-  }
-
-  FutureOr<void> _onUpdateAttachImei(
-    UpdateAttachImeiEvent event,
-    Emitter<DraftingInvoiceState> emit,
-  ) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
-
-      final res = await draftingStorage.updateAttachImei(
-        cartId: currentDraftId,
-        productId: event.productId,
-        imeiStr: event.imeiStr,
-      );
-
-      if (res != null) {
-        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
-        updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
-      }
-    } catch (e) {
-      _loggerHelper.logError(message: 'UpdateAttachImeiEvent', obj: e);
     }
   }
 
@@ -717,10 +712,16 @@ class DraftingInvoiceBloc
       XToast.loading();
 
       if (cart.validateBill && !{CartType.tradeIn}.contains(state.cartType)) {
+        final formData = cart.formatBodyData();
+
+        await Future.delayed(const Duration(seconds: 2), () {
+          debugPrint('CreateFailed');
+          debugPrint(jsonEncode(formData));
+          emit(CreateFailed(state: state));
+        });
+
         /// check type of draft => send by api
         if (state.cartType == CartType.retail) {
-          // final formData = cart.formatBodyData();
-
           // final response = await billRepository.createBill(formData);
           // isCreateSuccess = response.checkIsSuccess;
           // if (response.checkIsSuccess) {
@@ -732,7 +733,6 @@ class DraftingInvoiceBloc
           // }
         }
         if (state.cartType == CartType.updateBill) {
-          // final formData = cart.formatBodyData();
           // final response = await billRepository.updateBill(formData);
           // isCreateSuccess = response.checkIsSuccess;
           // if (response.checkIsSuccess) {
@@ -744,7 +744,6 @@ class DraftingInvoiceBloc
           // }
         }
         if (state.cartType == CartType.order) {
-          // final formData = cart.formatBodyData();
           // final response = await orderRepository.createOrder(formData);
           // isCreateSuccess = response.checkIsSuccess;
           // if (response.checkIsSuccess) {
@@ -756,7 +755,6 @@ class DraftingInvoiceBloc
           // }
         }
         if (state.cartType == CartType.updateOrder) {
-          // final formData = cart.formatBodyData();
           // final response = await orderRepository.updateOrder(formData);
           // isCreateSuccess = response.checkIsSuccess;
           // if (response.checkIsSuccess) {
@@ -771,10 +769,10 @@ class DraftingInvoiceBloc
 
       if (isCreateSuccess) {
         /// xóa sau khi tạo thành công
-        draftingStorage.removeCartById(cart.id);
+        // draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
-      // emit(CreateFailed(state: state));
+      emit(CreateFailed(state: state));
       XToast.showNegativeMessage(message: e.toString());
       _loggerHelper.logError(message: 'SubmitDraftEvent', obj: e);
     } finally {
@@ -995,32 +993,32 @@ class DraftingInvoiceBloc
         updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
       }
     } catch (e) {
-      _loggerHelper.logError(message: 'AddProductEvent', obj: e);
+      _loggerHelper.logError(message: 'UpdateProductEvent', obj: e);
     }
   }
 
-  FutureOr<void> _onAddProduct(
-    AddProductEvent event,
-    Emitter<DraftingInvoiceState> emit,
-  ) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
+  // FutureOr<void> _onAddProduct(
+  //   AddProductEvent event,
+  //   Emitter<DraftingInvoiceState> emit,
+  // ) async {
+  //   try {
+  //     int? currentDraftId = state.currentDraftId;
+  //     if (currentDraftId == null) return;
 
-      final res = await _addItemToCart(
-        product: event.product,
-        cartId: currentDraftId,
-        gifts: event.gifts,
-        attaches: event.attaches,
-      );
-      if (res != null) {
-        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
-        updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
-      }
-    } catch (e) {
-      _loggerHelper.logError(message: 'AddProductEvent', obj: e);
-    }
-  }
+  //     final res = await _addItemToCart(
+  //       product: event.product,
+  //       cartId: currentDraftId,
+  //       gifts: event.gifts,
+  //       attaches: event.attaches,
+  //     );
+  //     if (res != null) {
+  //       emit(UpdateProductsSuccess(state: state, products: res.getProducts));
+  //       updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
+  //     }
+  //   } catch (e) {
+  //     _loggerHelper.logError(message: 'AddProductEvent', obj: e);
+  //   }
+  // }
 
   FutureOr<void> _onUpdateCustomerInfoOfBill(
     UpdateCustomerInfoOfBillEvent event,
@@ -1105,6 +1103,7 @@ class DraftingInvoiceBloc
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          currentStore: res.store,
         ),
       );
 

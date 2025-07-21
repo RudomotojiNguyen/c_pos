@@ -74,7 +74,7 @@ class ProductChildBuyMoreWidget extends StatefulWidget {
 class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
   @override
   Widget build(BuildContext context) {
-    Widget operation(VoidCallback closeOverlay) => Container(
+    Widget operation(Future<void> Function() closeOverlay) => Container(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),
           decoration: BoxDecoration(
             color: AppColors.white,
@@ -136,16 +136,16 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
               BoxSpacer.s4,
               XImeiInfo(imei: widget.product.getImei, isCopyImei: true),
             ],
-            if (widget.product.externalImeiNo.isNotNullOrEmpty) ...[
-              XImeiInfo(imei: widget.product.externalImeiNo!, isCopyImei: true),
-            ],
+            // if (widget.product.externalImeiNo.isNotNullOrEmpty) ...[
+            //   XImeiInfo(imei: widget.product.externalImeiNo!, isCopyImei: true),
+            // ],
           ],
         ),
       ),
     );
   }
 
-  List<Widget> _childOperation(VoidCallback closeOverlay) {
+  List<Widget> _childOperation(Future<void> Function() closeOverlay) {
     List<Widget> data = [];
 
     final XItemType itemType = widget.product.itemType;
@@ -155,32 +155,32 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
         RowFunctionWidget(
           title: XProductOperationAction.detail.getTitle,
           icon: XProductOperationAction.detail.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.detail);
           },
         ),
         RowFunctionWidget(
           title: XProductOperationAction.editRepurchasePrice.getTitle,
           icon: XProductOperationAction.editRepurchasePrice.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.editRepurchasePrice);
           },
         ),
         RowFunctionWidget(
           title: XProductOperationAction.checkRepurchasePrice.getTitle,
           icon: XProductOperationAction.checkRepurchasePrice.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.checkRepurchasePrice);
           },
         ),
         RowFunctionWidget(
           title: XProductOperationAction.remove.getTitle,
           icon: XProductOperationAction.remove.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.remove);
           },
         ),
@@ -191,32 +191,20 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
         RowFunctionWidget(
           title: XProductOperationAction.detail.getTitle,
           icon: XProductOperationAction.detail.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.detail);
           },
         ),
         RowFunctionWidget(
           title: XProductOperationAction.remove.getTitle,
           icon: XProductOperationAction.remove.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.remove);
           },
         ),
       ];
-      if (widget.product.isBelongToWarrantyImei) {
-        data.add(
-          RowFunctionWidget(
-            title: XProductOperationAction.addAttachImei.getTitle,
-            icon: XProductOperationAction.addAttachImei.getIcon,
-            onPressed: () {
-              closeOverlay();
-              widget.callBackAction(XProductOperationAction.addAttachImei);
-            },
-          ),
-        );
-      }
     }
 
     if (widget.product.productType == ProductType.imei) {
@@ -224,8 +212,8 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
         RowFunctionWidget(
           title: XProductOperationAction.addImei.getTitle,
           icon: XProductOperationAction.addImei.getIcon,
-          onPressed: () {
-            closeOverlay();
+          onPressed: () async {
+            await closeOverlay();
             widget.callBackAction(XProductOperationAction.addImei);
           },
         ),
@@ -235,8 +223,8 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
       RowFunctionWidget(
         title: XProductOperationAction.copyData.getTitle,
         icon: XProductOperationAction.copyData.getIcon,
-        onPressed: () {
-          closeOverlay();
+        onPressed: () async {
+          await closeOverlay();
           widget.callBackAction(XProductOperationAction.copyData);
         },
       ),

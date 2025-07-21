@@ -1,3 +1,4 @@
+import '../../common/enum/search_type.dart';
 import '../datasources/remote/product_api.dart';
 import '../models/imei_history_model.dart';
 import '../models/imei_transaction_model.dart';
@@ -28,6 +29,13 @@ abstract class ProductServices {
     String? param,
   });
 
+  Future<List<ProductModel>> productSearch({
+    String? searchProduct,
+    bool isInterestZero = false,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  });
+
   Future<ProductModel> getProductById({required String productId});
 
   Future<List<ProductModel>> getProductsWarranty({
@@ -51,7 +59,7 @@ abstract class ProductServices {
     String? searchProduct,
   });
 
-  Future<List<ProductImeiModel>> getImei({int? limit, String? productId});
+  Future<List<ProductImeiModel>> getImei({String? productId, int? storeId});
 
   Future<List<String>> getReasonSelectImei();
 

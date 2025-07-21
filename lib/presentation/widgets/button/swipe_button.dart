@@ -1,5 +1,24 @@
 import 'package:flutter/material.dart';
 
+// Abstract class for external control
+abstract class XSwipeButtonController {
+  void reset();
+}
+
+// Implementation of the controller
+class XSwipeButtonControllerImpl extends XSwipeButtonController {
+  VoidCallback? _resetCallback;
+
+  void _setResetCallback(VoidCallback callback) {
+    _resetCallback = callback;
+  }
+
+  @override
+  void reset() {
+    _resetCallback?.call();
+  }
+}
+
 class XSwipeButton extends StatefulWidget {
   const XSwipeButton({
     super.key,
@@ -10,6 +29,8 @@ class XSwipeButton extends StatefulWidget {
     required this.subBackgroundColor,
     required this.textColor,
     required this.subTextColor,
+    this.onReset,
+    this.controller,
   });
 
   final String title;
@@ -19,6 +40,8 @@ class XSwipeButton extends StatefulWidget {
   final Color subBackgroundColor;
   final Color textColor;
   final Color subTextColor;
+  final VoidCallback? onReset;
+  final XSwipeButtonController? controller;
 
   @override
   State<XSwipeButton> createState() => _XSwipeButtonState();
@@ -35,12 +58,29 @@ class _XSwipeButtonState extends State<XSwipeButton> {
   void initState() {
     super.initState();
     swipeData = SwipeData();
+    // Register reset callback
+    swipeData.setResetCallback(() {
+      widget.onReset?.call();
+    });
+
+    // Setup controller if provided
+    if (widget.controller is XSwipeButtonControllerImpl) {
+      final controller = widget.controller as XSwipeButtonControllerImpl;
+      controller._setResetCallback(() {
+        resetButton();
+      });
+    }
   }
 
   @override
   void dispose() {
     swipeData.dispose();
     super.dispose();
+  }
+
+  // Public method to reset the button state
+  void resetButton() {
+    swipeData.reset();
   }
 
   @override
@@ -211,6 +251,7 @@ class _XSwipeButtonState extends State<XSwipeButton> {
 class SwipeData {
   final ValueNotifier<double> _swipePosition = ValueNotifier(0.0);
   final ValueNotifier<bool> _isPaymentSuccessful = ValueNotifier(false);
+  VoidCallback? _resetCallback;
 
   ValueNotifier<double> get swipePositionNotifier => _swipePosition;
   ValueNotifier<bool> get isPaymentSuccessfulNotifier => _isPaymentSuccessful;
@@ -226,9 +267,14 @@ class SwipeData {
     _isPaymentSuccessful.value = value;
   }
 
+  void setResetCallback(VoidCallback callback) {
+    _resetCallback = callback;
+  }
+
   void reset() {
     _swipePosition.value = 0.0;
     _isPaymentSuccessful.value = false;
+    _resetCallback?.call();
   }
 
   void dispose() {

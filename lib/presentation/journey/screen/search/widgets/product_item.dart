@@ -130,21 +130,21 @@ class _ProductItemInCartState extends State<ProductItemInCart>
             ],
           ),
         ),
-        // if (widget.product.isExistInStock) ...[
-        XButton(
-          type: XButtonType.transparent,
-          padding: EdgeInsets.symmetric(
-            horizontal: 8.sp,
-            vertical: 8.sp,
-          ),
-          onPressed: _addProduct,
-          child: Icon(
-            Icons.add_circle, //Icons.add_circle_outline,
-            size: 20.sp,
-            color: AppColors.primaryColor,
-          ),
-        )
-        // ],
+        if (widget.type == ProductItemType.addOn) ...[
+          XButton(
+            type: XButtonType.transparent,
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.sp,
+              vertical: 8.sp,
+            ),
+            onPressed: _addProduct,
+            child: Icon(
+              Icons.add_circle, //Icons.add_circle_outline,
+              size: 20.sp,
+              color: AppColors.primaryColor,
+            ),
+          )
+        ],
       ],
     );
   }
@@ -162,7 +162,10 @@ class _ProductItemInCartState extends State<ProductItemInCart>
   }
 
   _addProduct() async {
-    _draftingInvoiceBloc.add(AddProductEvent(widget.product.convertToTable()));
+    // _draftingInvoiceBloc.add(AddProductEvent(
+    //   widget.product.convertToTable(itemType: XItemType.main),
+    // ));
+    _draftingInvoiceBloc.add(AddProductFromSearchToCartEvent(widget.product));
     MainRouter.instance.popUtil(
       context,
       routeName: RouteName.drafts,

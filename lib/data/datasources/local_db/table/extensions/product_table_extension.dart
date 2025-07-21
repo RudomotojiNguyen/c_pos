@@ -5,14 +5,11 @@ extension ProductTableExtension on ProductTable {
 
   String get getProductImei => imei?.imeiNo ?? '';
 
-  XDiscountType get getDiscountType =>
-      discountType?.getDiscountType ?? XDiscountType.none;
+  XDiscountType get getDiscountType => discountType.getDiscountType;
 
   int get getTotalQuantityInStore => totalQuantityInStore ?? 0;
 
   bool get isCheckRepurchasePrice => isRepurchasePrice ?? false;
-
-  bool get isBelongToWarrantyImei => belongToWarrantyImei ?? false;
 
   String get getDataCopy => '$productName - $barCode';
 
@@ -73,7 +70,7 @@ extension ProductTableExtension on ProductTable {
   double get calculatorTotalSellingPrice => getSellingPrice * getQuantity;
 
   /// chiết khấu tự động
-  double get getDiscountAmount => discountAmount ?? 0;
+  double get getDiscountAmount => discountAmount;
 
   /// số lần xuất hiện
   int get getAppearTimes => appearTimes ?? 0;
@@ -201,40 +198,46 @@ extension ProductTableExtension on ProductTable {
       "totalQuantityInStock": totalQuantityInStock,
       "totalQuantityInStore": totalQuantityInStore,
       "childs": [],
-      "belongToWarrantyImei": belongToWarrantyImei,
       "isGiftTaken": true,
       "quantity": getQuantity,
     };
   }
 
   Map<String, dynamic> toJsonCreate() {
-    Map<String, dynamic> data = <String, dynamic>{};
+    Map<String, dynamic> data = {
+      'id': itemId, // update bill cần field này
+      'productId': productId.toString(),
+      'productName': productName,
+      'productCode': productCode,
+      'productPrice': getSellingPrice,
+      'quantity': getQuantity,
+      'imeiCode': imei?.imeiNo,
+      'accessoryGroupId': accessoryGroupId,
+      'accessoryGroupCode': accessoryGroupCode,
+      'repurchasePrice': 0,
+      'note': note ?? '',
+      'discountAmount': calculatorProductDiscountAmount,
+      'discountType': getDiscountType.value,
+      'merchantId': getMerchantId,
+      'flexibleComboId': flexibleComboId,
+      'flexibleComboItemId': flexibleComboItemId,
+      'productCategory': productCategory,
+      'barCode': barCode,
+      'quantityInStock': totalQuantityInStock,
+      'originalPrice': originalPrice,
+      'sellingPrice': sellingPrice,
+      'productType': itemType.getValueType,
+      'wholesalePrice': wholesalePrice,
+      'returnSellingPrice': returnSellingPrice,
+      'productNameVat': productNameVat,
+      'listedPrice': listedPrice,
+      'orderItemType': itemType.getValueType,
+      'comboItems': [], // todo: check lại xem có sản phẩm combo hay không
+    };
 
-    data['id'] = itemId; // update bill cần field này
-    data['productId'] = productId.toString();
-    data['productName'] = productName;
-    data['productCode'] = productCode;
-    data['productPrice'] = getSellingPrice;
-    data['quantity'] = getQuantity;
-    data['imeiCode'] = imei?.imeiNo;
-    data['productType'] = ProductType.normal.getValueType;
-    data['accessoryGroupId'] = accessoryGroupId;
-    data['accessoryGroupCode'] = accessoryGroupCode;
-    data['repurchasePrice'] = 0;
-    // data['isGiftTaken'] = true; // check lại thông tin này
-    data['note'] = note ?? '';
     data['gifts'] = getGifts.map((e) => e.formatChild(XItemType.gift)).toList();
     data['attachs'] =
         getAttaches.map((e) => e.formatChild(XItemType.attach)).toList();
-    data['discountAmount'] = calculatorProductDiscountAmount;
-    data['discountType'] = getDiscountType.value;
-    data['issuedVat'] = false;
-    data['merchantId'] = getMerchantId;
-    data['flexibleComboId'] = flexibleComboId;
-    data['flexibleComboItemId'] = flexibleComboItemId;
-
-    data['externalImeiNo'] = externalImeiNo;
-    data['selectImeiReason'] = selectImeiReason;
 
     return data;
   }
@@ -252,7 +255,7 @@ extension ProductTableExtension on ProductTable {
       'productCode': childOfItem?.productCode ?? productCode,
       'productPrice': childOfItem?.sellingPrice ?? sellingPrice,
       'quantity': childOfItem?.quantity ?? getQuantity,
-      'discountAmount': childOfItem?.discountAmount ?? discountAmount ?? 0,
+      'discountAmount': childOfItem?.discountAmount ?? discountAmount,
       'imeiCode': imei?.imeiNo,
       'imeiNo': imei?.imeiNo,
       'productType': productType.getValueType,
@@ -266,7 +269,6 @@ extension ProductTableExtension on ProductTable {
       'issuedVat': false,
       'merchantId': merchantId,
       'checked': true,
-      'selectImeiReason': selectImeiReason,
       'externalImeiNo': attachedImei,
     };
   }

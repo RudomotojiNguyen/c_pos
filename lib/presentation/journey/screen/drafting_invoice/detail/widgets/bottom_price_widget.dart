@@ -11,6 +11,7 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
     with DialogHelper, LoadingStateMixin {
   final DraftingInvoiceBloc _draftingInvoiceBloc =
       getIt.get<DraftingInvoiceBloc>();
+  final XSwipeButtonController swipeController = XSwipeButtonControllerImpl();
 
   // nút hoàn thành sẽ hiển thị khi có đầy đủ thông tin hóa đơn, phương thức thanh toán đầy đủ
   // nút sẽ render lại khi:
@@ -73,6 +74,10 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
         //       state is CreateOrderSuccess) {
         //     updateLoadingState(false);
         //   }
+        if (state is CreateFailed) {
+          /// lắng nghe xem tạo đơn được không, nếu lỗi thì reset
+          swipeController.reset();
+        }
       },
       builder: (context, state) {
         List<ProductTable> products = state.products ?? [];
@@ -106,8 +111,9 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
                 return XSwipeButton(
                   title: 'Hoàn tất',
                   subTitle: 'Vuốt để hoàn tất',
+                  controller: swipeController,
                   onSwipeDone: (value) {
-                    //
+                    _draftingInvoiceBloc.add(SubmitDraftEvent());
                   },
                   backgroundColor: AppColors.disabledActionColor,
                   subBackgroundColor: AppColors.primaryColor,

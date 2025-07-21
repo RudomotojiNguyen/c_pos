@@ -49,4 +49,11 @@ class AuthModel {
     ..userCode = employee?.code;
 
   XJobTitle get getJob => employee?.jobTitleId?.getJob ?? XJobTitle.none;
+
+  Map<String, dynamic> formatCreatorInfoCreateBill() {
+    Map<String, dynamic> data = {};
+    data['storeId'] = getStoreId;
+    data['storeName'] = getStoreName;
+    return data;
+  }
 }

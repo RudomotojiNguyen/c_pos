@@ -52,9 +52,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     /// lấy danh sách imei FIFO
     on<GetProductObsoleteImeiEvent>(_onGetProductObsoleteImei);
 
-    /// lấy danh sách lý do chọn imei
-    on<GetReasonSelectImeiEvent>(_onGetReasonSelectImei);
-
     /// lấy danh sách imei theo từ khóa
     on<GetProductImeiSearchTextEvent>(_onGetProductImeiSearchText);
   }
@@ -65,14 +62,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     List<ProductImeiModel> listImei =
         (state as GetProductImeiDataSuccess).productListImei ?? [];
-    ProductImeiModel? obsoleteImei =
-        (state as GetProductImeiDataSuccess).obsoleteImei;
     try {
       if (event.search.isNullOrEmpty) {
         emit(
           GetProductImeiDataSuccess(
             state: state,
-            obsoleteImei: obsoleteImei,
             productListImei: listImei,
             productsImeiSearchText: listImei,
           ),
@@ -94,7 +88,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(
         GetProductImeiDataSuccess(
           state: state,
-          obsoleteImei: obsoleteImei,
           productListImei: listImei,
           productsImeiSearchText: data.isEmpty ? listImei : data,
         ),
@@ -104,25 +97,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(
         GetProductImeiDataSuccess(
           state: state,
-          obsoleteImei: obsoleteImei,
           productListImei: listImei,
           productsImeiSearchText: listImei,
         ),
       );
-    }
-  }
-
-  FutureOr<void> _onGetReasonSelectImei(
-    GetReasonSelectImeiEvent event,
-    Emitter<ProductState> emit,
-  ) async {
-    try {
-      emit(OnLoadingGetReasonSelectImei(state: state));
-      final res = await productRepository.getReasonSelectImei();
-      emit(GetReasonSelectImeiSuccess(state: state, reasons: res));
-    } catch (e) {
-      _loggerHelper.logError(message: 'GetReasonSelectImeiEvent', obj: e);
-      emit(GetReasonSelectImeiSuccess(state: state, reasons: const []));
     }
   }
 
@@ -132,16 +110,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     try {
       emit(OnLoadingGetProductImei(state: state));
-      final res = await Future.wait([
-        getHeightPriorityImei(event.productId),
-        getImeiList(event.productId),
-      ]);
+      final res = await getImeiList(event.productId, event.storeId);
       emit(
         GetProductImeiDataSuccess(
           state: state,
-          obsoleteImei: res[0] as ProductImeiModel?,
-          productListImei: res[1] as List<ProductImeiModel>?,
-          productsImeiSearchText: res[1] as List<ProductImeiModel>?,
+          productListImei: res,
+          productsImeiSearchText: res,
         ),
       );
     } catch (e) {
@@ -149,7 +123,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(
         GetProductImeiDataSuccess(
           state: state,
-          obsoleteImei: null,
           productListImei: const [],
           productsImeiSearchText: const [],
         ),
@@ -324,26 +297,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 }
 
 extension ProductBlocExtension on ProductBloc {
-  Future<ProductImeiModel?> getHeightPriorityImei(String productId) async {
+  Future<List<ProductImeiModel>> getImeiList(
+    String productId,
+    int? storeId,
+  ) async {
     try {
       final res = await productRepository.getImei(
-        limit: 1,
         productId: productId,
-      );
-      if (res.isNotEmpty) {
-        return res.first;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future<List<ProductImeiModel>> getImeiList(String productId) async {
-    try {
-      final res = await productRepository.getImei(
-        limit: 20,
-        productId: productId,
+        storeId: storeId,
       );
       return res;
     } catch (e) {

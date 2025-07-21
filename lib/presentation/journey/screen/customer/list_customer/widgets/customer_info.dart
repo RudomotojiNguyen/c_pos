@@ -98,7 +98,8 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
     );
   }
 
-  Widget _operation(BuildContext context, VoidCallback closeOverlay) {
+  Widget _operation(
+      BuildContext context, Future<void> Function() closeOverlay) {
     return Container(
       padding: EdgeInsets.all(8.sp),
       child: Column(
@@ -109,8 +110,8 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
           RowFunctionWidget(
             title: XProductOperationAction.update.getTitle,
             icon: XProductOperationAction.update.getIcon,
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               MainRouter.instance.pushNamed(
                 context,
                 routeName: RouteName.customerUpdate,
@@ -121,8 +122,8 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
           RowFunctionWidget(
             title: XProductOperationAction.customerDetail.getTitle,
             icon: XProductOperationAction.customerDetail.getIcon,
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               MainRouter.instance.pushNamed(
                 context,
                 routeName: RouteName.customer,
@@ -133,8 +134,8 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
           RowFunctionWidget(
             title: XProductOperationAction.addMore.getTitle,
             icon: XProductOperationAction.addMore.getIcon,
-            onPressed: () {
-              closeOverlay();
+            onPressed: () async {
+              await closeOverlay();
               showXBottomSheet(
                 context,
                 key: GlobalAppKey.selectBillTypeDialogKey,

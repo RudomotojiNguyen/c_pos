@@ -11,6 +11,7 @@ import 'order_item.dart';
 import 'order_sub_detail_model.dart';
 import 'payment_model.dart';
 import 'product_model.dart';
+import 'store_model.dart';
 
 class OrderModel {
   int? createdBy;
@@ -475,4 +476,9 @@ class OrderModel {
         checkTime.isNullOrEmpty ? DateTime.now() : checkTime!.convertToDateTime;
     return TimeOfDay(hour: current.hour, minute: current.minute);
   }
+
+  StoreModel get getStore => StoreModel(
+        id: storeId,
+        name: storeName,
+      );
 }

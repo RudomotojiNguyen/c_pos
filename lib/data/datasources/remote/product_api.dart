@@ -71,14 +71,29 @@ abstract class ProductApi {
   // @GET('product/mobile/{productId}/product-attachs')
   // Future<BaseResponse> getAttachesProduct(@Path() String productId);
 
-  /// tìm sản phẩm (nếu là imei thì có thêm imeiNo)
-  ///
+  /// tìm sản phẩm
   @GET('products')
   Future<BaseResponse> searchProduct({
     @Query('page') required int page,
     @Query('limit') required int limit,
-    @Query('type') int? type,
+    @Query('productType') int? type,
     @Query('name') String? name,
+    @Query('storeId') int? storeId,
+  });
+
+  /// dành cho tìm sản phẩm để thêm vào đơn
+  /// tìm sản phẩm theo imei
+  @GET('productSearch')
+  Future<BaseResponse> productSearch({
+    @Query('isInterestZero') bool? isInterestZero,
+    @Query('searchProduct') String? searchProduct,
+    @Query('storeId') int? storeId,
+  });
+
+  /// tìm sản phẩm theo imei
+  @GET('productSearch/search-by-imei')
+  Future<BaseResponse> productSearchByImei({
+    @Query('imeiCode') String? imeiCode,
     @Query('storeId') int? storeId,
   });
 
@@ -128,11 +143,10 @@ abstract class ProductApi {
   //     @Body() Map<String, dynamic> params);
 
   /// lấy imeis
-  /// với phần lấy imei ưu tiên có thể truyền limit là 1
-  @GET('product/mobile/obsolete-imeis')
+  @GET('imeis/get-by-product')
   Future<BaseResponse> getImei({
-    @Query('limit') int? limit,
     @Query('productId') String? productId,
+    @Query('storeId') int? storeId,
   });
 
   /// lấy danh sách lý chọn imei khác chứ không chọn FIFO

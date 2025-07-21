@@ -15,6 +15,7 @@ import '../../../../../data/models/base_enum_model.dart';
 import '../../../../../data/models/otp_customer_point_model.dart';
 import '../../../../../data/models/product_imei_model.dart';
 import '../../../../../data/models/product_model.dart';
+import '../../../../../data/models/store_model.dart';
 import '../../../../../gen/gen.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
@@ -23,6 +24,7 @@ import '../../../router.dart';
 import '../../customer/bloc/customer_bloc.dart';
 import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
+import '../../store/bloc/store_bloc.dart';
 import 'bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
 
@@ -42,6 +44,7 @@ part 'widgets/product_trade_in_widget.dart';
 part 'widgets/device_status_widget.dart';
 part 'widgets/delivery_widget.dart';
 part 'widgets/order_sub_detail_widget.dart';
+part 'widgets/current_store.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});
@@ -84,8 +87,9 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
             return const XPlaceHolder(width: 60, height: 40);
           }
           if (state is GetCurrentDraftDataError) {
-            return const EmptyDataWidget(
-              emptyMessage: 'Thông tin',
+            return Text(
+              'Thông tin',
+              style: AppFont.t.s(16).w600,
             );
           }
           if (state is GetCurrentDraftDataSuccess) {
@@ -143,6 +147,9 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
                   // const TypeTradeInWidget(),
                   // const ProductTradeInWidget(),
                   // const DeviceStatusWidget(),
+
+                  /// cửa hàng đang chọn
+                  const CurrentStoreWidget(),
 
                   // CartType là updateOrder, order, updateBill, retail
                   // warranty: EmployeeOfBillWidget, BillNoteWidget
@@ -208,12 +215,12 @@ extension _DraftDetailScreenStateExtension on _DraftingDetailScreenState {
     if (state is CreateTradeInbillSuccess) {
       MainRouter.instance.goNamed(context, routeName: RouteName.tradeIn);
     }
-    if (state is UpdateProductsSuccess) {
-      MainRouter.instance.popUtil(
-        context,
-        routeName: RouteName.drafts,
-      );
-    }
+    // if (state is UpdateProductsSuccess) {
+    //   MainRouter.instance.popUtil(
+    //     context,
+    //     routeName: RouteName.drafts,
+    //   );
+    // }
     if (state is CreateBillSuccess) {
       MainRouter.instance.goNamed(
         context,

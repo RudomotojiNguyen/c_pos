@@ -264,7 +264,7 @@ class _ProductApi implements ProductApi {
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'limit': limit,
-      r'type': type,
+      r'productType': type,
       r'name': name,
       r'storeId': storeId,
     };
@@ -279,6 +279,88 @@ class _ProductApi implements ProductApi {
         .compose(
           _dio.options,
           'products',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse _value;
+    try {
+      _value = BaseResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse> productSearch({
+    bool? isInterestZero,
+    String? searchProduct,
+    int? storeId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'isInterestZero': isInterestZero,
+      r'searchProduct': searchProduct,
+      r'storeId': storeId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'productSearch',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse _value;
+    try {
+      _value = BaseResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse> productSearchByImei({
+    String? imeiCode,
+    int? storeId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'imeiCode': imeiCode,
+      r'storeId': storeId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'productSearch/search-by-imei',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -461,13 +543,13 @@ class _ProductApi implements ProductApi {
 
   @override
   Future<BaseResponse> getImei({
-    int? limit,
     String? productId,
+    int? storeId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'limit': limit,
       r'productId': productId,
+      r'storeId': storeId,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -479,7 +561,7 @@ class _ProductApi implements ProductApi {
     )
         .compose(
           _dio.options,
-          'product/mobile/obsolete-imeis',
+          'imeis/get-by-product',
           queryParameters: queryParameters,
           data: _data,
         )

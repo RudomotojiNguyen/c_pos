@@ -152,8 +152,8 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                     XBaseButton(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.sp, horizontal: 16.sp),
-                      onPressed: () {
-                        closeOverlay();
+                      onPressed: () async {
+                        await closeOverlay();
                         _convertToCartTable(
                           typeCart: CartType.updateOrder,
                           orderDetail: orderDetail,
@@ -167,8 +167,8 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                     XBaseButton(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.sp, horizontal: 16.sp),
-                      onPressed: () {
-                        closeOverlay();
+                      onPressed: () async {
+                        await closeOverlay();
                         _convertToCartTable(
                           typeCart: CartType.retail,
                           orderDetail: orderDetail,

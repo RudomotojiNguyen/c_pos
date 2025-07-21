@@ -22,7 +22,6 @@ class ProductItemDetailWidget extends StatefulWidget {
     this.padding,
     this.gifts = const [],
     this.attachs = const [],
-    this.externalImeiNo,
     this.baseButtonType,
     this.productOperationActions = const [],
     this.decorationChildIsOverlay,
@@ -44,7 +43,6 @@ class ProductItemDetailWidget extends StatefulWidget {
   final Function({XProductOperationAction? action})? onPressed;
   final Decoration? decoration;
   final EdgeInsetsGeometry? padding;
-  final String? externalImeiNo;
 
   final List<ProductModel> gifts;
   final List<ProductModel> attachs;
@@ -155,13 +153,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                     ),
                   ],
                 ),
-                if (widget.externalImeiNo.isNotNullOrEmpty) ...[
-                  BoxSpacer.s4,
-                  XImeiInfo(
-                    imei: widget.externalImeiNo!,
-                    isCopyImei: true,
-                  ),
-                ],
                 if (widget.reason.isNotNullOrEmpty) ...[
                   BoxSpacer.s4,
                   Text.rich(
@@ -199,16 +190,16 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
     );
   }
 
-  Widget _secondaryWidget(VoidCallback closeOverlay) {
+  Widget _secondaryWidget(Future<void> Function() closeOverlay) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: widget.productOperationActions
           .map((e) => RowFunctionWidget(
                 title: e.getTitle,
                 icon: e.getIcon,
-                onPressed: () {
+                onPressed: () async {
                   widget.onPressed?.call(action: e);
-                  closeOverlay();
+                  await closeOverlay();
                 },
               ))
           .toList(),

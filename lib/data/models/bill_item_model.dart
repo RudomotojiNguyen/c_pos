@@ -69,12 +69,9 @@ class BillItemModel {
   double? customerDiscountAmount;
   double? customerDiscountSellingPrice;
   double? customerDiscountMaxAmount;
-  String? externalImeiNo;
   DiscountProgramModel? discountProgram;
   bool? statusVieon;
-  String? selectImeiReason;
   int? quantityInStock;
-  bool? belongToWarrantyImei;
   bool? allowViewFullExternalImeiNo;
   bool? isSoftwareProduct;
   bool? isVieonProduct;
@@ -143,12 +140,9 @@ class BillItemModel {
     this.customerDiscountAmount,
     this.customerDiscountSellingPrice,
     this.customerDiscountMaxAmount,
-    this.externalImeiNo,
     this.discountProgram,
     this.statusVieon,
-    this.selectImeiReason,
     this.quantityInStock,
-    this.belongToWarrantyImei,
     this.allowViewFullExternalImeiNo,
     this.isSoftwareProduct,
     this.isVieonProduct,
@@ -228,15 +222,12 @@ class BillItemModel {
         (json['customerDiscountSellingPrice'] as num?)?.toDouble();
     customerDiscountMaxAmount =
         (json['customerDiscountMaxAmount'] as num?)?.toDouble();
-    externalImeiNo = json['externalImeiNo'];
 
     discountProgram = json['discountProgram'] != null
         ? DiscountProgramModel.fromJson(json['discountProgram'])
         : null;
     statusVieon = json['statusVieon'];
-    selectImeiReason = json['selectImeiReason'];
     quantityInStock = json['quantityInStock'];
-    belongToWarrantyImei = json['belongToWarrantyImei'];
     allowViewFullExternalImeiNo = json['allowViewFullExternalImeiNo'];
     isSoftwareProduct = json['isSoftwareProduct'];
     isVieonProduct = json['isVieonProduct'];
@@ -279,10 +270,9 @@ class BillItemModel {
         ..createdAt = createdAt
         ..note = note
         ..merchantId = merchantId
-        ..belongToWarrantyImei = belongToWarrantyImei
         ..discountProgramId = discountProgramId
-        ..discountType = discountType
-        ..discountAmount = discountAmount
+        ..discountType = discountType ?? 1
+        ..discountAmount = discountAmount ?? 0
         ..productType = productType
         ..productId = productId
         ..repurchasePrice = repurchasePrice
@@ -306,15 +296,12 @@ class BillItemModel {
         // ..newTotalPrice = newTotalPrice
         // ..isLostProduct = isLostProduct
         ..warrantyMonthNo = warrantyMonthNo
-        ..selectImeiReason = selectImeiReason
         ..warrantyAddress = warrantyAddress
         ..warrantyPhone = warrantyPhone
         ..warrantyDescription = warrantyDescription
         ..discountProgramId = discountProgramId
         ..productCategory = productCategory
         ..productWebCategory = productWebCategory
-        ..externalImeiNo = externalImeiNo
-        ..belongToWarrantyImei = belongToWarrantyImei
       // ..discountProgram = discountProgram
       // ..gifts = gifts
       // ..attachs = attachs
@@ -329,7 +316,6 @@ class BillItemModel {
         discountAmount: getDiscountPrice,
         discountPrice: getDiscountPrice,
         quantity: getQuantity,
-        externalImeiNo: externalImeiNo,
         id: productId,
         barCode: barCode,
       );

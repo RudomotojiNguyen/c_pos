@@ -1,18 +1,26 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:c_pos/presentation/journey/screen/login/bloc/auth_bloc.dart';
 import 'package:c_pos/presentation/mixins/logger_helper.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/enum/enum.dart';
 import '../../../../../data/models/product_model.dart';
 import '../../../../../data/models/response/page_info_entity.dart';
 import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/repository/product_repository.dart';
 import '../../../../../data/repository/stock_repository.dart';
+import '../../drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 
 part 'search_product_event.dart';
 part 'search_product_state.dart';
+
+enum SearchAction {
+  search,
+  addToCart,
+}
 
 class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
   final ProductRepository productRepository;
@@ -25,7 +33,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
     required this.stockRepository,
   }) : super(SearchProductInitial(
           searchValue: '',
-          searchType: SearchType.productName,
+          searchType: SearchType.product,
           products: const [],
           pageInfo: PageInfoEntity(
             limit: 10,
@@ -60,6 +68,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         limit: state.pageInfo.getLimit,
         param: state.searchValue,
         type: state.searchType,
+        searchAction: event.searchAction,
       );
 
       // await getStockOfProduct(products);
@@ -93,6 +102,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         limit: state.pageInfo.getLimit,
         param: event.searchValue,
         type: state.searchType,
+        searchAction: event.searchAction,
       );
 
       // await getStockOfProduct(products);
@@ -130,6 +140,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         limit: state.pageInfo.getLimit,
         param: state.searchValue,
         type: state.searchType,
+        searchAction: event.searchAction,
       );
 
       // await getStockOfProduct(res.items);
@@ -159,13 +170,39 @@ extension SearchProductBlocExtension on SearchProductBloc {
     required int limit,
     required String param,
     required SearchType type,
+    required SearchAction searchAction,
+    int? storeId,
+    bool isInterestZero = false,
   }) async {
-    return await productRepository.searchProduct(
-      page: page,
-      limit: limit,
-      param: param,
-      type: type.getValue,
-    );
+    if (searchAction == SearchAction.addToCart) {
+      final AuthBloc authBloc = getIt.get<AuthBloc>();
+      final DraftingInvoiceBloc draftingInvoiceBloc =
+          getIt.get<DraftingInvoiceBloc>();
+      int? store = storeId ??
+          draftingInvoiceBloc.state.currentStore?.getStoreId ??
+          authBloc.state.getUserStoreId;
+
+      final res = await productRepository.productSearch(
+        searchProduct: param,
+        searchType: type,
+        storeId: store,
+        isInterestZero: isInterestZero,
+      );
+
+      return PaginatedResponse(
+        items: res,
+        totalItems: res.length,
+        totalPages: 1,
+        currentPage: 1,
+      );
+    } else {
+      return await productRepository.searchProduct(
+        page: page,
+        limit: limit,
+        param: param,
+        type: type.getValue,
+      );
+    }
   }
 
   Future getStockOfProduct(List<ProductModel> products) async {

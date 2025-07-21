@@ -37,11 +37,10 @@ final class GetImeiTradeinTransactionEvent extends ProductEvent {
 
 final class GetProductObsoleteImeiEvent extends ProductEvent {
   final String productId;
+  final int? storeId;
 
-  GetProductObsoleteImeiEvent(this.productId);
+  GetProductObsoleteImeiEvent(this.productId, this.storeId);
 }
-
-final class GetReasonSelectImeiEvent extends ProductEvent {}
 
 final class GetProductImeiSearchTextEvent extends ProductEvent {
   final String? search;

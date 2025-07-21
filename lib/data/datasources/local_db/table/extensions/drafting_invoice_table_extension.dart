@@ -198,67 +198,70 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
     final listBillItemInfo = getProducts.formatBodyData;
     final AuthModel userInfo = getIt.get<AuthBloc>().state.userInfo!;
 
-    data['id'] = draftBillId;
-    data['billNumber'] = billNumber;
-    // data['isChoosingQrToPay'] = '';
-    data['storeId'] = userInfo.getStoreId;
-    if (!(getCustomer?.isDefaultAccount ?? false)) {
-      data['customerId'] = getCustomer?.customerId;
-    }
-    data['customerMobile'] = getCustomer?.phoneNo;
-    data['customerName'] = getCustomer?.fullName;
-    data['customerAddress'] = getCustomer?.address;
-    data['customerCity'] = getCustomer?.city;
-    data['customerDistrict'] = getCustomer?.district;
-    data['customerWard'] = getCustomer?.ward;
-    data['customerLastName'] = getCustomer?.lastName;
-    data['customerAppellation'] = getCustomer?.appellation.getValue;
-    data['customerDOB'] = getCustomer?.dateOfBirth?.formatDate();
-    data['customerNote'] = customerNote ?? saleNote;
-    data['saleNote'] = saleNote;
-    data['warrantyNote'] = warrantyNote;
-    data['discountType'] = XDiscountType.amount.value;
-    data['discountAmount'] = discountTotalBill ?? 0;
-    data['listBillItem'] = listBillItemInfo;
-    data['orderId'] = orderId;
-    data['pointUse'] = discountByPoint?.pointWillUse ?? 0;
-    data['isCountPoint'] = false;
-    data['isValidCouponCode'] = false;
-    data['couponCode'] = couponDiscountCode;
-    data['installments'] = installments;
-    data['credits'] = credits;
-    data['transfer'] = transfers;
-    data['cash'] = cashes;
-    data['refunds'] = [];
-    data['isMultiplePayment'] = true;
-    data['cancelStatus'] = orderSubDetail?.getCancelStatusId;
-    data['status'] = orderSubDetail?.getOrderStatusId;
+    data = {
+      ...data,
+      'id': draftBillId,
+      'orderId': orderId,
+      'billNumber': billNumber,
+      'preOrderId': preOrderId,
+      'discountType': XDiscountType.amount.value,
+      'discountAmount': discountTotalBill ?? 0,
+      'couponCode': couponDiscountCode,
+      'listBillItem': listBillItemInfo,
+      ...getCustomer?.formatCustomerCreateBill() ?? {},
+      ...discountByPoint?.formatCustomerPointCreateBill() ?? {},
+      ...userInfo.formatCreatorInfoCreateBill(),
+      'saleStoreId': null,
+      'technicalId': null,
+    };
 
-    // số tiền thanh toán trước
-    data['depositAmount'] = totalCashPrePay; // tiền mặt
-    data['transferAmount'] = totalTransferPrePay; // chuyển khoản
-    data['creditAmount'] = totalCreditPrePay; // cà thẻ
-    data['installedMoneyAmount'] = totalInstallmentPrePay; // trả góp
+    /// ghi chú
+    data = {
+      ...data,
+      'customerNote': customerNote, // ghi chú của khách hàng
+      'saleNote': saleNote, // Ghi chú CSKH
+      'warrantyNote': warrantyNote, // Ghi chú bảo hành
+    };
+
+    /// thanh toán
+    data = {
+      ...data,
+      // thông tin thanh toán
+      'installments': installments,
+      'credits': credits,
+      'transfer': transfers,
+      'cash': cashes,
+      'refunds': [],
+      'refundAmount': 0,
+      // thông tin tiền trả trước
+      'depositAmount': totalCashPrePay,
+      'transferAmount': totalTransferPrePay,
+      'creditAmount': totalCreditPrePay,
+      'installedMoneyAmount': totalInstallmentPrePay,
+    };
+
+    /// thông tin lãi suất
+    /// todo: hỏi lại phần trả góp
+    // data = {
+    //   ...data,
+    //   'isInterestZero': false,
+    //   'intallmentProgram': null,
+    //   'installmentShinhan': null,
+    //   'conversionFee': 0,
+    // };
 
     if ({CartType.updateOrder, CartType.order}.contains(typeCart)) {
-      data['listBillItem'] =
-          null; // do là order nên không truyền listBillItem => set null
-      data['checkDate'] = orderSubDetail?.getCheckDate;
-      data['checkTime'] = orderSubDetail?.getCheckTime;
-      data['paymentDate'] = orderSubDetail?.getPaymentDate;
-      data['codeShip'] = orderSubDetail?.getShipCode;
-      data['orderType'] = orderSubDetail?.getOrderTypeId;
-      data['orderSourceId'] = orderSubDetail?.getOrderSourceId;
-      data['cancelStatus'] = orderSubDetail?.getCancelStatusId;
-      data['customerShipFee'] = deliveryFee?.customerFee;
-      data['shipFee'] = deliveryFee?.shippingCompanyFee;
-      data['insertType'] = 5;
-      data['orderItems'] = listBillItemInfo;
-      data['subtractPoint'] = discountByPoint?.pointWillUse ?? 0;
-      data['subtractPointAmount'] =
-          discountByPoint?.amountTransferFromPoint ?? 0;
-      data['id'] = orderId;
-      data['draftBillId'] = draftBillId;
+      /// thông tin đơn hàng sẽ hơi khác nên sẽ format thêm ở đây
+      data.remove(
+          'listBillItem'); // do là order nên không truyền listBillItem => xóa trường này
+      data = {
+        ...data,
+        ...orderSubDetail?.formatOrderSubDetailCreateBill() ?? {},
+        ...deliveryFee?.formatDeliveryFeeCreateBill() ?? {},
+        'orderItems': listBillItemInfo,
+        'draftBillId': draftBillId,
+        'id': orderId,
+      };
     }
 
     return data;

@@ -167,9 +167,9 @@ class _FormCreateRequestExchangeStoreState
                       store.getName,
                       style: AppFont.t.s(),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       selectedItemNotifier.value = store;
-                      closeOverlay();
+                      await closeOverlay();
                     },
                   );
                 },

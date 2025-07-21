@@ -88,10 +88,8 @@ class _ProductsSearchState extends State<ProductsSearch> {
               itemBuilder: (context, index) {
                 ProductModel product = state.products[index];
                 return ProductItemInCart(
-                  // type: ProductItemType.addOn,
                   key: ValueKey(product.id!),
                   product: state.products[index],
-                  // productItemType: widget.productItemType,
                 );
               },
             ),

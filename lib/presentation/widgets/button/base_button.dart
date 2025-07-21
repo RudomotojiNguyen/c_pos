@@ -13,7 +13,16 @@ enum ArrowDirection { down, up }
 class XBaseButton extends StatefulWidget {
   final GestureTapCallback? onPressed;
   final GestureTapCallback? onLongPress;
-  final Widget Function(VoidCallback closeOverlay)? secondaryWidgetBuilder;
+
+  /// Callback để tạo secondary widget (dialog, menu, etc.)
+  /// [closeOverlay] là function để đóng overlay, nên được gọi khi:
+  /// - User chọn một action trong secondary widget
+  /// - User muốn đóng secondary widget
+  /// - Secondary widget bị đóng bằng bất kỳ cách nào khác
+  ///
+  /// closeOverlay() trả về Future<void> để có thể await
+  final Widget Function(Future<void> Function() closeOverlay)?
+      secondaryWidgetBuilder;
   final EdgeInsetsGeometry? padding;
   final double? width;
   final bool disable;
@@ -56,12 +65,6 @@ class XBaseButtonState extends State<XBaseButton>
 
   final Duration duration = const Duration(milliseconds: 300);
 
-  final StreamController<bool> _animationCompletedController =
-      StreamController<bool>.broadcast();
-
-  Stream<bool> get animationCompletedStream =>
-      _animationCompletedController.stream;
-
   final GlobalKey _childKey = GlobalKey();
   final GlobalKey _secondaryWidgetKey = GlobalKey();
 
@@ -79,15 +82,35 @@ class XBaseButtonState extends State<XBaseButton>
     _zoomAnimation = Tween<double>(begin: 1.0, end: 1.009).animate(
       CurvedAnimation(parent: _zoomController, curve: Curves.easeInOut),
     );
+
+    // Lắng nghe sự kiện back button để đóng overlay
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final route = ModalRoute.of(context);
+        if (route != null) {
+          route.addScopedWillPopCallback(() async {
+            if (_overlayEntry != null) {
+              await removeOverlay();
+              return false; // Ngăn không cho pop route
+            }
+            return true;
+          });
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
+    // Đóng overlay trước khi dispose
+    if (_overlayEntry != null) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    }
+
     _controller.dispose();
     _zoomController.dispose();
-    Future.delayed(duration, () {
-      _animationCompletedController.close();
-    });
+
     super.dispose();
   }
 
@@ -131,14 +154,17 @@ class XBaseButtonState extends State<XBaseButton>
   Future<void> removeOverlay() async {
     if (_overlayEntry == null || _controller.isDismissed) return;
 
-    await Future.wait([_controller.reverse(), _zoomController.reverse()]);
-
-    _overlayEntry?.remove();
+    // Đánh dấu rằng overlay đang được đóng để tránh gọi nhiều lần
+    final overlayEntry = _overlayEntry;
     _overlayEntry = null;
 
-    Future.delayed(duration, () {
-      _animationCompletedController.add(true);
-    });
+    try {
+      await Future.wait([_controller.reverse(), _zoomController.reverse()]);
+      overlayEntry?.remove();
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      overlayEntry?.remove();
+    }
   }
 
   void _showOverlay(BuildContext context) {
@@ -294,9 +320,16 @@ class XBaseButtonState extends State<XBaseButton>
     double opacity, {
     ArrowDirection direction = ArrowDirection.up,
   }) {
-    // SỬ DỤNG secondaryWidgetBuilder TỪ XBaseButton
+    // Tạo một callback wrapper để đảm bảo closeOverlay được gọi đúng cách
+    Future<void> Function() safeCloseOverlay = () async {
+      if (_overlayEntry != null && !_controller.isDismissed) {
+        await removeOverlay();
+      }
+    };
+
+    // SỬ DỤNG secondaryWidgetBuilder TỪ XBaseButton với safeCloseOverlay
     Widget secondaryContent =
-        widget.secondaryWidgetBuilder?.call(removeOverlay) ??
+        widget.secondaryWidgetBuilder?.call(safeCloseOverlay) ??
             const SizedBox.shrink();
 
     return Opacity(
@@ -308,18 +341,15 @@ class XBaseButtonState extends State<XBaseButton>
           child: GestureDetector(
             // GestureDetector này để đóng overlay khi chạm vào khoảng trống
             // trong secondaryWidget (ví dụ: nền của XGlassContainer)
-            onTap: () {
-              if (_overlayEntry != null) {
-                removeOverlay();
-              }
+            onTap: () async {
+              await safeCloseOverlay();
             },
             // Quan trọng: Cho phép các sự kiện chạm truyền qua đến các widget con
             behavior: HitTestBehavior.translucent,
             child: XGlassContainer(
               key: _secondaryWidgetKey,
               bgColor: Colors.white.withValues(alpha: 0.7),
-              child:
-                  secondaryContent, // SỬ DỤNG secondaryContent ĐÃ ĐƯỢC XÂY DỰNG
+              child: secondaryContent,
             ),
           ),
         ),

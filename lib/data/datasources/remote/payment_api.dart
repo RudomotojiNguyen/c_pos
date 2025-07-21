@@ -33,7 +33,7 @@ abstract class PaymentApi {
 
   /// lấy tài khoản trả góp
   ///
-  @GET('installments')
+  @GET('v1/installments')
   Future<BaseResponse> getInstallmentAccounts({
     @Query('page') int? page,
     @Query('pageSize') int? pageSize,

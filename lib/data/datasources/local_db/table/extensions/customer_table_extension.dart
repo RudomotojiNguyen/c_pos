@@ -14,7 +14,7 @@ extension CustomerTableExtension on CustomerTable {
   bool get isNullCustomer =>
       getCustomerFullName.isNullOrEmpty || getCustomerPhone.isNullOrEmpty;
 
-  bool get isDefaultAccount => customerId == -1;
+  bool get isDefaultAccount => customerId == AppConstants.defaultCustomer.id;
 
   Map<String, dynamic> formatTradeInBodyData() {
     Map<String, dynamic> data = {};
@@ -34,6 +34,29 @@ extension CustomerTableExtension on CustomerTable {
     data['ward'] = ward;
     data['address'] = address;
     data['type'] = type.getValueType;
+
+    return data;
+  }
+
+  Map<String, dynamic> formatCustomerCreateBill() {
+    Map<String, dynamic> data = {};
+
+    if (!isDefaultAccount) {
+      /// note: nếu là thông tin khách mặc định thì bỏ qua phần gửi id
+      data['customerId'] = customerId;
+    }
+
+    data['customerMobile'] = phoneNo;
+    data['customerName'] = fullName;
+    data['customerAddress'] = address;
+    data['customerCity'] = city;
+    data['customerDistrict'] = district;
+    data['customerWard'] = ward;
+    data['customerLastName'] = lastName;
+    data['customerAppellation'] = appellation.getValue;
+    data['customerDOB'] = dateOfBirth?.formatDate();
+    data['customerType'] = type.getValueType;
+    data['totalPoint'] = point;
 
     return data;
   }

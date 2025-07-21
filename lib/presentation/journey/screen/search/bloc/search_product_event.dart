@@ -8,12 +8,22 @@ class ChangeSearchTypeEvent extends SearchProductEvent {
   ChangeSearchTypeEvent({required this.searchType});
 }
 
-class RefreshProductsEvent extends SearchProductEvent {}
+class RefreshProductsEvent extends SearchProductEvent {
+  final SearchAction searchAction;
+
+  RefreshProductsEvent({this.searchAction = SearchAction.search});
+}
 
 final class OnSearchProductsEvent extends SearchProductEvent {
   final String searchValue;
+  final SearchAction searchAction;
 
-  OnSearchProductsEvent(this.searchValue);
+  OnSearchProductsEvent(this.searchValue,
+      {this.searchAction = SearchAction.search});
 }
 
-final class LoadMoreProductsEvent extends SearchProductEvent {}
+final class LoadMoreProductsEvent extends SearchProductEvent {
+  final SearchAction searchAction;
+
+  LoadMoreProductsEvent({this.searchAction = SearchAction.search});
+}

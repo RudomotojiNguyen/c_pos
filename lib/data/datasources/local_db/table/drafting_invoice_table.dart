@@ -10,6 +10,7 @@ import '../../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
 import '../../../models/auth_model.dart';
 import '../../../models/base_enum_model.dart';
 import '../../../models/otp_customer_point_model.dart';
+import '../../../models/store_model.dart';
 import '../local_db.dart';
 
 part 'drafting_invoice_table.g.dart';
@@ -19,6 +20,8 @@ part 'extensions/drafting_invoice_table_extension.dart';
 @Collection()
 class DraftingInvoiceTable {
   Id id = Isar.autoIncrement;
+
+  int? preOrderId;
 
   ///loại đơn nháp
   @Enumerated(EnumType.ordinal)
@@ -73,6 +76,17 @@ class DraftingInvoiceTable {
 
   /// ghi chú của sale thường hiển thị nội bộ
   String? saleNote;
+
+  /// thông tin của hàng đang tìm kiếm
+  String? storeStr;
+
+  @ignore
+  StoreModel? get store =>
+      storeStr != null ? StoreModel().toModel(storeStr!) : null;
+
+  set store(StoreModel? value) {
+    storeStr = value?.toString();
+  }
 
   /// phí liên quan tới giao hàng
   String? deliveryFeeStr;
@@ -165,6 +179,15 @@ class DeliveryFeeModel {
   int get getShippingCompanyFee => shippingCompanyFee ?? 0;
 
   bool get useDelivery => getCustomerFee > 0 || getShippingCompanyFee > 0;
+
+  Map<String, dynamic> formatDeliveryFeeCreateBill() {
+    Map<String, dynamic> data = {};
+
+    data['customerShipFee'] = customerFee;
+    data['shipFee'] = shippingCompanyFee;
+
+    return data;
+  }
 }
 
 class OrderSubDetailModel {
@@ -316,10 +339,44 @@ class OrderSubDetailModel {
 
   int? get getOrderTypeId => orderType?.id;
 
+  String? get getOrderTypeName => orderType?.name;
+
   int? get getOrderSourceId => orderSource?.id;
+
+  String? get getOrderSourceName => orderSource?.name;
 
   int? get getOrderStatusId => orderStatus?.id;
 
-  // todo: thêm phần lý do hủy đơn
+  String? get getOrderStatusName => orderStatus?.name;
+
+  /// todo: lý do hủy đơn
   int? get getCancelStatusId => null;
+
+  String? get getCancelStatusName => null;
+
+  /// todo: Trạng thái thanh toán
+  String? get getPartnerPaymentStatus => null;
+
+  String? get getPartnerPaymentStatusName => null;
+
+  Map<String, dynamic> formatOrderSubDetailCreateBill() {
+    Map<String, dynamic> data = {};
+    data['status'] = getOrderStatusId;
+    data['statusName'] = getOrderStatusName;
+    data['checkDate'] = getCheckDate;
+    data['checkTime'] = getCheckTime;
+    data['paymentDate'] = getPaymentDate;
+    data['codeShip'] = getShipCode;
+    data['orderType'] = getOrderTypeId;
+    data['orderTypeName'] = getOrderTypeName;
+    data['orderSourceId'] = getOrderSourceId;
+    data['orderSourceName'] = getOrderSourceName;
+
+    // data['cancelStatus'] = getCancelStatusId;
+    // data['cancelStatusName'] = getCancelStatusName;
+    // data['partnerPaymentStatus'] = getPartnerPaymentStatus;
+    // data['partnerPaymentStatusName'] = getPartnerPaymentStatusName;
+
+    return data;
+  }
 }

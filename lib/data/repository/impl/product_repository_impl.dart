@@ -6,6 +6,21 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl({required this.productServices});
 
   @override
+  Future<List<ProductModel>> productSearch({
+    String? searchProduct,
+    bool isInterestZero = false,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  }) {
+    return productServices.productSearch(
+      searchProduct: searchProduct,
+      isInterestZero: isInterestZero,
+      storeId: storeId,
+      searchType: searchType,
+    );
+  }
+
+  @override
   Future<List<ProductModel>> getProducts(
       {required int page,
       required int limit,
@@ -82,8 +97,8 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<ProductImeiModel>> getImei({int? limit, String? productId}) {
-    return productServices.getImei(limit: limit, productId: productId);
+  Future<List<ProductImeiModel>> getImei({String? productId, int? storeId}) {
+    return productServices.getImei(productId: productId, storeId: storeId);
   }
 
   @override

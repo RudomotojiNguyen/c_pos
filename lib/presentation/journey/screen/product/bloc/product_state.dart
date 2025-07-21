@@ -95,13 +95,11 @@ final class OnLoadingGetProductImei extends ProductState {
 }
 
 final class GetProductImeiDataSuccess extends ProductState {
-  final ProductImeiModel? obsoleteImei;
   final List<ProductImeiModel>? productListImei;
   final List<ProductImeiModel>? productsImeiSearchText;
 
   GetProductImeiDataSuccess({
     required ProductState state,
-    required this.obsoleteImei,
     required this.productListImei,
     required this.productsImeiSearchText,
   }) : super(
