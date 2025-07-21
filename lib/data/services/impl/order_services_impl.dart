@@ -6,33 +6,36 @@ class OrderServicesImpl implements OrderServices {
   OrderServicesImpl({required this.orderApi});
 
   @override
-  Future<List<OrderModel>> getOrders({
-    String? param,
-    int? orderType,
-    int? status,
-    int? storeId,
-    int? timeId,
-    int? type,
+  Future<PaginatedResponse<OrderModel>> getOrders({
     required int page,
     required int size,
+    int? createdBy,
+    List<int>? searchStores,
+    List<int>? searchStatuses,
+    String? searchPhone,
+    String? searchFromDay,
+    String? searchToDay,
+    String? tabName,
+    String? orderId,
   }) async {
-    List<OrderModel> data = [];
-
     final res = await orderApi.getOrders(
       page: page,
       size: size,
-      param: param,
-      orderType: orderType,
-      status: status,
-      storeId: storeId,
-      timeId: timeId,
-      type: type,
+      createdBy: createdBy,
+      searchStores: searchStores,
+      searchStatuses: searchStatuses,
+      searchPhone: searchPhone,
+      searchFromDay: searchFromDay,
+      searchToDay: searchToDay,
+      tabName: tabName,
+      orderId: orderId,
     );
-    (res.data ?? []).forEach((item) {
-      data.add(OrderModel.fromJson(item));
-    });
 
-    return data;
+    return PaginatedResponse.fromJson(
+      res.data,
+      (json) => OrderModel.fromJson(json),
+      itemsKey: 'dataset',
+    );
   }
 
   @override

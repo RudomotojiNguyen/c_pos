@@ -17,17 +17,19 @@ final class UpdateSearchTypeEvent extends OrderEvent {
 
 final class FilterOrderEvent extends OrderEvent {
   final StatusEnum? status;
-  final FilterBillAndOrderType? type;
-  final FilterTime? time;
   final StoreModel? store;
+  final EmployeeModel? employee;
+  final DateTime? fromDay;
+  final DateTime? toDay;
   final String? searchValue;
   final SearchType? searchType;
 
   FilterOrderEvent({
     this.status,
-    this.type,
-    this.time,
     this.store,
+    this.employee,
+    this.fromDay,
+    this.toDay,
     this.searchValue,
     this.searchType,
   });

@@ -6,28 +6,38 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/enum/enum.dart';
+import '../../../../../../data/models/employee_model.dart';
 import '../../../../../../data/models/store_model.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
+import '../../../employee/bloc/employee_bloc.dart';
 import '../../../store/bloc/store_bloc.dart';
 
 class OrderModalFilter extends StatefulWidget {
-  const OrderModalFilter(
-      {super.key,
-      required this.onFilter,
-      required this.onDefault,
-      required this.status,
-      required this.type,
-      required this.time,
-      this.store});
+  const OrderModalFilter({
+    super.key,
+    required this.onFilter,
+    required this.onDefault,
+    required this.status,
+    required this.employee,
+    required this.fromDay,
+    required this.toDay,
+    this.store,
+  });
 
-  final Function(StatusEnum?, FilterBillAndOrderType?, FilterTime?, StoreModel?)
-      onFilter;
+  final Function({
+    StatusEnum? status,
+    EmployeeModel? employee,
+    DateTime? fromDay,
+    DateTime? toDay,
+    StoreModel? store,
+  }) onFilter;
   final Function() onDefault;
 
   final StatusEnum status;
-  final FilterBillAndOrderType type;
-  final FilterTime time;
+  final EmployeeModel? employee;
+  final DateTime? fromDay;
+  final DateTime? toDay;
   final StoreModel? store;
 
   @override
@@ -36,20 +46,23 @@ class OrderModalFilter extends StatefulWidget {
 
 class _OrderModalFilterState extends State<OrderModalFilter> {
   late ValueNotifier<StatusEnum> status;
-  late ValueNotifier<FilterBillAndOrderType> type;
-  late ValueNotifier<FilterTime> time;
+  late ValueNotifier<EmployeeModel?> employee;
+  late ValueNotifier<DateTime?> fromDay;
+  late ValueNotifier<DateTime?> toDay;
   late ValueNotifier<StoreModel?> store;
 
   final TextEditingController _controller = TextEditingController();
 
   final StoreBloc _storeBloc = getIt.get<StoreBloc>();
+  final EmployeeBloc _employeeBloc = getIt.get<EmployeeBloc>();
 
   @override
   void initState() {
     super.initState();
     status = ValueNotifier(widget.status);
-    type = ValueNotifier(widget.type);
-    time = ValueNotifier(widget.time);
+    employee = ValueNotifier(widget.employee);
+    fromDay = ValueNotifier(widget.fromDay);
+    toDay = ValueNotifier(widget.toDay);
     store = ValueNotifier(widget.store);
     if (widget.store != null) {
       _controller.text = widget.store!.getName;
@@ -59,8 +72,9 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
   @override
   void dispose() {
     status.dispose();
-    type.dispose();
-    time.dispose();
+    employee.dispose();
+    fromDay.dispose();
+    toDay.dispose();
     store.dispose();
     _controller.dispose();
     super.dispose();
@@ -73,13 +87,15 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          _buildEmployee(),
+          BoxSpacer.s8,
+          _buildFromDay(),
+          BoxSpacer.s8,
+          _buildToDay(),
+          BoxSpacer.s8,
           _store(context),
           BoxSpacer.s8,
           _status(context),
-          BoxSpacer.s8,
-          _orderType(context),
-          BoxSpacer.s8,
-          _time(context),
           BoxSpacer.s16,
           _bottom(context)
         ],
@@ -150,8 +166,9 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
           type: XButtonType.secondary,
           onPressed: () {
             status.value = StatusEnum.all;
-            type.value = FilterBillAndOrderType.all;
-            time.value = FilterTime.all;
+            employee.value = null;
+            fromDay.value = null;
+            toDay.value = null;
             store.value = null;
             widget.onDefault();
             Navigator.pop(context);
@@ -162,12 +179,103 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
           padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 32.sp),
           title: 'Lọc',
           onPressed: () {
-            widget.onFilter(status.value, type.value, time.value, store.value);
+            widget.onFilter(
+              status: status.value,
+              employee: employee.value,
+              fromDay: fromDay.value,
+              toDay: toDay.value,
+              store: store.value,
+            );
             Navigator.pop(context);
           },
         ),
       ],
     );
+  }
+
+  Widget _buildEmployee() {
+    return TypeAheadField<EmployeeModel>(
+      controller: _controller,
+      itemBuilder: (context, employee) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
+          child: Text(
+            employee.getFullName,
+            style: AppFont.t.s(),
+          ),
+        );
+      },
+      onSelected: (value) {
+        employee.value = value;
+        _controller.text = value.getFullName;
+      },
+      suggestionsCallback: (search) => _employeeBloc.searchEmployees(
+          value: search, currentEmployees: _employeeBloc.state.employees),
+      constraints: BoxConstraints(maxHeight: 180.sp),
+      emptyBuilder: (context) {
+        return const EmptyDataWidget(
+          emptyMessage: 'Không có nhân viên trùng khớp',
+        );
+      },
+      builder: (context, controller, focusNode) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Nhân viên',
+              style: AppFont.t.s(),
+            ),
+            BoxSpacer.s4,
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.all(AppRadius.l),
+                border: Border.all(width: 1.sp, color: AppColors.dividerColor),
+              ),
+              child: XTextField(
+                controller: controller,
+                focusNode: focusNode,
+                hintText: 'Chọn nhân viên',
+                autoFocus: false,
+                decorationStyle: DecorationStyle.search,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildFromDay() {
+    return ValueListenableBuilder(
+        valueListenable: fromDay,
+        builder: (context, value, _) {
+          return XTextField(
+            labelText: 'Ngày bắt đầu',
+            hintText: 'Chọn ngày bắt đầu',
+            textInputStyle: TextInputStyle.selectSingleDate,
+            dates: [value],
+            onResultDateSelect: (List<DateTime?>? dates) {
+              if ((dates ?? []).isNotEmpty) {
+                fromDay.value = dates?.first;
+              }
+            },
+          );
+        });
+  }
+
+  Widget _buildToDay() {
+    return ValueListenableBuilder(
+        valueListenable: toDay,
+        builder: (context, value, _) {
+          return XTextField(
+            labelText: 'Ngày kết thúc',
+            hintText: 'Chọn ngày kết thúc',
+            textInputStyle: TextInputStyle.selectSingleDate,
+            dates: [value],
+          );
+        });
   }
 
   Widget _status(BuildContext context) {
@@ -200,89 +308,6 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
                         isSelected: value == e,
                         onPressed: () {
                           status.value = e;
-                        },
-                      );
-                    }),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _orderType(BuildContext context) {
-    final List<FilterBillAndOrderType> filterBillAndOrderType = [
-      FilterBillAndOrderType.all,
-      FilterBillAndOrderType.preOrder,
-      FilterBillAndOrderType.api,
-      FilterBillAndOrderType.store,
-      FilterBillAndOrderType.delivery,
-    ];
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Loại',
-          style: AppFont.t.s(),
-        ),
-        BoxSpacer.s4,
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ...filterBillAndOrderType.map(
-                (e) => ValueListenableBuilder(
-                    valueListenable: type,
-                    builder: (context, value, _) {
-                      return _itemFilter(
-                        title: e.getTitle,
-                        isSelected: value == e,
-                        onPressed: () {
-                          type.value = e;
-                        },
-                      );
-                    }),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _time(BuildContext context) {
-    final List<FilterTime> filterTime = [
-      FilterTime.all,
-      FilterTime.today,
-      FilterTime.threeDayAgo,
-      FilterTime.over3DayAgo,
-    ];
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Thời gian',
-          style: AppFont.t.s(),
-        ),
-        BoxSpacer.s4,
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ...filterTime.map(
-                (e) => ValueListenableBuilder(
-                    valueListenable: time,
-                    builder: (context, value, _) {
-                      return _itemFilter(
-                        title: e.getTitle,
-                        isSelected: value == e,
-                        onPressed: () {
-                          time.value = e;
                         },
                       );
                     }),

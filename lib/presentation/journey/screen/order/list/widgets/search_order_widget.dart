@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../common/enum/enum.dart';
 import '../../../../../../common/extensions/extension.dart';
+import '../../../../../../data/models/employee_model.dart';
 import '../../../../../../data/models/store_model.dart';
 import '../../../../../widgets/widgets.dart';
 import '../../bloc/order_bloc.dart';
@@ -40,15 +41,22 @@ class _SearchOrderWidgetState extends State<SearchOrderWidget> {
           hintStr: 'Nhập thông tin tìm kiếm',
           filterWidget: OrderModalFilter(
             status: state.orderFilter.status,
-            time: state.orderFilter.time,
-            type: state.orderFilter.type,
+            employee: state.orderFilter.employee,
+            fromDay: state.orderFilter.fromDay,
+            toDay: state.orderFilter.toDay,
             store: state.orderFilter.store,
-            onFilter: (StatusEnum? status, FilterBillAndOrderType? type,
-                FilterTime? time, StoreModel? store) {
+            onFilter: ({
+              StatusEnum? status,
+              EmployeeModel? employee,
+              DateTime? fromDay,
+              DateTime? toDay,
+              StoreModel? store,
+            }) {
               widget.orderBloc.add(FilterOrderEvent(
                 status: status,
-                type: type,
-                time: time,
+                employee: employee,
+                fromDay: fromDay,
+                toDay: toDay,
                 store: store,
               ));
             },
@@ -63,6 +71,7 @@ class _SearchOrderWidgetState extends State<SearchOrderWidget> {
     );
   }
 
+  ///
   ///
   /// METHOD
   ///

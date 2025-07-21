@@ -115,38 +115,6 @@ class EmployeeModel {
     return data;
   }
 
-  // factory EmployeeModel.fromTable(UserTable table) {
-  //   return EmployeeModel(
-  //     id: table.id,
-  //     code: table.code,
-  //     fullName: table.fullName,
-  //     phoneNo: table.phoneNo,
-  //     birthDay: table.birthDay,
-  //     jobTitleId: table.jobTitleId,
-  //     email: table.email,
-  //     mobile: table.mobile,
-  //     storeId: table.storeId,
-  //     listStoreId: table.listStoreId,
-  //     address: table.address,
-  //     createdAt: table.createdAt,
-  //     updatedAt: table.updatedAt,
-  //     deleted: table.deleted,
-  //     isActive: table.isActive,
-  //     areaId: table.areaId,
-  //     regionId: table.regionId,
-  //     departmentId: table.departmentId,
-  //     personalAllowance: table.personalAllowance,
-  //     selfAllowance: table.selfAllowance,
-  //     dependent: table.dependent,
-  //     commencementDate: table.commencementDate,
-  //     isPayPersonalIncomeTax: table.isPayPersonalIncomeTax,
-  //     departmentUnit: table.departmentUnit,
-  //     transportationAllowanceAmount: table.transportationAllowanceAmount,
-  //     employeeId: table.employeeId,
-  //     storeName: table.storeName,
-  //   );
-  // }
-
   EmployeeModel copyWith({
     int? id,
     String? code,

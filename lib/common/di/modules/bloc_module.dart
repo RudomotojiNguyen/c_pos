@@ -77,7 +77,8 @@ class BlocModule extends DIModule {
           ))
       ..registerLazySingleton(() =>
           DraftingInvoicesBloc(draftingStorage: getIt.get<DraftingStorage>()))
-      ..registerFactory(() => EmployeeBloc(getIt.get<EmployeeRepositories>()))
+      ..registerLazySingleton(
+          () => EmployeeBloc(getIt.get<EmployeeRepositories>()))
       ..registerFactory(() => WarrantyBloc(getIt.get<WarrantyRepositories>()))
       ..registerFactory(() => CouponBloc(
           authBloc: getIt.get<AuthBloc>(),

@@ -155,7 +155,7 @@ class _PaymentApi implements PaymentApi {
     )
         .compose(
           _dio.options,
-          'installments',
+          'v1/installments',
           queryParameters: queryParameters,
           data: _data,
         )

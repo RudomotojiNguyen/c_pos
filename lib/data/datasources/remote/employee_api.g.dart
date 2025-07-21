@@ -22,93 +22,7 @@ class _EmployeeApi implements EmployeeApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<BaseResponse> getEmployees({int? storeId}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'storeId': storeId};
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'employees/mobile',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse _value;
-    try {
-      _value = BaseResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BaseResponse> getEmployeeNote({
-    required int page,
-    required int limit,
-    required int storeId,
-    int? type,
-    String? fromDate,
-    String? toDate,
-    int? saleId,
-    int? status,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'limit': limit,
-      r'storeId': storeId,
-      r'type': type,
-      r'fromDate': fromDate,
-      r'toDate': toDate,
-      r'saleId': saleId,
-      r'status': status,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'bills',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse _value;
-    try {
-      _value = BaseResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BaseResponse> getEmployeesByStoreId({required int storeId}) async {
+  Future<BaseResponse> getEmployees() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -120,7 +34,7 @@ class _EmployeeApi implements EmployeeApi {
     )
         .compose(
           _dio.options,
-          'employees/mobile?storeId=${storeId}',
+          'v1/employees/all',
           queryParameters: queryParameters,
           data: _data,
         )

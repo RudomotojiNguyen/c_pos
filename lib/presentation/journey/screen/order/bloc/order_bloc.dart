@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enum/enum.dart';
+import '../../../../../data/models/employee_model.dart';
 import '../../../../../data/models/filter/order_filter_model.dart';
 import '../../../../../data/models/order_model.dart';
 import '../../../../../data/models/response/page_info_entity.dart';
+import '../../../../../data/models/response/paginated_response.dart';
 import '../../../../../data/models/store_model.dart';
 import '../../../../../data/repository/order_repository.dart';
 import '../../../../mixins/logger_helper.dart';
@@ -75,8 +77,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           state: state,
           orderFilter: state.orderFilter.copyWidth(
             status: event.status,
-            type: event.type,
-            time: event.time,
+            employee: event.employee,
+            fromDay: event.fromDay,
+            toDay: event.toDay,
             searchValue: event.searchValue,
             store: event.store,
             searchType: event.searchType,
@@ -91,23 +94,24 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     try {
       emit(UpdateLoading(state: state));
 
-      final res = await _getOrders(
+      final PaginatedResponse<OrderModel> res = await _getOrders(
         page: 1,
         limit: state.pageInfo.getLimit,
-        searchValue: state.orderFilter.searchValue,
-        orderType: state.orderFilter.getOrderTypeValue,
-        storeId: state.orderFilter.getStoreId,
-        timeId: state.orderFilter.getTimeValue,
-        type: state.orderFilter.getSearchTypeValue,
-        status: state.orderFilter.getStatusValue,
+        createdBy: state.orderFilter.getCreatedBy,
+        searchStores: state.orderFilter.getStores,
+        searchPhone: state.orderFilter.getSearchValueByPhone,
+        orderId: state.orderFilter.getSearchValueByOrderId,
+        searchFromDay: state.orderFilter.getSearchFromDay,
+        searchToDay: state.orderFilter.getSearchToDay,
+        searchStatuses: state.orderFilter.getStatuses,
       );
 
       emit(GetOrderSuccess(
         state: state,
-        orders: res,
+        orders: res.items,
         pageInfo: state.pageInfo.copyWith(
           page: 1,
-          itemCount: res.length,
+          itemCount: res.items.length,
         ),
       ));
     } catch (e) {
@@ -137,20 +141,21 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       final res = await _getOrders(
         page: page,
         limit: state.pageInfo.getLimit,
-        searchValue: state.orderFilter.searchValue,
-        orderType: state.orderFilter.getOrderTypeValue,
-        storeId: state.orderFilter.getStoreId,
-        timeId: state.orderFilter.getTimeValue,
-        type: state.orderFilter.getSearchTypeValue,
-        status: state.orderFilter.getStatusValue,
+        createdBy: state.orderFilter.getCreatedBy,
+        searchStores: state.orderFilter.getStores,
+        searchPhone: state.orderFilter.getSearchValueByPhone,
+        orderId: state.orderFilter.getSearchValueByOrderId,
+        searchFromDay: state.orderFilter.getSearchFromDay,
+        searchToDay: state.orderFilter.getSearchToDay,
+        searchStatuses: state.orderFilter.getStatuses,
       );
 
       emit(GetOrderSuccess(
         state: state,
-        orders: [...state.orders, ...res],
+        orders: [...state.orders, ...res.items],
         pageInfo: state.pageInfo.copyWith(
           page: page,
-          itemCount: res.length,
+          itemCount: res.items.length,
         ),
       ));
     } catch (e) {
@@ -159,42 +164,29 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   ///
-  Future<List<OrderModel>> getOrders({
-    required int page,
-    required int size,
-    required String id,
-  }) async {
-    try {
-      final res = await _getOrders(
-          page: 1,
-          limit: size,
-          searchValue: id,
-          type: SearchType.orderId.getValue);
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
 
-  Future<List<OrderModel>> _getOrders({
+  Future<PaginatedResponse<OrderModel>> _getOrders({
     required int limit,
     required int page,
-    String? searchValue,
-    int? orderType,
-    int? storeId,
-    int? timeId,
-    int? type,
-    int? status,
+    String? orderId,
+    int? createdBy,
+    List<StoreModel>? searchStores,
+    List<int>? searchStatuses,
+    String? searchPhone,
+    String? searchFromDay,
+    String? searchToDay,
   }) async {
     return await orderRepository.getOrders(
       page: page,
       size: limit,
-      param: searchValue,
-      orderType: orderType,
-      storeId: storeId,
-      timeId: timeId,
-      type: type,
-      status: status,
+      createdBy: createdBy,
+      searchStores: searchStores,
+      searchStatuses: searchStatuses,
+      searchPhone: searchPhone,
+      searchFromDay: searchFromDay,
+      searchToDay: searchToDay,
+      tabName: 'all',
+      orderId: orderId,
     );
   }
 }

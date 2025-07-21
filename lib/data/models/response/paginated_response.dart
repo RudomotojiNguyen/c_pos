@@ -21,7 +21,8 @@ class PaginatedResponse<T> {
       items: (json[itemsKey] as List<dynamic>)
           .map((item) => fromJsonT(item as Map<String, dynamic>))
           .toList(),
-      totalPages: json['totalPages'] ?? json['total_page'] ?? 1,
+      totalPages:
+          json['totalPages'] ?? json['total_page'] ?? json['pages'] ?? 1,
       currentPage: json['currentPage'] ?? json['in_page'] ?? 1,
     );
   }

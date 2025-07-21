@@ -8,15 +8,17 @@ import '../models/response/paginated_response.dart';
 part 'impl/order_services_impl.dart';
 
 abstract class OrderServices {
-  Future<List<OrderModel>> getOrders({
-    String? param,
-    int? orderType,
-    int? status,
-    int? storeId,
-    int? timeId,
-    int? type,
+  Future<PaginatedResponse<OrderModel>> getOrders({
     required int page,
     required int size,
+    int? createdBy,
+    List<int>? searchStores,
+    List<int>? searchStatuses,
+    String? searchPhone,
+    String? searchFromDay,
+    String? searchToDay,
+    String? tabName,
+    String? orderId,
   });
 
   Future<OrderModel> getOrderDetail(String orderId);

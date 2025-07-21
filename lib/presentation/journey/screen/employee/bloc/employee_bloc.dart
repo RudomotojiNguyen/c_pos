@@ -25,8 +25,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       GetEmployeesEvent event, Emitter<EmployeeState> emit) async {
     try {
       emit(UpdateLoadingState(state: state, isLoading: true));
-      final res =
-          await employeeRepositories.getEmployees(storeId: event.storeId);
+      final res = await employeeRepositories.getEmployees();
       emit(UpdateEmployeesData(state: state, employees: res));
     } catch (e) {
       _loggerHelper.logError(message: 'GetEmployeesEvent', obj: e);
@@ -34,7 +33,9 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       emit(UpdateLoadingState(state: state, isLoading: false));
     }
   }
+}
 
+extension EmployeeBlocExtension on EmployeeBloc {
   List<EmployeeModel> searchEmployees({
     String? value,
     List<EmployeeModel> currentEmployees = const [],

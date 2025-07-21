@@ -6,7 +6,7 @@ class EmployeeRepositoriesImpl implements EmployeeRepositories {
   EmployeeRepositoriesImpl({required this.employeeServices});
 
   @override
-  Future<List<EmployeeModel>> getEmployees({int? storeId}) {
-    return employeeServices.getEmployees(storeId: storeId);
+  Future<List<EmployeeModel>> getEmployees() {
+    return employeeServices.getEmployees();
   }
 }

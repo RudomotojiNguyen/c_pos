@@ -11,29 +11,6 @@ abstract class EmployeeApi {
 
   /// lấy danh sách nhân viên
   ///
-  @GET('employees/mobile')
-  Future<BaseResponse> getEmployees({
-    @Query('storeId') int? storeId,
-  });
-
-  ///
-  ///
-  @GET('bills')
-  Future<BaseResponse> getEmployeeNote({
-    @Query('page') required int page,
-    @Query('limit') required int limit,
-    @Query('storeId') required int storeId,
-    @Query('type') int? type,
-    @Query('fromDate') String? fromDate,
-    @Query('toDate') String? toDate,
-    @Query('saleId') int? saleId,
-    @Query('status') int? status,
-  });
-
-  /// lấy ds nhân viên theo store
-  ///
-  @GET('employees/mobile?storeId={storeId}')
-  Future<BaseResponse> getEmployeesByStoreId({
-    @Path() required int storeId,
-  });
+  @GET('v1/employees/all')
+  Future<BaseResponse> getEmployees();
 }

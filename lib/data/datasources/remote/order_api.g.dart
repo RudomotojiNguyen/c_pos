@@ -23,25 +23,29 @@ class _OrderApi implements OrderApi {
 
   @override
   Future<BaseResponse> getOrders({
-    String? param,
-    int? orderType,
-    int? status,
-    int? storeId,
-    int? timeId,
     required int page,
     required int size,
-    int? type,
+    int? createdBy,
+    List<int>? searchStores,
+    List<int>? searchStatuses,
+    String? searchPhone,
+    String? searchFromDay,
+    String? searchToDay,
+    String? tabName,
+    String? orderId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'param': param,
-      r'orderType': orderType,
-      r'status': status,
-      r'storeId': storeId,
-      r'timeId': timeId,
       r'page': page,
-      r'size': size,
-      r'type': type,
+      r'pageSize': size,
+      r'createdBy': createdBy,
+      r'searchStore': searchStores,
+      r'searchStatus': searchStatuses,
+      r'searchPhone': searchPhone,
+      r'searchFromDay': searchFromDay,
+      r'searchToDay': searchToDay,
+      r'tabName': tabName,
+      r'id': orderId,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -53,7 +57,7 @@ class _OrderApi implements OrderApi {
     )
         .compose(
           _dio.options,
-          'orders/mobile',
+          'v1/orders',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -261,7 +265,7 @@ class _OrderApi implements OrderApi {
     )
         .compose(
           _dio.options,
-          'orders/v2',
+          'v1/orders',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -295,7 +299,7 @@ class _OrderApi implements OrderApi {
     )
         .compose(
           _dio.options,
-          'orders/v2',
+          'v1/orders',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -332,7 +336,7 @@ class _OrderApi implements OrderApi {
     )
         .compose(
           _dio.options,
-          'orders/v2',
+          'v1/orders',
           queryParameters: queryParameters,
           data: _data,
         )

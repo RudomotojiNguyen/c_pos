@@ -364,8 +364,8 @@ class OrderModel {
     // Chuỗi thời gian gốc
     String originalDateTime = createdAt!;
 
-    // Định dạng chuỗi thời gian gốc
-    DateFormat originalFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    // Định dạng chuỗi thời gian gốc "2025-07-20T07:11:30.000Z"
+    DateFormat originalFormat = DateFormat('yyyy-MM-ddTHH:mm:ss.SSS');
     // Định dạng chuỗi thời gian mới
     DateFormat desiredFormat = DateFormat('HH:mm, dd/MM/yyyy');
 

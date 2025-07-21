@@ -6,8 +6,8 @@ class EmployeeServicesImpl implements EmployeeServices {
   EmployeeServicesImpl({required this.employeeApi});
 
   @override
-  Future<List<EmployeeModel>> getEmployees({int? storeId}) {
-    return employeeApi.getEmployees(storeId: storeId).then(
+  Future<List<EmployeeModel>> getEmployees() {
+    return employeeApi.getEmployees().then(
       (value) {
         List<EmployeeModel> data = [];
 

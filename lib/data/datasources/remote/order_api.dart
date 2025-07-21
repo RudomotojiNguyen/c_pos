@@ -11,16 +11,18 @@ abstract class OrderApi {
 
   /// lấy chi danh sách đơn hàng
   ///
-  @GET('orders/mobile')
+  @GET('v1/orders')
   Future<BaseResponse> getOrders({
-    @Query('param') String? param,
-    @Query('orderType') int? orderType,
-    @Query('status') int? status,
-    @Query('storeId') int? storeId,
-    @Query('timeId') int? timeId,
     @Query('page') required int page,
-    @Query('size') required int size,
-    @Query('type') int? type,
+    @Query('pageSize') required int size,
+    @Query('createdBy') int? createdBy,
+    @Query('searchStore') List<int>? searchStores,
+    @Query('searchStatus') List<int>? searchStatuses,
+    @Query('searchPhone') String? searchPhone,
+    @Query('searchFromDay') String? searchFromDay, // YYYY-MM-DD
+    @Query('searchToDay') String? searchToDay, // YYYY-MM-DD
+    @Query('tabName') String? tabName,
+    @Query('id') String? orderId,
   });
 
   /// lấy đơn hàng theo khách hàng
@@ -49,7 +51,6 @@ abstract class OrderApi {
   /// lấy nguồn đơn hàng
   ///
   @GET('v1/order-sources')
-  // @GET('orderSources/getAll')
   Future<BaseResponse> getOrderSources({
     @Query('status') int status = 1,
   });
@@ -63,19 +64,19 @@ abstract class OrderApi {
 
   /// tạo đơn hàng
   ///
-  @POST('orders/v2')
+  @POST('v1/orders')
   Future<BaseResponse> createOrder(@Body() Map<String, dynamic> data);
 
   /// cập nhật đơn hàng
   ///
-  @PUT('orders/v2')
+  @PUT('v1/orders')
   Future<BaseResponse> updateOrder(
     @Body() Map<String, dynamic> data,
   );
 
   /// cập nhật trạng thái đơn hàng
   ///
-  @PUT('orders/v2')
+  @PUT('v1/orders')
   Future<BaseResponse> updateOrderStatus({
     @Body() required Map<String, dynamic> data,
     @Query('orderId') required int orderId,
