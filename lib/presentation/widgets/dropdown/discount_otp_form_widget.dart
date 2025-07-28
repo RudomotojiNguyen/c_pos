@@ -12,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/configs/box.dart';
 import '../../../common/configs/configurations.dart';
 import '../../../common/enum/enum.dart';
-import '../../../data/models/customer_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../journey/screen/customer/bloc/customer_bloc.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';

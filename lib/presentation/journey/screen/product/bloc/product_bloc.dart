@@ -5,24 +5,18 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/filter/filter_imei_history_model.dart';
-import '../../../../../data/models/imei_history_model.dart';
-import '../../../../../data/models/imei_transaction_model.dart';
-import '../../../../../data/models/product_imei_model.dart';
-import '../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../data/models/store_model.dart';
-import '../../../../../data/models/trade_in_transaction_model.dart';
-import '../../../../../data/repository/product_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final ProductRepository productRepository;
+  final ProductServices productServices;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
-  ProductBloc(this.productRepository)
+  ProductBloc(this.productServices)
       : super(ProductInitial(
           pageInfo: PageInfoEntity(),
           filterImeiHistory: const FilterImeiHistoryModel(),
@@ -143,7 +137,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           (state as GetImeiTransactionSuccess).listImeiTransaction;
     }
     try {
-      final res = await productRepository.getImeiHistoryTransaction(
+      final res = await productServices.getImeiHistoryTransaction(
         imei: event.imei,
         page: page,
         limit: state.pageInfo.getLimit,
@@ -168,7 +162,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       GetImeiTransactionEvent event, Emitter<ProductState> emit) async {
     try {
       emit(IsLoading(state: state));
-      final res = await productRepository.getImeiHistoryTransaction(
+      final res = await productServices.getImeiHistoryTransaction(
         imei: event.imei,
         page: 1,
         limit: state.pageInfo.getLimit,
@@ -192,7 +186,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try {
       emit(IsLoading(state: state));
       final res =
-          await productRepository.getImeiTradeinTransaction(imei: event.imei);
+          await productServices.getImeiTradeinTransaction(imei: event.imei);
 
       emit(GetTradeinTransactionSuccess(
           state: state, listTradeinTransaction: res));
@@ -206,7 +200,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try {
       emit(IsLoading(state: state));
 
-      final res = await productRepository.getImeiHistory(
+      final res = await productServices.getImeiHistory(
         page: 1,
         limit: state.pageInfo.getLimit,
         search: state.filterImeiHistory.search ?? '',
@@ -238,7 +232,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try {
       if (state is GetDataImeiHistorySuccess) {
         final page = state.pageInfo.getNextPage;
-        final res = await productRepository.getImeiHistory(
+        final res = await productServices.getImeiHistory(
           page: page,
           limit: state.pageInfo.getLimit,
           search: state.filterImeiHistory.search ?? '',
@@ -302,7 +296,7 @@ extension ProductBlocExtension on ProductBloc {
     int? storeId,
   ) async {
     try {
-      final res = await productRepository.getImei(
+      final res = await productServices.getImei(
         productId: productId,
         storeId: storeId,
       );

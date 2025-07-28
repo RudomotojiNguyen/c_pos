@@ -32,7 +32,8 @@ class StoreServicesImpl implements StoreServices {
   }
 
   @override
-  Future<bool> changeStore(Map<String, dynamic> params) {
+  Future<bool> changeStore({required int storeId}) {
+    final params = {"storeId": storeId};
     return storeApi.changeStore(params).then((res) {
       return res.checkIsSuccess;
     });
@@ -63,7 +64,18 @@ class StoreServicesImpl implements StoreServices {
   }
 
   @override
-  Future<bool> createSwitchStore(Map<String, dynamic> params) {
+  Future<bool> createSwitchStore({
+    required int employeeId,
+    required int currentStoreId,
+    required int targetStoreId,
+    required String description,
+  }) {
+    var params = {
+      "employeeId": employeeId,
+      "currentStoreId": currentStoreId,
+      "targetStoreId": targetStoreId,
+      "description": description,
+    };
     return storeApi.createSwitchStore(params).then((res) {
       return res.checkIsSuccess;
     });

@@ -9,7 +9,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/category_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../category/bloc/category_bloc.dart';

@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:isar/isar.dart';
+import 'package:c_pos/data/models/models.dart';
 
 import '../../../../common/enum/enum.dart';
-import '../../../models/accountant_model.dart';
-import '../../../models/installment_accounting_model.dart';
 
 part 'payment_method_table.g.dart';
 

@@ -1,5 +1,5 @@
 import '../../presentation/utils/utils.dart';
-import '../datasources/remote/customer_api.dart';
+import '../datasources/remote/api_remote.dart';
 import '../models/customer_model.dart';
 import '../models/response/paginated_response.dart';
 
@@ -15,10 +15,16 @@ abstract class CustomerServices {
 
   Future<CustomerModel> getCustomerInfoById({required int customerId});
 
-  Future<(String, double)> getCustomerOTPToChangePoint(
-      Map<String, dynamic> params);
+  Future<(String, double)> getCustomerOTPToChangePoint({
+    required int customerId,
+    required int pointUse,
+  });
 
-  Future<double> checkOTPUsePoint(Map<String, dynamic> params);
+  Future<double> checkOTPUsePoint({
+    required int customerId,
+    required String otpCode,
+    required int pointUse,
+  });
 
   Future<bool> updateCustomerInfo({
     required Map<String, dynamic> params,

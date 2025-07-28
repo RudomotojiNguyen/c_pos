@@ -1,5 +1,4 @@
 import 'package:c_pos/common/extensions/extension.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/enum/enum.dart';
@@ -14,34 +13,14 @@ import 'product_model.dart';
 import 'store_model.dart';
 
 class OrderModel {
-  int? createdBy;
-  String? createdByName;
-  String? statusName;
-  int? billNumber;
-  int? totalDeposit;
-  double? subtractPointAmount;
-  double? totalAmount;
-  double? totalAmountFinal;
-  String? payCreditFeeTypeName;
-  int? customerCity;
-  int? customerDistrist;
-  int? customerWard;
-  String? customerEmail;
-  int? customerGender;
-  String? customerDOB;
-  int? customerPoint;
-  XCustomerType? customerType;
-  int? customerAppellation;
-  String? checkDate;
-  String? createdAt;
   int? id;
   int? storeId;
   int? orderSourceId;
   int? saleId;
   String? saleNote;
+  String? checkDate;
   String? checkTime;
   int? orderType;
-  String? orderTypeName;
   int? status;
   int? cancelStatus;
   int? customerId;
@@ -53,6 +32,7 @@ class OrderModel {
   double? discountAmount;
   double? transferAmount;
   double? depositAmount;
+  double? totalAmount;
   String? paymentDate;
   double? customerShipFee;
   double? shipFee;
@@ -61,8 +41,13 @@ class OrderModel {
   String? transferCode;
   int? installMoneyAccountId;
   String? installMoneyCode;
+  int? deleted;
+  String? createdAt;
+  String? updatedAt;
   String? codeShip;
   int? promotionId;
+  int? checkStatus;
+  int? createdBy;
   int? updatedBy;
   int? companyId;
   String? transferReferenceCode;
@@ -70,77 +55,66 @@ class OrderModel {
   String? creditCardNo;
   int? payCreditFeeType;
   String? creditFeeNote;
-  int? creditFeeAccountId;
-  String? customerTransferNo;
-  String? customerBankName;
   double? installedMoneyAmount;
-  String? customerIndentifyNo;
+  String? customerTransferNo;
+  int? creditFeeAcountId;
+  String? customerBankName;
   double? creditAmount;
+  String? customerIndentifyNo;
   int? creditAccountId;
   String? creditCode;
   int? insertType;
-  String? vatCompanyName;
-  String? vatCompanyAddress;
-  String? taxCode;
-  String? email;
-  int? addPoint;
-  int? subtractPoint;
+  List<OrderItemModel>? orderItems;
   String? couponCode;
-  int? preOrderId;
-  double? pointAmount;
-  int? installmentProgramId;
-  String? installmentProgramMonthNo;
-  int? loanApplicationId;
-  int? installApplicationStatus;
+  int? subtractPoint;
   int? partnerPaymentStatus;
   String? warrantyNote;
   int? jobTitleId;
   int? saleStoreId;
   int? technicalId;
-  String? technicalName;
+  int? loanApplicationId;
+  int? installApplicationStatus;
+  double? pointAmount;
+  bool? isInterestZero;
+  int? installmentProgramId;
+  String? installmentProgramMonthNo;
   String? installmentProgramPrepayPercent;
-  double? conversionFee;
-  String? affiliateCode;
+  int? conversionFee;
+  String? orderTypeName;
+  String? statusName;
+  String? cancelStatusName;
+  String? insertTypeName;
+  int? orderId;
+  String? createdByName;
   String? cashAccountName;
-  String? creditAccountName;
   String? transferAccountName;
+  String? creditAccountName;
+  String? creditFeeAccountName;
   String? installMoneyAccountName;
-  String? installmentProgramName;
-  String? orderSourceName;
+  String? installmentProgram;
+  bool? editable;
+  int? customerCity;
+  int? customerDistrict;
+  int? customerWard;
+  XCustomerType? customerType;
+  bool? companyBill;
+  double? subtractPointAmount;
   String? storeName;
-  String? saleName;
-  List<OrderItemModel>? orderItems;
+  String? orderSourceName;
+  String? keepStockStatusName;
+  String? saleStoreName;
+  String? technicalName;
   List<PaymentModel>? payments;
 
   OrderModel({
-    this.createdBy,
-    this.createdByName,
-    this.statusName,
-    this.billNumber,
-    this.totalDeposit,
-    this.subtractPointAmount,
-    this.totalAmount,
-    this.totalAmountFinal,
-    this.payCreditFeeTypeName,
-    this.customerCity,
-    this.customerDistrist,
-    this.customerWard,
-    this.customerEmail,
-    this.customerGender,
-    this.customerDOB,
-    this.customerPoint,
-    this.customerType,
-    this.customerAppellation,
-    this.checkDate,
-    this.createdAt,
     this.id,
     this.storeId,
     this.orderSourceId,
     this.saleId,
     this.saleNote,
+    this.checkDate,
     this.checkTime,
     this.orderType,
-    this.orderTypeName,
     this.status,
     this.cancelStatus,
     this.customerId,
@@ -152,6 +126,7 @@ class OrderModel {
     this.discountAmount,
     this.transferAmount,
     this.depositAmount,
+    this.totalAmount,
     this.paymentDate,
     this.customerShipFee,
     this.shipFee,
@@ -160,8 +135,13 @@ class OrderModel {
     this.transferCode,
     this.installMoneyAccountId,
     this.installMoneyCode,
+    this.deleted,
+    this.createdAt,
+    this.updatedAt,
     this.codeShip,
     this.promotionId,
+    this.checkStatus,
+    this.createdBy,
     this.updatedBy,
     this.companyId,
     this.transferReferenceCode,
@@ -169,78 +149,67 @@ class OrderModel {
     this.creditCardNo,
     this.payCreditFeeType,
     this.creditFeeNote,
-    this.creditFeeAccountId,
-    this.customerTransferNo,
-    this.customerBankName,
     this.installedMoneyAmount,
-    this.customerIndentifyNo,
+    this.customerTransferNo,
+    this.creditFeeAcountId,
+    this.customerBankName,
     this.creditAmount,
+    this.customerIndentifyNo,
     this.creditAccountId,
     this.creditCode,
     this.insertType,
-    this.vatCompanyName,
-    this.vatCompanyAddress,
-    this.taxCode,
-    this.email,
-    this.addPoint,
-    this.subtractPoint,
+    this.orderItems,
     this.couponCode,
-    this.preOrderId,
-    this.pointAmount,
-    this.installmentProgramId,
-    this.installmentProgramMonthNo,
-    this.loanApplicationId,
-    this.installApplicationStatus,
+    this.subtractPoint,
     this.partnerPaymentStatus,
     this.warrantyNote,
     this.jobTitleId,
     this.saleStoreId,
     this.technicalId,
-    this.technicalName,
+    this.loanApplicationId,
+    this.installApplicationStatus,
+    this.pointAmount,
+    this.isInterestZero,
+    this.installmentProgramId,
+    this.installmentProgramMonthNo,
     this.installmentProgramPrepayPercent,
     this.conversionFee,
-    this.affiliateCode,
+    this.orderTypeName,
+    this.statusName,
+    this.cancelStatusName,
+    this.insertTypeName,
+    this.orderId,
+    this.createdByName,
     this.cashAccountName,
-    this.creditAccountName,
     this.transferAccountName,
+    this.creditAccountName,
+    this.creditFeeAccountName,
     this.installMoneyAccountName,
-    this.installmentProgramName,
-    this.orderSourceName,
+    this.installmentProgram,
+    this.editable,
+    this.customerCity,
+    this.customerDistrict,
+    this.customerWard,
+    this.customerType,
+    this.companyBill,
+    this.subtractPointAmount,
     this.storeName,
-    this.saleName,
-    this.orderItems,
+    this.orderSourceName,
+    this.keepStockStatusName,
+    this.saleStoreName,
+    this.technicalName,
     this.payments,
   });
 
   OrderModel.fromJson(Map<String, dynamic> json) {
-    createdBy = json['createdBy'];
-    createdByName = json['createdByName'];
-    statusName = json['statusName'];
-    billNumber = json['billNumber'];
-    totalDeposit = json['totalDeposit'];
-    subtractPointAmount = Utils.toDouble(json['subtractPointAmount']);
-    totalAmount = Utils.toDouble(json['totalAmount']);
-    totalAmountFinal = Utils.toDouble(json['totalAmountFinal']);
-    payCreditFeeTypeName = json['payCreditFeeTypeName'];
-    customerCity = json['customerCity'];
-    customerDistrist = json['customerDistrist'];
-    customerWard = json['customerWard'];
-    customerEmail = json['customerEmail'];
-    customerGender = json['customerGender'];
-    customerDOB = json['customerDOB'];
-    customerPoint = json['customerPoint'];
-    customerType = (json['customerType'] as int?)?.getCustomerType;
-    customerAppellation = json['customerAppellation'];
-    checkDate = json['checkDate'];
-    createdAt = json['createdAt'];
     id = json['id'];
     storeId = json['storeId'];
     orderSourceId = json['orderSourceId'];
     saleId = json['saleId'];
     saleNote = json['saleNote'];
+    checkDate = json['checkDate'];
     checkTime = json['checkTime'];
     orderType = json['orderType'];
-    orderTypeName = json['orderTypeName'];
     status = json['status'];
     cancelStatus = json['cancelStatus'];
     customerId = json['customerId'];
@@ -252,6 +221,7 @@ class OrderModel {
     discountAmount = Utils.toDouble(json['discountAmount']);
     transferAmount = Utils.toDouble(json['transferAmount']);
     depositAmount = Utils.toDouble(json['depositAmount']);
+    totalAmount = Utils.toDouble(json['totalAmount']);
     paymentDate = json['paymentDate'];
     customerShipFee = Utils.toDouble(json['customerShipFee']);
     shipFee = Utils.toDouble(json['shipFee']);
@@ -260,8 +230,13 @@ class OrderModel {
     transferCode = json['transferCode'];
     installMoneyAccountId = json['installMoneyAccountId'];
     installMoneyCode = json['installMoneyCode'];
+    deleted = json['deleted'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
     codeShip = json['codeShip'];
     promotionId = json['promotionId'];
+    checkStatus = json['checkStatus'];
+    createdBy = json['createdBy'];
     updatedBy = json['updatedBy'];
     companyId = json['companyId'];
     transferReferenceCode = json['transferReferenceCode'];
@@ -269,51 +244,60 @@ class OrderModel {
     creditCardNo = json['creditCardNo'];
     payCreditFeeType = json['payCreditFeeType'];
     creditFeeNote = json['creditFeeNote'];
-    creditFeeAccountId = json['creditFeeAcountId'];
-    customerTransferNo = json['customerTransferNo'];
-    customerBankName = json['customerBankName'];
     installedMoneyAmount = Utils.toDouble(json['installedMoneyAmount']);
-    customerIndentifyNo = json['customerIndentifyNo'];
+    customerTransferNo = json['customerTransferNo'];
+    creditFeeAcountId = json['creditFeeAcountId'];
+    customerBankName = json['customerBankName'];
     creditAmount = Utils.toDouble(json['creditAmount']);
+    customerIndentifyNo = json['customerIndentifyNo'];
     creditAccountId = json['creditAccountId'];
     creditCode = json['creditCode'];
     insertType = json['insertType'];
-    vatCompanyName = json['vatCompanyName'];
-    vatCompanyAddress = json['vatCompanyAddress'];
-    taxCode = json['taxCode'];
-    email = json['email'];
-    addPoint = json['addPoint'];
-    subtractPoint = json['subtractPoint'];
-    couponCode = json['couponCode'];
-    preOrderId = json['preOrderId'];
-    pointAmount = Utils.toDouble(json['pointAmount']);
-    installmentProgramId = json['installmentProgramId'];
-    installmentProgramMonthNo = json['installmentProgramMonthNo'];
-    loanApplicationId = json['loanApplicationId'];
-    installApplicationStatus = json['installApplicationStatus'];
-    partnerPaymentStatus = json['partnerPaymentStatus'];
-    warrantyNote = json['warrantyNote'];
-    jobTitleId = json['jobTitleId'];
-    saleStoreId = json['saleStoreId'];
-    technicalId = json['technicalId'];
-    technicalName = json['technicalName'];
-    installmentProgramPrepayPercent = json['installmentProgramPrepayPercent'];
-    conversionFee = Utils.toDouble(json['conversionFee']);
-    affiliateCode = json['affiliateCode'];
-    cashAccountName = json['cashAccountName'];
-    creditAccountName = json['creditAccountName'];
-    transferAccountName = json['transferAccountName'];
-    installMoneyAccountName = json['installMoneyAccountName'];
-    installmentProgramName = json['installmentProgramName'];
-    orderSourceName = json['orderSourceName'];
-    storeName = json['storeName'];
-    saleName = json['saleName'];
     if (json['orderItems'] != null) {
       orderItems = <OrderItemModel>[];
       json['orderItems'].forEach((v) {
         orderItems!.add(OrderItemModel.fromJson(v));
       });
     }
+    couponCode = json['couponCode'];
+    subtractPoint = json['subtractPoint'];
+    partnerPaymentStatus = json['partnerPaymentStatus'];
+    warrantyNote = json['warrantyNote'];
+    jobTitleId = json['jobTitleId'];
+    saleStoreId = json['saleStoreId'];
+    technicalId = json['technicalId'];
+    loanApplicationId = json['loanApplicationId'];
+    installApplicationStatus = json['installApplicationStatus'];
+    pointAmount = Utils.toDouble(json['pointAmount']);
+    isInterestZero = json['isInterestZero'];
+    installmentProgramId = json['installmentProgramId'];
+    installmentProgramMonthNo = json['installmentProgramMonthNo'];
+    installmentProgramPrepayPercent = json['installmentProgramPrepayPercent'];
+    conversionFee = json['conversionFee'];
+    orderTypeName = json['orderTypeName'];
+    statusName = json['statusName'];
+    cancelStatusName = json['cancelStatusName'];
+    insertTypeName = json['insertTypeName'];
+    orderId = json['orderId'];
+    createdByName = json['createdByName'];
+    cashAccountName = json['cashAccountName'];
+    transferAccountName = json['transferAccountName'];
+    creditAccountName = json['creditAccountName'];
+    creditFeeAccountName = json['creditFeeAccountName'];
+    installMoneyAccountName = json['installMoneyAccountName'];
+    installmentProgram = json['installmentProgram'];
+    editable = json['editable'];
+    customerCity = json['customerCity'];
+    customerDistrict = json['customerDistrict'];
+    customerWard = json['customerWard'];
+    customerType = (json['customerType'] as int?)?.getCustomerType;
+    companyBill = json['companyBill'];
+    subtractPointAmount = Utils.toDouble(json['subtractPointAmount']);
+    storeName = json['storeName'];
+    orderSourceName = json['orderSourceName'];
+    keepStockStatusName = json['keepStockStatusName'];
+    saleStoreName = json['saleStoreName'];
+    technicalName = json['technicalName'];
     if (json['payments'] != null) {
       payments = <PaymentModel>[];
       json['payments'].forEach((v) {
@@ -327,9 +311,9 @@ class OrderModel {
             productType: e.productType,
             productName: e.getName,
             imeiNo: e.getImeiNo,
-            sellingPrice: e.getSellingPrice,
-            discountAmount: e.getDiscountPrice,
-            discountPrice: e.getDiscountPrice,
+            sellingPrice: e.productPrice,
+            discountAmount: e.discountAmount,
+            discountPrice: e.discountAmount,
             quantity: e.getQuantity,
           ))
       .toList();
@@ -356,6 +340,14 @@ class OrderModel {
 
   String get getCustomerBirthDate => '';
 
+  String get getOrderSource => orderSourceName ?? '';
+
+  String get getOrderType => orderTypeName ?? '';
+
+  String get getCheckDate => checkDate ?? '';
+
+  String get getCheckTime => checkTime ?? '';
+
   String get getSubtractPoint => (subtractPoint ?? 0).formatNumber;
 
   String get getCreateDate {
@@ -378,7 +370,7 @@ class OrderModel {
     return formattedDateTime; // Output: 01:12, 20/05/2024
   }
 
-  double get getTotalAmount => totalAmount ?? 0;
+  double get getTotalAmount => totalAmount ?? -1;
 
   StatusEnum get getOrderStatus => status?.getStatusEnum ?? StatusEnum.none;
 
@@ -398,11 +390,11 @@ class OrderModel {
       .where((e) => e.paymentType == PaymentTransaction.installment.getValue)
       .toList();
 
-  double get getTotalAmountFinal => totalAmountFinal ?? 0;
+  double get getTotalAmountFinal => totalAmount ?? 0;
 
   EmployeeModel get getSaleInfo => EmployeeModel(
         id: saleId ?? createdBy,
-        fullName: saleName ?? createdByName,
+        fullName: createdByName,
       );
 
   EmployeeModel get getTechInfo => EmployeeModel(
@@ -471,10 +463,13 @@ class OrderModel {
     return null;
   }
 
-  TimeOfDay get getTimeComeToShop {
-    DateTime current =
-        checkTime.isNullOrEmpty ? DateTime.now() : checkTime!.convertToDateTime;
-    return TimeOfDay(hour: current.hour, minute: current.minute);
+  DateTime get getTimeComeToShop {
+    // checkTime có dạng
+    // web tạo -> "HH:mm"
+    // mobile tạo -> "2025-06-05T06:30:19.288Z"
+    return checkTime.isNullOrEmpty
+        ? DateTime.now()
+        : checkTime!.convertHourMinuteToDateTime;
   }
 
   StoreModel get getStore => StoreModel(

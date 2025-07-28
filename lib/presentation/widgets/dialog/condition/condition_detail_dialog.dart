@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common/configs/box.dart';
 import '../../../../common/constants/go_router.dart';
 import '../../../../common/extensions/extension.dart';
-import '../../../../data/models/commission_detail_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../gen/gen.dart';
 import '../../../journey/router.dart';
 import '../../../journey/screen/commission/bloc/affiliate_bloc.dart';

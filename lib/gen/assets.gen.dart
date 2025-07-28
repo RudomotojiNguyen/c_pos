@@ -106,6 +106,10 @@ class $AssetsSvgGen {
   /// File path: assets/svg/checklist.svg
   SvgGenImage get checklist => const SvgGenImage('assets/svg/checklist.svg');
 
+  /// File path: assets/svg/cloud-upload.svg
+  SvgGenImage get cloudUpload =>
+      const SvgGenImage('assets/svg/cloud-upload.svg');
+
   /// File path: assets/svg/customer.svg
   SvgGenImage get customer => const SvgGenImage('assets/svg/customer.svg');
 
@@ -125,6 +129,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/home-enanle.svg
   SvgGenImage get homeEnanle => const SvgGenImage('assets/svg/home-enanle.svg');
+
+  /// File path: assets/svg/id-card.svg
+  SvgGenImage get idCard => const SvgGenImage('assets/svg/id-card.svg');
 
   /// File path: assets/svg/img_logo.svg
   SvgGenImage get imgLogo => const SvgGenImage('assets/svg/img_logo.svg');
@@ -184,12 +191,14 @@ class $AssetsSvgGen {
         bill,
         cash,
         checklist,
+        cloudUpload,
         customer,
         discountCoupon,
         discount,
         edit,
         homeDisable,
         homeEnanle,
+        idCard,
         imgLogo,
         inventory,
         invoice,

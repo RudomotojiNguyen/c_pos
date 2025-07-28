@@ -18,6 +18,8 @@ extension ColorExtension on TextStyle {
 
   TextStyle get neutral => copyWith(color: AppColors.neutralColor);
 
+  TextStyle get disabled => copyWith(color: AppColors.disabledActionColor);
+
   TextStyle get information => copyWith(color: AppColors.informationColor);
 }
 

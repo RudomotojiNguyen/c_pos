@@ -5,23 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/employee_model.dart';
-import '../../../../../data/models/filter/order_filter_model.dart';
-import '../../../../../data/models/order_model.dart';
-import '../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../data/models/response/paginated_response.dart';
-import '../../../../../data/models/store_model.dart';
-import '../../../../../data/repository/order_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'order_event.dart';
 part 'order_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
-  final OrderRepository orderRepository;
+  final OrderServices orderServices;
   final LoggerHelper loggerHelper = LoggerHelper();
 
-  OrderBloc({required this.orderRepository})
+  OrderBloc({required this.orderServices})
       : super(OrderInitial(
           orders: const [],
           pageInfo: PageInfoEntity(),
@@ -50,7 +45,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       GetOrderDetailEvent event, Emitter<OrderState> emit) async {
     try {
       emit(UpdateLoading(state: state));
-      final res = await orderRepository.getOrderDetail(event.orderId);
+      final res = await orderServices.getOrderDetail(event.orderId);
       emit(GetOrderDetailSuccess(state: state, orderDetail: res));
     } catch (e) {
       emit(GetDataError(state: state));
@@ -176,7 +171,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     String? searchFromDay,
     String? searchToDay,
   }) async {
-    return await orderRepository.getOrders(
+    return await orderServices.getOrders(
       page: page,
       size: limit,
       createdBy: createdBy,

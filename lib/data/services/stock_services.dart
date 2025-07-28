@@ -1,4 +1,4 @@
-import '../datasources/remote/stock_api.dart';
+import '../datasources/remote/api_remote.dart';
 import '../models/stock_model.dart';
 
 part 'impl/stock_services_impl.dart';

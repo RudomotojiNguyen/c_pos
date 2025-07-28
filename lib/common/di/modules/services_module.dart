@@ -1,33 +1,5 @@
-import '../../../data/datasources/remote/address_api.dart';
-import '../../../data/datasources/remote/auth_api.dart';
-import '../../../data/datasources/remote/bill_api.dart';
-import '../../../data/datasources/remote/category_api.dart';
-import '../../../data/datasources/remote/commission_api.dart';
-import '../../../data/datasources/remote/coupon_api.dart';
-import '../../../data/datasources/remote/customer_api.dart';
-import '../../../data/datasources/remote/employee_api.dart';
-import '../../../data/datasources/remote/order_api.dart';
-import '../../../data/datasources/remote/payment_api.dart';
-import '../../../data/datasources/remote/product_api.dart';
-import '../../../data/datasources/remote/stock_api.dart';
-import '../../../data/datasources/remote/store_api.dart';
-import '../../../data/datasources/remote/user_api.dart';
-import '../../../data/datasources/remote/warranty_api.dart';
-import '../../../data/services/address_services.dart';
-import '../../../data/services/affiliate_commission_services.dart';
-import '../../../data/services/auth_services.dart';
-import '../../../data/services/bill_services.dart';
-import '../../../data/services/category_service.dart';
-import '../../../data/services/coupon_services.dart';
-import '../../../data/services/customer_services.dart';
-import '../../../data/services/employee_services.dart';
-import '../../../data/services/order_services.dart';
-import '../../../data/services/payment_services.dart';
-import '../../../data/services/product_services.dart';
-import '../../../data/services/stock_services.dart';
-import '../../../data/services/store_services.dart';
-import '../../../data/services/user_services.dart';
-import '../../../data/services/warranty_services.dart';
+import '../../../data/datasources/remote/api_remote.dart';
+import '../../../data/services/services.dart';
 import '../../base/di_module.dart';
 import '../injection/injection.dart';
 
@@ -65,6 +37,8 @@ class ServicesModule extends DIModule {
       ..registerLazySingleton<PaymentServices>(
           () => PaymentServicesImpl(paymentApi: getIt.get<PaymentApi>()))
       ..registerLazySingleton<AddressServices>(
-          () => AddressServicesImpl(addressApi: getIt.get<AddressApi>()));
+          () => AddressServicesImpl(addressApi: getIt.get<AddressApi>()))
+      ..registerLazySingleton<TradeInServices>(() => TradeInServicesImpl(
+          tradeInApi: getIt.get<TradeInApi>(), fileApi: getIt.get<FileApi>()));
   }
 }

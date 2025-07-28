@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:c_pos/data/models/base_enum_model.dart';
-import 'package:flutter/material.dart';
+import 'package:c_pos/common/extensions/extension.dart';
+import 'package:c_pos/data/models/models.dart';
 import 'package:intl/intl.dart';
+
+import '../../common/enum/enum.dart';
 
 class OrderSubDetailModel {
   BaseEnumModel? orderSource; // nguồn đơn
@@ -10,7 +12,7 @@ class OrderSubDetailModel {
   BaseEnumModel? orderStatus; // trạng thái đơn
   DateTime? dateComeToShop; //ngày đến cửa hàng
   DateTime? datePayFor; // ngày thanh toán
-  TimeOfDay? timeComToShop; //thời gian tới cửa hàng
+  DateTime? timeComToShop; //thời gian tới cửa hàng
   String? shipCode; //mã vận đơn
 
   OrderSubDetailModel({
@@ -39,7 +41,7 @@ class OrderSubDetailModel {
 
   OrderSubDetailModel.fromJson(Map<String, dynamic> json) {
     //2024-12-06 00:00:00.000
-    DateFormat format = DateFormat('yyyy-MM-dd HH:mm:ss.sss');
+    DateFormat format = DateFormat(XDateTimeEnum.defaultDateTimeBasic.getValue);
     if (json['orderSource'] != null) {
       orderSource = BaseEnumModel.fromJson(json['orderSource']);
     }
@@ -57,7 +59,7 @@ class OrderSubDetailModel {
       datePayFor = format.parse(json['datePayFor']);
     }
     if (json['timeComToShop'] != null) {
-      timeComToShop = parseTimeOfDay(json['timeComToShop']);
+      timeComToShop = (json['timeComToShop'].toString()).convertToDateTime;
     }
   }
 
@@ -72,7 +74,7 @@ class OrderSubDetailModel {
     BaseEnumModel? orderStatus,
     DateTime? dateComeToShop,
     DateTime? datePayFor,
-    TimeOfDay? timeComToShop,
+    DateTime? timeComToShop,
     String? shipCode,
   }) {
     return OrderSubDetailModel(
@@ -127,23 +129,6 @@ class OrderSubDetailModel {
     return jsonEncode(toJson());
   }
 
-  TimeOfDay parseTimeOfDay(String timeString) {
-    // Xác định định dạng chuỗi
-    final RegExp regex = RegExp(r'TimeOfDay\((\d{2}):(\d{2})\)');
-    final match = regex.firstMatch(timeString);
-
-    if (match != null) {
-      // Lấy giá trị giờ và phút từ chuỗi
-      final int hour = int.parse(match.group(1)!);
-      final int minute = int.parse(match.group(2)!);
-
-      // Trả về TimeOfDay
-      return TimeOfDay(hour: hour, minute: minute);
-    }
-
-    throw FormatException('Chuỗi không đúng định dạng: $timeString');
-  }
-
   String? get getPaymentDate => datePayFor?.toIso8601String();
 
   String? get getCheckDate => dateComeToShop?.toIso8601String();
@@ -151,9 +136,14 @@ class OrderSubDetailModel {
   String? get getCheckTime {
     if (dateComeToShop != null && timeComToShop != null) {
       final DateTime date = DateTime(
-          dateComeToShop!.year, dateComeToShop!.month, dateComeToShop!.day);
-      final Duration time =
-          Duration(hours: timeComToShop!.hour, minutes: timeComToShop!.minute);
+        dateComeToShop!.year,
+        dateComeToShop!.month,
+        dateComeToShop!.day,
+      );
+      final Duration time = Duration(
+        hours: timeComToShop!.hour,
+        minutes: timeComToShop!.minute,
+      );
       final DateTime checkTime = date.add(time);
       return checkTime.toIso8601String();
     } else {
@@ -165,10 +155,44 @@ class OrderSubDetailModel {
 
   int? get getOrderTypeId => orderType?.id;
 
+  String? get getOrderTypeName => orderType?.name;
+
   int? get getOrderSourceId => orderSource?.id;
+
+  String? get getOrderSourceName => orderSource?.name;
 
   int? get getOrderStatusId => orderStatus?.id;
 
-  // todo: thêm phần lý do hủy đơn
+  String? get getOrderStatusName => orderStatus?.name;
+
+  /// todo: lý do hủy đơn
   int? get getCancelStatusId => null;
+
+  String? get getCancelStatusName => null;
+
+  /// todo: Trạng thái thanh toán
+  String? get getPartnerPaymentStatus => null;
+
+  String? get getPartnerPaymentStatusName => null;
+
+  Map<String, dynamic> formatOrderSubDetailCreateBill() {
+    Map<String, dynamic> data = {};
+    data['status'] = getOrderStatusId;
+    data['statusName'] = getOrderStatusName;
+    data['checkDate'] = getCheckDate;
+    data['checkTime'] = getCheckTime;
+    data['paymentDate'] = getPaymentDate;
+    data['codeShip'] = getShipCode;
+    data['orderType'] = getOrderTypeId;
+    data['orderTypeName'] = getOrderTypeName;
+    data['orderSourceId'] = getOrderSourceId;
+    data['orderSourceName'] = getOrderSourceName;
+
+    // data['cancelStatus'] = getCancelStatusId;
+    // data['cancelStatusName'] = getCancelStatusName;
+    // data['partnerPaymentStatus'] = getPartnerPaymentStatus;
+    // data['partnerPaymentStatusName'] = getPartnerPaymentStatusName;
+
+    return data;
+  }
 }

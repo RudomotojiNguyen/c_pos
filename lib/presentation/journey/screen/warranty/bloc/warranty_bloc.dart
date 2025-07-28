@@ -4,20 +4,18 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/store_model.dart';
-import '../../../../../data/models/suggest_note_model.dart';
-import '../../../../../data/models/warranty_model.dart';
-import '../../../../../data/repository/warranty_repositories.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'warranty_event.dart';
 part 'warranty_state.dart';
 
 class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
-  final WarrantyRepositories warrantyRepositories;
+  final WarrantyServices warrantyServices;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
-  WarrantyBloc(this.warrantyRepositories)
+  WarrantyBloc(this.warrantyServices)
       : super(const WarrantyInitial(
           page: 1,
           limit: 10,
@@ -67,7 +65,7 @@ class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
 
       int newPage = state.page + 1;
 
-      final res = await warrantyRepositories
+      final res = await warrantyServices
           .getWarrantyList(page: newPage, limit: state.limit, storeIds: []);
 
       List<WarrantyModel> warranties = state.warranties;
@@ -88,7 +86,7 @@ class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
       GetWarrantiesEvent event, Emitter<WarrantyState> emit) async {
     try {
       emit(UpdateIsLoading(state: state));
-      final res = await warrantyRepositories
+      final res = await warrantyServices
           .getWarrantyList(page: 1, limit: state.limit, storeIds: []);
       emit(UpdateListWarrantiesSuccess(
         state: state,
@@ -114,7 +112,7 @@ class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
       SearchSuggestNoteEvent event, Emitter<WarrantyState> emit) async {
     try {
       emit(UpdateIsLoading(state: state));
-      final res = await warrantyRepositories.getWarrantyInfo(
+      final res = await warrantyServices.getWarrantyInfo(
           page: 1, size: state.limit, name: event.name);
       emit(GetSuggestNoteSuccess(
         state: state,
@@ -131,8 +129,8 @@ class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
       GetSuggestNoteEvent event, Emitter<WarrantyState> emit) async {
     try {
       emit(UpdateIsLoading(state: state));
-      final res = await warrantyRepositories.getWarrantyInfo(
-          page: 1, size: state.limit);
+      final res =
+          await warrantyServices.getWarrantyInfo(page: 1, size: state.limit);
       emit(GetSuggestNoteSuccess(
         state: state,
         warrantiesNote: res,

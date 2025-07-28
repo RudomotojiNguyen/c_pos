@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../common/enum/enum.dart';
-import '../../../data/models/product_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../widgets.dart';
 
 class BasicShortProductItem extends StatelessWidget {

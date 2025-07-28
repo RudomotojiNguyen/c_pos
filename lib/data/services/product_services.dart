@@ -1,5 +1,5 @@
 import '../../common/enum/search_type.dart';
-import '../datasources/remote/product_api.dart';
+import '../datasources/remote/api_remote.dart';
 import '../models/imei_history_model.dart';
 import '../models/imei_transaction_model.dart';
 import '../models/product_imei_model.dart';

@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common/configs/box.dart';
 import '../../../../common/enum/enum.dart';
 import '../../../../data/datasources/local_db/local_db.dart';
-import '../../../../data/models/coupon_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../journey/screen/coupon/bloc/coupon_bloc.dart';
 import '../../../theme/themes.dart';
 import '../../widgets.dart';

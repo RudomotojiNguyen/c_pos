@@ -1,10 +1,9 @@
 import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:isar/isar.dart';
+import 'package:c_pos/data/models/models.dart';
 
 import '../../../../common/enum/enum.dart';
-import '../../../models/customer_model.dart';
-import '../../../models/otp_customer_point_model.dart';
 
 part 'extensions/customer_table_extension.dart';
 

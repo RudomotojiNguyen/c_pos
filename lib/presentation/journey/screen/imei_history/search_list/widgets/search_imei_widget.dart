@@ -8,7 +8,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/di/injection/injection.dart';
 import '../../../../../../common/enum/enum.dart';
-import '../../../../../../data/models/store_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
 import '../../../product/bloc/product_bloc.dart';

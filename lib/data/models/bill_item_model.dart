@@ -2,6 +2,7 @@ import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
+import '../../presentation/utils/utils.dart';
 import '../datasources/local_db/local_db.dart';
 import 'discount_program_model.dart';
 import 'product_imei_model.dart';
@@ -9,6 +10,8 @@ import 'product_model.dart';
 
 class BillItemModel {
   String? id;
+  double? totalAmount;
+  String? billId;
   String? productId;
   String? barCode;
   String? createdAt;
@@ -81,6 +84,8 @@ class BillItemModel {
 
   BillItemModel({
     this.id,
+    this.totalAmount,
+    this.billId,
     this.productId,
     this.barCode,
     this.createdAt,
@@ -152,6 +157,8 @@ class BillItemModel {
 
   BillItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    totalAmount = Utils.toDouble(json['totalAmount']);
+    billId = json['billId'];
     productId = json['productId'];
     barCode = json['barCode'];
     createdAt = json['createdAt'];
@@ -170,10 +177,10 @@ class BillItemModel {
         (json['productType'] as int? ?? json['orderItemType'] as int? ?? -1)
             .toProductType;
     quantity = json['quantity'];
-    productPrice = (json['productPrice'] as num?)?.toDouble();
+    productPrice = Utils.toDouble(json['productPrice']);
     imeiNo = json['imeiNo'];
-    totalPrice = (json['totalPrice'] as num?)?.toDouble();
-    discountAmount = (json['discountAmount'] as num?)?.toDouble();
+    totalPrice = Utils.toDouble(json['totalPrice']);
+    discountAmount = Utils.toDouble(json['discountAmount']);
     discountType = json['discountType'];
     listProductInCombo = (json['listProductInCombo'] as List?)
         ?.map((e) => BillItemModel.fromJson(e))
@@ -182,7 +189,7 @@ class BillItemModel {
     isGiftTaken = json['isGiftTaken'];
     accessoryGroupId = json['accessoryGroupId'];
     accessoryGroupCode = json['accessoryGroupCode'];
-    repurchasePrice = (json['repurchasePrice'] as num?)?.toDouble();
+    repurchasePrice = Utils.toDouble(json['repurchasePrice']);
     belongBillDetailId = json['belongBillDetailId'];
     note = json['note'];
     listAccessoryPromotion = (json['listAccessoryPromotion'] as List?)
@@ -192,8 +199,8 @@ class BillItemModel {
         ?.map((e) => BillItemModel.fromJson(e))
         .toList();
     issuedVat = json['issuedVat'];
-    sellingPrice = (json['sellingPrice'] as num?)?.toDouble();
-    listedPrice = (json['listedPrice'] as num?)?.toDouble();
+    sellingPrice = Utils.toDouble(json['sellingPrice']);
+    listedPrice = Utils.toDouble(json['listedPrice']);
     merchantId = json['merchantId'];
     flexibleComboId = json['flexibleComboId'];
     flexibleComboName = json['flexibleComboName'];
@@ -203,9 +210,9 @@ class BillItemModel {
     newProductName = json['newProductName'];
     newProductCode = json['newProductCode'];
     newQuantity = json['newQuantity'];
-    newProductPrice = (json['newProductPrice'] as num?)?.toDouble();
+    newProductPrice = Utils.toDouble(json['newProductPrice']);
     newProductType = json['newProductType'];
-    newTotalPrice = (json['newTotalPrice'] as num?)?.toDouble();
+    newTotalPrice = Utils.toDouble(json['newTotalPrice']);
     newImeiCode = json['newImeiCode'];
     isLostProduct = json['isLostProduct'];
     voucherId = json['voucherId'];
@@ -216,12 +223,11 @@ class BillItemModel {
     warrantyDescription = json['warrantyDescription'];
     customerTypeId = json['customerTypeId'];
     customerDiscountType = json['customerDiscountType'];
-    customerDiscountAmount =
-        (json['customerDiscountAmount'] as num?)?.toDouble();
+    customerDiscountAmount = Utils.toDouble(json['customerDiscountAmount']);
     customerDiscountSellingPrice =
-        (json['customerDiscountSellingPrice'] as num?)?.toDouble();
+        Utils.toDouble(json['customerDiscountSellingPrice']);
     customerDiscountMaxAmount =
-        (json['customerDiscountMaxAmount'] as num?)?.toDouble();
+        Utils.toDouble(json['customerDiscountMaxAmount']);
 
     discountProgram = json['discountProgram'] != null
         ? DiscountProgramModel.fromJson(json['discountProgram'])

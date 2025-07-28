@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/constants/go_router.dart';
-import '../../../../../../data/models/imei_history_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../../widgets/widgets.dart';
 import '../../../../router.dart';
 import '../../../product/bloc/product_bloc.dart';

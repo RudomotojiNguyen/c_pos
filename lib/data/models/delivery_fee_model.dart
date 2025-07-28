@@ -4,10 +4,7 @@ class DeliveryFeeModel {
   int? customerFee; // phí thu của khách
   int? shippingCompanyFee; //phí trả nhà vận chuyển
 
-  DeliveryFeeModel({
-    this.customerFee = 0,
-    this.shippingCompanyFee = 0,
-  });
+  DeliveryFeeModel({this.customerFee = 0, this.shippingCompanyFee = 0});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
@@ -28,10 +25,7 @@ class DeliveryFeeModel {
     return DeliveryFeeModel.fromJson(res);
   }
 
-  DeliveryFeeModel copyWith({
-    int? customerFee,
-    int? shippingCompanyFee,
-  }) {
+  DeliveryFeeModel copyWith({int? customerFee, int? shippingCompanyFee}) {
     return DeliveryFeeModel(
       customerFee: customerFee ?? this.customerFee,
       shippingCompanyFee: shippingCompanyFee ?? this.shippingCompanyFee,
@@ -48,4 +42,13 @@ class DeliveryFeeModel {
   int get getShippingCompanyFee => shippingCompanyFee ?? 0;
 
   bool get useDelivery => getCustomerFee > 0 || getShippingCompanyFee > 0;
+
+  Map<String, dynamic> formatDeliveryFeeCreateBill() {
+    Map<String, dynamic> data = {};
+
+    data['customerShipFee'] = customerFee;
+    data['shipFee'] = shippingCompanyFee;
+
+    return data;
+  }
 }

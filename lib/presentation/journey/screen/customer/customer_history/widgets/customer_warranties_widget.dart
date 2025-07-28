@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../common/di/injection/injection.dart';
-import '../../../../../../data/models/customer_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../bill/list/bloc/bill_bloc.dart';
 
 class CustomerWarrantiesWidget extends StatefulWidget {

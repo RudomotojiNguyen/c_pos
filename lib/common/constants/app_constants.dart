@@ -1,8 +1,6 @@
 import 'package:c_pos/common/enum/enum.dart';
-import 'package:c_pos/data/models/base_enum_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import 'package:flutter/material.dart';
-
-import '../../data/models/customer_model.dart';
 
 class AppConstants {
   static const screenWidth = 1170.0;

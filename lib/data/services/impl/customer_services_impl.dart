@@ -29,16 +29,30 @@ class CustomerServicesImpl implements CustomerServices {
   }
 
   @override
-  Future<double> checkOTPUsePoint(Map<String, dynamic> params) {
+  Future<double> checkOTPUsePoint({
+    required int customerId,
+    required String otpCode,
+    required int pointUse,
+  }) {
+    final params = {
+      "customerId": customerId,
+      "otpCode": otpCode,
+      "pointUse": pointUse,
+    };
     return customerApi.checkOTPUsePoint(params).then((value) {
       return Utils.toDouble(value.data);
     });
   }
 
   @override
-  Future<(String, double)> getCustomerOTPToChangePoint(
-    Map<String, dynamic> params,
-  ) {
+  Future<(String, double)> getCustomerOTPToChangePoint({
+    required int customerId,
+    required int pointUse,
+  }) {
+    final params = {
+      "customerId": customerId,
+      "pointUse": pointUse,
+    };
     return customerApi.getCustomerOTPToChangePoint(params).then((value) {
       String otp = value.data['otp'] as String;
       double moneyUsePoint = Utils.toDouble(value.data['moneyUsePoint']);

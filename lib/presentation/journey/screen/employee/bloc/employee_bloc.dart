@@ -5,32 +5,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../data/models/employee_model.dart';
-import '../../../../../data/repository/employee_repositories.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'employee_event.dart';
 part 'employee_state.dart';
 
 class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
-  final EmployeeRepositories employeeRepositories;
+  final EmployeeServices employeeServices;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
-  EmployeeBloc(this.employeeRepositories)
-      : super(const EmployeeInitial(employees: [], isLoading: false)) {
+  EmployeeBloc(this.employeeServices)
+      : super(const EmployeeInitial(employees: [])) {
     on<GetEmployeesEvent>(_onGetEmployees);
   }
 
   FutureOr<void> _onGetEmployees(
       GetEmployeesEvent event, Emitter<EmployeeState> emit) async {
     try {
-      emit(UpdateLoadingState(state: state, isLoading: true));
-      final res = await employeeRepositories.getEmployees();
+      emit(UpdateLoadingState(state: state));
+      final res = await employeeServices.getEmployees();
       emit(UpdateEmployeesData(state: state, employees: res));
     } catch (e) {
       _loggerHelper.logError(message: 'GetEmployeesEvent', obj: e);
-    } finally {
-      emit(UpdateLoadingState(state: state, isLoading: false));
+      emit(UpdateEmployeesData(state: state, employees: const []));
     }
   }
 }

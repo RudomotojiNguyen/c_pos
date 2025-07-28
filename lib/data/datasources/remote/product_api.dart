@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
-
-import '../../models/response/base_response.dart';
+import 'package:c_pos/data/models/models.dart';
 
 part 'product_api.g.dart';
 

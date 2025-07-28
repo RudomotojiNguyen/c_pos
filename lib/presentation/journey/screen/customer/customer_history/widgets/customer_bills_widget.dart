@@ -2,7 +2,7 @@ import 'package:c_pos/common/di/injection/injection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../common/enum/enum.dart';
-import '../../../../../../data/models/customer_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../bill/list/bloc/bill_bloc.dart';
 import '../../../bill/list/widgets/bill_list_widget.dart';
 

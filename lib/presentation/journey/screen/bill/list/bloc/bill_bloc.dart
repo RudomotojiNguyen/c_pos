@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../common/enum/enum.dart';
-import '../../../../../../data/models/bill_model.dart';
-import '../../../../../../data/models/filter_bill_model.dart';
-import '../../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../../data/models/store_model.dart';
-import '../../../../../../data/repository/bill_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../../data/services/services.dart';
 import '../../../../../mixins/logger_helper.dart';
 import '../../../login/bloc/auth_bloc.dart';
 
@@ -17,12 +14,12 @@ part 'bill_event.dart';
 part 'bill_state.dart';
 
 class BillBloc extends Bloc<BillEvent, BillState> {
-  final BillRepository billRepository;
+  final BillServices billServices;
   final AuthBloc authBloc;
   final LoggerHelper loggerHelper = LoggerHelper();
 
   BillBloc({
-    required this.billRepository,
+    required this.billServices,
     required this.authBloc,
   }) : super(BillInitial(
           bills: const [],
@@ -190,7 +187,7 @@ class BillBloc extends Bloc<BillEvent, BillState> {
     int? searchType,
     String? search,
   }) async {
-    return await billRepository.getBills(
+    return await billServices.getBills(
       page: page,
       size: size,
       storeId: storeId ?? authBloc.state.userInfo!.getStoreId,
@@ -204,7 +201,7 @@ class BillBloc extends Bloc<BillEvent, BillState> {
       GetBillDetailEvent event, Emitter<BillState> emit) async {
     try {
       emit(UpdateLoading(state: state));
-      final res = await billRepository.getBillDetail(
+      final res = await billServices.getBillDetail(
         billId: event.billId,
       );
       emit(GetBillDetailSuccess(state: state, billDetail: res));

@@ -2,7 +2,7 @@
 // import 'package:dposapp/common/constant/constant.dart';
 // import 'package:dposapp/common/extensions/context_extensions.dart';
 // import 'package:dposapp/common/extensions/number_extensions.dart';
-// import 'package:dposapp/data/models/order_item.dart';
+// import 'package:dposapp/data/models/models.dart';
 // import 'package:dposapp/presentation/theme/colors.dart';
 // import 'package:dposapp/presentation/widgets/loading/product_item_loading.dart';
 // import 'package:dposapp/presentation/widgets/x_basic_container.dart';

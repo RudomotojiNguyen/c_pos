@@ -7,11 +7,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/product_model.dart';
-import '../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../data/models/response/paginated_response.dart';
-import '../../../../../data/repository/product_repository.dart';
-import '../../../../../data/repository/stock_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 
 part 'search_product_event.dart';
@@ -23,14 +20,12 @@ enum SearchAction {
 }
 
 class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
-  final ProductRepository productRepository;
-  final StockRepository stockRepository;
+  final ProductServices productServices;
 
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   SearchProductBloc({
-    required this.productRepository,
-    required this.stockRepository,
+    required this.productServices,
   }) : super(SearchProductInitial(
           searchValue: '',
           searchType: SearchType.product,
@@ -182,7 +177,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
           draftingInvoiceBloc.state.currentStore?.getStoreId ??
           authBloc.state.getUserStoreId;
 
-      final res = await productRepository.productSearch(
+      final res = await productServices.productSearch(
         searchProduct: param,
         searchType: type,
         storeId: store,
@@ -196,7 +191,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
         currentPage: 1,
       );
     } else {
-      return await productRepository.searchProduct(
+      return await productServices.searchProduct(
         page: page,
         limit: limit,
         param: param,

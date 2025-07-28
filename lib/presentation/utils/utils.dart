@@ -12,7 +12,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../common/enum/enum.dart';
 import '../../data/datasources/local_db/local_db.dart';
-import '../../data/models/trade_in/trade_in_program_creteria_group_option_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../theme/themes.dart';
 import '../widgets/widgets.dart';
 

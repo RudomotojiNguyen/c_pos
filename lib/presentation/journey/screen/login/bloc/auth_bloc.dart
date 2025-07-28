@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../data/models/auth_model.dart';
-import '../../../../../data/repository/auth_repository.dart';
-import '../../../../../data/repository/user_repositories.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -17,8 +16,8 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
-  final UserRepositories userRepositories;
+  final AuthServices authServices;
+  final UserServices userServices;
   final LocalStorage localStorage;
   final UserStorage userStorage;
   final DraftingStorage draftingStorage;
@@ -26,8 +25,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   AuthBloc({
-    required this.authRepository,
-    required this.userRepositories,
+    required this.authServices,
+    required this.userServices,
     required this.localStorage,
     required this.userStorage,
     required this.draftingStorage,
@@ -49,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ChangePasswordEvent event, Emitter<AuthState> emit) async {
     try {
       emit(ChangePassLoading(state: state));
-      await userRepositories.changePass(
+      await userServices.changePass(
           oldPassword: event.password, newPassword: event.newPassword);
       emit(ChangePassSuccess(state: state));
     } catch (e) {
@@ -107,7 +106,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     try {
       XToast.loading();
-      final res = await authRepository.login(
+      final res = await authServices.login(
           username: event.username, password: event.password);
       if (res != null) {
         await Future.wait([
@@ -149,7 +148,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<AuthModel?> onLogin(
       {required String username, required String password}) async {
     final res =
-        await authRepository.login(username: username, password: password);
+        await authServices.login(username: username, password: password);
 
     if (res != null) {
       await Future.wait([

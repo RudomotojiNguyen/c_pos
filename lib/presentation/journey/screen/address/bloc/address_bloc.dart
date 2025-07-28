@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/address_model.dart';
-import '../../../../../data/repository/address_repositories.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'address_event.dart';
@@ -14,9 +14,9 @@ part 'address_state.dart';
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
   final LoggerHelper _logger = LoggerHelper();
 
-  final AddressRepositories addressRepositories;
+  final AddressServices addressServices;
 
-  AddressBloc({required this.addressRepositories}) : super(AddressInitial()) {
+  AddressBloc({required this.addressServices}) : super(AddressInitial()) {
     on<GetCitiesEvent>(_onGetCities);
     on<GetDistrictsEvent>(_onGetDistricts);
     on<GetWardsEvent>(_onGetWards);
@@ -56,7 +56,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   /// METHOS
   ///
   Future<List<CityModel>> _getCities() async {
-    final cities = await addressRepositories.getCity();
+    final cities = await addressServices.getCity();
     return cities;
   }
 
@@ -69,7 +69,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   }
 
   Future<List<DistrictModel>> _getDistricts(String cityId) async {
-    final districts = await addressRepositories.getDistrict(cityId.toString());
+    final districts = await addressServices.getDistrict(cityId.toString());
     return districts;
   }
 
@@ -83,7 +83,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   }
 
   Future<List<WardModel>> _getWards(String districtId) async {
-    final wards = await addressRepositories.getWard(districtId.toString());
+    final wards = await addressServices.getWard(districtId.toString());
     return wards;
   }
 

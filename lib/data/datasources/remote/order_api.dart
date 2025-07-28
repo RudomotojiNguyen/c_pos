@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
-
-import '../../models/response/base_response.dart';
+import 'package:c_pos/data/models/models.dart';
 
 part 'order_api.g.dart';
 
@@ -36,7 +35,7 @@ abstract class OrderApi {
 
   /// lấy chi tiết đơn hàng
   ///
-  @GET('orders/{orderId}')
+  @GET('v1/orders/{orderId}')
   Future<BaseResponse> getOrderDetail({
     @Path() required String orderId,
   });

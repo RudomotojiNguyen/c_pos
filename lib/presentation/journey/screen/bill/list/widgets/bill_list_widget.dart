@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../../common/constants/go_router.dart';
-import '../../../../../../data/models/bill_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../../widgets/widgets.dart';
 import '../../../../router.dart';
 import '../bloc/bill_bloc.dart';

@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/extensions/extension.dart';
-import '../../../../../data/models/order_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../bloc/order_bloc.dart';
@@ -92,6 +92,10 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                   statusName: orderDetail.getOrderStatus.getTitle,
                   employeeName: orderDetail.getSaleName,
                   point: orderDetail.subtractPoint,
+                  orderSource: orderDetail.getOrderSource,
+                  orderType: orderDetail.getOrderType,
+                  checkDate: orderDetail.getCheckDate,
+                  checkTime: orderDetail.getCheckTime,
                 ),
                 CustomerInfoWidget(
                   customerName: orderDetail.getCustomerName,

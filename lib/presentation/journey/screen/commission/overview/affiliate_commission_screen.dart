@@ -9,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/reward_report_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../theme/themes.dart';
 import '../bloc/affiliate_bloc.dart';
 import '../widgets/commission_item_detail_widget.dart';

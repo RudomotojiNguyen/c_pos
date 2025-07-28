@@ -4,19 +4,18 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/commission_detail_model.dart';
-import '../../../../../data/models/reward_report_model.dart';
-import '../../../../../data/repository/affiliate_commission_repositories.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'affiliate_event.dart';
 part 'affiliate_state.dart';
 
 class AffiliateBloc extends Bloc<AffiliateEvent, AffiliateState> {
-  final AffiliateCommissionRepositories affiliateCommissionRepositories;
+  final AffiliateCommissionServices affiliateCommissionServices;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
-  AffiliateBloc(this.affiliateCommissionRepositories)
+  AffiliateBloc(this.affiliateCommissionServices)
       : super(AffiliateInitial(
             fromDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
             toDate: DateTime.now())) {
@@ -30,8 +29,7 @@ class AffiliateBloc extends Bloc<AffiliateEvent, AffiliateState> {
     try {
       emit(GetCommissionDetailLoading(state: state));
       //
-      final res =
-          await affiliateCommissionRepositories.getCommissionDetailByCate(
+      final res = await affiliateCommissionServices.getCommissionDetailByCate(
         fromDate: event.fromDate.formatDateTime(),
         toDate: event.toDate.formatDateTime(),
         ids: event.ids,
@@ -59,7 +57,7 @@ class AffiliateBloc extends Bloc<AffiliateEvent, AffiliateState> {
     try {
       emit(IsLoading(state: state));
 
-      final res = await affiliateCommissionRepositories.getCommissionDetail(
+      final res = await affiliateCommissionServices.getCommissionDetail(
           fromDate: state.fromDate.formatDateTime(),
           toDate: state.toDate.formatDateTime());
 

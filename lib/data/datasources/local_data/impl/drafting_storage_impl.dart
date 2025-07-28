@@ -803,22 +803,17 @@ class DraftingStorageImpl extends DraftingStorage {
         ..customerId = orderDetail.customerId
         ..fullName = orderDetail.customerName
         ..phoneNo = orderDetail.getCustomerPhone
-        ..email = orderDetail.customerEmail
-        ..dateOfBirth = orderDetail.customerDOB
         ..city = orderDetail.customerCity
-        ..district = orderDetail.customerDistrist
+        ..district = orderDetail.customerDistrict
         ..ward = orderDetail.customerWard
         ..address = orderDetail.customerAddress
         ..type = orderDetail.customerType ?? XCustomerType.none
-        ..point = orderDetail.customerPoint
         ..indentifyNo = orderDetail.customerIndentifyNo
         ..gender = customer?.getGender ?? XGenderType.none
         ..appellation = customer?.getGender ?? XGenderType.none;
 
       cartTable ??= DraftingInvoiceTable()
         ..typeCart = typeCart
-        ..preOrderId = orderDetail.preOrderId
-        ..billNumber = orderDetail.billNumber
         ..createdDate = DateTime.now()
         ..orderId = orderDetail.id
         ..store = orderDetail.getStore
@@ -833,8 +828,6 @@ class DraftingStorageImpl extends DraftingStorage {
       customerInfo = cartTable.getCustomer;
 
       cartTable
-        ..preOrderId = orderDetail.preOrderId
-        ..billNumber = orderDetail.billNumber
         ..orderId = orderDetail.id
         ..store = orderDetail.getStore
         ..customerNote = orderDetail.customerNote

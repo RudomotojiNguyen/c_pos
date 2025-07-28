@@ -9,7 +9,7 @@ import '../../../common/constants/app_constants.dart';
 import '../../../common/di/injection/injection.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
-import '../../../data/models/customer_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../journey/screen/customer/bloc/customer_bloc.dart';
 import '../../theme/themes.dart';
 import '../../utils/validation_utils.dart';

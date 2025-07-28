@@ -77,36 +77,3 @@ class ImeiTransactionModel {
 
   String get getCreator => createdBy ?? '';
 }
-
-class BillItemModel {
-  String? id;
-  String? billId;
-  String? productId;
-  int? quantity;
-  int? productPrice;
-  int? discountAmount;
-  int? discountType;
-  int? totalAmount;
-
-  BillItemModel({
-    this.id,
-    this.billId,
-    this.productId,
-    this.quantity,
-    this.productPrice,
-    this.discountAmount,
-    this.discountType,
-    this.totalAmount,
-  });
-
-  BillItemModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    billId = json['billId'];
-    productId = json['productId'];
-    quantity = json['quantity'];
-    productPrice = json['productPrice'];
-    discountAmount = json['discountAmount'];
-    discountType = json['discountType'];
-    totalAmount = json['totalAmount'];
-  }
-}

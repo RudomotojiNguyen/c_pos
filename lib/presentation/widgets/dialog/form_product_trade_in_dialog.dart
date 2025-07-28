@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../data/datasources/local_db/local_db.dart';
-import '../../../data/models/product_imei_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../mixins/mixins.dart';
 import '../widgets.dart';
 

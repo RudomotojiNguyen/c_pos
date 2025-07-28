@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../data/models/customer_model.dart';
+import 'package:c_pos/data/models/models.dart';
 
 // todo: chưa làm
 

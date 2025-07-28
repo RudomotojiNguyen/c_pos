@@ -2,21 +2,7 @@ import 'package:c_pos/common/di/injection/injection.dart';
 import 'package:c_pos/presentation/journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 
 import '../../../data/datasources/local_data/local_data.dart';
-import '../../../data/repository/address_repositories.dart';
-import '../../../data/repository/affiliate_commission_repositories.dart';
-import '../../../data/repository/auth_repository.dart';
-import '../../../data/repository/bill_repository.dart';
-import '../../../data/repository/category_repository.dart';
-import '../../../data/repository/coupon_repository.dart';
-import '../../../data/repository/customer_repository.dart';
-import '../../../data/repository/employee_repositories.dart';
-import '../../../data/repository/order_repository.dart';
-import '../../../data/repository/payment_repositories.dart';
-import '../../../data/repository/product_repository.dart';
-import '../../../data/repository/stock_repository.dart';
-import '../../../data/repository/store_repository.dart';
-import '../../../data/repository/user_repositories.dart';
-import '../../../data/repository/warranty_repositories.dart';
+import '../../../data/services/services.dart';
 import '../../../presentation/journey/screen/address/bloc/address_bloc.dart';
 import '../../../presentation/journey/screen/bill/list/bloc/bill_bloc.dart';
 import '../../../presentation/journey/screen/category/bloc/category_bloc.dart';
@@ -35,6 +21,7 @@ import '../../../presentation/journey/screen/search/bloc/search_product_bloc.dar
 import '../../../presentation/journey/screen/setting/bloc/setting_bloc.dart';
 import '../../../presentation/journey/screen/stock/bloc/stock_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';
+import '../../../presentation/journey/screen/trade_in/bloc/trade_in_bloc.dart';
 import '../../../presentation/journey/screen/warranty/bloc/warranty_bloc.dart';
 import '../../base/di_module.dart';
 
@@ -43,55 +30,56 @@ class BlocModule extends DIModule {
   Future<void> provides() async {
     getIt
       ..registerLazySingleton(() => AuthBloc(
-          authRepository: getIt.get<AuthRepository>(),
+          authServices: getIt.get<AuthServices>(),
           localStorage: getIt.get<LocalStorage>(),
           userStorage: getIt.get<UserStorage>(),
-          userRepositories: getIt.get<UserRepositories>(),
+          userServices: getIt.get<UserServices>(),
           draftingStorage: getIt.get<DraftingStorage>()))
       ..registerLazySingleton(() => StoreBloc(
-          storeRepository: getIt.get<StoreRepository>(),
+          storeServices: getIt.get<StoreServices>(),
           authBloc: getIt.get<AuthBloc>()))
       ..registerLazySingleton(() => SettingBloc())
       ..registerLazySingleton(
-          () => GlobalCoreBloc(orderRepository: getIt.get<OrderRepository>()))
+          () => GlobalCoreBloc(orderServices: getIt.get<OrderServices>()))
       ..registerFactory(
-          () => AffiliateBloc(getIt.get<AffiliateCommissionRepositories>()))
+          () => AffiliateBloc(getIt.get<AffiliateCommissionServices>()))
       ..registerFactory(() => BillBloc(
-          billRepository: getIt.get<BillRepository>(),
+          billServices: getIt.get<BillServices>(),
           authBloc: getIt.get<AuthBloc>()))
-      ..registerFactory(() =>
-          CustomerBloc(customerRepository: getIt.get<CustomerRepository>()))
       ..registerFactory(
-          () => OrderBloc(orderRepository: getIt.get<OrderRepository>()))
-      ..registerFactory(() => ProductBloc(getIt.get<ProductRepository>()))
+          () => CustomerBloc(customerServices: getIt.get<CustomerServices>()))
+      ..registerFactory(
+          () => OrderBloc(orderServices: getIt.get<OrderServices>()))
+      ..registerFactory(() => ProductBloc(getIt.get<ProductServices>()))
       ..registerFactory(() => StockBloc(
-          productRepository: getIt.get<ProductRepository>(),
-          stockRepository: getIt.get<StockRepository>()))
-      ..registerLazySingleton(() =>
-          CategoryBloc(categoryRepository: getIt.get<CategoryRepository>()))
+          productServices: getIt.get<ProductServices>(),
+          stockServices: getIt.get<StockServices>()))
+      ..registerLazySingleton(
+          () => CategoryBloc(categoryServices: getIt.get<CategoryServices>()))
       ..registerLazySingleton(() => DraftingInvoiceBloc(
             draftingStorage: getIt.get<DraftingStorage>(),
-            productRepository: getIt.get<ProductRepository>(),
-            billRepository: getIt.get<BillRepository>(),
-            orderRepository: getIt.get<OrderRepository>(),
+            productServices: getIt.get<ProductServices>(),
+            billServices: getIt.get<BillServices>(),
+            orderServices: getIt.get<OrderServices>(),
+            tradeInServices: getIt.get<TradeInServices>(),
           ))
       ..registerLazySingleton(() =>
           DraftingInvoicesBloc(draftingStorage: getIt.get<DraftingStorage>()))
-      ..registerLazySingleton(
-          () => EmployeeBloc(getIt.get<EmployeeRepositories>()))
-      ..registerFactory(() => WarrantyBloc(getIt.get<WarrantyRepositories>()))
+      ..registerLazySingleton(() => EmployeeBloc(getIt.get<EmployeeServices>()))
+      ..registerFactory(() => WarrantyBloc(getIt.get<WarrantyServices>()))
       ..registerFactory(() => CouponBloc(
           authBloc: getIt.get<AuthBloc>(),
-          couponRepository: getIt.get<CouponRepository>()))
+          couponServices: getIt.get<CouponServices>()))
       ..registerFactory(() => PaymentBloc(
-          paymentRepositories: getIt.get<PaymentRepositories>(),
+          paymentServices: getIt.get<PaymentServices>(),
           authBloc: getIt.get<AuthBloc>()))
-      ..registerFactory(() => SearchProductBloc(
-            productRepository: getIt.get<ProductRepository>(),
-            stockRepository: getIt.get<StockRepository>(),
-          ))
-      ..registerFactory(() => ScanBloc())
       ..registerFactory(() =>
-          AddressBloc(addressRepositories: getIt.get<AddressRepositories>()));
+          SearchProductBloc(productServices: getIt.get<ProductServices>()))
+      ..registerFactory(
+        () => TradeInBloc(tradeInServices: getIt.get<TradeInServices>()),
+      )
+      ..registerFactory(() => ScanBloc())
+      ..registerFactory(
+          () => AddressBloc(addressServices: getIt.get<AddressServices>()));
   }
 }

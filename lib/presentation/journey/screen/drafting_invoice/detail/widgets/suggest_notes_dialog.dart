@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/di/injection/injection.dart';
-import '../../../../../../data/models/suggest_note_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
 import '../../../warranty/bloc/warranty_bloc.dart';

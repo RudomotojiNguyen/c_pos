@@ -131,7 +131,7 @@ class _OrderApi implements OrderApi {
     )
         .compose(
           _dio.options,
-          'orders/${orderId}',
+          'v1/orders/${orderId}',
           queryParameters: queryParameters,
           data: _data,
         )

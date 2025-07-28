@@ -16,6 +16,14 @@ extension StringExtensions on String {
     }
   }
 
+  DateTime get convertHourMinuteToDateTime {
+    final time = DateTime.tryParse(this) ?? DateFormat('HH:mm').parse(this);
+    final now = DateTime.now();
+
+    // Gắn giờ/phút vào ngày hôm nay
+    return DateTime(now.year, now.month, now.day, time.hour, time.minute);
+  }
+
   bool get isUtcFormat {
     return endsWith('Z') || contains('+00:00');
   }

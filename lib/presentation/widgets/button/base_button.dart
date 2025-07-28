@@ -82,22 +82,6 @@ class XBaseButtonState extends State<XBaseButton>
     _zoomAnimation = Tween<double>(begin: 1.0, end: 1.009).animate(
       CurvedAnimation(parent: _zoomController, curve: Curves.easeInOut),
     );
-
-    // Lắng nghe sự kiện back button để đóng overlay
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        final route = ModalRoute.of(context);
-        if (route != null) {
-          route.addScopedWillPopCallback(() async {
-            if (_overlayEntry != null) {
-              await removeOverlay();
-              return false; // Ngăn không cho pop route
-            }
-            return true;
-          });
-        }
-      }
-    });
   }
 
   @override
@@ -116,18 +100,26 @@ class XBaseButtonState extends State<XBaseButton>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.disable ? null : () => onPress(context),
-      onLongPress: widget.disable ? null : () => longPress(context),
-      child: Container(
-        key: _childKey,
-        width: widget.width,
-        padding: widget.padding ?? EdgeInsets.zero,
-        margin: widget.margin,
-        constraints: widget.constraints,
-        decoration: widget.decoration ??
-            BoxDecoration(borderRadius: BorderRadius.all(AppRadius.xxm)),
-        child: widget.child,
+    return PopScope(
+      canPop: _overlayEntry == null,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop && _overlayEntry != null) {
+          removeOverlay();
+        }
+      },
+      child: GestureDetector(
+        onTap: widget.disable ? null : () => onPress(context),
+        onLongPress: widget.disable ? null : () => longPress(context),
+        child: Container(
+          key: _childKey,
+          width: widget.width,
+          padding: widget.padding ?? EdgeInsets.zero,
+          margin: widget.margin,
+          constraints: widget.constraints,
+          decoration: widget.decoration ??
+              BoxDecoration(borderRadius: BorderRadius.all(AppRadius.xxm)),
+          child: widget.child,
+        ),
       ),
     );
   }
@@ -321,11 +313,11 @@ class XBaseButtonState extends State<XBaseButton>
     ArrowDirection direction = ArrowDirection.up,
   }) {
     // Tạo một callback wrapper để đảm bảo closeOverlay được gọi đúng cách
-    Future<void> Function() safeCloseOverlay = () async {
+    safeCloseOverlay() async {
       if (_overlayEntry != null && !_controller.isDismissed) {
         await removeOverlay();
       }
-    };
+    }
 
     // SỬ DỤNG secondaryWidgetBuilder TỪ XBaseButton với safeCloseOverlay
     Widget secondaryContent =
@@ -355,60 +347,5 @@ class XBaseButtonState extends State<XBaseButton>
         ),
       ),
     );
-  }
-}
-
-// Giữ nguyên MessageBubblePainter
-class MessageBubblePainter extends CustomPainter {
-  final Color color;
-  final ArrowDirection direction;
-
-  MessageBubblePainter(this.color, {this.direction = ArrowDirection.down});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-
-    final radius = 12.sp;
-    final minMax = 8.sp;
-    final widthArrow = 5.sp;
-
-    path.moveTo(radius, 0);
-    path.lineTo(size.width - radius, 0);
-    path.quadraticBezierTo(size.width, 0, size.width, radius);
-    path.lineTo(size.width, size.height - radius);
-    path.quadraticBezierTo(
-      size.width,
-      size.height,
-      size.width - radius,
-      size.height,
-    );
-    path.lineTo(radius, size.height);
-    path.quadraticBezierTo(0, size.height, 0, size.height - radius);
-    path.lineTo(0, radius);
-    path.quadraticBezierTo(0, 0, radius, 0);
-
-    double pointMove = size.width * 3 / 4;
-    if (direction == ArrowDirection.down) {
-      path.moveTo(pointMove - widthArrow, size.height);
-      path.lineTo(pointMove, size.height + minMax);
-      path.lineTo(pointMove + widthArrow, size.height);
-    } else {
-      path.moveTo(pointMove - widthArrow, 0);
-      path.lineTo(pointMove, -minMax);
-      path.lineTo(pointMove + widthArrow, 0);
-    }
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }

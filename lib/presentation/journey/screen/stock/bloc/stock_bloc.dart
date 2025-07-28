@@ -5,26 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/category_model.dart';
-import '../../../../../data/models/filter/filter_product_stock_model.dart';
-import '../../../../../data/models/product_model.dart';
-import '../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../data/models/stock_model.dart';
-import '../../../../../data/repository/product_repository.dart';
-import '../../../../../data/repository/stock_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
 part 'stock_event.dart';
 part 'stock_state.dart';
 
 class StockBloc extends Bloc<StockEvent, StockState> {
-  final StockRepository stockRepository;
-  final ProductRepository productRepository;
+  final StockServices stockServices;
+  final ProductServices productServices;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   StockBloc({
-    required this.stockRepository,
-    required this.productRepository,
+    required this.stockServices,
+    required this.productServices,
   }) : super(StockInitial(
           productStocks: const [],
           products: const [],
@@ -43,7 +38,7 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     try {
       emit(StockIsLoading(state: state));
       final res =
-          await stockRepository.getStoreHasProductInStockById(event.productId);
+          await stockServices.getStoreHasProductInStockById(event.productId);
       List<StockModel> stores =
           res.where((e) => e.getInStockQuantity > 0).toList();
       emit(GetStockOfProductSuccess(state: state, productStocks: stores));
@@ -85,7 +80,7 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     try {
       emit(StockIsLoading(state: state));
 
-      final res = await productRepository.getProductInventory(
+      final res = await productServices.getProductInventory(
         page: 1,
         size: state.pageInfo.getLimit,
         categoryId: state.productStockFilter.cateSelected?.id,
@@ -119,7 +114,7 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       final int page = state.pageInfo.getNextPage;
       final List<ProductModel> products = state.products;
 
-      final res = await productRepository.getProductInventory(
+      final res = await productServices.getProductInventory(
         page: page,
         size: state.pageInfo.getLimit,
         categoryId: state.productStockFilter.cateSelected?.id,

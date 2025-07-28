@@ -37,18 +37,24 @@ class CouponServicesImpl implements CouponServices {
 
   @override
   Future<List<CouponModel>> searchCoupon(
-      {required Map<String, dynamic> params,
+      {required List<ProductTable> products,
       int? storeId,
       String? code,
       required int applyChanel,
       required int page,
       required int size,
       int? customerId}) {
+    List<Map<String, dynamic>> productInLineItems = [];
+
+    for (var e in products) {
+      productInLineItems.add(e.toJsonCheckCoupon());
+    }
+
     return couponApi
         .searchCoupon(
             code: code,
             storeId: storeId,
-            params: params,
+            params: {"productInLineItems": productInLineItems},
             applyChanel: applyChanel,
             page: page,
             size: size,

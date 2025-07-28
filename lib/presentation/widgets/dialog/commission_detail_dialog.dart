@@ -5,7 +5,7 @@ import 'package:timelines_plus/timelines_plus.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../common/extensions/extension.dart';
-import '../../../data/models/reward_report_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../theme/themes.dart';
 
 class CommissionDetailDialog extends StatelessWidget {

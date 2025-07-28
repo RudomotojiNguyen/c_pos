@@ -6,7 +6,14 @@ class UserServicesImpl implements UserServices {
   UserServicesImpl({required this.userApi});
 
   @override
-  Future<bool> changePass(Map<String, dynamic> params) {
+  Future<bool> changePass({
+    required String oldPassword,
+    required String newPassword,
+  }) {
+    final params = {
+      "password": oldPassword,
+      "newPassword": newPassword,
+    };
     return userApi.changePass(params).then((value) => value.checkIsSuccess);
   }
 

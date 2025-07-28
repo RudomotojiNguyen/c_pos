@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../common/di/injection/injection.dart';
-import '../../../data/models/employee_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../journey/screen/employee/bloc/employee_bloc.dart';
 import '../widgets.dart';
 

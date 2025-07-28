@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/accountant_model.dart';
-import '../../../../../data/models/enum_model.dart';
-import '../../../../../data/models/installment_accounting_model.dart';
-import '../../../../../data/repository/payment_repositories.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../login/bloc/auth_bloc.dart';
 
@@ -17,11 +15,11 @@ part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
-  final PaymentRepositories paymentRepositories;
+  final PaymentServices paymentServices;
   final AuthBloc authBloc;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
-  PaymentBloc({required this.paymentRepositories, required this.authBloc})
+  PaymentBloc({required this.paymentServices, required this.authBloc})
       : super(const PaymentInitial(
             cashAccountants: [],
             transferAccountants: [],
@@ -48,8 +46,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       GetCashAccountsEvent event, Emitter<PaymentState> emit) async {
     try {
       emit(IsLoading(state: state, isLoading: true));
-      final res = await paymentRepositories.getAccountantsByCash(
-          storeId: authBloc.state.userInfo!.getStoreId);
+      final res = await paymentServices.getAccountantsByStore(
+        type: PaymentType.cash.getValue,
+        storeId: authBloc.state.userInfo!.getStoreId,
+      );
       emit(UpdateCashAccountant(state: state, cashAccountants: res));
     } catch (e) {
       _loggerHelper.logError(message: 'GetCashAccountsEvent', obj: e);
@@ -62,7 +62,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       GetTransferAccountsEvent event, Emitter<PaymentState> emit) async {
     try {
       emit(IsLoading(state: state, isLoading: true));
-      final res = await paymentRepositories.getAccountantsByTransfer(
+      final res = await paymentServices.getAccountants(
+        type: PaymentType.transfer.getValue,
         storeId: authBloc.state.userInfo!.getStoreId,
         moduleType: event.cartType.getModuleType,
       );
@@ -78,7 +79,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       GetCreditAccountsEvent event, Emitter<PaymentState> emit) async {
     try {
       emit(IsLoading(state: state, isLoading: true));
-      final res = await paymentRepositories.getAccountantsByCredit(
+      final res = await paymentServices.getAccountants(
+        type: PaymentType.credit.getValue,
         storeId: authBloc.state.userInfo!.getStoreId,
         moduleType: event.cartType.getModuleType,
       );
@@ -94,7 +96,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       GetInstallmentAccountsEvent event, Emitter<PaymentState> emit) async {
     try {
       emit(IsLoading(state: state, isLoading: true));
-      final res = await paymentRepositories.getInstallmentAccounts();
+      final res = await paymentServices.getInstallmentAccounts();
       emit(UpdateInstallmentAccountant(
           state: state, installmentAccountants: res));
     } catch (e) {
@@ -108,7 +110,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       GetPaymentEnumEvent event, Emitter<PaymentState> emit) async {
     try {
       emit(IsLoading(state: state, isLoading: true));
-      final res = await paymentRepositories.getPaymentMethods();
+      final res = await paymentServices.getPaymentMethods();
       emit(UpdatePaymentEnum(state: state, paymentMethodsEnum: res));
     } catch (e) {
       _loggerHelper.logError(message: 'GetPaymentEnumEvent', obj: e);

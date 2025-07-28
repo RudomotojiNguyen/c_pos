@@ -5,10 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/history_change_store_model.dart';
-import '../../../../../data/models/response/page_info_entity.dart';
-import '../../../../../data/models/store_model.dart';
-import '../../../../../data/repository/store_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../../../widgets/widgets.dart';
 import '../../login/bloc/auth_bloc.dart';
@@ -17,11 +15,11 @@ part 'store_event.dart';
 part 'store_state.dart';
 
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
-  final StoreRepository storeRepository;
+  final StoreServices storeServices;
   final AuthBloc authBloc;
   final LoggerHelper loggerHelper = LoggerHelper();
 
-  StoreBloc({required this.storeRepository, required this.authBloc})
+  StoreBloc({required this.storeServices, required this.authBloc})
       : super(StoreInitial(
             stores: const [],
             userStoresCanChange: const [],
@@ -39,7 +37,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       CreateTicketExchangeEvent event, Emitter<StoreState> emit) async {
     try {
       XToast.loading();
-      final res = await storeRepository.createSwitchStore(
+      final res = await storeServices.createSwitchStore(
         employeeId: authBloc.state.getUserId,
         currentStoreId: authBloc.state.getUserStoreId,
         targetStoreId: event.targetStoreId,
@@ -68,7 +66,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(GetExchangeHistoryLoadMore(state: state));
       int page = state.currentPage + 1;
       List<HistoryChangeStoreModel> data = state.exchangeHistory;
-      final res = await storeRepository.getHistoriesChangeStore(
+      final res = await storeServices.getHistoriesChangeStore(
           page: page, pageSize: state.limit);
 
       data.addAll(res);
@@ -88,7 +86,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       GetExchangeHistoryEvent event, Emitter<StoreState> emit) async {
     try {
       emit(GetExchangeHistoryLoading(state: state));
-      final res = await storeRepository.getHistoriesChangeStore(
+      final res = await storeServices.getHistoriesChangeStore(
           page: state.currentPage, pageSize: state.limit);
       emit(GetExchangeHistorySuccess(
           state: state,
@@ -106,8 +104,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       ChangeUserStoreEvent event, Emitter<StoreState> emit) async {
     try {
       XToast.loading();
-      final res =
-          await storeRepository.changeStore(storeId: event.targetStoreId);
+      final res = await storeServices.changeStore(storeId: event.targetStoreId);
       if (res) {
         emit(ChangeUserStoreSuccess(state: state));
       }
@@ -120,7 +117,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       GetUserStoreCanChangeEvent event, Emitter<StoreState> emit) async {
     try {
       emit(GetUserStoreCanChangeLoading(state: state));
-      final res = await storeRepository.getApproveStores();
+      final res = await storeServices.getApproveStores();
       emit(
           GetUserStoreCanChangeSuccess(state: state, userStoresCanChange: res));
     } catch (e) {
@@ -131,7 +128,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   FutureOr<void> _onGetStore(
       GetStoreEvent event, Emitter<StoreState> emit) async {
     try {
-      final res = await storeRepository.getStores();
+      final res = await storeServices.getStores();
       emit(GetStoreSuccess(state: state, stores: res));
     } catch (e) {
       loggerHelper.logError(message: 'GetStore', obj: e);

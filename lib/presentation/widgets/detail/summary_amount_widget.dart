@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/configs/box.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
-import '../../../data/models/payment_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../gen/gen.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';

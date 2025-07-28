@@ -2,7 +2,7 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../data/models/waranty_info_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../widgets.dart';
 
 class WarrantyInfoDialog extends StatelessWidget {

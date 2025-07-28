@@ -6,8 +6,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/enum/enum.dart';
-import '../../../../../../data/models/employee_model.dart';
-import '../../../../../../data/models/store_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
 import '../../../employee/bloc/employee_bloc.dart';
@@ -52,6 +51,7 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
   late ValueNotifier<StoreModel?> store;
 
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _employeeController = TextEditingController();
 
   final StoreBloc _storeBloc = getIt.get<StoreBloc>();
   final EmployeeBloc _employeeBloc = getIt.get<EmployeeBloc>();
@@ -67,6 +67,9 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
     if (widget.store != null) {
       _controller.text = widget.store!.getName;
     }
+    if (widget.employee != null) {
+      _employeeController.text = widget.employee!.getFullName;
+    }
   }
 
   @override
@@ -77,13 +80,15 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
     toDay.dispose();
     store.dispose();
     _controller.dispose();
+    _employeeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: 300.sp,
+      padding: EdgeInsets.all(16.sp),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -110,7 +115,7 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
           child: Text(
-            store.name ?? '',
+            store.getName,
             style: AppFont.t.s(),
           ),
         );
@@ -195,7 +200,7 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
 
   Widget _buildEmployee() {
     return TypeAheadField<EmployeeModel>(
-      controller: _controller,
+      controller: _employeeController,
       itemBuilder: (context, employee) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
@@ -207,7 +212,7 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
       },
       onSelected: (value) {
         employee.value = value;
-        _controller.text = value.getFullName;
+        _employeeController.text = value.getFullName;
       },
       suggestionsCallback: (search) => _employeeBloc.searchEmployees(
           value: search, currentEmployees: _employeeBloc.state.employees),
@@ -218,30 +223,13 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
         );
       },
       builder: (context, controller, focusNode) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Nhân viên',
-              style: AppFont.t.s(),
-            ),
-            BoxSpacer.s4,
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.all(AppRadius.l),
-                border: Border.all(width: 1.sp, color: AppColors.dividerColor),
-              ),
-              child: XTextField(
-                controller: controller,
-                focusNode: focusNode,
-                hintText: 'Chọn nhân viên',
-                autoFocus: false,
-                decorationStyle: DecorationStyle.search,
-              ),
-            ),
-          ],
+        return XTextField(
+          controller: controller,
+          focusNode: focusNode,
+          labelText: 'Nhân viên',
+          hintText: 'Chọn nhân viên',
+          autoFocus: false,
+          decorationStyle: DecorationStyle.rounded,
         );
       },
     );

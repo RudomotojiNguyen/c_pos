@@ -25,7 +25,7 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
       children: [
         BoxSpacer.s16,
         _normalView(),
-        // _tradeInView(),
+        _tradeInView(),
       ],
     );
   }
@@ -35,26 +35,26 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
   ///
 
   /// phải có sản phẩm mới hiện
-  // Widget _tradeInView() {
-  //   return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
-  //     bloc: _draftingInvoiceBloc,
-  //     buildWhen: (previous, current) =>
-  //         current is UpdateProductTradeInSuccess ||
-  //         current is IsGettingDetail ||
-  //         current is GetCurrentDraftDataSuccess,
-  //     builder: (context, state) {
-  //       if ([CartType.tradeIn].contains(state.cartType) &&
-  //           state.product != null) {
-  //         return XButton(
-  //           padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 32.sp),
-  //           onPressed: _onShowDialogSubmitTradeInForm,
-  //           title: 'Hoàn tất',
-  //         );
-  //       }
-  //       return BoxSpacer.blank;
-  //     },
-  //   );
-  // }
+  Widget _tradeInView() {
+    return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
+      bloc: _draftingInvoiceBloc,
+      buildWhen: (previous, current) =>
+          current is UpdateProductTradeInSuccess ||
+          current is IsGettingDetail ||
+          current is GetCurrentDraftDataSuccess,
+      builder: (context, state) {
+        if ([CartType.tradeIn].contains(state.cartType) &&
+            state.product != null) {
+          return XButton(
+            padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 32.sp),
+            onPressed: _onShowDialogSubmitTradeInForm,
+            title: 'Hoàn tất',
+          );
+        }
+        return BoxSpacer.blank;
+      },
+    );
+  }
 
   /// phải có sản phẩm mới hiện
   /// điềm đầu đủ thông tin sau thì enable
@@ -68,12 +68,6 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
       //     current is IsGettingDetail ||
       //     current is GetCurrentDraftDataSuccess,
       listener: (context, state) {
-        //   // lắng nghe các state bên dưới để tắt state loading
-        //   if (state is CreateTradeInbillSuccess ||
-        //       state is CreateBillSuccess ||
-        //       state is CreateOrderSuccess) {
-        //     updateLoadingState(false);
-        //   }
         if (state is CreateFailed) {
           /// lắng nghe xem tạo đơn được không, nếu lỗi thì reset
           swipeController.reset();
@@ -131,7 +125,7 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
   /// METHOD
   ///
 
-  // _onShowDialogSubmitTradeInForm() {
-  //   // showXBottomSheet(context, body: const TradeInConfirmDialog());
-  // }
+  _onShowDialogSubmitTradeInForm() {
+    showXBottomSheet(context, body: const TradeInConfirmDialog());
+  }
 }

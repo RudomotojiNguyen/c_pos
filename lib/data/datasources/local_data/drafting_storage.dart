@@ -1,21 +1,11 @@
 import 'package:c_pos/common/di/injection/injection.dart';
+import 'package:c_pos/data/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
 import '../../../common/constants/app_constants.dart';
 import '../../../common/enum/enum.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
-import '../../models/auth_model.dart';
-import '../../models/bill_item_model.dart';
-import '../../models/bill_model.dart';
-import '../../models/customer_model.dart';
-import '../../models/order_item.dart';
-import '../../models/order_model.dart';
-import '../../models/otp_customer_point_model.dart';
-import '../../models/payment_model.dart';
-import '../../models/product_imei_model.dart';
-import '../../models/product_model.dart';
-import '../../models/store_model.dart';
 import '../local_db/local_db.dart';
 
 part 'impl/drafting_storage_impl.dart';

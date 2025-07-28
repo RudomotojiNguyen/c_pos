@@ -48,7 +48,7 @@ class TransactionItem extends StatelessWidget {
             billInformation(context),
             XDivider(padding: EdgeInsets.symmetric(vertical: 8.sp)),
             customerInformation(context),
-            if (amount > 0) ...[
+            if (amount >= 0) ...[
               XDivider(padding: EdgeInsets.symmetric(vertical: 8.sp)),
               billPrice(context),
             ],

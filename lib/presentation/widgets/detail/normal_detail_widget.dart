@@ -20,6 +20,10 @@ class NormalDetailWidget extends StatelessWidget {
     this.cashierName,
     this.techName,
     this.typeName,
+    this.orderSource,
+    this.orderType,
+    this.checkDate,
+    this.checkTime,
   });
 
   final String storeName;
@@ -34,6 +38,10 @@ class NormalDetailWidget extends StatelessWidget {
 
   final String? statusName;
   final Color? statusColor;
+  final String? orderSource;
+  final String? orderType;
+  final String? checkDate;
+  final String? checkTime;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +67,38 @@ class NormalDetailWidget extends StatelessWidget {
           if (statusName.isNotNullOrEmpty) ...[
             BoxSpacer.s8,
             _rowInfoStatus(context, title: 'Trạng thái', value: statusName),
+          ],
+          if (orderSource.isNotNullOrEmpty) ...[
+            BoxSpacer.s8,
+            _rowInfo(
+              context,
+              title: 'Nguồn đơn hàng',
+              value: orderSource,
+            ),
+          ],
+          if (orderType.isNotNullOrEmpty) ...[
+            BoxSpacer.s4,
+            _rowInfo(
+              context,
+              title: 'Loại đơn',
+              value: orderType,
+            ),
+          ],
+          if (checkDate.isNotNullOrEmpty) ...[
+            BoxSpacer.s4,
+            _rowInfo(
+              context,
+              title: 'Ngày đến cửa hàng',
+              value: checkDate,
+            ),
+          ],
+          if (checkTime.isNotNullOrEmpty) ...[
+            BoxSpacer.s4,
+            _rowInfo(
+              context,
+              title: 'Giờ đến cửa hàng',
+              value: checkTime,
+            ),
           ],
           if (employeeName.isNotNullOrEmpty) ...[
             BoxSpacer.s8,

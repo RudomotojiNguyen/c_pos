@@ -1,4 +1,4 @@
-import '../datasources/remote/payment_api.dart';
+import '../datasources/remote/api_remote.dart';
 import '../models/accountant_model.dart';
 import '../models/enum_model.dart';
 import '../models/installment_accounting_model.dart';

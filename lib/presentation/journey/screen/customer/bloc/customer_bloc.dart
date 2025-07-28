@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../common/enum/enum.dart';
-import '../../../../../data/models/customer_model.dart';
-import '../../../../../data/models/response/paginated_response.dart';
-import '../../../../../data/repository/customer_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -15,11 +14,11 @@ part 'customer_event.dart';
 part 'customer_state.dart';
 
 class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
-  final CustomerRepository customerRepository;
+  final CustomerServices customerServices;
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   CustomerBloc({
-    required this.customerRepository,
+    required this.customerServices,
   }) : super(const CustomerInitial(
           customers: [],
           currentPage: 1,
@@ -53,7 +52,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   ) async {
     try {
       XToast.loading();
-      final res = await customerRepository.updateCustomerInfo(
+      final res = await customerServices.updateCustomerInfo(
         params: event.customer.toJson(),
         customerId: event.customer.id!,
       );
@@ -81,7 +80,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       XToast.loading();
       emit(UpdateIsLoading(state: state, isLoading: true));
       if (event.type == DiscountMemberType.point) {
-        final res = await customerRepository.checkOTPUsePoint(
+        final res = await customerServices.checkOTPUsePoint(
           customerId: event.customerId,
           otpCode: event.otpCode,
           pointUse: event.pointUse ?? 0,
@@ -111,7 +110,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       XToast.loading();
       emit(UpdateIsLoading(state: state, isLoading: true));
       if (event.type == DiscountMemberType.point && event.customerId != null) {
-        final res = await customerRepository.getCustomerOTPToChangePoint(
+        final res = await customerServices.getCustomerOTPToChangePoint(
           customerId: event.customerId!,
           pointUse: event.point ?? 0,
         );
@@ -144,7 +143,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   ) async {
     try {
       emit(UpdateIsLoading(state: state, isLoading: true));
-      final res = await customerRepository.getCustomerInfoById(
+      final res = await customerServices.getCustomerInfoById(
         customerId: event.customerId,
       );
       emit(UpdateIsLoading(state: state, isLoading: false));
@@ -187,7 +186,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     String? phoneNumber,
   }) async {
     try {
-      final res = await customerRepository.getCustomers(
+      final res = await customerServices.getCustomers(
         page: 1,
         size: state.limit,
         phoneNumber: phoneNumber,

@@ -10,16 +10,8 @@ import 'package:flutter/material.dart';
 import '../../../../../../common/enum/enum.dart';
 import '../../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../../data/datasources/local_db/local_db.dart';
-import '../../../../../../data/models/customer_model.dart';
-import '../../../../../../data/models/order_model.dart';
-import '../../../../../../data/models/otp_customer_point_model.dart';
-import '../../../../../../data/models/product_imei_model.dart';
-import '../../../../../../data/models/product_model.dart';
-import '../../../../../../data/models/store_model.dart';
-import '../../../../../../data/models/trade_in/trade_in_program_creteria_group_option_model.dart';
-import '../../../../../../data/repository/bill_repository.dart';
-import '../../../../../../data/repository/order_repository.dart';
-import '../../../../../../data/repository/product_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../../../data/services/services.dart';
 import '../../../../../utils/utils.dart';
 
 part 'drafting_invoice_event.dart';
@@ -27,21 +19,22 @@ part 'drafting_invoice_state.dart';
 
 class DraftingInvoiceBloc
     extends Bloc<DraftingInvoiceEvent, DraftingInvoiceState> {
-  final ProductRepository productRepository;
-  // final TradeInRepositories tradeInRepositories;
-  final BillRepository billRepository;
-  final OrderRepository orderRepository;
+  final ProductServices productServices;
+  final TradeInServices tradeInServices;
+  final BillServices billServices;
+  final OrderServices orderServices;
 
   final DraftingStorage draftingStorage;
 
   final LoggerHelper _loggerHelper = LoggerHelper();
 
-  DraftingInvoiceBloc(
-      {required this.draftingStorage,
-      required this.productRepository,
-      required this.billRepository,
-      required this.orderRepository})
-      : super(const DraftingInvoiceInitial(
+  DraftingInvoiceBloc({
+    required this.draftingStorage,
+    required this.productServices,
+    required this.billServices,
+    required this.orderServices,
+    required this.tradeInServices,
+  }) : super(const DraftingInvoiceInitial(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
           discountOfBill: 0,
@@ -200,9 +193,8 @@ class DraftingInvoiceBloc
       // lấy danh sách quà tặng, chương trình khuyến mãi,
       List<ProductModel> resGifts = [];
       try {
-        resGifts = await productRepository.getProductsAttach(
-          productId: product.productId!,
-        );
+        resGifts = await productServices.getProductsAttach(
+            productId: product.productId!);
       } catch (e) {
         _loggerHelper.logError(
             message: 'AddProductFromSearchToCartEvent', obj: e);
@@ -347,51 +339,49 @@ class DraftingInvoiceBloc
     Emitter<DraftingInvoiceState> emit,
   ) async {
     try {
-      // int? currentDraftId = state.currentDraftId;
-      // if (currentDraftId == null) return;
-      // final cart = await draftingStorage.getCart(currentDraftId);
-      // if (cart == null) return;
+      int? currentDraftId = state.currentDraftId;
+      if (currentDraftId == null) return;
+      final cart = await draftingStorage.getCart(currentDraftId);
+      if (cart == null) return;
 
-      // XToast.loading();
+      XToast.loading();
 
-      // Map<String, dynamic> data = <String, dynamic>{};
+      List<TradeInProgramCreteriaGroupOptionModel> criteriaGroups = state
+          .programingSelected.values
+          .expand((innerMap) => innerMap.values)
+          .toList();
 
-      // List<TradeInProgramCreteriaGroupOptionModel> criteriaGroups = state
-      //     .programingSelected.values
-      //     .expand((innerMap) => innerMap.values)
-      //     .toList();
+      Map<String, dynamic> data = <String, dynamic>{
+        'tradeInProgramId': state.tradeInProgramId,
+        'imei': state.product!.getImei,
+        'productId': state.product!.productId,
+        'productBuyingPrice': state.product!.getSellingPrice,
+        'totalCriteriaPrice': state.totalCriteriaPrice,
+        'finalBuyingPrice': event.finalBuyingPrice,
+        'customer': state.customer?.formatTradeInBodyData(),
+        'criteriaGroups': criteriaGroups.map((e) => e.toJson()).toList(),
+        'note': event.note,
+        'typeTradeIn': state.tradeInType.getTypeValue,
+      };
 
-      // data['tradeInProgramId'] = state.tradeInProgramId;
-      // data['imei'] = state.product!.getImei;
-      // data['productId'] = state.product!.productId;
-      // data['productBuyingPrice'] = state.product!.getSellingPrice;
-      // data['totalCriteriaPrice'] = state.totalCriteriaPrice;
-      // data['finalBuyingPrice'] = event.finalBuyingPrice;
-      // data['customer'] = state.customer?.formatTradeInBodyData();
-      // data['criteriaGroups'] = criteriaGroups.map((e) {
-      //   return e.toJson();
-      // }).toList();
-      // data['note'] = event.note;
-      // data['typeTradeIn'] = state.tradeInType.getTypeValue;
+      final res = await tradeInServices.saveBillTradeIn(data);
 
-      // final res = await tradeInRepositories.saveBillTradeIn(data);
+      if (res) {
+        XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
 
-      // if (res) {
-      //   XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
+        emit(CreateTradeInbillSuccess(state: state));
 
-      //   emit(CreateTradeInbillSuccess(state: state));
-
-      //   /// xóa sau khi tạo thành công
-      //   draftingStorage.removeCartById(cart);
-      // } else {
-      //   emit(CreateFailed(state: state));
-      // }
+        /// xóa sau khi tạo thành công
+        draftingStorage.removeCartById(cart.id);
+      } else {
+        emit(CreateFailed(state: state));
+      }
     } catch (e) {
-      // emit(CreateFailed(state: state));
-      // XToast.showNegativeMessage(message: e.toString());
-      // _loggerHelper.logError(message: 'SubmitTradeInBillEvent', obj: e);
+      emit(CreateFailed(state: state));
+      XToast.showNegativeMessage(message: e.toString());
+      _loggerHelper.logError(message: 'SubmitTradeInBillEvent', obj: e);
     } finally {
-      // XToast.closeAllLoading();
+      XToast.closeAllLoading();
     }
   }
 
@@ -744,32 +734,32 @@ class DraftingInvoiceBloc
           // }
         }
         if (state.cartType == CartType.order) {
-          // final response = await orderRepository.createOrder(formData);
-          // isCreateSuccess = response.checkIsSuccess;
-          // if (response.checkIsSuccess) {
-          //   XToast.showPositiveSuccess(message: response.getMess);
-          //   emit(CreateOrderSuccess(newBillNum: response.data as int));
-          // } else {
-          //   // emit(CreateFailed(state: state));
-          //   XToast.showNegativeMessage(message: response.toString());
-          // }
+          final response = await orderServices.createOrder(formData);
+          isCreateSuccess = response.checkIsSuccess;
+          if (response.checkIsSuccess) {
+            XToast.showPositiveSuccess(message: response.getMess);
+            emit(CreateOrderSuccess(newBillNum: response.data as int));
+          } else {
+            emit(CreateFailed(state: state));
+            XToast.showNegativeMessage(message: response.toString());
+          }
         }
         if (state.cartType == CartType.updateOrder) {
-          // final response = await orderRepository.updateOrder(formData);
-          // isCreateSuccess = response.checkIsSuccess;
-          // if (response.checkIsSuccess) {
-          //   XToast.showPositiveSuccess(message: response.getMess);
-          //   emit(CreateOrderSuccess(newBillNum: cart.orderId!));
-          // } else {
-          //   // emit(CreateFailed(state: state));
-          //   XToast.showNegativeMessage(message: response.toString());
-          // }
+          final response = await orderServices.updateOrder(formData);
+          isCreateSuccess = response.checkIsSuccess;
+          if (response.checkIsSuccess) {
+            XToast.showPositiveSuccess(message: response.getMess);
+            emit(CreateOrderSuccess(newBillNum: cart.orderId!));
+          } else {
+            emit(CreateFailed(state: state));
+            XToast.showNegativeMessage(message: response.toString());
+          }
         }
       }
 
       if (isCreateSuccess) {
         /// xóa sau khi tạo thành công
-        // draftingStorage.removeCartById(cart.id);
+        draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
       emit(CreateFailed(state: state));

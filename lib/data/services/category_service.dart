@@ -1,4 +1,4 @@
-import '../datasources/remote/category_api.dart';
+import '../datasources/remote/api_remote.dart';
 import '../models/category_model.dart';
 
 part 'impl/category_services_impl.dart';

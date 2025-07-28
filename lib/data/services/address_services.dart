@@ -1,4 +1,4 @@
-import '../datasources/remote/address_api.dart';
+import '../datasources/remote/api_remote.dart';
 import '../models/address_model.dart';
 
 part 'impl/address_services_impl.dart';

@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
-import '../../../../../data/models/bill_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../setting/bloc/setting_bloc.dart';

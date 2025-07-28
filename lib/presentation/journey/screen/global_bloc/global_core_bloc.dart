@@ -9,21 +9,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/constants/app_constants.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/enum/enum.dart';
-import '../../../../data/models/auth_model.dart';
-import '../../../../data/models/base_enum_model.dart';
-import '../../../../data/repository/order_repository.dart';
+import 'package:c_pos/data/models/models.dart';
+import '../../../../data/services/services.dart';
 import '../../../mixins/logger_helper.dart';
 
 part 'global_core_event.dart';
 part 'global_core_state.dart';
 
 class GlobalCoreBloc extends Bloc<GlobalCoreEvent, GlobalCoreState> {
-  final OrderRepository orderRepository;
+  final OrderServices orderServices;
 
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   GlobalCoreBloc({
-    required this.orderRepository,
+    required this.orderServices,
   }) : super(const GlobalCoreInitial(
           orderStatus: [],
           cancelStatus: [],
@@ -107,7 +106,7 @@ class GlobalCoreBloc extends Bloc<GlobalCoreEvent, GlobalCoreState> {
   FutureOr<void> _onGetOrderSource(
       GetOrderSourceEvent event, Emitter<GlobalCoreState> emit) async {
     try {
-      final res = await orderRepository.getOrderSource();
+      final res = await orderServices.getOrderSource();
       emit(GetOrderSourceSuccess(
         state: state,
         orderSource: res,

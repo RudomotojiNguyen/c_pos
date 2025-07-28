@@ -4,7 +4,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../common/extensions/extension.dart';
-import '../../data/models/image_detail_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../journey/router.dart';
 import '../theme/themes.dart';
 import 'widgets.dart';

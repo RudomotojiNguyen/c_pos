@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:isar/isar.dart';
+import 'package:c_pos/data/models/models.dart';
 
 import '../../../../common/constants/app_constants.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/enum/enum.dart';
 import '../../../../presentation/journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
-import '../../../models/product_imei_model.dart';
-import '../../../models/product_model.dart';
 
 part 'product_table.g.dart';
 

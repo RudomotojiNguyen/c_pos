@@ -2,6 +2,7 @@ import 'package:c_pos/common/configs/box.dart';
 import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/enum/enum.dart';
 import 'package:c_pos/common/extensions/extension.dart';
+import 'package:c_pos/data/models/models.dart';
 import 'package:c_pos/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +12,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
-import '../../../../../data/models/base_enum_model.dart';
-import '../../../../../data/models/otp_customer_point_model.dart';
-import '../../../../../data/models/product_imei_model.dart';
-import '../../../../../data/models/product_model.dart';
-import '../../../../../data/models/store_model.dart';
 import '../../../../../gen/gen.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
@@ -25,6 +21,7 @@ import '../../customer/bloc/customer_bloc.dart';
 import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
 import '../../store/bloc/store_bloc.dart';
+import '../../trade_in/bloc/trade_in_bloc.dart';
 import 'bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
 
@@ -45,6 +42,7 @@ part 'widgets/device_status_widget.dart';
 part 'widgets/delivery_widget.dart';
 part 'widgets/order_sub_detail_widget.dart';
 part 'widgets/current_store.dart';
+part 'widgets/trade_in_program_criteria_group_widget.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});
@@ -144,16 +142,14 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
 
                   // CartType là tradeIn
                   /// todo: nào làm thêm phần thu cũ thì xem làm lại chỗ này
-                  // const TypeTradeInWidget(),
-                  // const ProductTradeInWidget(),
-                  // const DeviceStatusWidget(),
+                  const TypeTradeInWidget(),
+                  const ProductTradeInWidget(),
+                  const DeviceStatusWidget(),
 
                   /// cửa hàng đang chọn
                   const CurrentStoreWidget(),
 
                   // CartType là updateOrder, order, updateBill, retail
-                  // warranty: EmployeeOfBillWidget, BillNoteWidget
-                  // const EmployeeOfBillWidget(),
                   const ProductsBasicInformationWidget(),
                   const BillNoteWidget(),
                   const DeliveryWidget(),
@@ -215,12 +211,6 @@ extension _DraftDetailScreenStateExtension on _DraftingDetailScreenState {
     if (state is CreateTradeInbillSuccess) {
       MainRouter.instance.goNamed(context, routeName: RouteName.tradeIn);
     }
-    // if (state is UpdateProductsSuccess) {
-    //   MainRouter.instance.popUtil(
-    //     context,
-    //     routeName: RouteName.drafts,
-    //   );
-    // }
     if (state is CreateBillSuccess) {
       MainRouter.instance.goNamed(
         context,

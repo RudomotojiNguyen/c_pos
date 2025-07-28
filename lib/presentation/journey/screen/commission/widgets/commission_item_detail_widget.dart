@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/extensions/extension.dart';
-import '../../../../../data/models/reward_report_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';

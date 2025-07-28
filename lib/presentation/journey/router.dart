@@ -7,7 +7,7 @@ import '../../common/constants/go_router.dart';
 import '../../common/di/injection/injection.dart';
 import '../../common/utils/navigator_service.dart';
 import '../../data/datasources/local_data/local_storage.dart';
-import '../../data/models/image_detail_model.dart';
+import 'package:c_pos/data/models/models.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 import 'screen/bill/detail/bill_detail.dart';
