@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:c_pos/common/extensions/extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,9 +48,6 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
     /// lấy danh sách hình xác thực
     on<GetImagesTradeInEvent>(_onGetImagesTradeIn);
 
-    /// tìm sản phẩm bằng imei
-    on<SearchProductByImeiEvent>(_onSearchProductByImei);
-
     /// tìm theo tên sản phẩm
     on<SearchProductByNameEvent>(_onSearchProductByName);
 
@@ -91,34 +87,6 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
     } catch (e) {
       _loggerHelper.logError(message: 'SearchProductByNameEvent', obj: e);
       emit(SearchProductsSuccess(state: state, products: const []));
-    }
-  }
-
-  FutureOr<void> _onSearchProductByImei(
-      SearchProductByImeiEvent event, Emitter<TradeInState> emit) async {
-    try {
-      emit(IsCriteriaLoading(state: state));
-
-      if (event.imei.isNullOrEmpty) {
-        emit(GetProductByImeiSuccess(
-          state: state,
-          isEstimateCost: false,
-          isSoldByCompany: false,
-          product: null,
-        ));
-        return;
-      }
-      final res = await tradeInServices.getProductByImei(event.imei);
-      emit(GetProductByImeiSuccess(
-        state: state,
-        isEstimateCost: res.$1,
-        isSoldByCompany: res.$2,
-        product: res.$3,
-      ));
-    } catch (e) {
-      _loggerHelper.logError(message: 'SearchProductByImeiEvent', obj: e);
-      XToast.showNegativeMessage(message: e.toString());
-      emit(GetProductByImeiError(state: state));
     }
   }
 
@@ -302,23 +270,23 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
     try {
       emit(IsCriteriaLoading(state: state));
 
-      final res = await tradeInServices.getListTradeIn(
-        page: 1,
-        limit: state.pageInfoEntity.getLimit,
-        toDate: state.filterInfo.getToDateValue,
-        fromDate: state.filterInfo.getFromDateValue,
-        searchProduct: state.filterInfo.getSearchProduct,
-        searchCustomer: state.filterInfo.getSearchCustomer,
-      );
+      // final res = await tradeInServices.getListTradeIn(
+      //   page: 1,
+      //   limit: state.pageInfoEntity.getLimit,
+      //   toDate: state.filterInfo.getToDateValue,
+      //   fromDate: state.filterInfo.getFromDateValue,
+      //   searchProduct: state.filterInfo.getSearchProduct,
+      //   searchCustomer: state.filterInfo.getSearchCustomer,
+      // );
 
-      emit(GetTradeInDataSuccess(
-        state: state,
-        tradeIns: res,
-        pageInfoEntity: state.pageInfoEntity.copyWith(
-          page: 1,
-          hasNextPage: res.length == state.pageInfoEntity.getLimit,
-        ),
-      ));
+      // emit(GetTradeInDataSuccess(
+      //   state: state,
+      //   tradeIns: res,
+      //   pageInfoEntity: state.pageInfoEntity.copyWith(
+      //     page: 1,
+      //     hasNextPage: res.length == state.pageInfoEntity.getLimit,
+      //   ),
+      // ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetTradeInDataEvent', obj: e);
     }
@@ -335,24 +303,24 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
       List<TradeInModel> data = state.tradeIns;
 
       emit(IsLoadMore(state: state));
-      final res = await tradeInServices.getListTradeIn(
-        page: page,
-        limit: state.pageInfoEntity.getLimit,
-        toDate: state.filterInfo.getToDateValue,
-        fromDate: state.filterInfo.getFromDateValue,
-        searchProduct: state.filterInfo.getSearchProduct,
-        searchCustomer: state.filterInfo.getSearchCustomer,
-      );
-      data.addAll(res);
+      // final res = await tradeInServices.getListTradeIn(
+      //   page: page,
+      //   limit: state.pageInfoEntity.getLimit,
+      //   toDate: state.filterInfo.getToDateValue,
+      //   fromDate: state.filterInfo.getFromDateValue,
+      //   searchProduct: state.filterInfo.getSearchProduct,
+      //   searchCustomer: state.filterInfo.getSearchCustomer,
+      // );
+      // data.addAll(res);
 
-      emit(GetTradeInDataSuccess(
-        state: state,
-        tradeIns: data,
-        pageInfoEntity: state.pageInfoEntity.copyWith(
-          page: page,
-          hasNextPage: res.length == state.pageInfoEntity.getLimit,
-        ),
-      ));
+      // emit(GetTradeInDataSuccess(
+      //   state: state,
+      //   tradeIns: data,
+      //   pageInfoEntity: state.pageInfoEntity.copyWith(
+      //     page: page,
+      //     hasNextPage: res.length == state.pageInfoEntity.getLimit,
+      //   ),
+      // ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetMoreTradeInDataEvent', obj: e);
     }
@@ -362,8 +330,8 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
       GetTradeInDataDetailEvent event, Emitter<TradeInState> emit) async {
     try {
       emit(IsCriteriaLoading(state: state));
-      final res = await tradeInServices.getTradeInDetail(event.id);
-      emit(GetTradeInDetailSuccess(state: state, tradeIndDetail: res));
+      // final res = await tradeInServices.getTradeInDetail(event.id);
+      // emit(GetTradeInDetailSuccess(state: state, tradeIndDetail: res));
     } catch (e) {
       emit(GetDetailError(state: state));
       _loggerHelper.logError(message: 'GetTradeInDataDetailEvent', obj: e);

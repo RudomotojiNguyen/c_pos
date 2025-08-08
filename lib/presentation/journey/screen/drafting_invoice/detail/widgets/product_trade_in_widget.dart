@@ -26,32 +26,7 @@ class _ProductTradeInWidgetState extends State<ProductTradeInWidget>
               width: 22.sp,
               height: 22.sp,
             ),
-            rightIcon: BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
-                    ProductTable?>(
-                bloc: _draftingInvoiceBloc,
-                selector: (state) => state.product,
-                builder: (context, state) {
-                  if (state == null) {
-                    return XBaseButton(
-                      onPressed: () {
-                        _onDialogProductInfo();
-                      },
-                      child: Assets.svg.addToCart.svg(
-                        width: 24.sp,
-                        height: 24.sp,
-                      ),
-                    );
-                  }
-                  return XBaseButton(
-                    onPressed: () {
-                      _onDialogProductInfo();
-                    },
-                    child: Assets.svg.edit.svg(
-                      width: 24.sp,
-                      height: 24.sp,
-                    ),
-                  );
-                }),
+            rightIcon: _renderRightIcon(),
             title: 'Sản phẩm cần định giá',
             child: _onProductTradeIn(),
           );
@@ -84,6 +59,35 @@ class _ProductTradeInWidgetState extends State<ProductTradeInWidget>
         );
       },
     );
+  }
+
+  Widget _renderRightIcon() {
+    return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
+            ProductTable?>(
+        bloc: _draftingInvoiceBloc,
+        selector: (state) => state.product,
+        builder: (context, state) {
+          if (state == null) {
+            return XBaseButton(
+              onPressed: () {
+                _onDialogProductInfo();
+              },
+              child: Assets.svg.addToCart.svg(
+                width: 24.sp,
+                height: 24.sp,
+              ),
+            );
+          }
+          return XBaseButton(
+            onPressed: () {
+              _onDialogProductInfo();
+            },
+            child: Assets.svg.edit.svg(
+              width: 24.sp,
+              height: 24.sp,
+            ),
+          );
+        });
   }
 
   ///

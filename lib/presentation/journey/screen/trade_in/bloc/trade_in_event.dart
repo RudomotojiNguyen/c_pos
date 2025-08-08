@@ -77,12 +77,6 @@ final class UploadImageTradeInEvent extends TradeInEvent {
   });
 }
 
-final class SearchProductByImeiEvent extends TradeInEvent {
-  final String imei;
-
-  SearchProductByImeiEvent(this.imei);
-}
-
 final class SearchProductByNameEvent extends TradeInEvent {
   final String name;
 

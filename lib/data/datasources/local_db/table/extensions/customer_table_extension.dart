@@ -17,25 +17,17 @@ extension CustomerTableExtension on CustomerTable {
   bool get isDefaultAccount => customerId == AppConstants.defaultCustomer.id;
 
   Map<String, dynamic> formatTradeInBodyData() {
-    Map<String, dynamic> data = {};
-
-    data['id'] = id;
-    data['fullName'] = fullName;
-    data['appellation'] = appellation;
-    data['phoneNo'] = phoneNo;
-    data['gender'] = gender.getValue;
-    data['appellation'] = gender.getValue;
-    data['indentifyNo'] = indentifyNo;
-    data['email'] = email;
-    data['dateOfBirth'] =
-        dateOfBirth?.formatDate(format: XDateTimeEnum.secondDayMonthYear);
-    data['city'] = city;
-    data['district'] = district;
-    data['ward'] = ward;
-    data['address'] = address;
-    data['type'] = type.getValueType;
-
-    return data;
+    return {
+      "fullName": fullName,
+      "identifyNo": indentifyNo,
+      "phoneNo": phoneNo,
+      "gender": gender.getValue,
+      "email": email,
+      "dateOfBirth":
+          dateOfBirth?.formatDate(format: XDateTimeEnum.secondDayMonthYear),
+      "address": address,
+      "type": type.getValueType,
+    };
   }
 
   Map<String, dynamic> formatCustomerCreateBill() {

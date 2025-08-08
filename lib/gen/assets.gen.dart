@@ -180,6 +180,9 @@ class $AssetsSvgGen {
   SvgGenImage get stickyNotes =>
       const SvgGenImage('assets/svg/sticky-notes.svg');
 
+  /// File path: assets/svg/trade_in.svg
+  SvgGenImage get tradeIn => const SvgGenImage('assets/svg/trade_in.svg');
+
   /// File path: assets/svg/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/svg/wallet.svg');
 
@@ -213,6 +216,7 @@ class $AssetsSvgGen {
         setting,
         shopping,
         stickyNotes,
+        tradeIn,
         wallet
       ];
 }

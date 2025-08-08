@@ -152,30 +152,22 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
 
     if (itemType == XItemType.gift) {
       data = [
-        RowFunctionWidget(
-          title: XProductOperationAction.detail.getTitle,
-          icon: XProductOperationAction.detail.getIcon,
-          onPressed: () async {
-            await closeOverlay();
-            widget.callBackAction(XProductOperationAction.detail);
-          },
-        ),
-        RowFunctionWidget(
-          title: XProductOperationAction.editRepurchasePrice.getTitle,
-          icon: XProductOperationAction.editRepurchasePrice.getIcon,
-          onPressed: () async {
-            await closeOverlay();
-            widget.callBackAction(XProductOperationAction.editRepurchasePrice);
-          },
-        ),
-        RowFunctionWidget(
-          title: XProductOperationAction.checkRepurchasePrice.getTitle,
-          icon: XProductOperationAction.checkRepurchasePrice.getIcon,
-          onPressed: () async {
-            await closeOverlay();
-            widget.callBackAction(XProductOperationAction.checkRepurchasePrice);
-          },
-        ),
+        // RowFunctionWidget(
+        //   title: XProductOperationAction.editRepurchasePrice.getTitle,
+        //   icon: XProductOperationAction.editRepurchasePrice.getIcon,
+        //   onPressed: () async {
+        //     await closeOverlay();
+        //     widget.callBackAction(XProductOperationAction.editRepurchasePrice);
+        //   },
+        // ),
+        // RowFunctionWidget(
+        //   title: XProductOperationAction.checkRepurchasePrice.getTitle,
+        //   icon: XProductOperationAction.checkRepurchasePrice.getIcon,
+        //   onPressed: () async {
+        //     await closeOverlay();
+        //     widget.callBackAction(XProductOperationAction.checkRepurchasePrice);
+        //   },
+        // ),
         RowFunctionWidget(
           title: XProductOperationAction.remove.getTitle,
           icon: XProductOperationAction.remove.getIcon,
@@ -188,14 +180,6 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
     }
     if (itemType == XItemType.attach) {
       data = [
-        RowFunctionWidget(
-          title: XProductOperationAction.detail.getTitle,
-          icon: XProductOperationAction.detail.getIcon,
-          onPressed: () async {
-            await closeOverlay();
-            widget.callBackAction(XProductOperationAction.detail);
-          },
-        ),
         RowFunctionWidget(
           title: XProductOperationAction.remove.getTitle,
           icon: XProductOperationAction.remove.getIcon,
@@ -219,16 +203,6 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
         ),
       );
     }
-    data.add(
-      RowFunctionWidget(
-        title: XProductOperationAction.copyData.getTitle,
-        icon: XProductOperationAction.copyData.getIcon,
-        onPressed: () async {
-          await closeOverlay();
-          widget.callBackAction(XProductOperationAction.copyData);
-        },
-      ),
-    );
 
     return data;
   }

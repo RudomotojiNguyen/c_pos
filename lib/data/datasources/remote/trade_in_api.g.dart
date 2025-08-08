@@ -35,88 +35,7 @@ class _TradeInApi implements TradeInApi {
     )
         .compose(
           _dio.options,
-          'tradeIn/mobile',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse _value;
-    try {
-      _value = BaseResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BaseResponse> getListTradeIn({
-    required int page,
-    required int limit,
-    String? searchCustomer,
-    String? fromDate,
-    String? toDate,
-    String? searchProduct,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'limit': limit,
-      r'searchCustomer': searchCustomer,
-      r'fromDate': fromDate,
-      r'toDate': toDate,
-      r'searchProduct': searchProduct,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'tradeIn/mobile/list',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse _value;
-    try {
-      _value = BaseResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BaseResponse> getTradeInDetail(int id) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'tradeIn/mobile/detail/${id}',
+          'v1/trade-ins/mobile',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -192,7 +111,7 @@ class _TradeInApi implements TradeInApi {
     )
         .compose(
           _dio.options,
-          'tradeInProgram/mobile/by-product-name',
+          'v1/trade-in-programs/mobile/by-product-name',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -225,40 +144,7 @@ class _TradeInApi implements TradeInApi {
     )
         .compose(
           _dio.options,
-          'tradeInProgram/mobile/by-product-id',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BaseResponse _value;
-    try {
-      _value = BaseResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BaseResponse> getProductByImei({required String imei}) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'imei': imei};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BaseResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'tradeIn/mobile/check-imei?imei={imei}',
+          'v1/trade-in-programs/mobile/by-product-id',
           queryParameters: queryParameters,
           data: _data,
         )

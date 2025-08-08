@@ -44,19 +44,13 @@ class TradeInProgramCreteriaGroupOptionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['tradeInProgramCreteriaGroupId'] = tradeInProgramCreteriaGroupId;
-    data['creteriaName'] = creteriaName;
-    data['description'] = description;
-    data['priority'] = priority;
-    data['amount'] = amount;
-    data['operator'] = getOperator.getValue;
-    data['amountType'] = amountType;
-    data['adjustAmount'] = adjustAmount;
-    data['adjustOperator'] = adjustOperator;
-    data['adjustAmountType'] = adjustAmountType;
-    return data;
+    return {
+      "id": tradeInProgramCreteriaGroupId,
+      // "id": id,
+      "criteriaName": creteriaName,
+      "amount": amount,
+      "operator": getOperator.getValue,
+    };
   }
 
   String get getCreteriaName => creteriaName ?? '';

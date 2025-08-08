@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/presentation/mixins/logger_helper.dart';
 import 'package:c_pos/presentation/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -191,24 +193,23 @@ class DraftingInvoiceBloc
       /// todo: lấy giá ưu đãi
 
       // lấy danh sách quà tặng, chương trình khuyến mãi,
-      List<ProductModel> resGifts = [];
-      try {
-        resGifts = await productServices.getProductsAttach(
-            productId: product.productId!);
-      } catch (e) {
-        _loggerHelper.logError(
-            message: 'AddProductFromSearchToCartEvent', obj: e);
-      }
+      // List<ProductModel> resGifts = [];
+      // try {
+      //   resGifts = await productServices.getProductsAttach(
+      //       productId: product.productId!);
+      // } catch (e) {
+      //   _loggerHelper.logError(
+      //       message: 'AddProductFromSearchToCartEvent', obj: e);
+      // }
 
-      List<ProductTable> gifts = resGifts
-          .map((e) => e.convertToTable(itemType: XItemType.gift))
-          .toList();
+      // List<ProductTable> gifts = resGifts
+      //     .map((e) => e.convertToTable(itemType: XItemType.gift))
+      //     .toList();
 
       // gọi tới service storage để lưu product
       final res = await _addItemToCart(
         product: product,
         cartId: state.currentDraftId!,
-        gifts: gifts,
       );
 
       if (res != null) {
@@ -354,32 +355,34 @@ class DraftingInvoiceBloc
       Map<String, dynamic> data = <String, dynamic>{
         'tradeInProgramId': state.tradeInProgramId,
         'imei': state.product!.getImei,
-        'productId': state.product!.productId,
+        'productId': state.product!.productId!.toInt(),
         'productBuyingPrice': state.product!.getSellingPrice,
-        'totalCriteriaPrice': state.totalCriteriaPrice,
         'finalBuyingPrice': event.finalBuyingPrice,
+        'note': event.note,
         'customer': state.customer?.formatTradeInBodyData(),
         'criteriaGroups': criteriaGroups.map((e) => e.toJson()).toList(),
-        'note': event.note,
         'typeTradeIn': state.tradeInType.getTypeValue,
       };
+
+      print('=>> data: ${jsonEncode(data)}');
 
       final res = await tradeInServices.saveBillTradeIn(data);
 
       if (res) {
         XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
 
-        emit(CreateTradeInbillSuccess(state: state));
-
         /// xóa sau khi tạo thành công
-        draftingStorage.removeCartById(cart.id);
+        await draftingStorage.removeCartById(cart.id);
+
+        emit(CreateTradeInbillSuccess(state: state));
       } else {
         emit(CreateFailed(state: state));
       }
-    } catch (e) {
+    } on DioException catch (e) {
       emit(CreateFailed(state: state));
-      XToast.showNegativeMessage(message: e.toString());
-      _loggerHelper.logError(message: 'SubmitTradeInBillEvent', obj: e);
+      BaseResponse response = BaseResponse.fromErrorJson(e.response!.data);
+      XToast.showNegativeMessage(
+          message: response.message ?? 'Lỗi không xác định');
     } finally {
       XToast.closeAllLoading();
     }

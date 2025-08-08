@@ -86,114 +86,114 @@ class ProductServicesImpl implements ProductServices {
     );
   }
 
-  @override
-  Future<ProductModel> getProductById({required String productId}) {
-    return productApi
-        .getProductById(productId)
-        .then((value) => ProductModel.fromJson(value.data));
-  }
+  // @override
+  // Future<ProductModel> getProductById({required String productId}) {
+  //   return productApi
+  //       .getProductById(productId)
+  //       .then((value) => ProductModel.fromJson(value.data));
+  // }
 
-  @override
-  Future<List<ProductModel>> getProductsAttach(
-      {required String productId,
-      int? page,
-      int? pageSize,
-      String? searchProduct}) {
-    return productApi
-        .getProductAttached(
-            productId: productId,
-            page: page,
-            pageSize: pageSize,
-            searchProduct: searchProduct)
-        .then(
-      (value) {
-        List<ProductModel> data = [];
-        List<dynamic> products = [];
+  // @override
+  // Future<List<ProductModel>> getProductsAttach(
+  //     {required String productId,
+  //     int? page,
+  //     int? pageSize,
+  //     String? searchProduct}) {
+  //   return productApi
+  //       .getProductAttached(
+  //           productId: productId,
+  //           page: page,
+  //           pageSize: pageSize,
+  //           searchProduct: searchProduct)
+  //       .then(
+  //     (value) {
+  //       List<ProductModel> data = [];
+  //       List<dynamic> products = [];
 
-        if (value.data is Map<String, dynamic>) {
-          if (value.data.containsKey('result')) {
-            products = value.data['result'];
-          }
-        } else {
-          products = value.data;
-        }
+  //       if (value.data is Map<String, dynamic>) {
+  //         if (value.data.containsKey('result')) {
+  //           products = value.data['result'];
+  //         }
+  //       } else {
+  //         products = value.data;
+  //       }
 
-        for (var product in products) {
-          data.add(ProductModel.fromJson(product));
-        }
+  //       for (var product in products) {
+  //         data.add(ProductModel.fromJson(product));
+  //       }
 
-        return data;
-      },
-    );
-  }
+  //       return data;
+  //     },
+  //   );
+  // }
 
-  @override
-  Future<List<ProductModel>> getProductsWarranty(
-      {required String productId,
-      required int page,
-      required int pageSize,
-      String? searchProduct}) {
-    return productApi
-        .getProductWarranties(
-            productId: productId,
-            page: page,
-            pageSize: pageSize,
-            searchProduct: searchProduct)
-        .then(
-      (value) {
-        List<ProductModel> data = [];
-        List<dynamic> products = [];
+  // @override
+  // Future<List<ProductModel>> getProductsWarranty(
+  //     {required String productId,
+  //     required int page,
+  //     required int pageSize,
+  //     String? searchProduct}) {
+  //   return productApi
+  //       .getProductWarranties(
+  //           productId: productId,
+  //           page: page,
+  //           pageSize: pageSize,
+  //           searchProduct: searchProduct)
+  //       .then(
+  //     (value) {
+  //       List<ProductModel> data = [];
+  //       List<dynamic> products = [];
 
-        if (value.data is Map<String, dynamic>) {
-          if (value.data.containsKey('result')) {
-            products = value.data['result'];
-          }
-        } else {
-          products = value.data;
-        }
+  //       if (value.data is Map<String, dynamic>) {
+  //         if (value.data.containsKey('result')) {
+  //           products = value.data['result'];
+  //         }
+  //       } else {
+  //         products = value.data;
+  //       }
 
-        for (var product in products) {
-          data.add(ProductModel.fromJson(product));
-        }
+  //       for (var product in products) {
+  //         data.add(ProductModel.fromJson(product));
+  //       }
 
-        return data;
-      },
-    );
-  }
+  //       return data;
+  //     },
+  //   );
+  // }
 
-  @override
-  Future<List<ProductModel>> getPromotionProduct(
-      {required String productId,
-      required int page,
-      required int pageSize,
-      String? searchProduct}) {
-    return productApi
-        .getProductPromotions(
-            productId: productId,
-            page: page,
-            pageSize: pageSize,
-            searchProduct: searchProduct)
-        .then(
-      (value) {
-        List<ProductModel> data = [];
-        List<dynamic> products = [];
+  // @override
+  // Future<List<ProductModel>> getPromotionProduct(
+  //     {required String productId,
+  //     required int page,
+  //     required int pageSize,
+  //     String? searchProduct}) {
+  //   return productApi
+  //       .getProductPromotions(
+  //           productId: productId,
+  //           page: page,
+  //           pageSize: pageSize,
+  //           searchProduct: searchProduct)
+  //       .then(
+  //     (value) {
+  //       List<ProductModel> data = [];
+  //       List<dynamic> products = [];
 
-        if (value.data is Map<String, dynamic>) {
-          if (value.data.containsKey('result')) {
-            products = value.data['result'];
-          }
-        } else {
-          products = value.data;
-        }
+  //       if (value.data is Map<String, dynamic>) {
+  //         if (value.data.containsKey('result')) {
+  //           products = value.data['result'];
+  //         }
+  //       } else {
+  //         products = value.data;
+  //       }
 
-        for (var product in products) {
-          data.add(ProductModel.fromJson(product));
-        }
+  //       for (var product in products) {
+  //         data.add(ProductModel.fromJson(product));
+  //       }
 
-        return data;
-      },
-    );
-  }
+  //       return data;
+  //     },
+  //   );
+  // }
 
   @override
   Future<List<ProductImeiModel>> getImei(

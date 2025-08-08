@@ -187,6 +187,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     children: [
                       _operationItem(
+                        title: 'Thu cũ',
+                        icon: Assets.svg.tradeIn.svg(width: 32.sp),
+                        onPressed: () => _mainRouter.pushNamed(
+                          context,
+                          routeName: RouteName.tradeIn,
+                        ),
+                      ),
+                      BoxSpacer.s8,
+                      _operationItem(
                         title: 'Đơn nháp',
                         icon: Assets.svg.shopping.svg(width: 32.sp),
                         onPressed: () => _mainRouter.pushNamed(

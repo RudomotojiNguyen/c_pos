@@ -1,7 +1,9 @@
 part of '../drafting_detail_screen.dart';
 
 class DeviceStatusWidget extends StatefulWidget {
-  const DeviceStatusWidget({super.key});
+  const DeviceStatusWidget({super.key, required this.tradeInBloc});
+
+  final TradeInBloc tradeInBloc;
 
   @override
   State<DeviceStatusWidget> createState() => _DeviceStatusWidgetState();
@@ -11,7 +13,6 @@ class DeviceStatusWidget extends StatefulWidget {
 class _DeviceStatusWidgetState extends State<DeviceStatusWidget> {
   final DraftingInvoiceBloc _draftingInvoiceBloc =
       getIt.get<DraftingInvoiceBloc>();
-  final TradeInBloc _tradeInBloc = getIt.get<TradeInBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,11 @@ class _DeviceStatusWidgetState extends State<DeviceStatusWidget> {
           current is GetCurrentDraftDataSuccess ||
           current is UpdateProductTradeInSuccess,
       listener: (context, state) {
-        if (state is UpdateProductTradeInSuccess ||
-            (state is GetCurrentDraftDataSuccess) && state.product != null) {
-          _tradeInBloc.add(GetTradeInCritrtionEvent(state.product!.productId!));
+        if ((state is GetCurrentDraftDataSuccess ||
+                state is UpdateProductTradeInSuccess) &&
+            (state.product != null && state.cartType == CartType.tradeIn)) {
+          widget.tradeInBloc
+              .add(GetTradeInCritrtionEvent(state.product!.productId!));
         }
       },
       builder: (context, state) {
@@ -50,7 +53,7 @@ class _DeviceStatusWidgetState extends State<DeviceStatusWidget> {
   ///
   Widget _programingDetail(ProductTable? product) {
     return BlocConsumer<TradeInBloc, TradeInState>(
-      bloc: _tradeInBloc,
+      bloc: widget.tradeInBloc,
       listener: (context, state) {
         if (state is GetProgramCriteriaSuccess &&
             state.tradeInProgramCriteriaGroup.isNotEmpty) {

@@ -25,33 +25,33 @@ abstract class ProductApi {
 
   /// Lấy danh sách SP tặng kèm(gift)
   ///
-  @GET('product/mobile/v2/{productId}/product-attachs')
-  Future<BaseResponse> getProductAttached({
-    @Path() required String productId,
-    @Query('page') int? page,
-    @Query('pageSize') int? pageSize,
-    @Query('searchProduct') String? searchProduct,
-  });
+  // @GET('product/mobile/v2/{productId}/product-attachs')
+  // Future<BaseResponse> getProductAttached({
+  //   @Path() required String productId,
+  //   @Query('page') int? page,
+  //   @Query('pageSize') int? pageSize,
+  //   @Query('searchProduct') String? searchProduct,
+  // });
 
   /// Lấy danh sách SP bán kèm(attach)
   ///
-  @GET('product/mobile/{productId}/product-promotions')
-  Future<BaseResponse> getProductPromotions({
-    @Path() required String productId,
-    @Query('page') required int page,
-    @Query('pageSize') required int pageSize,
-    @Query('searchProduct') String? searchProduct,
-  });
+  // @GET('product/mobile/{productId}/product-promotions')
+  // Future<BaseResponse> getProductPromotions({
+  //   @Path() required String productId,
+  //   @Query('page') required int page,
+  //   @Query('pageSize') required int pageSize,
+  //   @Query('searchProduct') String? searchProduct,
+  // });
 
   /// Lấy danh sách SP gói bảo hành(warranty) của 1 SP cha
   ///
-  @GET('product/mobile/{productId}/product-warrantys')
-  Future<BaseResponse> getProductWarranties({
-    @Path() required String productId,
-    @Query('page') required int page,
-    @Query('pageSize') required int pageSize,
-    @Query('searchProduct') String? searchProduct,
-  });
+  // @GET('product/mobile/{productId}/product-warrantys')
+  // Future<BaseResponse> getProductWarranties({
+  //   @Path() required String productId,
+  //   @Query('page') required int page,
+  //   @Query('pageSize') required int pageSize,
+  //   @Query('searchProduct') String? searchProduct,
+  // });
 
   /// tìm sản phầm tồn kho
   ///
@@ -65,10 +65,21 @@ abstract class ProductApi {
     @Query('productType') int? productType,
   });
 
-  /// do lấy quá nhiều dữ liệu nên tạm thời bỏ
-  /// Lấy danh sách SP tặng kèm(gift) / bán kèm(attach) / gói bảo hành(warranty) của 1 SP cha
-  // @GET('product/mobile/{productId}/product-attachs')
-  // Future<BaseResponse> getAttachesProduct(@Path() String productId);
+  /// Lấy danh sách SP tặng kèm(gift)
+  ///
+  @GET('v1/product-search/promotions')
+  Future<BaseResponse> getGiftsProduct({
+    @Query('productId') required String productId,
+    @Query('productName') required String productName,
+  });
+
+  /// Lấy danh sách SP bán kèm(attach)
+  ///
+  @GET('v1/product-search/accessories')
+  Future<BaseResponse> getAttachesProduct({
+    @Query('productId') required String productId,
+    @Query('productName') required String productName,
+  });
 
   /// tìm sản phẩm
   @GET('products')
@@ -98,38 +109,38 @@ abstract class ProductApi {
 
   ///
   ///
-  @GET('product/mobile/{productId}')
-  Future<BaseResponse> getProductById(@Path() String productId);
+  // @GET('product/mobile/{productId}')
+  // Future<BaseResponse> getProductById(@Path() String productId);
 
   /// Tìm sản phẩm cho sản phẩm combo
   ///
-  @GET('flexible-combo/search')
-  Future<BaseResponse> searchProductCombo({
-    @Query('textSearch') String? textSearch,
-    @Query('storeId') int? storeId,
-    @Query('page') required int page,
-    @Query('size') required int size,
-  });
+  // @GET('flexible-combo/search')
+  // Future<BaseResponse> searchProductCombo({
+  //   @Query('textSearch') String? textSearch,
+  //   @Query('storeId') int? storeId,
+  //   @Query('page') required int page,
+  //   @Query('size') required int size,
+  // });
 
   /// Tìm sản phẩm cho sản phẩm combo
   ///
-  @GET('flexible-combo/search-product')
-  Future<BaseResponse> searchProductInCombo({
-    @Query('textSearch') String? textSearch,
-    @Query('referenceType') int? referenceType,
-    @Query('referenceId') int? referenceId,
-    @Query('page') required int page,
-    @Query('size') required int size,
-  });
+  // @GET('flexible-combo/search-product')
+  // Future<BaseResponse> searchProductInCombo({
+  //   @Query('textSearch') String? textSearch,
+  //   @Query('referenceType') int? referenceType,
+  //   @Query('referenceId') int? referenceId,
+  //   @Query('page') required int page,
+  //   @Query('size') required int size,
+  // });
 
   /// lấy barcode sp từ link
   ///
-  @GET('{link}')
-  @Headers(<String, dynamic>{
-    'Content-Type': 'application/json',
-    'isUseBaseUrl': false,
-  })
-  Future<BaseResponse> getProductBarcode(@Path() String link);
+  // @GET('{link}')
+  // @Headers(<String, dynamic>{
+  //   'Content-Type': 'application/json',
+  //   'isUseBaseUrl': false,
+  // })
+  // Future<BaseResponse> getProductBarcode(@Path() String link);
 
   /// lấy thông tin giảm giá cho danh sách SP hiện tại
   /// params: {

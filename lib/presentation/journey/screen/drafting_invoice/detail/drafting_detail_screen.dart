@@ -56,6 +56,7 @@ class DraftingDetailScreen extends StatefulWidget {
 class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
   final DraftingInvoiceBloc _draftingInvoiceBloc =
       getIt.get<DraftingInvoiceBloc>();
+  final TradeInBloc _tradeInBloc = getIt.get<TradeInBloc>();
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -144,7 +145,7 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
                   /// todo: nào làm thêm phần thu cũ thì xem làm lại chỗ này
                   const TypeTradeInWidget(),
                   const ProductTradeInWidget(),
-                  const DeviceStatusWidget(),
+                  DeviceStatusWidget(tradeInBloc: _tradeInBloc),
 
                   /// cửa hàng đang chọn
                   const CurrentStoreWidget(),
@@ -210,6 +211,11 @@ extension _DraftDetailScreenStateExtension on _DraftingDetailScreenState {
   void _listener(BuildContext context, DraftingInvoiceState state) {
     if (state is CreateTradeInbillSuccess) {
       MainRouter.instance.goNamed(context, routeName: RouteName.tradeIn);
+    }
+    if (state is GetCurrentDraftDataSuccess) {
+      if (state.product != null && state.cartType == CartType.tradeIn) {
+        _tradeInBloc.add(GetTradeInCritrtionEvent(state.product!.productId!));
+      }
     }
     if (state is CreateBillSuccess) {
       MainRouter.instance.goNamed(

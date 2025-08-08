@@ -11,6 +11,7 @@ enum XProductOperationAction {
   remove, // xóa sản phẩm
   note, // ghi chú sản phẩm
   addGift, // thêm quà tặng
+  addAttach, // thêm sản phẩm mua kèm
   discountByHand, // chiết khấu tay
   addImei, // thêm imei
   addWarrantyImei, // thêm imei bảo hành
@@ -38,6 +39,8 @@ extension XProductOperationActionExtension on XProductOperationAction {
         return 'Ghi chú';
       case XProductOperationAction.addGift:
         return 'Thêm quà tặng';
+      case XProductOperationAction.addAttach:
+        return 'Thêm sản phẩm mua kèm';
       case XProductOperationAction.discountByHand:
         return 'Chiết khấu tay';
       case XProductOperationAction.addImei:
@@ -88,6 +91,7 @@ extension XProductOperationActionExtension on XProductOperationAction {
           size: 18.sp,
         );
       case XProductOperationAction.addGift:
+      case XProductOperationAction.addAttach:
         return Icon(
           Icons.card_giftcard,
           color: AppColors.primaryColor,

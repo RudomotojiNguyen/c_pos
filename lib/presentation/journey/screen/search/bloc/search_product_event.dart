@@ -10,20 +10,38 @@ class ChangeSearchTypeEvent extends SearchProductEvent {
 
 class RefreshProductsEvent extends SearchProductEvent {
   final SearchAction searchAction;
+  final String? parentProductId;
+  final XItemType? productType;
 
-  RefreshProductsEvent({this.searchAction = SearchAction.search});
+  RefreshProductsEvent({
+    this.searchAction = SearchAction.search,
+    this.parentProductId,
+    this.productType,
+  });
 }
 
 final class OnSearchProductsEvent extends SearchProductEvent {
   final String searchValue;
   final SearchAction searchAction;
+  final XItemType? productType;
+  final String? parentProductId;
 
-  OnSearchProductsEvent(this.searchValue,
-      {this.searchAction = SearchAction.search});
+  OnSearchProductsEvent(
+    this.searchValue, {
+    this.searchAction = SearchAction.search,
+    this.productType,
+    this.parentProductId,
+  });
 }
 
 final class LoadMoreProductsEvent extends SearchProductEvent {
   final SearchAction searchAction;
+  final String? parentProductId;
+  final XItemType? productType;
 
-  LoadMoreProductsEvent({this.searchAction = SearchAction.search});
+  LoadMoreProductsEvent({
+    this.searchAction = SearchAction.search,
+    this.parentProductId,
+    this.productType,
+  });
 }

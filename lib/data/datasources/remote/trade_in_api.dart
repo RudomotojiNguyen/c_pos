@@ -21,25 +21,25 @@ abstract class TradeInApi {
   ///         note: String,
   ///         typeTradeIn: int,
   ///       }
-  @POST('tradeIn/mobile')
+  @POST('v1/trade-ins/mobile')
   Future<BaseResponse> saveBillTradeIn(@Body() Map<String, dynamic> params);
 
   /// Lấy danh sách phiếu định giá
   ///
-  @GET('tradeIn/mobile/list')
-  Future<BaseResponse> getListTradeIn({
-    @Query('page') required int page,
-    @Query('limit') required int limit,
-    @Query('searchCustomer') String? searchCustomer,
-    @Query('fromDate') String? fromDate,
-    @Query('toDate') String? toDate,
-    @Query('searchProduct') String? searchProduct,
-  });
+  // @GET('tradeIn/mobile/list')
+  // Future<BaseResponse> getListTradeIn({
+  //   @Query('page') required int page,
+  //   @Query('limit') required int limit,
+  //   @Query('searchCustomer') String? searchCustomer,
+  //   @Query('fromDate') String? fromDate,
+  //   @Query('toDate') String? toDate,
+  //   @Query('searchProduct') String? searchProduct,
+  // });
 
   /// Lấy thông tin chi tiết của 1 phiếu định giá
   ///
-  @GET('tradeIn/mobile/detail/{id}')
-  Future<BaseResponse> getTradeInDetail(@Path() int id);
+  // @GET('tradeIn/mobile/detail/{id}')
+  // Future<BaseResponse> getTradeInDetail(@Path() int id);
 
   /// Lấy danh sách phiếu định giá của 1 khách hàng theo số điện thoại của khách
   ///
@@ -52,20 +52,20 @@ abstract class TradeInApi {
 
   /// tìm sản phẩm trade-in theo tên
   ///
-  @GET('tradeInProgram/mobile/by-product-name')
+  @GET('v1/trade-in-programs/mobile/by-product-name')
   Future<BaseResponse> getTradeInProductByName({
     @Query('productName') required String productName,
   });
 
-  /// lấy thông tin định giá của sản phẩm
+  /// lấy chương trình định giá của sản phẩm
   ///
-  @GET('tradeInProgram/mobile/by-product-id')
+  @GET('v1/trade-in-programs/mobile/by-product-id')
   Future<BaseResponse> getTradeInCriterion({
     @Query('productId') required String productId,
   });
 
   /// Tìm sp theo Imei
   ///
-  @GET('tradeIn/mobile/check-imei?imei={imei}')
-  Future<BaseResponse> getProductByImei({@Query('imei') required String imei});
+  // @GET('tradeIn/mobile/check-imei?imei={imei}')
+  // Future<BaseResponse> getProductByImei({@Query('imei') required String imei});
 }

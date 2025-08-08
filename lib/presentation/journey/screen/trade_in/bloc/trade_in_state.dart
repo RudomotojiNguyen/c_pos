@@ -122,34 +122,6 @@ final class GetDetailError extends TradeInState {
         );
 }
 
-final class GetProductByImeiError extends TradeInState {
-  GetProductByImeiError({required TradeInState state})
-      : super(
-          tradeIns: state.tradeIns,
-          pageInfoEntity: state.pageInfoEntity,
-          filterInfo: state.filterInfo,
-          tradeInProgramCriteriaGroup: state.tradeInProgramCriteriaGroup,
-        );
-}
-
-final class GetProductByImeiSuccess extends TradeInState {
-  final bool isEstimateCost;
-  final bool isSoldByCompany;
-  final ProductModel? product;
-
-  GetProductByImeiSuccess({
-    required TradeInState state,
-    required this.isEstimateCost,
-    required this.isSoldByCompany,
-    this.product,
-  }) : super(
-          tradeIns: state.tradeIns,
-          pageInfoEntity: state.pageInfoEntity,
-          filterInfo: state.filterInfo,
-          tradeInProgramCriteriaGroup: state.tradeInProgramCriteriaGroup,
-        );
-}
-
 final class SearchProductsSuccess extends TradeInState {
   final List<ProductModel> products;
 

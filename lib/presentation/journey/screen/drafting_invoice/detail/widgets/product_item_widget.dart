@@ -81,20 +81,23 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RowFunctionWidget(
-            title: XProductOperationAction.detail.getTitle,
-            icon: XProductOperationAction.detail.getIcon,
+            title: XProductOperationAction.addGift.getTitle,
+            icon: XProductOperationAction.addGift.getIcon,
             onPressed: () async {
               await closeOverlay();
               widget.callBackParentAction(
-                  action: XProductOperationAction.detail);
+                  action: XProductOperationAction.addGift);
             },
           ),
-          // RowFunctionWidget(
-          //   title: XProductOperationAction.copyData.getTitle,
-          //   icon: XProductOperationAction.copyData.getIcon,
-          //   onPressed: () => onHandleClick(widget.callBackParentAction(
-          //       action: XProductOperationAction.copyData)),
-          // ),
+          RowFunctionWidget(
+            title: XProductOperationAction.addAttach.getTitle,
+            icon: XProductOperationAction.addAttach.getIcon,
+            onPressed: () async {
+              await closeOverlay();
+              widget.callBackParentAction(
+                  action: XProductOperationAction.addAttach);
+            },
+          ),
           if (widget.product.productType == ProductType.imei) ...[
             BoxSpacer.s8,
             RowFunctionWidget(
@@ -107,21 +110,14 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
               },
             ),
           ],
-          // BoxSpacer.s8,
-          // RowFunctionWidget(
-          //   title: XProductOperationAction.note.getTitle,
-          //   icon: XProductOperationAction.note.getIcon,
-          //   onPressed: () => onHandleClick(widget.callBackParentAction(
-          //       action: XProductOperationAction.note)),
-          // ),
-          // BoxSpacer.s8,
-          // RowFunctionWidget(
-          //   title: XProductOperationAction.addGift.getTitle,
-          //   icon: XProductOperationAction.addGift.getIcon,
-          //   onPressed: () => onHandleClick(widget.callBackParentAction(
-          //       action: XProductOperationAction.addGift)),
-          // ),
-          BoxSpacer.s8,
+          RowFunctionWidget(
+            title: XProductOperationAction.note.getTitle,
+            icon: XProductOperationAction.note.getIcon,
+            onPressed: () async {
+              await closeOverlay();
+              widget.callBackParentAction(action: XProductOperationAction.note);
+            },
+          ),
           RowFunctionWidget(
             title: XProductOperationAction.remove.getTitle,
             icon: XProductOperationAction.remove.getIcon,
@@ -131,7 +127,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                   action: XProductOperationAction.remove);
             },
           ),
-          BoxSpacer.s8,
           RowFunctionWidget(
             title: XProductOperationAction.discountByHand.getTitle,
             icon: XProductOperationAction.discountByHand.getIcon,

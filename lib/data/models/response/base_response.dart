@@ -28,6 +28,13 @@ class BaseResponse extends Equatable {
     message = json['message'];
   }
 
+  BaseResponse.fromErrorJson(Map<String, dynamic> json) {
+    final statusCode = json['statusCode'] ?? json['status'];
+    data = json['data'];
+    this.statusCode = statusCode;
+    message = json['message'];
+  }
+
   @override
   List<Object?> get props => [data];
 

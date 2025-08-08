@@ -7,8 +7,6 @@ import '../../../common/configs/box.dart';
 import '../../../common/di/injection/injection.dart';
 import '../../../data/datasources/local_db/local_db.dart';
 import '../../journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
-import '../dialog/header_dialog.dart';
-import '../product/product_item_detail_widget.dart';
 import '../widgets.dart';
 
 class TradeInConfirmDialog extends StatefulWidget {

@@ -20,11 +20,15 @@ class SearchProductDialog extends StatefulWidget {
     super.key,
     this.onSelectProduct,
     this.isNeedInStock = false,
+    this.parentProductId,
+    this.productType,
   });
 
   final Function(ProductModel)? onSelectProduct;
   final bool
       isNeedInStock; // xem có cần check sản phẩm còn hàng mới cho ấn không
+  final String? parentProductId; // id sản phẩm trước đó
+  final XItemType? productType; // loại cần tìm kiếm
 
   @override
   State<SearchProductDialog> createState() => _SearchProductDialogState();
@@ -37,11 +41,6 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   );
   final TextEditingController _searchController = TextEditingController();
   Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -179,11 +178,18 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
         Timer(const Duration(milliseconds: AppConstants.timeSearchValue), () {
       final String textValue = _searchController.text.trim();
       if (textValue.isNullOrEmpty) {
-        _searchProductBloc
-            .add(RefreshProductsEvent(searchAction: SearchAction.addToCart));
+        _searchProductBloc.add(RefreshProductsEvent(
+          searchAction: SearchAction.addToCart,
+          parentProductId: widget.parentProductId,
+          productType: widget.productType,
+        ));
       } else {
-        _searchProductBloc.add(OnSearchProductsEvent(textValue,
-            searchAction: SearchAction.addToCart));
+        _searchProductBloc.add(OnSearchProductsEvent(
+          textValue,
+          searchAction: SearchAction.addToCart,
+          parentProductId: widget.parentProductId,
+          productType: widget.productType,
+        ));
       }
     });
   }
@@ -194,6 +200,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   }
 
   onChangeSearchTypeEvent(SearchType type) {
+    _searchController.clear();
     _searchProductBloc.add(ChangeSearchTypeEvent(searchType: type));
     Navigator.pop(context);
   }

@@ -9,41 +9,41 @@ class TradeInServicesImpl extends TradeInServices {
     required this.fileApi,
   });
 
-  @override
-  Future<List<TradeInModel>> getListTradeIn({
-    required int page,
-    required int limit,
-    String? searchCustomer,
-    String? fromDate,
-    String? toDate,
-    String? searchProduct,
-  }) {
-    return tradeInApi
-        .getListTradeIn(
-      page: page,
-      limit: limit,
-      searchCustomer: searchCustomer,
-      fromDate: fromDate,
-      toDate: toDate,
-      searchProduct: searchProduct,
-    )
-        .then((value) {
-      List<TradeInModel> data = [];
+  // @override
+  // Future<List<TradeInModel>> getListTradeIn({
+  //   required int page,
+  //   required int limit,
+  //   String? searchCustomer,
+  //   String? fromDate,
+  //   String? toDate,
+  //   String? searchProduct,
+  // }) {
+  //   return tradeInApi
+  //       .getListTradeIn(
+  //     page: page,
+  //     limit: limit,
+  //     searchCustomer: searchCustomer,
+  //     fromDate: fromDate,
+  //     toDate: toDate,
+  //     searchProduct: searchProduct,
+  //   )
+  //       .then((value) {
+  //     List<TradeInModel> data = [];
 
-      for (var tradeIn in value.data['data']) {
-        data.add(TradeInModel.fromJson(tradeIn));
-      }
+  //     for (var tradeIn in value.data['data']) {
+  //       data.add(TradeInModel.fromJson(tradeIn));
+  //     }
 
-      return data;
-    });
-  }
+  //     return data;
+  //   });
+  // }
 
-  @override
-  Future<TradeInModel> getTradeInDetail(int id) {
-    return tradeInApi.getTradeInDetail(id).then((value) {
-      return TradeInModel.fromJson(value.data);
-    });
-  }
+  // @override
+  // Future<TradeInModel> getTradeInDetail(int id) {
+  //   return tradeInApi.getTradeInDetail(id).then((value) {
+  //     return TradeInModel.fromJson(value.data);
+  //   });
+  // }
 
   @override
   Future<List<ImageDetailModel>> getImageVerifyTradeIn(int id) async {
@@ -66,17 +66,17 @@ class TradeInServicesImpl extends TradeInServices {
     return fileApi.getImageBase64(filename: fileName);
   }
 
-  @override
-  Future<(bool, bool, ProductModel)> getProductByImei(String imei) {
-    return tradeInApi.getProductByImei(imei: imei).then((value) {
-      bool isEstimateCost = value.data['isEstimateCost'] ?? false;
-      bool isSoldByCompany = value.data['isSoldByCompany'] ?? false;
-      ProductModel product = value.data['product'] != null
-          ? ProductModel.fromJson(value.data['product'])
-          : ProductModel(productType: ProductType.normal);
-      return (isEstimateCost, isSoldByCompany, product);
-    });
-  }
+  // @override
+  // Future<(bool, bool, ProductModel)> getProductByImei(String imei) {
+  //   return tradeInApi.getProductByImei(imei: imei).then((value) {
+  //     bool isEstimateCost = value.data['isEstimateCost'] ?? false;
+  //     bool isSoldByCompany = value.data['isSoldByCompany'] ?? false;
+  //     ProductModel product = value.data['product'] != null
+  //         ? ProductModel.fromJson(value.data['product'])
+  //         : ProductModel(productType: ProductType.normal);
+  //     return (isEstimateCost, isSoldByCompany, product);
+  //   });
+  // }
 
   @override
   Future<List<ProductModel>> getTradeInProductByName(String productName) {

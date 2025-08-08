@@ -35,6 +35,10 @@ class _CurrentStoreWidgetState extends State<CurrentStoreWidget> {
           current is GetCurrentDraftDataSuccess || current is IsGettingDetail,
       //UpdateCurrentStoreSuccess
       builder: (context, state) {
+        if (state.cartType == CartType.tradeIn) {
+          return BoxSpacer.blank;
+        }
+
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
           iconTitle: Assets.svg.bill.svg(

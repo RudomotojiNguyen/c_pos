@@ -4,7 +4,7 @@ class TradeInProgramModel {
   int? id;
   String? name;
   String? description;
-  int? status;
+  bool? status;
   String? startDate;
   String? endDate;
   int? amortizationExpense;

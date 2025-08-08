@@ -55,7 +55,7 @@ extension CartTypeExtension on CartType {
       case CartType.order:
         return Assets.svg.bill.svg(width: width ?? 32.sp);
       case CartType.tradeIn:
-        return Icon(Icons.phone_outlined, size: width ?? 30.sp);
+        return Assets.svg.tradeIn.svg(width: width ?? 32.sp);
       default:
         return BoxSpacer.blank;
     }

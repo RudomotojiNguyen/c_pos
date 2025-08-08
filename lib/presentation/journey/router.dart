@@ -27,6 +27,7 @@ import 'screen/order/list/order_list_screen.dart';
 import 'screen/product/product_screen.dart';
 import 'screen/search/search_screen.dart';
 import 'screen/splash/splash_screen.dart';
+import 'screen/trade_in/trade_in_list/trade_ins_screen.dart';
 
 class MainRouter {
   // Constructor được đánh dấu là private để ngăn việc khởi tạo ngoài lớp
@@ -148,6 +149,13 @@ class MainRouter {
                     return const ProductImeiHistoryScreen();
                   }
                 }),
+
+            GoRoute(
+              path: RouteName.tradeIn,
+              name: RouteName.tradeIn,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const TradeInsScreen(),
+            ),
             // GoRoute(
             //   path: RouteName.stock,
             //   name: RouteName.stock,

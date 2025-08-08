@@ -110,14 +110,14 @@ class _ProductsBasicInformationWidgetState
   ///
   /// METHOD
   ///
-  _onDetail(ProductTable product) {
-    mainRouter.pushNamed(
-      context,
-      routeName: RouteName.productDetail,
-      queryParameters: {'productId': product.productId.toString()},
-      extra: product,
-    );
-  }
+  // _onDetail(ProductTable product) {
+  //   mainRouter.pushNamed(
+  //     context,
+  //     routeName: RouteName.productDetail,
+  //     queryParameters: {'productId': product.productId.toString()},
+  //     extra: product,
+  //   );
+  // }
 
   _onAddProduct() {
     showXBottomSheet(
@@ -200,17 +200,41 @@ class _ProductsBasicInformationWidgetState
   /// handle add product gift
   ///
   _onAddGift(ProductTable product) {
-    // hiện dialog tìm sản phẩm
+    // todo: hiện dialog tìm sản phẩm
     showXBottomSheet(
       context,
       margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: SearchProductDialog(
         isNeedInStock: true,
+        parentProductId: product.productId,
+        productType: XItemType.gift,
         onSelectProduct: (result) {
-          _draftingInvoiceBloc.add(AddProductGiftEvent(
-            product: result,
-            parentProductId: product.id,
-          ));
+          // _draftingInvoiceBloc.add(AddProductGiftEvent(
+          //   product: result,
+          //   parentProductId: product.id,
+          // ));
+        },
+      ),
+    );
+  }
+
+  ///
+  /// handle add product attach
+  ///
+  _onAddAttach(ProductTable product) {
+    // todo: hiện dialog tìm sản phẩm
+    showXBottomSheet(
+      context,
+      margin: EdgeInsets.zero.copyWith(top: 60.sp),
+      body: SearchProductDialog(
+        isNeedInStock: true,
+        parentProductId: product.productId,
+        productType: XItemType.attach,
+        onSelectProduct: (result) {
+          // _draftingInvoiceBloc.add(AddProductGiftEvent(
+          //   product: result,
+          //   parentProductId: product.id,
+          // ));
         },
       ),
     );
@@ -293,9 +317,6 @@ class _ProductsBasicInformationWidgetState
       int? quantity,
       required ProductTable product}) {
     switch (action) {
-      case XProductOperationAction.detail:
-        _onDetail(product);
-        break;
       case XProductOperationAction.updateQuantity:
         _onUpdateProductQuantity(quantity: quantity ?? 1, product: product);
         break;
@@ -311,12 +332,12 @@ class _ProductsBasicInformationWidgetState
       case XProductOperationAction.addGift:
         _onAddGift(product);
         break;
+      case XProductOperationAction.addAttach:
+        _onAddAttach(product);
+        break;
       case XProductOperationAction.note:
         _onAddProductNote(productNote: product.note, productId: product.id);
         break;
-      // case XProductOperationAction.addAttachImei:
-      //   _onHandleAttachImei(product);
-      //   break;
       case XProductOperationAction.copyData:
         _onCopyData(product);
         break;
@@ -358,9 +379,6 @@ class _ProductsBasicInformationWidgetState
         break;
       case XProductOperationAction.addWarrantyImei:
         break;
-      // case XProductOperationAction.addAttachImei:
-      //   _onHandleAttachImei(productItem);
-      //   break;
       default:
         break;
     }
