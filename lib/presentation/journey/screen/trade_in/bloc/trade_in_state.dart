@@ -43,6 +43,16 @@ final class IsCriteriaLoading extends TradeInState {
         );
 }
 
+final class IsCriteriaError extends TradeInState {
+  IsCriteriaError({required TradeInState state})
+      : super(
+          tradeIns: state.tradeIns,
+          pageInfoEntity: state.pageInfoEntity,
+          filterInfo: state.filterInfo,
+          tradeInProgramCriteriaGroup: state.tradeInProgramCriteriaGroup,
+        );
+}
+
 final class IsLoadMore extends TradeInState {
   IsLoadMore({required TradeInState state})
       : super(

@@ -56,6 +56,54 @@ class _TradeInApi implements TradeInApi {
   }
 
   @override
+  Future<BaseResponse> getListTradeIn({
+    required int page,
+    required int limit,
+    String? searchCustomer,
+    String? fromDate,
+    String? toDate,
+    String? searchProduct,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'limit': limit,
+      r'searchCustomer': searchCustomer,
+      r'fromDate': fromDate,
+      r'toDate': toDate,
+      r'searchProduct': searchProduct,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'v1/trade-ins',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse _value;
+    try {
+      _value = BaseResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<BaseResponse> getCustomerTradeIn({
     required int page,
     required int limit,

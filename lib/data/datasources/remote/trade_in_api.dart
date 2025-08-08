@@ -26,15 +26,15 @@ abstract class TradeInApi {
 
   /// Lấy danh sách phiếu định giá
   ///
-  // @GET('tradeIn/mobile/list')
-  // Future<BaseResponse> getListTradeIn({
-  //   @Query('page') required int page,
-  //   @Query('limit') required int limit,
-  //   @Query('searchCustomer') String? searchCustomer,
-  //   @Query('fromDate') String? fromDate,
-  //   @Query('toDate') String? toDate,
-  //   @Query('searchProduct') String? searchProduct,
-  // });
+  @GET('v1/trade-ins')
+  Future<BaseResponse> getListTradeIn({
+    @Query('page') required int page,
+    @Query('limit') required int limit,
+    @Query('searchCustomer') String? searchCustomer,
+    @Query('fromDate') String? fromDate,
+    @Query('toDate') String? toDate,
+    @Query('searchProduct') String? searchProduct,
+  });
 
   /// Lấy thông tin chi tiết của 1 phiếu định giá
   ///

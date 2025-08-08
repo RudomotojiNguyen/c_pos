@@ -9,34 +9,34 @@ class TradeInServicesImpl extends TradeInServices {
     required this.fileApi,
   });
 
-  // @override
-  // Future<List<TradeInModel>> getListTradeIn({
-  //   required int page,
-  //   required int limit,
-  //   String? searchCustomer,
-  //   String? fromDate,
-  //   String? toDate,
-  //   String? searchProduct,
-  // }) {
-  //   return tradeInApi
-  //       .getListTradeIn(
-  //     page: page,
-  //     limit: limit,
-  //     searchCustomer: searchCustomer,
-  //     fromDate: fromDate,
-  //     toDate: toDate,
-  //     searchProduct: searchProduct,
-  //   )
-  //       .then((value) {
-  //     List<TradeInModel> data = [];
+  @override
+  Future<List<TradeInModel>> getListTradeIn({
+    required int page,
+    required int limit,
+    String? searchCustomer,
+    String? fromDate,
+    String? toDate,
+    String? searchProduct,
+  }) {
+    return tradeInApi
+        .getListTradeIn(
+      page: page,
+      limit: limit,
+      searchCustomer: searchCustomer,
+      fromDate: fromDate,
+      toDate: toDate,
+      searchProduct: searchProduct,
+    )
+        .then((value) {
+      List<TradeInModel> data = [];
 
-  //     for (var tradeIn in value.data['data']) {
-  //       data.add(TradeInModel.fromJson(tradeIn));
-  //     }
+      for (var tradeIn in value.data['data']) {
+        data.add(TradeInModel.fromJson(tradeIn));
+      }
 
-  //     return data;
-  //   });
-  // }
+      return data;
+    });
+  }
 
   // @override
   // Future<TradeInModel> getTradeInDetail(int id) {

@@ -270,25 +270,26 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
     try {
       emit(IsCriteriaLoading(state: state));
 
-      // final res = await tradeInServices.getListTradeIn(
-      //   page: 1,
-      //   limit: state.pageInfoEntity.getLimit,
-      //   toDate: state.filterInfo.getToDateValue,
-      //   fromDate: state.filterInfo.getFromDateValue,
-      //   searchProduct: state.filterInfo.getSearchProduct,
-      //   searchCustomer: state.filterInfo.getSearchCustomer,
-      // );
+      final res = await tradeInServices.getListTradeIn(
+        page: 1,
+        limit: state.pageInfoEntity.getLimit,
+        toDate: state.filterInfo.getToDateValue,
+        fromDate: state.filterInfo.getFromDateValue,
+        searchProduct: state.filterInfo.getSearchProduct,
+        searchCustomer: state.filterInfo.getSearchCustomer,
+      );
 
-      // emit(GetTradeInDataSuccess(
-      //   state: state,
-      //   tradeIns: res,
-      //   pageInfoEntity: state.pageInfoEntity.copyWith(
-      //     page: 1,
-      //     hasNextPage: res.length == state.pageInfoEntity.getLimit,
-      //   ),
-      // ));
+      emit(GetTradeInDataSuccess(
+        state: state,
+        tradeIns: res,
+        pageInfoEntity: state.pageInfoEntity.copyWith(
+          page: 1,
+          hasNextPage: res.length == state.pageInfoEntity.getLimit,
+        ),
+      ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetTradeInDataEvent', obj: e);
+      emit(IsCriteriaError(state: state));
     }
   }
 
@@ -303,24 +304,24 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
       List<TradeInModel> data = state.tradeIns;
 
       emit(IsLoadMore(state: state));
-      // final res = await tradeInServices.getListTradeIn(
-      //   page: page,
-      //   limit: state.pageInfoEntity.getLimit,
-      //   toDate: state.filterInfo.getToDateValue,
-      //   fromDate: state.filterInfo.getFromDateValue,
-      //   searchProduct: state.filterInfo.getSearchProduct,
-      //   searchCustomer: state.filterInfo.getSearchCustomer,
-      // );
-      // data.addAll(res);
+      final res = await tradeInServices.getListTradeIn(
+        page: page,
+        limit: state.pageInfoEntity.getLimit,
+        toDate: state.filterInfo.getToDateValue,
+        fromDate: state.filterInfo.getFromDateValue,
+        searchProduct: state.filterInfo.getSearchProduct,
+        searchCustomer: state.filterInfo.getSearchCustomer,
+      );
+      data.addAll(res);
 
-      // emit(GetTradeInDataSuccess(
-      //   state: state,
-      //   tradeIns: data,
-      //   pageInfoEntity: state.pageInfoEntity.copyWith(
-      //     page: page,
-      //     hasNextPage: res.length == state.pageInfoEntity.getLimit,
-      //   ),
-      // ));
+      emit(GetTradeInDataSuccess(
+        state: state,
+        tradeIns: data,
+        pageInfoEntity: state.pageInfoEntity.copyWith(
+          page: page,
+          hasNextPage: res.length == state.pageInfoEntity.getLimit,
+        ),
+      ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetMoreTradeInDataEvent', obj: e);
     }

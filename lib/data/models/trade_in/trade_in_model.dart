@@ -47,7 +47,7 @@ class TradeInModel {
   TradeInModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     customerName = json['customerName'];
-    customerPhone = json['customerPhone'];
+    customerPhone = json['customerPhone'] ?? json['customerPhoneNo'];
     productName = json['productName'];
     imeiCode = json['imeiCode'];
     estimationBuyingPrice = Utils.toDouble(json['estimationBuydingPrice']);
