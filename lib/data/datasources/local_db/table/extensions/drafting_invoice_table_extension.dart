@@ -213,6 +213,7 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
       ...userInfo.formatCreatorInfoCreateBill(),
       'saleStoreId': null,
       'technicalId': null,
+      'storeId': store?.getStoreId,
     };
 
     /// ghi chú
