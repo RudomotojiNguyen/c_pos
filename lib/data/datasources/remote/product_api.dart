@@ -70,7 +70,8 @@ abstract class ProductApi {
   @GET('v1/product-search/promotions')
   Future<BaseResponse> getGiftsProduct({
     @Query('productId') required String productId,
-    @Query('productName') required String productName,
+    @Query('productName') String? productName,
+    @Query('imeiCode') String? imeiCode,
   });
 
   /// Lấy danh sách SP bán kèm(attach)
@@ -78,7 +79,8 @@ abstract class ProductApi {
   @GET('v1/product-search/accessories')
   Future<BaseResponse> getAttachesProduct({
     @Query('productId') required String productId,
-    @Query('productName') required String productName,
+    @Query('productName') String? productName,
+    @Query('imeiCode') String? imeiCode,
   });
 
   /// tìm sản phẩm

@@ -140,6 +140,9 @@ class DraftingInvoiceBloc
     /// thêm sản phẩm quà tặng
     on<AddProductGiftEvent>(_onAddProductGift);
 
+    /// thêm sản phẩm phụ tại
+    on<AddProductAttachEvent>(_onAddProductAttach);
+
     /// tạo đơn nháp
     on<CreateNewDraftingInvoiceEvent>(_onCreateNewDraftingInvoice);
   }
@@ -240,9 +243,30 @@ class DraftingInvoiceBloc
 
       if (cart != null) {
         emit(UpdateProductsSuccess(state: state, products: cart.getProducts));
+        updateCalculatorPriceSuccess(emit: emit, state: state, res: cart);
       }
     } catch (e) {
       _loggerHelper.logError(message: 'AddProductGiftEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onAddProductAttach(
+    AddProductAttachEvent event,
+    Emitter<DraftingInvoiceState> emit,
+  ) async {
+    try {
+      final cart = await draftingStorage.addProductAttach(
+        cartId: state.currentDraftId!,
+        product: event.product,
+        parentProductId: event.parentProductId,
+      );
+
+      if (cart != null) {
+        emit(UpdateProductsSuccess(state: state, products: cart.getProducts));
+        updateCalculatorPriceSuccess(emit: emit, state: state, res: cart);
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'AddProductAttachEvent', obj: e);
     }
   }
 

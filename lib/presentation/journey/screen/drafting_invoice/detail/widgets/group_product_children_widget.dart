@@ -76,10 +76,6 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
   Widget build(BuildContext context) {
     Widget operation(Future<void> Function() closeOverlay) => Container(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.all(AppRadius.l),
-          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: _childOperation(closeOverlay),

@@ -91,9 +91,14 @@ extension XProductOperationActionExtension on XProductOperationAction {
           size: 18.sp,
         );
       case XProductOperationAction.addGift:
-      case XProductOperationAction.addAttach:
         return Icon(
           Icons.card_giftcard,
+          color: AppColors.primaryColor,
+          size: 18.sp,
+        );
+      case XProductOperationAction.addAttach:
+        return Icon(
+          Icons.attach_file,
           color: AppColors.primaryColor,
           size: 18.sp,
         );

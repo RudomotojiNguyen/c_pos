@@ -87,26 +87,26 @@ class _DraftItemState extends State<DraftItem> {
             customerPhone: widget.cartDetail.getCustomerPhone,
             customerId: widget.cartDetail.getCustomerId,
           ),
-          if (widget.cartDetail.getProducts.isNotEmpty) ...[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                XDivider(
-                  padding: EdgeInsets.symmetric(vertical: 8.sp),
-                ),
-                DraftProducts(
-                  products: widget.cartDetail.products.toList(),
-                ),
-                XDivider(
-                  padding: EdgeInsets.symmetric(vertical: 8.sp),
-                ),
-                //       DraftTotalPriceWidget(
-                //         totalPrice: widget.cartDetail.calculatorFinalPrice,
-                //       ),
-              ],
-            )
-          ],
+          // if (widget.cartDetail.getProducts.isNotEmpty) ...[ // todo: check xem cần không
+          //   Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       XDivider(
+          //         padding: EdgeInsets.symmetric(vertical: 8.sp),
+          //       ),
+          //       DraftProducts(
+          //         products: widget.cartDetail.products.toList(),
+          //       ),
+          //       XDivider(
+          //         padding: EdgeInsets.symmetric(vertical: 8.sp),
+          //       ),
+          //       //       DraftTotalPriceWidget(
+          //       //         totalPrice: widget.cartDetail.calculatorFinalPrice,
+          //       //       ),
+          //     ],
+          //   )
+          // ],
         ],
       ),
     );

@@ -209,10 +209,10 @@ class _ProductsBasicInformationWidgetState
         parentProductId: product.productId,
         productType: XItemType.gift,
         onSelectProduct: (result) {
-          // _draftingInvoiceBloc.add(AddProductGiftEvent(
-          //   product: result,
-          //   parentProductId: product.id,
-          // ));
+          _draftingInvoiceBloc.add(AddProductGiftEvent(
+            product: result,
+            parentProductId: product.id,
+          ));
         },
       ),
     );
@@ -231,10 +231,10 @@ class _ProductsBasicInformationWidgetState
         parentProductId: product.productId,
         productType: XItemType.attach,
         onSelectProduct: (result) {
-          // _draftingInvoiceBloc.add(AddProductGiftEvent(
-          //   product: result,
-          //   parentProductId: product.id,
-          // ));
+          _draftingInvoiceBloc.add(AddProductAttachEvent(
+            product: result,
+            parentProductId: product.id,
+          ));
         },
       ),
     );

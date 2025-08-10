@@ -214,6 +214,13 @@ final class AddProductGiftEvent extends DraftingInvoiceEvent {
   AddProductGiftEvent({required this.product, required this.parentProductId});
 }
 
+final class AddProductAttachEvent extends DraftingInvoiceEvent {
+  final ProductModel product;
+  final int parentProductId;
+
+  AddProductAttachEvent({required this.product, required this.parentProductId});
+}
+
 final class CreateNewDraftingInvoiceEvent extends DraftingInvoiceEvent {
   final CartType typeCart;
 

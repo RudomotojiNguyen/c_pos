@@ -64,6 +64,8 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         param: state.searchValue,
         type: state.searchType,
         searchAction: event.searchAction,
+        productType: event.productType,
+        productId: event.parentProductId,
       );
 
       // await getStockOfProduct(products);
@@ -98,6 +100,8 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         param: event.searchValue,
         type: state.searchType,
         searchAction: event.searchAction,
+        productType: event.productType,
+        productId: event.parentProductId,
       );
 
       // await getStockOfProduct(products);
@@ -136,6 +140,8 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         param: state.searchValue,
         type: state.searchType,
         searchAction: event.searchAction,
+        productType: event.productType,
+        productId: event.parentProductId,
       );
 
       // await getStockOfProduct(res.items);
@@ -168,6 +174,8 @@ extension SearchProductBlocExtension on SearchProductBloc {
     required SearchAction searchAction,
     int? storeId,
     bool isInterestZero = false,
+    XItemType? productType,
+    String? productId,
   }) async {
     if (searchAction == SearchAction.addToCart) {
       final AuthBloc authBloc = getIt.get<AuthBloc>();
@@ -177,12 +185,30 @@ extension SearchProductBlocExtension on SearchProductBloc {
           draftingInvoiceBloc.state.currentStore?.getStoreId ??
           authBloc.state.getUserStoreId;
 
-      final res = await productServices.productSearch(
-        searchProduct: param,
-        searchType: type,
-        storeId: store,
-        isInterestZero: isInterestZero,
-      );
+      List<ProductModel> res = [];
+
+      if (productType == XItemType.gift) {
+        res = await productServices.getGiftsProduct(
+          productId: productId ?? '',
+          productName: param,
+          storeId: store,
+          searchType: type,
+        );
+      } else if (productType == XItemType.attach) {
+        res = await productServices.getAttachesProduct(
+          productId: productId ?? '',
+          productName: param,
+          storeId: store,
+          searchType: type,
+        );
+      } else {
+        res = await productServices.productSearch(
+          searchProduct: param,
+          searchType: type,
+          storeId: store,
+          isInterestZero: isInterestZero,
+        );
+      }
 
       return PaginatedResponse(
         items: res,

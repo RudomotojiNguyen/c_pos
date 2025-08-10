@@ -126,13 +126,16 @@ class _ProductApi implements ProductApi {
   @override
   Future<BaseResponse> getGiftsProduct({
     required String productId,
-    required String productName,
+    String? productName,
+    String? imeiCode,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'productId': productId,
       r'productName': productName,
+      r'imeiCode': imeiCode,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BaseResponse>(Options(
@@ -165,13 +168,16 @@ class _ProductApi implements ProductApi {
   @override
   Future<BaseResponse> getAttachesProduct({
     required String productId,
-    required String productName,
+    String? productName,
+    String? imeiCode,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'productId': productId,
       r'productName': productName,
+      r'imeiCode': imeiCode,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BaseResponse>(Options(

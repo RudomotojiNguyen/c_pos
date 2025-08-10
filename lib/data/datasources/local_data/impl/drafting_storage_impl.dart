@@ -1184,7 +1184,7 @@ class DraftingStorageImpl extends DraftingStorage {
       ProductTable? parentProduct = await isar.productTables
           .filter()
           .idEqualTo(parentProductId)
-          .itemTypeEqualTo(XItemType.gift)
+          .itemTypeEqualTo(XItemType.main)
           .findFirst();
 
       if (parentProduct == null) return null;
@@ -1205,6 +1205,55 @@ class DraftingStorageImpl extends DraftingStorage {
         productsGift,
         (item) {
           item.itemType = XItemType.gift;
+          return isar.productTables.put(item);
+        },
+      );
+
+      // Lưu lại thông tin sản phẩm sau khi cập nhật liên kết
+      await isar.productTables.put(parentProduct);
+    });
+
+    // lấy lại cart
+    cart = await _findCart(cartId: cartId);
+
+    return cart;
+  }
+
+  @override
+  Future<DraftingInvoiceTable?> addProductAttach({
+    required int cartId,
+    required ProductModel product,
+    required int parentProductId,
+  }) async {
+    DraftingInvoiceTable? cart = await _findCart(cartId: cartId);
+    if (cart == null) return null;
+
+    await isar.writeTxn(() async {
+      // tìm sản phẩm gốc
+      ProductTable? parentProduct = await isar.productTables
+          .filter()
+          .idEqualTo(parentProductId)
+          .itemTypeEqualTo(XItemType.main)
+          .findFirst();
+
+      if (parentProduct == null) return null;
+
+      await _loadProductChild(parentProduct);
+
+      // lấy danh sách gift hiện tại của product
+      List<ProductTable> productsAttach = parentProduct.getAttaches;
+
+      // thêm sản phẩm vào trong danh sách attach
+      productsAttach.add(product.convertToTable(
+        cartId: cartId,
+        itemType: XItemType.attach,
+      ));
+
+      await _updateLinks<ProductTable>(
+        parentProduct.productsAttach,
+        productsAttach,
+        (item) {
+          item.itemType = XItemType.attach;
           return isar.productTables.put(item);
         },
       );

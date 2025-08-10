@@ -6,6 +6,66 @@ class ProductServicesImpl implements ProductServices {
   ProductServicesImpl({required this.productApi});
 
   @override
+  Future<List<ProductModel>> getAttachesProduct({
+    required String productId,
+    String? productName,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  }) async {
+    BaseResponse res;
+
+    if (searchType == SearchType.product) {
+      res = await productApi.getAttachesProduct(
+        productId: productId,
+        productName: productName,
+      );
+    } else {
+      res = await productApi.getAttachesProduct(
+        productId: productId,
+        imeiCode: productName,
+      );
+    }
+
+    List<ProductModel> data = [];
+
+    for (var item in (res.data ?? [])) {
+      data.add(ProductModel.fromJson(item));
+    }
+
+    return data;
+  }
+
+  @override
+  Future<List<ProductModel>> getGiftsProduct({
+    required String productId,
+    String? productName,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  }) async {
+    BaseResponse res;
+
+    if (searchType == SearchType.product) {
+      res = await productApi.getGiftsProduct(
+        productId: productId,
+        productName: productName,
+      );
+    } else {
+      res = await productApi.getGiftsProduct(
+        productId: productId,
+        imeiCode: productName,
+      );
+    }
+
+    List<ProductModel> data = [];
+
+    for (var item in (res.data ?? [])) {
+      data.add(ProductModel.fromJson(item));
+    }
+
+    return data;
+  }
+
+  @override
   Future<List<ProductModel>> productSearch({
     String? searchProduct,
     bool isInterestZero = false,

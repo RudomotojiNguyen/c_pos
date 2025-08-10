@@ -212,6 +212,13 @@ abstract class DraftingStorage {
     required int parentProductId,
   });
 
+  /// thêm sản phẩm phụ tại
+  Future<DraftingInvoiceTable?> addProductAttach({
+    required int cartId,
+    required ProductModel product,
+    required int parentProductId,
+  });
+
   ///
   /// for tradein
   ///

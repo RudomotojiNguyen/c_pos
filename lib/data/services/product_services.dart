@@ -2,6 +2,7 @@ import '../../common/enum/search_type.dart';
 import '../datasources/remote/api_remote.dart';
 import '../models/imei_history_model.dart';
 import '../models/imei_transaction_model.dart';
+import '../models/models.dart';
 import '../models/product_imei_model.dart';
 import '../models/product_model.dart';
 import '../models/response/paginated_response.dart';
@@ -58,6 +59,20 @@ abstract class ProductServices {
   //   required int pageSize,
   //   String? searchProduct,
   // });
+
+  Future<List<ProductModel>> getGiftsProduct({
+    required String productId,
+    String? productName,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  });
+
+  Future<List<ProductModel>> getAttachesProduct({
+    required String productId,
+    String? productName,
+    int? storeId,
+    SearchType searchType = SearchType.product,
+  });
 
   Future<List<ProductImeiModel>> getImei({String? productId, int? storeId});
 
