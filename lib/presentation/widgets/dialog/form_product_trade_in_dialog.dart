@@ -1,18 +1,14 @@
 import 'dart:async';
 
-import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../common/di/injection/injection.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/datasources/local_db/local_db.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../gen/assets.gen.dart';
-import '../../journey/screen/trade_in/bloc/trade_in_bloc.dart';
 import '../../mixins/mixins.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';
@@ -29,7 +25,6 @@ class FormProductTradeInDialog extends StatefulWidget {
 
 class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
     with DialogHelper {
-  final TradeInBloc _tradeInBloc = getIt.get<TradeInBloc>();
   final TextEditingController _imeiController = TextEditingController();
   Timer? _timer;
   final ValueNotifier<ProductTable?> _productController = ValueNotifier(null);

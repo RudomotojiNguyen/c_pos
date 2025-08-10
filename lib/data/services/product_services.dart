@@ -1,12 +1,6 @@
 import '../../common/enum/search_type.dart';
 import '../datasources/remote/api_remote.dart';
-import '../models/imei_history_model.dart';
-import '../models/imei_transaction_model.dart';
 import '../models/models.dart';
-import '../models/product_imei_model.dart';
-import '../models/product_model.dart';
-import '../models/response/paginated_response.dart';
-import '../models/trade_in_transaction_model.dart';
 
 part 'impl/product_service_impl.dart';
 

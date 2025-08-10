@@ -388,8 +388,6 @@ class DraftingInvoiceBloc
         'typeTradeIn': state.tradeInType.getTypeValue,
       };
 
-      print('=>> data: ${jsonEncode(data)}');
-
       final res = await tradeInServices.saveBillTradeIn(data);
 
       if (res) {
@@ -761,7 +759,6 @@ class DraftingInvoiceBloc
           // }
         }
         if (state.cartType == CartType.order) {
-          print('=>> formData: ${jsonEncode(formData)}');
           final response = await orderServices.createOrder(formData);
           isCreateSuccess = response.checkIsSuccess;
           if (response.checkIsSuccess) {
@@ -773,15 +770,15 @@ class DraftingInvoiceBloc
           }
         }
         if (state.cartType == CartType.updateOrder) {
-          // final response = await orderServices.updateOrder(formData);
-          // isCreateSuccess = response.checkIsSuccess;
-          // if (response.checkIsSuccess) {
-          //   XToast.showPositiveSuccess(message: response.getMess);
-          //   emit(CreateOrderSuccess(newBillNum: cart.orderId!));
-          // } else {
-          //   emit(CreateFailed(state: state));
-          //   XToast.showNegativeMessage(message: response.toString());
-          // }
+          final response = await orderServices.updateOrder(formData);
+          isCreateSuccess = response.checkIsSuccess;
+          if (response.checkIsSuccess) {
+            XToast.showPositiveSuccess(message: response.getMess);
+            emit(CreateOrderSuccess(newBillNum: cart.orderId!));
+          } else {
+            emit(CreateFailed(state: state));
+            XToast.showNegativeMessage(message: response.toString());
+          }
         }
       }
 
