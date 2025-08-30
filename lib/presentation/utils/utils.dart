@@ -237,10 +237,12 @@ class Utils {
   static Future<TimeOfDay?> showTime(
     BuildContext context, {
     TimeOfDay? initialTime,
+    TimePickerEntryMode initialEntryMode = TimePickerEntryMode.input,
   }) async {
     return await showTimePicker(
       context: context,
       initialTime: initialTime ?? TimeOfDay.now(),
+      initialEntryMode: initialEntryMode,
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
@@ -288,12 +290,12 @@ class Utils {
               secondary: Colors.brown.shade300,
               // background: AppColors.secondColor,
               // onBackground: AppColors.white,
-              onSurface: AppColors.white,
-              onError: AppColors.white,
+              onSurface: AppColors.neutralColor,
+              onError: AppColors.errorColor,
               onPrimary: AppColors.white,
               onSecondary: Colors.black,
               brightness: Brightness.dark,
-              error: Colors.red,
+              error: AppColors.errorColor,
             ),
             textSelectionTheme: const TextSelectionThemeData(
               cursorColor: AppColors.primaryColor,

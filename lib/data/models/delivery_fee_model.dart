@@ -41,6 +41,9 @@ class DeliveryFeeModel {
 
   int get getShippingCompanyFee => shippingCompanyFee ?? 0;
 
+  double get getTotalDeliveryFee =>
+      getCustomerFee.toDouble() + getShippingCompanyFee.toDouble();
+
   bool get useDelivery => getCustomerFee > 0 || getShippingCompanyFee > 0;
 
   Map<String, dynamic> formatDeliveryFeeCreateBill() {

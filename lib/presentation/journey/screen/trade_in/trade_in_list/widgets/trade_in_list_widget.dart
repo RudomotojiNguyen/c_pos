@@ -35,7 +35,9 @@ class _TradeInListWidgetState extends State<TradeInListWidget> {
     return BlocConsumer<TradeInBloc, TradeInState>(
       bloc: widget.tradeInBloc,
       buildWhen: (previous, current) =>
-          current is GetTradeInDataSuccess || current is IsCriteriaLoading,
+          current is GetTradeInDataSuccess ||
+          current is IsCriteriaLoading ||
+          current is IsCriteriaError,
       listener: (context, state) {
         if (state is UpdateFilterSuccess ||
             state is UpdateDefaultFilterSuccess) {
@@ -58,6 +60,14 @@ class _TradeInListWidgetState extends State<TradeInListWidget> {
               return const TransactionItemLoading(type: BillType.tradeIn);
             },
             separatorBuilder: (context, index) => BoxSpacer.s16,
+          );
+        }
+        if (state is IsCriteriaError) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              EmptyDataWidget(emptyMessage: state.errorMessage),
+            ],
           );
         }
         if (state.tradeIns.isEmpty) {

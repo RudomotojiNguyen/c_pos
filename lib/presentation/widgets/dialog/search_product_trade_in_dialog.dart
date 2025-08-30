@@ -38,7 +38,6 @@ class _SearchProductTradeInDialogState
   @override
   void dispose() {
     _timer?.cancel();
-    _searchController.dispose();
     super.dispose();
   }
 
@@ -46,9 +45,10 @@ class _SearchProductTradeInDialogState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _header(),
         BoxSpacer.s16,
+        const HeaderDialog(title: 'Tìm sản phẩm thu cũ'),
         Expanded(child: _listSearch()),
+        _header(),
       ],
     );
   }
@@ -58,12 +58,10 @@ class _SearchProductTradeInDialogState
   ///
 
   Widget _header() {
-    return XTextField(
-      labelText: 'Tìm sản phẩm',
-      hintText: 'Iphone .......',
-      controller: _searchController,
-      onChanged: _onChangeText,
-      autoFocus: true,
+    return SearchBoxWidget(
+      onSearch: _onChangeText,
+      searchController: _searchController,
+      hintStr: 'Tìm sản phẩm',
     );
   }
 

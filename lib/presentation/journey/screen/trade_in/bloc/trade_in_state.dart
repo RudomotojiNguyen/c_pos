@@ -44,7 +44,8 @@ final class IsCriteriaLoading extends TradeInState {
 }
 
 final class IsCriteriaError extends TradeInState {
-  IsCriteriaError({required TradeInState state})
+  final String errorMessage;
+  IsCriteriaError({required TradeInState state, required this.errorMessage})
       : super(
           tradeIns: state.tradeIns,
           pageInfoEntity: state.pageInfoEntity,

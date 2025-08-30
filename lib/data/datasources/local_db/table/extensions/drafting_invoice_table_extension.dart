@@ -64,13 +64,15 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
     return true;
   }
 
-  /// todo: tính số tiền sau khi có sản phẩm
-
   /// tính số tiền còn lại cần phải thêm để hoàn tất đơn
   double get calculatorMustPay => calculatorFinalPrice - totalPayment;
 
-  /// tổng tiền được giảm trên bill
-  double get totalPriceNoneDiscount => getProducts.totalPriceNoneDiscount;
+  /// tổng phí vận chuyển
+  double get totalDeliveryFee => deliveryFee?.getTotalDeliveryFee ?? 0.0;
+
+  /// tổng tiền bill (chưa giảm)
+  double get totalPriceNoneDiscount =>
+      getProducts.totalPriceNoneDiscount + totalDeliveryFee;
 
   /// tổng số tiền được giảm của các sản phẩm
   double get totalDiscountPriceOfBillItem =>

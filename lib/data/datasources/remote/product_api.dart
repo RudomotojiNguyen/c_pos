@@ -72,6 +72,7 @@ abstract class ProductApi {
     @Query('productId') required String productId,
     @Query('productName') String? productName,
     @Query('imeiCode') String? imeiCode,
+    @Query('storeId') int? storeId,
   });
 
   /// Lấy danh sách SP bán kèm(attach)
@@ -81,6 +82,7 @@ abstract class ProductApi {
     @Query('productId') required String productId,
     @Query('productName') String? productName,
     @Query('imeiCode') String? imeiCode,
+    @Query('storeId') int? storeId,
   });
 
   /// tìm sản phẩm

@@ -37,7 +37,7 @@ class BillItemModel {
   List<BillItemModel>? listProductInCombo;
   int? billItemType;
   bool? isGiftTaken;
-  String? accessoryGroupId;
+  int? accessoryGroupId;
   String? accessoryGroupCode;
   double? repurchasePrice;
   String? belongBillDetailId;

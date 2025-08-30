@@ -25,7 +25,7 @@ const ProductTableSchema = CollectionSchema(
     r'accessoryGroupId': PropertySchema(
       id: 1,
       name: r'accessoryGroupId',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'appearTimes': PropertySchema(
       id: 2,
@@ -370,12 +370,6 @@ int _productTableEstimateSize(
     }
   }
   {
-    final value = object.accessoryGroupId;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.attachedImei;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -541,7 +535,7 @@ void _productTableSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.accessoryGroupCode);
-  writer.writeString(offsets[1], object.accessoryGroupId);
+  writer.writeLong(offsets[1], object.accessoryGroupId);
   writer.writeLong(offsets[2], object.appearTimes);
   writer.writeString(offsets[3], object.attachedImei);
   writer.writeString(offsets[4], object.barCode);
@@ -611,7 +605,8 @@ ProductTable _productTableDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ProductTable(
-    accessoryGroupId: reader.readStringOrNull(offsets[1]),
+    accessoryGroupCode: reader.readStringOrNull(offsets[0]),
+    accessoryGroupId: reader.readLongOrNull(offsets[1]),
     appearTimes: reader.readLongOrNull(offsets[2]),
     barCode: reader.readStringOrNull(offsets[4]),
     brand: reader.readStringOrNull(offsets[6]),
@@ -669,7 +664,6 @@ ProductTable _productTableDeserialize(
     warrantyPhone: reader.readStringOrNull(offsets[60]),
     wholesalePrice: reader.readDoubleOrNull(offsets[61]),
   );
-  object.accessoryGroupCode = reader.readStringOrNull(offsets[0]);
   object.attachedImei = reader.readStringOrNull(offsets[3]);
   object.belongBillDetailId = reader.readStringOrNull(offsets[5]);
   object.discountAmount = reader.readDouble(offsets[12]);
@@ -692,7 +686,7 @@ P _productTableDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
@@ -1118,58 +1112,49 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      accessoryGroupIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'accessoryGroupId',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       accessoryGroupIdGreaterThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'accessoryGroupId',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       accessoryGroupIdLessThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'accessoryGroupId',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       accessoryGroupIdBetween(
-    String? lower,
-    String? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1178,77 +1163,6 @@ extension ProductTableQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'accessoryGroupId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'accessoryGroupId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'accessoryGroupId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'accessoryGroupId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'accessoryGroupId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'accessoryGroupId',
-        value: '',
       ));
     });
   }
@@ -9542,10 +9456,9 @@ extension ProductTableQueryWhereDistinct
   }
 
   QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByAccessoryGroupId({bool caseSensitive = true}) {
+      distinctByAccessoryGroupId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'accessoryGroupId',
-          caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'accessoryGroupId');
     });
   }
 
@@ -9983,7 +9896,7 @@ extension ProductTableQueryProperty
     });
   }
 
-  QueryBuilder<ProductTable, String?, QQueryOperations>
+  QueryBuilder<ProductTable, int?, QQueryOperations>
       accessoryGroupIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'accessoryGroupId');

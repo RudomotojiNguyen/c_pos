@@ -18,11 +18,13 @@ class ProductServicesImpl implements ProductServices {
       res = await productApi.getAttachesProduct(
         productId: productId,
         productName: productName,
+        storeId: storeId,
       );
     } else {
       res = await productApi.getAttachesProduct(
         productId: productId,
         imeiCode: productName,
+        storeId: storeId,
       );
     }
 
@@ -48,11 +50,13 @@ class ProductServicesImpl implements ProductServices {
       res = await productApi.getGiftsProduct(
         productId: productId,
         productName: productName,
+        storeId: storeId,
       );
     } else {
       res = await productApi.getGiftsProduct(
         productId: productId,
         imeiCode: productName,
+        storeId: storeId,
       );
     }
 

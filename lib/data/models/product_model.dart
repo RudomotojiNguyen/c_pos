@@ -50,7 +50,8 @@ class ProductModel {
   int? warrantyPackageId;
   String? code;
   int? promotionId;
-  String? accessoryGroupId;
+  int? accessoryGroupId;
+  String? accessoryGroupCode;
 
   int? discountProgramId;
   int? discountType;
@@ -117,6 +118,7 @@ class ProductModel {
     this.code,
     this.promotionId,
     this.accessoryGroupId,
+    this.accessoryGroupCode,
     //
     this.reasonName,
     this.imeiNo,
@@ -189,8 +191,8 @@ class ProductModel {
     warrantyPackageId = json['warrantyPackageId'];
     code = json['code'];
     promotionId = json['promotionId'];
-    accessoryGroupId = json['accessoryGroupId'];
-
+    accessoryGroupId = json['accessoryGroupId']?.toString().toInt();
+    accessoryGroupCode = json['accessoryGroupCode'];
     if (json['productStocks'] != null) {
       stocks = <StockModel>[];
       json['productStocks'].forEach((v) {
@@ -372,6 +374,7 @@ class ProductModel {
         code: code,
         promotionId: promotionId,
         accessoryGroupId: accessoryGroupId,
+        accessoryGroupCode: accessoryGroupCode,
       )
         ..productChild = productChildSelected
         ..productChildCombo = productsCombo;

@@ -838,8 +838,8 @@ class DraftingInvoiceBloc
         emit(
           UpdateBillNoteSuccess(
             state: state,
-            warrantyNote: event.warrantyNote,
-            saleNote: event.saleNote,
+            warrantyNote: res.warrantyNote,
+            saleNote: res.saleNote,
           ),
         );
       }

@@ -135,7 +135,7 @@ class ProductTable {
   double? toPrice;
   String? code;
   int? promotionId;
-  String? accessoryGroupId;
+  int? accessoryGroupId;
   String? accessoryGroupCode;
 
   bool? isRepurchasePrice; // thu lại sản phẩm
@@ -203,6 +203,7 @@ class ProductTable {
     this.code,
     this.promotionId,
     this.accessoryGroupId,
+    this.accessoryGroupCode,
   });
 }
 

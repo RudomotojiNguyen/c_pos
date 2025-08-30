@@ -1,5 +1,5 @@
 name: c_pos
-description: "A new Flutter project."
+description: ""
 publish_to: "none"
 
 version: 1.0.0+1
@@ -89,16 +89,9 @@ dependencies:
   # Firebase
   firebase_core: ^3.12.0
   firebase_analytics: ^11.4.3
-  # firebase_messaging: ^15.1.6
-  # firebase_crashlytics: ^4.2.0
 
   #sentry
   sentry_flutter: ^8.14.0
-
-  # # Awesome plugins
-  # awesome_notifications_core: ^0.10.0 # use the latest version available
-  # awesome_notifications: ^0.10.0
-  # awesome_notifications_fcm: ^0.10.0
 
   dynamic_tabbar: ^1.0.8
   timelines_plus: ^1.0.6

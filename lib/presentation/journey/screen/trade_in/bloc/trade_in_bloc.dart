@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,6 +82,12 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
   FutureOr<void> _onSearchProductByName(
       SearchProductByNameEvent event, Emitter<TradeInState> emit) async {
     try {
+      emit(IsCriteriaLoading(state: state));
+      if (event.name.isNullOrEmpty) {
+        emit(SearchProductsSuccess(state: state, products: const []));
+        return;
+      }
+
       emit(IsCriteriaLoading(state: state));
       final res = await tradeInServices.getTradeInProductByName(event.name);
       emit(SearchProductsSuccess(state: state, products: res));
@@ -289,7 +296,7 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
       ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetTradeInDataEvent', obj: e);
-      emit(IsCriteriaError(state: state));
+      emit(IsCriteriaError(state: state, errorMessage: e.toString()));
     }
   }
 

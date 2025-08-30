@@ -128,12 +128,14 @@ class _ProductApi implements ProductApi {
     required String productId,
     String? productName,
     String? imeiCode,
+    int? storeId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'productId': productId,
       r'productName': productName,
       r'imeiCode': imeiCode,
+      r'storeId': storeId,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -170,12 +172,14 @@ class _ProductApi implements ProductApi {
     required String productId,
     String? productName,
     String? imeiCode,
+    int? storeId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'productId': productId,
       r'productName': productName,
       r'imeiCode': imeiCode,
+      r'storeId': storeId,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
