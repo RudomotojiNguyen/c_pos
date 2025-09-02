@@ -69,7 +69,7 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
               _payByCash(),
               _payByCredit(),
               _payByTransfer(),
-              _payByInstallment(),
+              // _payByInstallment(),
             ],
           ),
         );
@@ -216,30 +216,30 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     );
   }
 
-  Widget _payByInstallment() {
-    return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
-        List<PaymentMethodTable>?>(
-      bloc: _draftingInvoiceBloc,
-      selector: (state) => state.paymentByInstallment,
-      builder: (context, state) {
-        return PaymentMethodDetailWidget(
-          title: 'Trả góp',
-          payments: state ?? [],
-          onRemove: (paymentMethodId) {
-            _draftingInvoiceBloc
-                .add(RemovePaymentMethodEvent(id: paymentMethodId));
-          },
-          onUpdate: (paymentMethod) {
-            _onSelectMethod(
-              context,
-              paymentType: PaymentType.installment,
-              paymentMethod: paymentMethod,
-            );
-          },
-        );
-      },
-    );
-  }
+  // Widget _payByInstallment() {
+  //   return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
+  //       List<PaymentMethodTable>?>(
+  //     bloc: _draftingInvoiceBloc,
+  //     selector: (state) => state.paymentByInstallment,
+  //     builder: (context, state) {
+  //       return PaymentMethodDetailWidget(
+  //         title: 'Trả góp',
+  //         payments: state ?? [],
+  //         onRemove: (paymentMethodId) {
+  //           _draftingInvoiceBloc
+  //               .add(RemovePaymentMethodEvent(id: paymentMethodId));
+  //         },
+  //         onUpdate: (paymentMethod) {
+  //           _onSelectMethod(
+  //             context,
+  //             paymentType: PaymentType.installment,
+  //             paymentMethod: paymentMethod,
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _widgetAddMethod(Future<void> Function() closeOverlay) {
     return Padding(
@@ -281,27 +281,27 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
             },
             title: PaymentType.transfer.getTitle,
           ),
-          BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
-            bloc: _draftingInvoiceBloc,
-            buildWhen: (previous, current) =>
-                current is UpdatePaymentMethodSuccess ||
-                current is IsGettingDetail,
-            builder: (context, state) {
-              if ((state.paymentByInstallment ?? []).isNotEmpty) {
-                return BoxSpacer.blank;
-              }
-              return _rowPayment(
-                onPressed: () async {
-                  await closeOverlay();
-                  _onSelectMethod(
-                    context,
-                    paymentType: PaymentType.installment,
-                  );
-                },
-                title: PaymentType.installment.getTitle,
-              );
-            },
-          ),
+          // BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
+          //   bloc: _draftingInvoiceBloc,
+          //   buildWhen: (previous, current) =>
+          //       current is UpdatePaymentMethodSuccess ||
+          //       current is IsGettingDetail,
+          //   builder: (context, state) {
+          //     if ((state.paymentByInstallment ?? []).isNotEmpty) {
+          //       return BoxSpacer.blank;
+          //     }
+          //     return _rowPayment(
+          //       onPressed: () async {
+          //         await closeOverlay();
+          //         _onSelectMethod(
+          //           context,
+          //           paymentType: PaymentType.installment,
+          //         );
+          //       },
+          //       title: PaymentType.installment.getTitle,
+          //     );
+          //   },
+          // ),
         ],
       ),
     );

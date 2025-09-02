@@ -926,7 +926,7 @@ class DraftingInvoiceBloc
             paymentByCash: res.paymentByCash,
             paymentByTransfer: res.paymentByTransfer,
             paymentByCredit: res.paymentByCredit,
-            paymentByInstallment: res.paymentByInstallment,
+            // paymentByInstallment: res.paymentByInstallment,
           ),
         );
 
@@ -957,7 +957,7 @@ class DraftingInvoiceBloc
             paymentByCash: res.paymentByCash,
             paymentByTransfer: res.paymentByTransfer,
             paymentByCredit: res.paymentByCredit,
-            paymentByInstallment: res.paymentByInstallment,
+            // paymentByInstallment: res.paymentByInstallment,
           ),
         );
 
@@ -1106,7 +1106,7 @@ class DraftingInvoiceBloc
           paymentByCash: res.paymentByCash,
           paymentByTransfer: res.paymentByTransfer,
           paymentByCredit: res.paymentByCredit,
-          paymentByInstallment: res.paymentByInstallment,
+          // paymentByInstallment: res.paymentByInstallment,
           finalPrice: res.calculatorFinalPrice,
           mustPay: res.calculatorMustPay,
           //
