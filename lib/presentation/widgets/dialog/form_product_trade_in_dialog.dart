@@ -31,6 +31,8 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
 
   String get getImeiStr => _imeiController.text.trim();
 
+  final GlobalKey<FormState> _kForm = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -50,18 +52,22 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
       padding: EdgeInsets.zero.copyWith(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const HeaderDialog(title: 'Thông tin sản phẩm'),
-          _inputImei(),
-          // _productOfCompany(),
-          BoxSpacer.s16,
-          _productTradeIn(),
-          BoxSpacer.s32,
-          _bottomSubmit(),
-        ],
+      child: Form(
+        key: _kForm,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const HeaderDialog(title: 'Thông tin sản phẩm'),
+            _inputImei(),
+            // _productOfCompany(),
+            BoxSpacer.s16,
+            _productTradeIn(),
+            BoxSpacer.s32,
+            _bottomSubmit(),
+          ],
+        ),
       ),
     );
   }
@@ -76,6 +82,14 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
         if (value != null) {
           return XButton(
             onPressed: () {
+              if (!_kForm.currentState!.validate()) {
+                return;
+              }
+              if (getImeiStr.isNullOrEmpty) {
+                XToast.showNegativeMessage(
+                    message: 'Vui lòng nhập imei sản phẩm');
+                return;
+              }
               value.imei = ProductImeiModel(imeiNo: getImeiStr);
               widget.onResult(value);
               Navigator.pop(context);
@@ -96,22 +110,13 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
       hintText: 'Nhập imei sản phẩm',
       controller: _imeiController,
       autoFocus: true,
-      // suffixWidget: XBaseButton(
-      //   onPressed: () {
-      //     showModalCameraScan(
-      //       context,
-      //       onResult: ({code, codes}) {
-      //         if (code.isNotNullOrEmpty) {
-      //           _imeiController.text = code ?? '';
-      //         }
-      //       },
-      //     );
-      //   },
-      //   child: Assets.svg.barcode.svg(
-      //     width: 24.sp,
-      //     height: 24.sp,
-      //   ),
-      // ),
+      isRequired: true,
+      validator: (imeiResult) {
+        if (imeiResult.isNullOrEmpty) {
+          return 'Vui lòng nhập imei sản phẩm';
+        }
+        return null;
+      },
     );
   }
 

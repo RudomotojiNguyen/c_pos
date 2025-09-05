@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 enum XCustomerType {
   none,
   retailCustomer, // khách lẻ
@@ -19,8 +21,6 @@ extension XCustomerTypeExtension on XCustomerType {
   };
 
   int get getValueType =>
-      map.entries.firstWhere((element) => element.value == this).key;
-
-  String get getTypeName =>
-      map.entries.firstWhere((element) => element.value == this).value.name;
+      map.entries.firstWhereOrNull((element) => element.value == this)?.key ??
+      XCustomerType.retailCustomer.getValueType;
 }

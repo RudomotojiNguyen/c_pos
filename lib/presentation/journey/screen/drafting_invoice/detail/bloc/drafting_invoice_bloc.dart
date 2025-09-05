@@ -405,6 +405,9 @@ class DraftingInvoiceBloc
       BaseResponse response = BaseResponse.fromErrorJson(e.response!.data);
       XToast.showNegativeMessage(
           message: response.message ?? 'Lỗi không xác định');
+    } catch (e) {
+      emit(CreateFailed(state: state));
+      XToast.showNegativeMessage(message: e.toString());
     } finally {
       XToast.closeAllLoading();
     }

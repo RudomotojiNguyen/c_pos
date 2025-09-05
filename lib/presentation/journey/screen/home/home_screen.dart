@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 168.sp,
                 padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Lottie.asset(
@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 168.sp,
                 padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Lottie.asset(
@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 168.sp,
                 padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: AppColors.shadowColor,
                   borderRadius: BorderRadius.all(AppRadius.l),
                 ),
                 child: Lottie.asset(

@@ -26,7 +26,9 @@ extension CustomerTableExtension on CustomerTable {
       "dateOfBirth":
           dateOfBirth?.formatDate(format: XDateTimeEnum.secondDayMonthYear),
       "address": address,
-      "type": type.getValueType,
+      "type": type == XCustomerType.none
+          ? XCustomerType.retailCustomer.getValueType
+          : type.getValueType,
     };
   }
 
