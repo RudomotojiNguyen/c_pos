@@ -156,7 +156,6 @@ class _ProductItemInCartState extends State<ProductItemInCart>
   _onShowStockDialog() {
     showXBottomSheet(
       context,
-      margin: EdgeInsets.only(top: 80.sp),
       body: StockDialog(productId: widget.product.id!),
     );
   }

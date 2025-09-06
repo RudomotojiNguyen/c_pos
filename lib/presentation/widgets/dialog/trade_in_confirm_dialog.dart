@@ -40,7 +40,6 @@ class _TradeInConfirmDialogState extends State<TradeInConfirmDialog> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: context.viewInsets.bottom),
       child: Form(
         key: _kForm,
         autovalidateMode: AutovalidateMode.onUserInteraction,

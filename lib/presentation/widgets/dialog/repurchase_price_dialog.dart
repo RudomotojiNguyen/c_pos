@@ -36,19 +36,15 @@ class _RepurchasePriceDialogState extends State<RepurchasePriceDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero
-          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const HeaderDialog(title: 'Giá thu lại'),
-          BoxSpacer.s16,
-          _inputAmount(),
-          BoxSpacer.s32,
-          _submitButton(),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HeaderDialog(title: 'Giá thu lại'),
+        BoxSpacer.s16,
+        _inputAmount(),
+        BoxSpacer.s32,
+        _submitButton(),
+      ],
     );
   }
 

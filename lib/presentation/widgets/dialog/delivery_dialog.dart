@@ -41,21 +41,17 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero
-          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const HeaderDialog(title: 'Thông tin phí vận chuyển'),
-          BoxSpacer.s16,
-          _customerFeeInput(),
-          BoxSpacer.s16,
-          _shippingCompanyFeeInput(),
-          BoxSpacer.s32,
-          _submitButton(),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HeaderDialog(title: 'Thông tin phí vận chuyển'),
+        BoxSpacer.s16,
+        _customerFeeInput(),
+        BoxSpacer.s16,
+        _shippingCompanyFeeInput(),
+        BoxSpacer.s32,
+        _submitButton(),
+      ],
     );
   }
 

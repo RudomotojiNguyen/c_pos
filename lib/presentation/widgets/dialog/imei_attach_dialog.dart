@@ -35,19 +35,15 @@ class _ImeiAttachDialogState extends State<ImeiAttachDialog> with DialogHelper {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero
-          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const HeaderDialog(title: 'Imei đính kèm'),
-          BoxSpacer.s8,
-          inputImei(),
-          BoxSpacer.s8,
-          buttonAttach(),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HeaderDialog(title: 'Imei đính kèm'),
+        BoxSpacer.s8,
+        inputImei(),
+        BoxSpacer.s8,
+        buttonAttach(),
+      ],
     );
   }
 

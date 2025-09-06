@@ -78,10 +78,8 @@ class _DiscountByCodeState extends State<DiscountByCode>
         }
       },
       child: Container(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         constraints: BoxConstraints(
-          maxHeight: context.mediaQuery.size.height * 0.8,
+          maxHeight: 0.5.sh,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

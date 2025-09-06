@@ -338,7 +338,6 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     baseButtonKey.currentState?.removeOverlay();
     showXBottomSheet(
       context,
-      isScrollControlled: true,
       key: GlobalAppKey.methodDialogKey,
       body: ModifyPaymentMethodDialog(
         paymentType: paymentType,

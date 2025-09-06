@@ -39,44 +39,40 @@ class _ModifyNoteDialogState extends State<ModifyNoteDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero
-          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const HeaderDialog(title: 'Ghi chú'),
-          BoxSpacer.s8,
-          Column(
-            children: [
-              XTextField(
-                controller: _saleNote,
-                isEditMode: true,
-                labelText: 'CSKH',
-                hintText: 'Thêm ghi chú chăm sóc khách',
-                maxLines: 5,
-                minLines: 5,
-              ),
-              BoxSpacer.s32,
-              XTextField(
-                controller: _warrantyNote,
-                isEditMode: true,
-                labelText: 'Bảo hành',
-                hintText: 'Thêm ghi chú bảo hành',
-                minLines: 5,
-                maxLines: 5,
-              ),
-            ],
-          ),
-          BoxSpacer.s16,
-          XButton(
-            onPressed: () {
-              widget.callBackResult(_saleNote.text, _warrantyNote.text);
-            },
-            title: 'Hoàn thành',
-          )
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HeaderDialog(title: 'Ghi chú'),
+        BoxSpacer.s8,
+        Column(
+          children: [
+            XTextField(
+              controller: _saleNote,
+              isEditMode: true,
+              labelText: 'CSKH',
+              hintText: 'Thêm ghi chú chăm sóc khách',
+              maxLines: 5,
+              minLines: 5,
+            ),
+            BoxSpacer.s32,
+            XTextField(
+              controller: _warrantyNote,
+              isEditMode: true,
+              labelText: 'Bảo hành',
+              hintText: 'Thêm ghi chú bảo hành',
+              minLines: 5,
+              maxLines: 5,
+            ),
+          ],
+        ),
+        BoxSpacer.s16,
+        XButton(
+          onPressed: () {
+            widget.callBackResult(_saleNote.text, _warrantyNote.text);
+          },
+          title: 'Hoàn thành',
+        )
+      ],
     );
   }
 }

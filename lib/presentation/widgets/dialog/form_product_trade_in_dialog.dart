@@ -49,9 +49,6 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.zero.copyWith(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
       child: Form(
         key: _kForm,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -218,9 +215,7 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
   _onSearchProductTradeIn({String? searchStr}) {
     showXBottomSheet(
       context,
-      enableDrag: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
+      maxHeight: 0.7.sh,
       body: SearchProductTradeInDialog(
         searchStr: searchStr,
         onResult: (ProductModel product) {

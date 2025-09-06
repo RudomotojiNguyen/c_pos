@@ -47,20 +47,15 @@ class _DiscountByHandDialogState extends State<DiscountByHandDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero.copyWith(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const HeaderDialog(title: 'Chiết khấu tay'),
-          BoxSpacer.s16,
-          _inputAmount(),
-          BoxSpacer.s32,
-          _submitButton(),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HeaderDialog(title: 'Chiết khấu tay'),
+        BoxSpacer.s16,
+        _inputAmount(),
+        BoxSpacer.s32,
+        _submitButton(),
+      ],
     );
   }
 

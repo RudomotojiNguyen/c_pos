@@ -129,8 +129,6 @@ class _CustomerBillInformationWidgetState
   void onPressedEdit(CustomerTable? customer) {
     showXBottomSheet(
       context,
-      isScrollControlled: true,
-      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
       body: UpdateCustomerInformationDialog(
         cartType: _draftingInvoiceBloc.state.cartType,
         initCustomerDetail: customer?.convertToModel,

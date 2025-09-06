@@ -94,22 +94,16 @@ class _ModifyPaymentMethodDialogState extends State<ModifyPaymentMethodDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom +
-            10.sp, // Đặt padding theo bàn phím
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _renderHeader(),
-            BoxSpacer.s32,
-            _renderBody(),
-            BoxSpacer.s32,
-            _renderBottom(),
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _renderHeader(),
+          BoxSpacer.s32,
+          _renderBody(),
+          BoxSpacer.s32,
+          _renderBottom(),
+        ],
       ),
     );
   }

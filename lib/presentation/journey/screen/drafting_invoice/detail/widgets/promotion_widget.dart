@@ -164,9 +164,6 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
     DraftingInvoiceState state = _draftingInvoiceBloc.state;
     showXBottomSheet(
       context,
-      isScrollControlled: true,
-      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-      margin: EdgeInsets.zero,
       body: DiscountDialog(
         customerId: state.customer?.customerId,
         products: state.products ?? [],

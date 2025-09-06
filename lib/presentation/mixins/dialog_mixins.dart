@@ -185,22 +185,46 @@ mixin DialogHelper {
         isScrollControlled: isScrollControlled,
         backgroundColor: Colors.transparent,
         isDismissible: isDismissible,
-        builder: (_) {
-          return XBaseButton(
-            onPressed: () => context.hideKeyboard,
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: maxHeight ?? double.infinity,
+        builder: (ctx) {
+          final screenHeight = MediaQuery.of(ctx).size.height;
+          double keyboardHeight = MediaQuery.of(ctx).viewInsets.bottom;
+          final availableHeight = screenHeight - keyboardHeight;
+          // Tính toán chiều cao tối đa cho modal
+          double calculatedMaxHeight;
+          if (maxHeight != null) {
+            // Nếu có maxHeight được chỉ định, sử dụng giá trị nhỏ hơn
+            calculatedMaxHeight =
+                maxHeight < availableHeight ? maxHeight : availableHeight;
+          } else {
+            // Nếu không có maxHeight, sử dụng chiều cao khả dụng
+            calculatedMaxHeight = availableHeight;
+          }
+
+          // Đảm bảo modal không vượt quá 90% chiều cao màn hình
+          calculatedMaxHeight = calculatedMaxHeight > screenHeight * 0.9
+              ? screenHeight * 0.9
+              : calculatedMaxHeight;
+
+          return SafeArea(
+            child: XBaseButton(
+              onPressed: () => context.hideKeyboard,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxHeight: calculatedMaxHeight,
+                ),
+                padding: (padding ??
+                    EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp)),
+                margin: margin ??
+                    EdgeInsets.symmetric(
+                      horizontal: 16.sp,
+                      vertical: 16.sp,
+                    ).copyWith(bottom: keyboardHeight),
+                decoration: BoxDecoration(
+                  color: bgColor ?? AppColors.white,
+                  borderRadius: BorderRadius.all(AppRadius.xxl),
+                ),
+                child: body,
               ),
-              padding: padding ??
-                  EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
-              margin: margin ??
-                  EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
-              decoration: BoxDecoration(
-                color: bgColor ?? AppColors.white,
-                borderRadius: BorderRadius.all(AppRadius.xxl),
-              ),
-              child: body,
             ),
           );
         }).then((value) {

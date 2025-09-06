@@ -122,7 +122,7 @@ class _ProductsBasicInformationWidgetState
   _onAddProduct() {
     showXBottomSheet(
       context,
-      isScrollControlled: false,
+      maxHeight: 0.7.sh,
       body: SearchProductDialog(
         onSelectProduct: (result) {
           _draftingInvoiceBloc.add(AddProductFromSearchToCartEvent(result));
@@ -159,9 +159,6 @@ class _ProductsBasicInformationWidgetState
     showXBottomSheet(
       context,
       key: GlobalAppKey.productNoteDialogKey,
-      isScrollControlled: true,
-      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-      margin: EdgeInsets.zero,
       body: DiscountByHandDialog(
         maxAmountDiscount: product.calculatorTotalSellingPrice,
         initValue: product.discountByHand?.amount ?? 0,
@@ -182,9 +179,6 @@ class _ProductsBasicInformationWidgetState
     showXBottomSheet(
       context,
       key: GlobalAppKey.addImeiDialogKey,
-      enableDrag: true,
-      padding: EdgeInsets.symmetric(vertical: 20.sp),
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: ImeiOfProductDialog(
         productId: product.productId!,
         storeId: _draftingInvoiceBloc.state.currentStore?.getStoreId,
@@ -203,7 +197,6 @@ class _ProductsBasicInformationWidgetState
     // todo: hiện dialog tìm sản phẩm
     showXBottomSheet(
       context,
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: SearchProductDialog(
         isNeedInStock: true,
         parentProductId: product.productId,
@@ -225,7 +218,6 @@ class _ProductsBasicInformationWidgetState
     // todo: hiện dialog tìm sản phẩm
     showXBottomSheet(
       context,
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: SearchProductDialog(
         isNeedInStock: true,
         parentProductId: product.productId,
@@ -247,9 +239,6 @@ class _ProductsBasicInformationWidgetState
     showXBottomSheet(
       context,
       key: GlobalAppKey.productNoteDialogKey,
-      isScrollControlled: true,
-      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-      margin: EdgeInsets.zero,
       body: NoteDialog(
         initValue: productNote ?? '',
         onResult: (value) {
@@ -269,9 +258,6 @@ class _ProductsBasicInformationWidgetState
     showXBottomSheet(
       context,
       key: GlobalAppKey.productNoteDialogKey,
-      isScrollControlled: true,
-      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
-      margin: EdgeInsets.zero,
       body: RepurchasePriceDialog(
         initValue: product.repurchasePrice ?? 0,
         onResult: (value) {

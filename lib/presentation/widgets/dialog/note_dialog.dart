@@ -37,19 +37,15 @@ class _NoteDialogState extends State<NoteDialog>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero
-          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const HeaderDialog(title: 'Ghi chú'),
-          BoxSpacer.s16,
-          _inputNote(),
-          BoxSpacer.s16,
-          _submitButton(),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const HeaderDialog(title: 'Ghi chú'),
+        BoxSpacer.s16,
+        _inputNote(),
+        BoxSpacer.s16,
+        _submitButton(),
+      ],
     );
   }
 

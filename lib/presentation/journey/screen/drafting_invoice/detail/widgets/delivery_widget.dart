@@ -148,9 +148,6 @@ class _DeliveryWidgetState extends State<DeliveryWidget>
   void onPressedEdit(BuildContext ctx) {
     showXBottomSheet(
       ctx,
-      enableDrag: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: DeliveryDialog(
         onResult: (int customerFee, int shippingCompanyFee) {
           _draftingInvoiceBloc.add(

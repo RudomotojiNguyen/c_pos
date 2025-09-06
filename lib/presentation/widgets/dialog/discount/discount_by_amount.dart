@@ -42,16 +42,12 @@ class _DiscountByAmountState extends State<DiscountByAmount>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        children: [
-          _amount(),
-          BoxSpacer.s32,
-          _submitButton(),
-        ],
-      ),
+    return Column(
+      children: [
+        _amount(),
+        BoxSpacer.s32,
+        _submitButton(),
+      ],
     );
   }
 

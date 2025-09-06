@@ -68,9 +68,6 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   //     onPressed: () {
   //       showXBottomSheet(
   //         ctx,
-  //         enableDrag: true,
-  //         padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-  //         margin: EdgeInsets.zero.copyWith(top: 60.sp),
   //         body: SuggestNotesDialog(
   //           callBack: (Map<int, String> result) {
   //             String joinResult = _draftingInvoiceBloc.state.warrantyNote ?? '';
@@ -216,9 +213,7 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   void onPressedEdit(BuildContext ctx) {
     showXBottomSheet(
       ctx,
-      enableDrag: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
+      maxHeight: 0.7.sh,
       body: ModifyNoteDialog(
         saleNote: _draftingInvoiceBloc.state.saleNote,
         warrantyNote: _draftingInvoiceBloc.state.warrantyNote,

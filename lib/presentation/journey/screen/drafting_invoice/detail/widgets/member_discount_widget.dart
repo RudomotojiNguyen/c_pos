@@ -139,7 +139,6 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
   void onPressUsePoint() {
     showXBottomSheet(
       context,
-      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
       body: OtpFormWidget(
         length: 6,
         maxPoint: _draftingInvoiceBloc.state.customer!.getMaxPoint,

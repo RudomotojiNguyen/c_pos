@@ -103,9 +103,6 @@ class _ChangeStoreScreenState extends XStateWidget<ChangeStoreScreen>
   _onCreateTicketExchageStore() {
     showXBottomSheet(
       context,
-      enableDrag: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: const FormCreateRequestExchangeStore(),
     );
   }

@@ -96,9 +96,6 @@ class _ProductTradeInWidgetState extends State<ProductTradeInWidget>
   _onDialogProductInfo() {
     showXBottomSheet(
       context,
-      enableDrag: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-      margin: EdgeInsets.zero.copyWith(top: 60.sp),
       body: FormProductTradeInDialog(
         onResult: (ProductTable product) {
           _draftingInvoiceBloc.add(UpdateProductTradeInEvent(product));

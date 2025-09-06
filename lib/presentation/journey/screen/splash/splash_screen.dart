@@ -39,18 +39,20 @@ class _SplashScreenState extends State<SplashScreen> {
           MainRouter.instance.pushReplace(context, routeName: RouteName.login);
         }
       },
-      child: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Assets.svg.imgLogo.svg(width: 240.sp),
-              BoxSpacer.s32,
-              Text(
-                'Đang tải dữ liệu bạn chờ chút nhé!',
-                style: AppFont.t.s(16).w500,
-              ),
-            ],
+      child: SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Assets.svg.imgLogo.svg(width: 240.sp),
+                BoxSpacer.s32,
+                Text(
+                  'Đang tải dữ liệu bạn chờ chút nhé!',
+                  style: AppFont.t.s(16).w500,
+                ),
+              ],
+            ),
           ),
         ),
       ),

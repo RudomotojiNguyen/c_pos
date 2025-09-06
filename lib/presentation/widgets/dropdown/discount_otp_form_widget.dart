@@ -114,32 +114,27 @@ class _DiscountOtpFormWidgetState extends State<DiscountOtpFormWidget> {
           Navigator.pop(context);
         }
       },
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.type == DiscountMemberType.point) ...[
-              Text('Tiêu điểm', style: AppFont.t.s()),
-              BoxSpacer.s8,
-            ],
-            _formInput(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.type == DiscountMemberType.point) ...[
+            Text('Tiêu điểm', style: AppFont.t.s()),
             BoxSpacer.s8,
-            ValueListenableBuilder(
-              valueListenable: _countDownController,
-              builder: (context, value, child) {
-                if (value == 0) {
-                  return _resend();
-                }
-                return _countdown(value);
-              },
-            ),
-            BoxSpacer.s16,
-            _bottomSubmit(),
           ],
-        ),
+          _formInput(),
+          BoxSpacer.s8,
+          ValueListenableBuilder(
+            valueListenable: _countDownController,
+            builder: (context, value, child) {
+              if (value == 0) {
+                return _resend();
+              }
+              return _countdown(value);
+            },
+          ),
+          BoxSpacer.s16,
+          _bottomSubmit(),
+        ],
       ),
     );
   }

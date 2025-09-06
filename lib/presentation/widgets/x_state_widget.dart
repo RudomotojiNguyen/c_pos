@@ -27,19 +27,21 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor(),
-      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      appBar: buildAppBar(context),
-      body: InkWell(
-        onTap: () {
-          context.hideKeyboard;
-        },
-        child: buildContentView(context),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: backgroundColor(),
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+        appBar: buildAppBar(context),
+        body: InkWell(
+          onTap: () {
+            context.hideKeyboard;
+          },
+          child: buildContentView(context),
+        ),
+        bottomNavigationBar: buildBottomNavigationBar(context),
+        floatingActionButton: buildFloatingActionButton(context),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      bottomNavigationBar: buildBottomNavigationBar(context),
-      floatingActionButton: buildFloatingActionButton(context),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

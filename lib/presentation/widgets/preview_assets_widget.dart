@@ -53,12 +53,14 @@ class _PreviewAssetsWidgetState extends State<PreviewAssetsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          widget.gallery != null ? _onlyGallery() : _listGallery(),
-          _header(),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            widget.gallery != null ? _onlyGallery() : _listGallery(),
+            _header(),
+          ],
+        ),
       ),
     );
   }
