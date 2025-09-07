@@ -13,4 +13,5 @@ class RouteName {
   static const String drafts = 'drafts';
   static const String search = 'search';
   static const String tradeIn = 'tradeIn';
+  static const String tradeInDetailScreen = 'tradeInDetailScreen';
 }

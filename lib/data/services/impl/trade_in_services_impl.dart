@@ -38,12 +38,12 @@ class TradeInServicesImpl extends TradeInServices {
     });
   }
 
-  // @override
-  // Future<TradeInModel> getTradeInDetail(int id) {
-  //   return tradeInApi.getTradeInDetail(id).then((value) {
-  //     return TradeInModel.fromJson(value.data);
-  //   });
-  // }
+  @override
+  Future<TradeInModel> getTradeInDetail(int id) {
+    return tradeInApi.getTradeInDetail(id).then((value) {
+      return TradeInModel.fromJson(value.data);
+    });
+  }
 
   @override
   Future<List<ImageDetailModel>> getImageVerifyTradeIn(int id) async {
@@ -106,24 +106,50 @@ class TradeInServicesImpl extends TradeInServices {
   }
 
   @override
-  Future<BaseResponse> deleteImage(int tradeInItemID) {
-    return fileApi.deleteImage(tradeInItemID);
+  Future<BaseResponse> deleteImage({dynamic fileId, required int tradeInId}) {
+    final body = {
+      "modelName": XAssetModelName.tradeIn.getValue,
+      "modelId": tradeInId
+    };
+    return fileApi.deleteFileAssetUsage(assetId: fileId.toString(), body: body);
   }
 
   @override
-  Future<BaseResponse> uploadImage(
+  Future<BaseFileModel?> uploadImage(
       {required XFile file, required int tradeInBillId}) async {
     MultipartFile image = await MultipartFile.fromFile(
       file.path,
       filename: file.name,
-      contentType: DioMediaType.parse('image/jpg'),
+      contentType: DioMediaType.parse(file.mimeType ?? 'image/jpg'),
     );
 
-    final formData = FormData.fromMap({'fileUploads': image});
-    return fileApi.postImage(
+    final formData = FormData.fromMap({'files': image});
+    final res = await fileApi.postImage(
       formData: formData,
-      entity: XEntityEnum.evaluationTrade.getValue,
-      entityId: tradeInBillId,
+      modelId: tradeInBillId,
+      modelName: XAssetModelName.tradeIn.getValue,
     );
+
+    final images = res['images'] as List? ?? [];
+    if (images.isNotEmpty) {
+      final data = BaseFileModel.fromJson(images.first);
+      data.mimeType = file.mimeType ?? 'image/jpg';
+      return data;
+    }
+
+    return null;
+  }
+
+  @override
+  Future<List<BaseFileModel>> getFileListAssetUsage(
+      {required int modelId}) async {
+    final res = await fileApi.getFileListAssetUsage(
+        modelName: XAssetModelName.tradeIn.getValue, modelId: modelId);
+
+    List<BaseFileModel> data = [];
+    for (var file in res.getListDataAssetUsage) {
+      data.add(BaseFileModel.fromJson(file));
+    }
+    return data;
   }
 }

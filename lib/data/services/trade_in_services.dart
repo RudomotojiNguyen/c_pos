@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../common/enum/enum.dart';
 import '../datasources/remote/api_remote.dart';
+import '../models/base_file_model.dart';
 import '../models/image_detail_model.dart';
 import '../models/product_model.dart';
 import '../models/response/base_response.dart';
@@ -21,7 +22,7 @@ abstract class TradeInServices {
     String? searchProduct,
   });
 
-  // Future<TradeInModel> getTradeInDetail(int id);
+  Future<TradeInModel> getTradeInDetail(int id);
 
   Future<List<ImageDetailModel>> getImageVerifyTradeIn(int id);
 
@@ -35,10 +36,12 @@ abstract class TradeInServices {
 
   Future<bool> saveBillTradeIn(Map<String, dynamic> params);
 
-  Future<BaseResponse> deleteImage(int tradeInItemID);
+  Future<BaseResponse> deleteImage({dynamic fileId, required int tradeInId});
 
-  Future<BaseResponse> uploadImage({
+  Future<BaseFileModel?> uploadImage({
     required XFile file,
     required int tradeInBillId,
   });
+
+  Future<List<BaseFileModel>> getFileListAssetUsage({required int modelId});
 }

@@ -2,8 +2,8 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../common/configs/box.dart';
-import '../theme/themes.dart';
+import '../../../common/configs/box.dart';
+import '../../theme/themes.dart';
 
 class XBasicContainer extends StatelessWidget {
   const XBasicContainer({

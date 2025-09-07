@@ -112,7 +112,8 @@ final class GetTradeInDetailSuccess extends TradeInState {
 }
 
 final class GetImageVerifySuccess extends TradeInState {
-  final List<ImageDetailModel> images;
+  /// key chính là uuid
+  final Map<String, ImageDetailModel> images;
 
   GetImageVerifySuccess({required TradeInState state, required this.images})
       : super(

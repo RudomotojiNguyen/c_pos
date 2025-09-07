@@ -15,7 +15,22 @@ class TradeCheckListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (listCriteria.isEmpty) return BoxSpacer.blank;
+    if (this.listCriteria.isEmpty) return BoxSpacer.blank;
+    List<CriteriaGroupModel> listCriteria = [...this.listCriteria]
+        .where((element) => element.getListCheck.isNotEmpty)
+        .toList();
+
+    if (listCriteria.isEmpty) {
+      return XContainer(
+        margin: EdgeInsets.only(top: 16.sp),
+        iconTitle: Assets.svg.checklist.svg(
+          width: 22.sp,
+          height: 22.sp,
+        ),
+        title: 'Tình trạng máy',
+        child: const EmptyDataWidget(emptyMessage: 'Không chọn tiêu chí nào'),
+      );
+    }
 
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
@@ -29,6 +44,8 @@ class TradeCheckListWidget extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final CriteriaGroupModel criteriaGroup = listCriteria[index];
+          List<CriteriaModel> listCheck = criteriaGroup.getListCheck;
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,8 +58,7 @@ class TradeCheckListWidget extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final CriteriaModel criteria =
-                      criteriaGroup.getListCheck[index];
+                  final CriteriaModel criteria = listCheck[index];
                   return CriteriaItemWidget(
                     criteriaName: criteria.getName,
                     price: criteria.getAmount,
@@ -50,7 +66,7 @@ class TradeCheckListWidget extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) => BoxSpacer.s4,
-                itemCount: criteriaGroup.getListCheck.length,
+                itemCount: listCheck.length,
               ),
             ],
           );

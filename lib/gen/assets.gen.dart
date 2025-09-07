@@ -106,10 +106,6 @@ class $AssetsSvgGen {
   /// File path: assets/svg/checklist.svg
   SvgGenImage get checklist => const SvgGenImage('assets/svg/checklist.svg');
 
-  /// File path: assets/svg/cloud-upload.svg
-  SvgGenImage get cloudUpload =>
-      const SvgGenImage('assets/svg/cloud-upload.svg');
-
   /// File path: assets/svg/customer.svg
   SvgGenImage get customer => const SvgGenImage('assets/svg/customer.svg');
 
@@ -183,6 +179,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/trade_in.svg
   SvgGenImage get tradeIn => const SvgGenImage('assets/svg/trade_in.svg');
 
+  /// File path: assets/svg/upload.svg
+  SvgGenImage get upload => const SvgGenImage('assets/svg/upload.svg');
+
   /// File path: assets/svg/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/svg/wallet.svg');
 
@@ -194,7 +193,6 @@ class $AssetsSvgGen {
         bill,
         cash,
         checklist,
-        cloudUpload,
         customer,
         discountCoupon,
         discount,
@@ -217,6 +215,7 @@ class $AssetsSvgGen {
         shopping,
         stickyNotes,
         tradeIn,
+        upload,
         wallet
       ];
 }

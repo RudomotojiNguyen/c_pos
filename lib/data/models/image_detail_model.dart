@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class ImageDetailModel {
   String? uuid;
-  int? id;
+  dynamic id;
   String? fileName;
   Uint8List? data;
   XFile? imageLocal;

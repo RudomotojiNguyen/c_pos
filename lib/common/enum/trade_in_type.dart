@@ -60,4 +60,21 @@ extension TradeInStatusExtension on TradeInStatus {
     1: TradeInStatus.quote, // đã báo giá
     2: TradeInStatus.collected, // đã thu cũ
   };
+
+  int get getTypeValue {
+    return mapTradeInStatus.entries
+        .firstWhere((entry) => entry.value == this)
+        .key;
+  }
+
+  Color get getBgStatusColor {
+    switch (this) {
+      case TradeInStatus.quote:
+        return AppColors.warningColor;
+      case TradeInStatus.collected:
+        return AppColors.successColor;
+      default:
+        return AppColors.informationColor;
+    }
+  }
 }

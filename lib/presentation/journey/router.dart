@@ -27,6 +27,7 @@ import 'screen/order/list/order_list_screen.dart';
 import 'screen/product/product_screen.dart';
 import 'screen/search/search_screen.dart';
 import 'screen/splash/splash_screen.dart';
+import 'screen/trade_in/trade_in_detail/trade_in_detail_screen.dart';
 import 'screen/trade_in/trade_in_list/trade_ins_screen.dart';
 
 class MainRouter {
@@ -155,6 +156,17 @@ class MainRouter {
               name: RouteName.tradeIn,
               builder: (BuildContext context, GoRouterState state) =>
                   const TradeInsScreen(),
+              routes: [
+                GoRoute(
+                  path: RouteName.tradeInDetailScreen,
+                  name: RouteName.tradeInDetailScreen,
+                  builder: (BuildContext context, GoRouterState state) {
+                    final data = state.uri.queryParameters;
+                    final String tradeInId = data['tradeInId'] ?? '0';
+                    return TradeInDetailScreen(tradeInId: int.parse(tradeInId));
+                  },
+                ),
+              ],
             ),
             // GoRoute(
             //   path: RouteName.stock,

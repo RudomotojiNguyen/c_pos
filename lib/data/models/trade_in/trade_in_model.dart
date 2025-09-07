@@ -24,6 +24,9 @@ class TradeInModel {
   double? productBuyingPrice;
   double? totalCriteriaPrice;
 
+  String? productImageUrl;
+  String? productBarCode;
+
   TradeInModel({
     this.id,
     this.customerName,
@@ -42,6 +45,8 @@ class TradeInModel {
     this.listCriteria,
     this.productBuyingPrice,
     this.totalCriteriaPrice,
+    this.productImageUrl,
+    this.productBarCode,
   });
 
   TradeInModel.fromJson(Map<String, dynamic> json) {
@@ -67,6 +72,9 @@ class TradeInModel {
         listCriteria!.add(CriteriaGroupModel.fromJson(v));
       });
     }
+
+    productImageUrl = json['productImageUrl'];
+    productBarCode = json['productBarCode'];
   }
 
   String get getBillNumber => id == null ? '' : id.toString();
@@ -89,7 +97,7 @@ class TradeInModel {
 
   String get getProductImei => imeiCode ?? '';
 
-  String get getProductImage => AppConstants.defaultImage;
+  String get getProductImage => productImageUrl ?? AppConstants.defaultImage;
 
   double get getProductBuyingPrice => productBuyingPrice ?? 0;
 
@@ -103,6 +111,8 @@ class TradeInModel {
 
   List<CriteriaGroupModel> get getListCriteriaChecked =>
       (listCriteria ?? []).where((e) => e.getListCheck.isNotEmpty).toList();
+
+  bool get isCanAction => status != TradeInStatus.collected.getTypeValue;
 }
 
 class CriteriaGroupModel {

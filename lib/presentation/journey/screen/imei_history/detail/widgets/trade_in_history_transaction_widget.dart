@@ -5,11 +5,13 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
 import '../../../../../../common/configs/box.dart';
+import '../../../../../../common/constants/go_router.dart';
 import '../../../../../../common/di/injection/injection.dart';
 import '../../../../../../common/extensions/extension.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../../../theme/themes.dart';
 import '../../../../../widgets/widgets.dart';
+import '../../../../router.dart';
 import '../../../product/bloc/product_bloc.dart';
 import 'imei_transaction_loading.dart';
 
@@ -189,14 +191,13 @@ class TradeInTransactionWidget extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: XBaseButton(
               onPressed: () {
-                // todo: chưa làm
-                // MainRouter.instance.pushNamed(
-                //   context,
-                //   routeName: RouteName.tradeInDetailScreen,
-                //   queryParameters: {
-                //     'tradeInId': id,
-                //   },
-                // );
+                MainRouter.instance.pushNamed(
+                  context,
+                  routeName: RouteName.tradeInDetailScreen,
+                  queryParameters: {
+                    'tradeInId': id,
+                  },
+                );
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

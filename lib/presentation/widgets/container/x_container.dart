@@ -2,9 +2,9 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../common/configs/box.dart';
-import '../theme/themes.dart';
-import 'widgets.dart';
+import '../../../common/configs/box.dart';
+import '../../theme/themes.dart';
+import '../widgets.dart';
 
 enum ContainerType { normal, expand }
 

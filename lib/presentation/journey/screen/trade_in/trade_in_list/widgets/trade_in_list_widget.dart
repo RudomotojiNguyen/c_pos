@@ -5,9 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../../common/configs/box.dart';
+import '../../../../../../common/constants/go_router.dart';
 import '../../../../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../../../widgets/widgets.dart';
+import '../../../../router.dart';
 import '../../bloc/trade_in_bloc.dart';
 
 class TradeInListWidget extends StatefulWidget {
@@ -118,13 +120,13 @@ class _TradeInListWidgetState extends State<TradeInListWidget> {
                   status: item.getStatusStr,
                   color: item.getOrderStatus.getColorStatus,
                   onPressed: () {
-                    // MainRouter.instance.pushNamed(
-                    //   context,
-                    //   routeName: RouteName.tradeInDetailScreen,
-                    //   queryParameters: {
-                    //     'tradeInId': item.id?.toString(),
-                    //   },
-                    // );
+                    MainRouter.instance.pushNamed(
+                      context,
+                      routeName: RouteName.tradeInDetailScreen,
+                      queryParameters: {
+                        'tradeInId': item.id?.toString(),
+                      },
+                    );
                   },
                 );
               },

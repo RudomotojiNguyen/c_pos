@@ -8,13 +8,19 @@ part 'file_api.g.dart';
 abstract class FileApi {
   factory FileApi(Dio dio, {String baseUrl}) = _FileApi;
 
-  /// đẩy hình trade in lên server
-  @POST('file/upload')
-  Future<BaseResponse> postImage({
+  /// đẩy nhi hình trade in lên server
+  @POST('v1/images/uploads')
+  Future<dynamic> postImage({
     @Body() required FormData formData,
-    @Query('entity') required String entity,
-    @Query('entityId') required int entityId,
+    @Query('modelId') required int modelId,
+    @Query('modelName') required String modelName,
   });
+  // @POST('file/upload')
+  // Future<BaseResponse> postImage({
+  //   @Body() required FormData formData,
+  //   @Query('entity') required String entity,
+  //   @Query('entityId') required int entityId,
+  // });
 
   /// đẩy hình lên server
   @POST('file/upload-resize-image')
@@ -51,4 +57,18 @@ abstract class FileApi {
   ///
   @DELETE('file/{fileId}')
   Future<BaseResponse> deleteImage(@Path() int fileId);
+
+  /// lấy danh sách file
+  ///
+  @GET('v1/asset-usages/models/{modelName}/{modelId}/assets')
+  Future<BaseResponse> getFileListAssetUsage(
+      {@Path() required String modelName, @Path() required int modelId});
+
+  /// xoa file asset usage
+  ///
+  @POST('v1/asset-usages/assets/{assetId}/unuse')
+  Future<BaseResponse> deleteFileAssetUsage({
+    @Path() required String assetId,
+    @Body() required Map<String, dynamic> body,
+  });
 }

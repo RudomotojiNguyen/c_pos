@@ -72,4 +72,7 @@ extension NumberExtensions on num {
       XProductStatusExtension.map[this] ?? XProductStatus.none;
 
   XJobTitle get getJob => XUserPermissionExtension.map[this] ?? XJobTitle.none;
+
+  TradeInStatus get getTradeInStatus =>
+      TradeInStatusExtension.mapTradeInStatus[this] ?? TradeInStatus.undefine;
 }

@@ -1,6 +1,7 @@
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../common/configs/box.dart';
 import '../../common/constants/app_constants.dart';
@@ -273,39 +274,41 @@ mixin DialogHelper {
     });
   }
 
-  // Future showModalSelectImage(
-  //   BuildContext context, {
-  //   required Function(XFile?) callback,
-  // }) async {
-  //   Key keyDialog = _keyForPopup();
-  //   if (_allPopups.containsKey(keyDialog)) {
-  //     return;
-  //   }
+  Future showModalSelectImage(
+    BuildContext context, {
+    required Function(XFile?) callback,
+  }) async {
+    Key keyDialog = _keyForPopup();
+    if (_allPopups.containsKey(keyDialog)) {
+      return;
+    }
 
-  //   _allPopups[keyDialog] = context;
+    _allPopups[keyDialog] = context;
 
-  //   await showModalBottomSheet(
-  //       context: context,
-  //       enableDrag: true,
-  //       isDismissible: true,
-  //       isScrollControlled: true,
-  //       backgroundColor: Colors.transparent,
-  //       builder: (_) {
-  //         context.hideKeyboard;
-  //         return Container(
-  //           padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 32.sp),
-  //           margin: EdgeInsets.only(bottom: 16.sp, left: 16.sp, right: 16.sp),
-  //           decoration: BoxDecoration(
-  //             color: AppColors.white,
-  //             borderRadius: BorderRadius.circular(32.sp),
-  //           ),
-  //           child: SelectImageDialog(callback: callback),
-  //         );
-  //       }).then((value) {
-  //     dismissPopup(key: keyDialog, willPop: false);
-  //   });
-  //   return null;
-  // }
+    await showModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        isDismissible: true,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) {
+          context.hideKeyboard;
+          return SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 32.sp),
+              margin: EdgeInsets.only(bottom: 16.sp, left: 16.sp, right: 16.sp),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(32.sp),
+              ),
+              child: SelectImageDialog(callback: callback),
+            ),
+          );
+        }).then((value) {
+      dismissPopup(key: keyDialog, willPop: false);
+    });
+    return null;
+  }
 
   Future showModalCameraScan(
     BuildContext context, {

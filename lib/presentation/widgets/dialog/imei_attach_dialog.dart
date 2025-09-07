@@ -38,7 +38,7 @@ class _ImeiAttachDialogState extends State<ImeiAttachDialog> with DialogHelper {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const HeaderDialog(title: 'Imei đính kèm'),
+        const HeaderDialog(title: 'IMEI đính kèm'),
         BoxSpacer.s8,
         inputImei(),
         BoxSpacer.s8,

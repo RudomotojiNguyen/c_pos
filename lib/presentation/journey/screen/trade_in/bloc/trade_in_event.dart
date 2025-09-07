@@ -56,24 +56,24 @@ final class UpdateImageTradeInEvent extends TradeInEvent {
 }
 
 final class RemoveImageTradeInEvent extends TradeInEvent {
-  final int index;
-  final String? uuid;
+  final String uuid;
+  final int tradeInId;
 
   RemoveImageTradeInEvent({
-    required this.index,
-    this.uuid,
+    required this.uuid,
+    required this.tradeInId,
   });
 }
 
 final class UploadImageTradeInEvent extends TradeInEvent {
   final int tradeInBillId;
   final XFile file;
-  final int index;
+  final String uuid;
 
   UploadImageTradeInEvent({
     required this.tradeInBillId,
-    required this.index,
     required this.file,
+    required this.uuid,
   });
 }
 

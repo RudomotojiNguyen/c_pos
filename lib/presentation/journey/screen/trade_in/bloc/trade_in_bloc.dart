@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:c_pos/common/extensions/extension.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/models/base_file_model.dart';
 import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../../../utils/utils.dart';
@@ -99,35 +101,33 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
 
   FutureOr<void> _onRemoveImageTradeIn(
       RemoveImageTradeInEvent event, Emitter<TradeInState> emit) async {
-    List<ImageDetailModel> images = state is GetImageVerifySuccess
+    Map<String, ImageDetailModel> images = state is GetImageVerifySuccess
         ? (state as GetImageVerifySuccess).images
-        : [];
+        : {};
 
     try {
       emit(IsCriteriaLoading(state: state));
-      for (var i = 0; i < images.length; i++) {
-        /// nếu như là hình từ server => goij api ,ngược lại thì xóa luôn
-        if (shouldSetImageLocalToNull(
-            image: images[i],
-            index: i,
-            imageIndex: event.index,
-            uuid: event.uuid)) {
-          if (images[i].checkHasData) {
-            final res = await tradeInServices.deleteImage(images[i].id!);
-            if (res.checkIsSuccess) {
-              images[i].data = null;
-            } else {
-              XToast.showNegativeMessage(message: res.getMess);
-            }
-            break;
-          }
 
-          if (images[i].id == null) {
-            images[i].imageLocal = null;
-            break;
-          }
+      /// nếu như là hình từ server => goij api ,ngược lại thì xóa luôn
+      final ImageDetailModel? image = images[event.uuid];
+
+      if (image == null) {
+        emit(GetImageVerifySuccess(state: state, images: images));
+        return;
+      }
+
+      if (image.id != null) {
+        final res = await tradeInServices.deleteImage(
+            fileId: image.id, tradeInId: event.tradeInId);
+        if (!res.checkIsSuccess) {
+          XToast.showNegativeMessage(message: res.getMess);
+          emit(GetImageVerifySuccess(state: state, images: images));
+          return;
         }
       }
+
+      // xóa hình
+      images.remove(image.uuid!);
 
       emit(GetImageVerifySuccess(state: state, images: images));
     } catch (e) {
@@ -139,25 +139,28 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
 
   FutureOr<void> _onUploadImageTradeIn(
       UploadImageTradeInEvent event, Emitter<TradeInState> emit) async {
-    List<ImageDetailModel> images = state is GetImageVerifySuccess
+    Map<String, ImageDetailModel> images = state is GetImageVerifySuccess
         ? (state as GetImageVerifySuccess).images
-        : [];
+        : {};
 
     try {
       emit(IsCriteriaLoading(state: state));
-      final res = await tradeInServices.uploadImage(
+      final BaseFileModel? res = await tradeInServices.uploadImage(
           file: event.file, tradeInBillId: event.tradeInBillId);
 
-      if (res.checkIsSuccess) {
-        final data = res.data as List;
-        final item = data.first;
-        XToast.showPositiveSuccess(message: res.getMess);
-        images[event.index]
-          ..id = item['id']
-          ..fileName = item['fileName'];
+      if (res != null) {
+        final Uint8List? dataImage = await urlToUint8List(res.url ?? '');
+        images[event.uuid] = ImageDetailModel(
+          id: res.id,
+          fileName: res.name ?? res.originalName,
+          data: dataImage,
+          uuid: event.uuid,
+        );
+        XToast.showPositiveSuccess(message: 'Gửi hình thành công');
       } else {
-        XToast.showNegativeMessage(message: res.getMess);
+        XToast.showNegativeMessage(message: 'Chưa thể gửi hình');
       }
+      emit(GetImageVerifySuccess(state: state, images: images));
     } catch (e) {
       _loggerHelper.logError(message: 'UploadImageTradeInEvent', obj: e);
       XToast.showNegativeMessage(message: e.toString());
@@ -169,20 +172,23 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
 
   FutureOr<void> _onUpdateImageTradeIn(
       UpdateImageTradeInEvent event, Emitter<TradeInState> emit) async {
-    List<ImageDetailModel> images = state is GetImageVerifySuccess
+    Map<String, ImageDetailModel> images = state is GetImageVerifySuccess
         ? (state as GetImageVerifySuccess).images
-        : [];
+        : {};
 
     try {
       emit(IsCriteriaLoading(state: state));
-      for (var i = 0; i < images.length; i++) {
-        if (shouldSetImageLocalToNull(
-            image: images[i],
-            index: i,
-            imageIndex: event.index,
-            uuid: event.uuid)) {
-          images[i].imageLocal = event.value;
-          break;
+      if (event.uuid.isNullOrEmpty) {
+        // thêm mới
+        String uuid = Utils.genUUID();
+        images[uuid] = ImageDetailModel(
+          imageLocal: event.value,
+          uuid: uuid,
+        );
+      } else {
+        // cập nhật
+        if (images[event.uuid!] != null) {
+          images[event.uuid!]!.imageLocal = event.value;
         }
       }
 
@@ -197,37 +203,29 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
       GetImagesTradeInEvent event, Emitter<TradeInState> emit) async {
     try {
       emit(IsCriteriaLoading(state: state));
-      List<ImageDetailModel> images =
-          List.generate(2, (index) => ImageDetailModel());
-      final res = await tradeInServices.getImageVerifyTradeIn(event.id);
+      Map<String, ImageDetailModel> images = {};
+      final res =
+          await tradeInServices.getFileListAssetUsage(modelId: event.id);
 
-      for (var i = 0; i < res.length; i++) {
-        images[i]
-          ..id = res[i].id
-          ..uuid = Utils.genUUID()
-          ..fileName = res[i].fileName;
-      }
+      final imageList = await Future.wait(res.map((file) async {
+        final data = await urlToUint8List(file.url ?? '');
+        String uuid = Utils.genUUID();
+        return ImageDetailModel(
+          id: file.id,
+          fileName: file.name,
+          uuid: uuid,
+          data: data,
+        );
+      }).toList());
 
-      // Tạo danh sách các Future để lấy dữ liệu base64 cho từng ảnh
-      List<Future<void>> futures = images.map((image) {
-        if (image.getFileName.isNotEmpty) {
-          // Nếu fileName không rỗng, thực hiện API call
-          return tradeInServices
-              .getImageBase64(image.getFileName)
-              .then((base64Data) {
-            image.data = base64Data; // Gán dữ liệu base64 vào image
-          });
-        }
-        // Nếu fileName rỗng, trả về một Future.completed
-        return Future.value();
-      }).toList();
-
-      // Đợi tất cả các yêu cầu bất đồng bộ hoàn thành
-      await Future.wait(futures);
+      images = {
+        for (var img in imageList) img.uuid!: img,
+      };
 
       emit(GetImageVerifySuccess(state: state, images: images));
     } catch (e) {
       _loggerHelper.logError(message: 'GetImagesTradeInEvent', obj: e);
+      emit(GetImageVerifySuccess(state: state, images: const {}));
     }
   }
 
@@ -338,8 +336,8 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
       GetTradeInDataDetailEvent event, Emitter<TradeInState> emit) async {
     try {
       emit(IsCriteriaLoading(state: state));
-      // final res = await tradeInServices.getTradeInDetail(event.id);
-      // emit(GetTradeInDetailSuccess(state: state, tradeIndDetail: res));
+      final res = await tradeInServices.getTradeInDetail(event.id);
+      emit(GetTradeInDetailSuccess(state: state, tradeIndDetail: res));
     } catch (e) {
       emit(GetDetailError(state: state));
       _loggerHelper.logError(message: 'GetTradeInDataDetailEvent', obj: e);
@@ -348,11 +346,18 @@ class TradeInBloc extends Bloc<TradeInEvent, TradeInState> {
 
   ///
 
-  bool shouldSetImageLocalToNull(
-      {required ImageDetailModel image,
-      String? uuid,
-      required int index,
-      required int imageIndex}) {
-    return (uuid != null && image.uuid == uuid) || (imageIndex == index);
+  Future<Uint8List?> urlToUint8List(String url) async {
+    try {
+      final response = await Dio()
+          .get(url, options: Options(responseType: ResponseType.bytes));
+
+      if (response.statusCode == 200) {
+        return Uint8List.fromList(response.data);
+      } else {
+        return null;
+      }
+    } on DioException catch (_) {
+      return null;
+    }
   }
 }

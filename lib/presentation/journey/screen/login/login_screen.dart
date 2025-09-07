@@ -57,7 +57,7 @@ class _LoginScreenState extends XStateWidget<LoginScreen> {
         BoxSpacer.size(132),
         Text(
           'Chào mừng bạn đến với',
-          style: theme.textTheme.headlineMedium,
+          style: AppFont.t.s(16).w600,
           textAlign: TextAlign.center,
         ),
         BoxSpacer.s24,

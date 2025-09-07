@@ -38,8 +38,8 @@ abstract class TradeInApi {
 
   /// Lấy thông tin chi tiết của 1 phiếu định giá
   ///
-  // @GET('tradeIn/mobile/detail/{id}')
-  // Future<BaseResponse> getTradeInDetail(@Path() int id);
+  @GET('v1/trade-ins/mobile/detail/{id}')
+  Future<BaseResponse> getTradeInDetail(@Path() int id);
 
   /// Lấy danh sách phiếu định giá của 1 khách hàng theo số điện thoại của khách
   ///

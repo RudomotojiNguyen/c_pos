@@ -1,3 +1,4 @@
+import 'package:c_pos/presentation/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +10,13 @@ class BaseResponse extends Equatable {
   dynamic data;
   int? statusCode;
   String? message;
+  bool? isSuccess;
 
   BaseResponse({
     this.data,
     this.statusCode,
     this.message,
+    this.isSuccess,
   });
 
   BaseResponse.fromJson(Map<String, dynamic> json) {
@@ -23,16 +26,18 @@ class BaseResponse extends Equatable {
         message: json['message'] ?? '',
       );
     }
-    data = json['data'];
+    data = json['data'] ?? json['assets'];
     this.statusCode = statusCode;
     message = json['message'];
+    isSuccess = Utils.toBoolean(json['success']);
   }
 
   BaseResponse.fromErrorJson(Map<String, dynamic> json) {
     final statusCode = json['statusCode'] ?? json['status'];
-    data = json['data'];
+    data = json['data'] ?? json['assets'];
     this.statusCode = statusCode;
     message = json['message'];
+    isSuccess = Utils.toBoolean(json['success']);
   }
 
   @override
@@ -40,8 +45,9 @@ class BaseResponse extends Equatable {
 
   int get getStatusCode => statusCode ?? 0;
 
-  bool get checkIsSuccess =>
-      (getStatusCode >= 200 && getStatusCode < 300 || getStatusCode == 1);
+  bool get checkIsSuccess => (getStatusCode >= 200 && getStatusCode < 300 ||
+      getStatusCode == 1 ||
+      isSuccess == true);
 
   String get getMess => message ?? '';
 
@@ -52,6 +58,15 @@ class BaseResponse extends Equatable {
       }
     }
 
+    return data ?? [];
+  }
+
+  List<dynamic> get getListDataAssetUsage {
+    if (data is Map) {
+      if (data.containsKey('assets')) {
+        return data['assets'] ?? [];
+      }
+    }
     return data ?? [];
   }
 }

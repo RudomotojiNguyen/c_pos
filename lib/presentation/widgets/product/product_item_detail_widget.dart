@@ -31,6 +31,7 @@ class ProductItemDetailWidget extends StatefulWidget {
     this.paddingChildIsOverlayChild,
     this.onPressedChild,
     this.provider,
+    this.barCode,
   });
 
   final String productName;
@@ -43,7 +44,7 @@ class ProductItemDetailWidget extends StatefulWidget {
   final Function({XProductOperationAction? action})? onPressed;
   final Decoration? decoration;
   final EdgeInsetsGeometry? padding;
-
+  final String? barCode;
   final List<ProductModel> gifts;
   final List<ProductModel> attachs;
 
@@ -103,6 +104,20 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                             widget.productName,
                             style: AppFont.t.s(),
                           ),
+                          if (widget.barCode.isNotNullOrEmpty) ...[
+                            BoxSpacer.s4,
+                            Text.rich(
+                              TextSpan(
+                                text: 'Barcode: ',
+                                style: AppFont.t.s(9).neutral2,
+                                children: [
+                                  TextSpan(
+                                      text: widget.barCode!,
+                                      style: AppFont.t.s(9).w800.neutral2),
+                                ],
+                              ),
+                            )
+                          ],
                           if (widget.provider.isNotNullOrEmpty) ...[
                             BoxSpacer.s4,
                             Text(

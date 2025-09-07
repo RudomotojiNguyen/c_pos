@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../common/extensions/extension.dart';
+import '../../../common/extensions/extension.dart';
 import 'x_row_detail_widget.dart';
 
 class RowDetail extends StatelessWidget {

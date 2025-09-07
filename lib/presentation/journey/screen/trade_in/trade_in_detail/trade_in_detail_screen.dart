@@ -1,3 +1,4 @@
+import 'package:c_pos/common/enum/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,6 +86,7 @@ class _TradeInDetailScreenState extends XStateWidget<TradeInDetailScreen> {
                   storeName: data.getStoreName,
                   id: data.getBillNumber,
                   statusName: data.getStatusStr,
+                  statusColor: data.getOrderStatus.getColorStatus,
                   employeeName: data.createdBy,
                 ),
                 CustomerInfoWidget(
@@ -98,8 +100,12 @@ class _TradeInDetailScreenState extends XStateWidget<TradeInDetailScreen> {
                   productImei: data.getProductImei,
                   productImage: data.getProductImage,
                   productBuyingPrice: data.getProductBuyingPrice,
+                  barCode: data.productBarCode,
                 ),
-                UploadFileTradeInWidget(id: data.id!),
+                UploadFileTradeInWidget(
+                  id: data.id!,
+                  isCanAction: data.isCanAction,
+                ),
                 NoteDetailWidget(note: data.note),
                 TradeCheckListWidget(listCriteria: data.listCriteria ?? []),
                 SummaryAmountWidget(

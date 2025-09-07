@@ -169,7 +169,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                   ),
                   if (widget.product.getProductImei.isNotNullOrEmpty) ...[
                     Text(
-                      'Imei: ${widget.product.getProductImei}',
+                      'IMEI: ${widget.product.getProductImei}',
                       style: AppFont.t.s().neutral2,
                     ),
                   ],

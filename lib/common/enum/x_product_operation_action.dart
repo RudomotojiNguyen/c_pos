@@ -44,9 +44,9 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.discountByHand:
         return 'Chiết khấu tay';
       case XProductOperationAction.addImei:
-        return 'Imei';
+        return 'IMEI';
       case XProductOperationAction.addWarrantyImei:
-        return 'Imei bảo hành';
+        return 'IMEI bảo hành';
       // case XProductOperationAction.addAttachImei:
       //   return 'Đính kèm Imei';
       case XProductOperationAction.editRepurchasePrice:

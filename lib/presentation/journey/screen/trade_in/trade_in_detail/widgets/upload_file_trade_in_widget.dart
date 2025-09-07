@@ -17,9 +17,11 @@ import '../../../../router.dart';
 import '../../bloc/trade_in_bloc.dart';
 
 class UploadFileTradeInWidget extends StatefulWidget {
-  const UploadFileTradeInWidget({super.key, required this.id});
+  const UploadFileTradeInWidget(
+      {super.key, required this.id, this.isCanAction = true});
 
   final int id;
+  final bool isCanAction;
 
   @override
   State<UploadFileTradeInWidget> createState() =>
@@ -51,34 +53,45 @@ class _UploadFileTradeInWidgetState extends State<UploadFileTradeInWidget> {
             return const ImageVerifyLoading();
           }
 
-          List<ImageDetailModel> images =
-              state is GetImageVerifySuccess ? state.images : [];
+          Map<String, ImageDetailModel> images =
+              state is GetImageVerifySuccess ? state.images : {};
 
-          List<GalleryItemModel> convertGalleries = images
-              .map((e) => e.convertGalleryItemModel)
+          int count = images.length;
+          final List<String> keys = images.keys.toList();
+          final List<GalleryItemModel> convertGalleries = keys
+              .map((e) => images[e]!.convertGalleryItemModel)
               .toList()
               .where((element) => element.checkHasData)
               .toList();
 
-          return GridView.count(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            crossAxisSpacing: 20.sp,
-            mainAxisSpacing: 20.sp,
-            childAspectRatio: 3 / 3,
-            children: List.generate(images.length, (index) {
-              final ImageDetailModel image = images[index];
-              return ImageVerifyItem(
-                image: image,
-                onPreviewImage: () => _onPreviewImage(index, convertGalleries),
-                callback: (value, files) =>
-                    _onSelectImage(value ?? files?.first, index, image),
-                onRemove: () => _onRemoveImage(index, image),
-                onUpload: () => _onUploadImage(index, image),
-              );
-            }),
+          return Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 16.sp,
+            runSpacing: 16.sp,
+            children: [
+              ...List.generate(count, (index) {
+                final ImageDetailModel image = images[keys[index]]!;
+                return ImageVerifyItem(
+                  image: image,
+                  onPreviewImage: () =>
+                      _onPreviewImage(index, convertGalleries),
+                  callback: !widget.isCanAction
+                      ? null
+                      : (value) => _onSelectImage(value, index, image),
+                  onRemove:
+                      widget.isCanAction ? () => _onRemoveImage(image) : null,
+                  onUpload:
+                      widget.isCanAction ? () => _onUploadImage(image) : null,
+                );
+              }),
+              if (widget.isCanAction) ...[
+                XButtonUploadImage(
+                  callback: (XFile? result) {
+                    _onSelectImage(result, count + 1, ImageDetailModel());
+                  },
+                ),
+              ],
+            ],
           );
         },
       ),
@@ -105,18 +118,19 @@ class _UploadFileTradeInWidgetState extends State<UploadFileTradeInWidget> {
   }
 
   // xóa hình
-  _onRemoveImage(int index, ImageDetailModel image) {
-    _tradeInBloc.add(RemoveImageTradeInEvent(index: index, uuid: image.uuid));
+  _onRemoveImage(ImageDetailModel image) {
+    _tradeInBloc
+        .add(RemoveImageTradeInEvent(uuid: image.uuid!, tradeInId: widget.id));
   }
 
   // upload hình
-  _onUploadImage(int index, ImageDetailModel image) {
+  _onUploadImage(ImageDetailModel image) {
     if (image.imageLocal != null) {
       _tradeInBloc.add(
         UploadImageTradeInEvent(
           tradeInBillId: widget.id,
           file: image.imageLocal!,
-          index: index,
+          uuid: image.uuid!,
         ),
       );
     }
@@ -129,16 +143,16 @@ class ImageVerifyItem extends StatefulWidget {
   const ImageVerifyItem({
     super.key,
     required this.image,
-    required this.callback,
-    required this.onRemove,
-    required this.onUpload,
+    this.callback,
+    this.onRemove,
+    this.onUpload,
     required this.onPreviewImage,
   });
 
   final ImageDetailModel image;
-  final Function(XFile?, List<XFile>?) callback;
-  final Function() onRemove;
-  final Function() onUpload;
+  final Function(XFile?)? callback;
+  final Function()? onRemove;
+  final Function()? onUpload;
   final Function() onPreviewImage;
 
   @override
@@ -146,6 +160,9 @@ class ImageVerifyItem extends StatefulWidget {
 }
 
 class _ImageVerifyItemState extends State<ImageVerifyItem> with DialogHelper {
+  final double width = 64.sp;
+  final double height = 64.sp;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -156,10 +173,13 @@ class _ImageVerifyItemState extends State<ImageVerifyItem> with DialogHelper {
           data: widget.image.data,
           localImage: widget.image.imageLocal,
         ),
-        if (widget.image.checkHasData || widget.image.isSelectImage) ...[
+        if (widget.image.checkHasData ||
+            widget.image.isSelectImage ||
+            widget.image.id != null) ...[
           BoxSpacer.s8,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (!widget.image.checkHasData) ...[
                 // nếu không có data từ server thì cho gửi đi
@@ -184,11 +204,11 @@ class _ImageVerifyItemState extends State<ImageVerifyItem> with DialogHelper {
                       context,
                       contentWarning: 'Bạn có muốn xóa hình đã lưu!!!',
                       onAccept: () {
-                        widget.onRemove();
+                        widget.onRemove?.call();
                       },
                     );
                   } else {
-                    widget.onRemove();
+                    widget.onRemove?.call();
                   }
                 },
                 child: Text(
@@ -204,8 +224,6 @@ class _ImageVerifyItemState extends State<ImageVerifyItem> with DialogHelper {
   }
 
   Widget _imageRender({Uint8List? data, XFile? localImage}) {
-    final double width = 100.sp;
-    final double height = 100.sp;
     final Radius border = AppRadius.l;
 
     if (data != null) {
@@ -237,9 +255,9 @@ class _ImageVerifyItemState extends State<ImageVerifyItem> with DialogHelper {
 
     return XBaseButton(
       onPressed: _onSelectImage,
-      child: Assets.svg.cloudUpload.svg(
-        width: 115.sp,
-        height: 115.sp,
+      child: Assets.svg.upload.svg(
+        width: width,
+        height: height,
       ),
     );
   }
@@ -248,6 +266,8 @@ class _ImageVerifyItemState extends State<ImageVerifyItem> with DialogHelper {
   /// METHOD
   ///
   _onSelectImage() {
-    // showModalSelectImage(context, callback: widget.callback);
+    if (widget.callback != null) {
+      showModalSelectImage(context, callback: widget.callback!);
+    }
   }
 }

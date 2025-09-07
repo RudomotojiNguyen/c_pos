@@ -11,12 +11,14 @@ class ProductTradeInInfoWidget extends StatelessWidget {
     required this.productImei,
     required this.productImage,
     required this.productBuyingPrice,
+    this.barCode,
   });
 
   final String productName;
   final String productImei;
   final String productImage;
   final double productBuyingPrice;
+  final String? barCode;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class ProductTradeInInfoWidget extends StatelessWidget {
             productImage: productImage,
             sellingPrice: productBuyingPrice,
             discountPrice: 0,
+            barCode: barCode,
           ),
         ],
       ),
