@@ -44,8 +44,9 @@ class _BillDetailState extends XStateWidget<BillDetail> {
     return XAppBar(
       title: 'Chi tiết',
       actions: [
-        _rightActions(),
-        BoxSpacer.s16,
+        /// todo: làm sau
+        // _rightActions(),
+        // BoxSpacer.s16,
       ],
     );
   }
@@ -151,8 +152,6 @@ class _BillDetailState extends XStateWidget<BillDetail> {
         final BillModel? billDetail =
             state is GetBillDetailSuccess ? state.billDetail : null;
 
-        // Set<XFeatureFlagEnum> featuresFlag = settingBloc.state.userFeatureFlag;
-
         if (billDetail != null) {
           List<Widget> operations = [];
 
@@ -194,22 +193,16 @@ class _BillDetailState extends XStateWidget<BillDetail> {
 
   Widget _renderSecondaryWidget(
       List<Widget> operations, Future<void> Function() closeOverlay) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.all(AppRadius.l),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: operations
-            .map((e) => GestureDetector(
-                  onTap: () async {
-                    await closeOverlay();
-                  },
-                  child: e,
-                ))
-            .toList(),
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: operations
+          .map((e) => GestureDetector(
+                onTap: () async {
+                  await closeOverlay();
+                },
+                child: e,
+              ))
+          .toList(),
     );
   }
 

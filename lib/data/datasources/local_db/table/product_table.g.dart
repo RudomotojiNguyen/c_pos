@@ -25,7 +25,7 @@ const ProductTableSchema = CollectionSchema(
     r'accessoryGroupId': PropertySchema(
       id: 1,
       name: r'accessoryGroupId',
-      type: IsarType.long,
+      type: IsarType.string,
     ),
     r'appearTimes': PropertySchema(
       id: 2,
@@ -312,7 +312,7 @@ const ProductTableSchema = CollectionSchema(
     r'warrantyMonthNo': PropertySchema(
       id: 58,
       name: r'warrantyMonthNo',
-      type: IsarType.long,
+      type: IsarType.string,
     ),
     r'warrantyPackageId': PropertySchema(
       id: 59,
@@ -365,6 +365,12 @@ int _productTableEstimateSize(
   var bytesCount = offsets.last;
   {
     final value = object.accessoryGroupCode;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.accessoryGroupId;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -520,6 +526,12 @@ int _productTableEstimateSize(
     }
   }
   {
+    final value = object.warrantyMonthNo;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.warrantyPhone;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -535,7 +547,7 @@ void _productTableSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.accessoryGroupCode);
-  writer.writeLong(offsets[1], object.accessoryGroupId);
+  writer.writeString(offsets[1], object.accessoryGroupId);
   writer.writeLong(offsets[2], object.appearTimes);
   writer.writeString(offsets[3], object.attachedImei);
   writer.writeString(offsets[4], object.barCode);
@@ -592,7 +604,7 @@ void _productTableSerialize(
   writer.writeLong(offsets[55], object.unitId);
   writer.writeString(offsets[56], object.warrantyAddress);
   writer.writeString(offsets[57], object.warrantyDescription);
-  writer.writeLong(offsets[58], object.warrantyMonthNo);
+  writer.writeString(offsets[58], object.warrantyMonthNo);
   writer.writeLong(offsets[59], object.warrantyPackageId);
   writer.writeString(offsets[60], object.warrantyPhone);
   writer.writeDouble(offsets[61], object.wholesalePrice);
@@ -606,7 +618,7 @@ ProductTable _productTableDeserialize(
 ) {
   final object = ProductTable(
     accessoryGroupCode: reader.readStringOrNull(offsets[0]),
-    accessoryGroupId: reader.readLongOrNull(offsets[1]),
+    accessoryGroupId: reader.readStringOrNull(offsets[1]),
     appearTimes: reader.readLongOrNull(offsets[2]),
     barCode: reader.readStringOrNull(offsets[4]),
     brand: reader.readStringOrNull(offsets[6]),
@@ -659,7 +671,7 @@ ProductTable _productTableDeserialize(
     unitId: reader.readLongOrNull(offsets[55]),
     warrantyAddress: reader.readStringOrNull(offsets[56]),
     warrantyDescription: reader.readStringOrNull(offsets[57]),
-    warrantyMonthNo: reader.readLongOrNull(offsets[58]),
+    warrantyMonthNo: reader.readStringOrNull(offsets[58]),
     warrantyPackageId: reader.readLongOrNull(offsets[59]),
     warrantyPhone: reader.readStringOrNull(offsets[60]),
     wholesalePrice: reader.readDoubleOrNull(offsets[61]),
@@ -686,7 +698,7 @@ P _productTableDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
@@ -804,7 +816,7 @@ P _productTableDeserializeProp<P>(
     case 57:
       return (reader.readStringOrNull(offset)) as P;
     case 58:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 59:
       return (reader.readLongOrNull(offset)) as P;
     case 60:
@@ -1112,49 +1124,58 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      accessoryGroupIdEqualTo(int? value) {
+      accessoryGroupIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'accessoryGroupId',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       accessoryGroupIdGreaterThan(
-    int? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'accessoryGroupId',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       accessoryGroupIdLessThan(
-    int? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'accessoryGroupId',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       accessoryGroupIdBetween(
-    int? lower,
-    int? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1163,6 +1184,77 @@ extension ProductTableQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      accessoryGroupIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'accessoryGroupId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      accessoryGroupIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'accessoryGroupId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      accessoryGroupIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'accessoryGroupId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      accessoryGroupIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'accessoryGroupId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      accessoryGroupIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'accessoryGroupId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      accessoryGroupIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'accessoryGroupId',
+        value: '',
       ));
     });
   }
@@ -7295,49 +7387,58 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      warrantyMonthNoEqualTo(int? value) {
+      warrantyMonthNoEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'warrantyMonthNo',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       warrantyMonthNoGreaterThan(
-    int? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'warrantyMonthNo',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       warrantyMonthNoLessThan(
-    int? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'warrantyMonthNo',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       warrantyMonthNoBetween(
-    int? lower,
-    int? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -7346,6 +7447,77 @@ extension ProductTableQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      warrantyMonthNoStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'warrantyMonthNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      warrantyMonthNoEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'warrantyMonthNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      warrantyMonthNoContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'warrantyMonthNo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      warrantyMonthNoMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'warrantyMonthNo',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      warrantyMonthNoIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'warrantyMonthNo',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      warrantyMonthNoIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'warrantyMonthNo',
+        value: '',
       ));
     });
   }
@@ -9456,9 +9628,10 @@ extension ProductTableQueryWhereDistinct
   }
 
   QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByAccessoryGroupId() {
+      distinctByAccessoryGroupId({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'accessoryGroupId');
+      return query.addDistinctBy(r'accessoryGroupId',
+          caseSensitive: caseSensitive);
     });
   }
 
@@ -9851,10 +10024,11 @@ extension ProductTableQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByWarrantyMonthNo() {
+  QueryBuilder<ProductTable, ProductTable, QDistinct> distinctByWarrantyMonthNo(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'warrantyMonthNo');
+      return query.addDistinctBy(r'warrantyMonthNo',
+          caseSensitive: caseSensitive);
     });
   }
 
@@ -9896,7 +10070,7 @@ extension ProductTableQueryProperty
     });
   }
 
-  QueryBuilder<ProductTable, int?, QQueryOperations>
+  QueryBuilder<ProductTable, String?, QQueryOperations>
       accessoryGroupIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'accessoryGroupId');
@@ -10265,7 +10439,8 @@ extension ProductTableQueryProperty
     });
   }
 
-  QueryBuilder<ProductTable, int?, QQueryOperations> warrantyMonthNoProperty() {
+  QueryBuilder<ProductTable, String?, QQueryOperations>
+      warrantyMonthNoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'warrantyMonthNo');
     });

@@ -21,11 +21,18 @@ class IconSearchTypeBill extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _itemDataSearchType(context, title: 'Mã hóa đơn', onPressed: () {
+        _itemDataSearchType(context, title: SearchType.billId.getTitle,
+            onPressed: () {
           billBloc.add(UpdateSearchTypeEvent(searchType: SearchType.billId));
           Navigator.pop(context);
         }),
-        _itemDataSearchType(context, title: 'Số điện thoại', onPressed: () {
+        _itemDataSearchType(context, title: SearchType.orderId.getTitle,
+            onPressed: () {
+          billBloc.add(UpdateSearchTypeEvent(searchType: SearchType.orderId));
+          Navigator.pop(context);
+        }),
+        _itemDataSearchType(context, title: SearchType.billPhoneNumber.getTitle,
+            onPressed: () {
           billBloc.add(
               UpdateSearchTypeEvent(searchType: SearchType.billPhoneNumber));
           Navigator.pop(context);

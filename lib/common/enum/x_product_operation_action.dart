@@ -20,7 +20,6 @@ enum XProductOperationAction {
   checkRepurchasePrice, // thu lại sản phẩm
   updateQuantity, // số lượng
   copyData, // copy thông tin sản phẩm
-  warrantyInfo, // thông tin bảo hành
   update, // cập nhật
   customerInfo, // thông tin khách hàng
   addMore, // lên đơn mới
@@ -55,8 +54,6 @@ extension XProductOperationActionExtension on XProductOperationAction {
         return 'Thu lại';
       case XProductOperationAction.copyData:
         return 'Chép thông tin';
-      case XProductOperationAction.warrantyInfo:
-        return 'Thông tin bảo hành';
       case XProductOperationAction.update:
         return 'Cập nhật';
       case XProductOperationAction.customerInfo:
@@ -72,7 +69,6 @@ extension XProductOperationActionExtension on XProductOperationAction {
     switch (this) {
       case XProductOperationAction.detail:
       case XProductOperationAction.customerDetail:
-      case XProductOperationAction.warrantyInfo:
         return Icon(
           Icons.info_outline,
           color: AppColors.primaryColor,

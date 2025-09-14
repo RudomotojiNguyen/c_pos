@@ -25,19 +25,29 @@ class _BillApi implements BillApi {
   Future<BaseResponse> getBills({
     required int page,
     required int size,
+    String? billNumber,
+    String? orderId,
+    String? customerPhoneSearch,
+    String? productSearch,
+    String? imeiSearch,
+    String? searchCoupon,
+    int? employeeId,
     int? type,
-    int? storeId,
-    int? searchType,
-    String? search,
+    List<int>? storeIds,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'size': size,
+      r'billNumber': billNumber,
+      r'orderId': orderId,
+      r'customerPhoneSearch': customerPhoneSearch,
+      r'productSearch': productSearch,
+      r'imeiSearch': imeiSearch,
+      r'searchCoupon': searchCoupon,
+      r'employeeId': employeeId,
       r'type': type,
-      r'storeId': storeId,
-      r'searchType': searchType,
-      r'param': search,
+      r'storeIds': storeIds,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -49,7 +59,7 @@ class _BillApi implements BillApi {
     )
         .compose(
           _dio.options,
-          'bills/mobile',
+          'v1/bills',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -82,7 +92,7 @@ class _BillApi implements BillApi {
     )
         .compose(
           _dio.options,
-          'bills/mobile/${billId}',
+          'v1/bills/${billId}',
           queryParameters: queryParameters,
           data: _data,
         )

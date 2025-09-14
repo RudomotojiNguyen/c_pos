@@ -53,11 +53,6 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                   XProductOperationAction.copyData,
                 ];
 
-                if (product.getWarrantyInfo.checkWarrantyInfo) {
-                  productOperationActions
-                      .add(XProductOperationAction.warrantyInfo);
-                }
-
                 return ProductItemDetailWidget(
                   productName: product.getName,
                   productImei: product.imeiNo ?? '',
@@ -125,10 +120,6 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
     }
     if (action == XProductOperationAction.copyData) {
       Utils.copyToClipboard(context, text: product.getDataCopy);
-    }
-    if (action == XProductOperationAction.warrantyInfo) {
-      showXBottomSheet(context,
-          body: WarrantyInfoDialog(warrantyInfo: product.getWarrantyInfo));
     }
   }
 }

@@ -50,7 +50,7 @@ class ProductTable {
   int? productWebCategory;
   String? warrantyAddress;
   String? warrantyPhone;
-  int? warrantyMonthNo;
+  String? warrantyMonthNo;
   String? warrantyDescription;
   double? originalPrice;
   double? sellingPrice;
@@ -135,7 +135,7 @@ class ProductTable {
   double? toPrice;
   String? code;
   int? promotionId;
-  int? accessoryGroupId;
+  String? accessoryGroupId;
   String? accessoryGroupCode;
 
   bool? isRepurchasePrice; // thu lại sản phẩm

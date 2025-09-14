@@ -94,20 +94,19 @@ class BillBloc extends Bloc<BillEvent, BillState> {
       GetBillListEvent event, Emitter<BillState> emit) async {
     try {
       emit(UpdateLoading(state: state));
-      final res = await _getBills(
+      final PaginatedResponse<BillModel> res = await _getBills(
         page: 1,
         size: state.pageInfo.getLimit,
-        storeId: state.filterInfo.getStoreId,
-        search: state.filterInfo.searchValue,
-        searchType: state.filterInfo.getSearchType,
-        type: state.filterInfo.getType,
+        storeIds: state.filterInfo.getStoreIds,
+        searchValue: state.filterInfo.searchValue,
+        type: state.filterInfo.searchType,
       );
       emit(GetBillSuccess(
         state: state,
-        bills: res,
+        bills: res.items,
         pageInfo: state.pageInfo.copyWith(
           page: 1,
-          itemCount: res.length,
+          itemCount: res.totalPages,
         ),
       ));
     } catch (e) {
@@ -127,18 +126,17 @@ class BillBloc extends Bloc<BillEvent, BillState> {
       final res = await _getBills(
         page: page,
         size: state.pageInfo.getLimit,
-        storeId: state.filterInfo.getStoreId,
-        search: state.filterInfo.searchValue,
-        searchType: state.filterInfo.getSearchType,
-        type: state.filterInfo.getType,
+        storeIds: state.filterInfo.getStoreIds,
+        searchValue: state.filterInfo.searchValue,
+        type: state.filterInfo.searchType,
       );
-      if (res.isNotEmpty) {
+      if (res.items.isNotEmpty) {
         emit(GetBillSuccess(
           state: state,
-          bills: [...state.bills, ...res],
+          bills: [...state.bills, ...res.items],
           pageInfo: state.pageInfo.copyWith(
             page: page,
-            itemCount: res.length,
+            itemCount: res.totalPages,
           ),
         ));
       }
@@ -161,39 +159,24 @@ class BillBloc extends Bloc<BillEvent, BillState> {
   }
 
   ///
-  Future<List<BillModel>> getBills({
+  Future<PaginatedResponse<BillModel>> _getBills({
     required int page,
     required int size,
-    required String id,
-  }) async {
-    try {
-      final res = await _getBills(
-        page: 1,
-        size: size,
-        search: id,
-        searchType: SearchType.billId.getValue,
-      );
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<List<BillModel>> _getBills({
-    required int page,
-    required int size,
-    int? storeId,
-    int? type,
-    int? searchType,
-    String? search,
+    List<int>? storeIds,
+    String? searchValue,
+    SearchType type = SearchType.phoneNumber,
   }) async {
     return await billServices.getBills(
       page: page,
       size: size,
-      storeId: storeId ?? authBloc.state.userInfo!.getStoreId,
-      search: search,
-      searchType: searchType,
-      type: type,
+      storeIds: storeIds,
+      billNumber: type == SearchType.billId ? searchValue : null,
+      orderId: type == SearchType.orderId ? searchValue : null,
+      customerPhoneSearch: type == SearchType.phoneNumber ? searchValue : null,
+      productSearch: type == SearchType.product ? searchValue : null,
+      imeiSearch: type == SearchType.imei ? searchValue : null,
+      searchCoupon: null,
+      employeeId: null,
     );
   }
 

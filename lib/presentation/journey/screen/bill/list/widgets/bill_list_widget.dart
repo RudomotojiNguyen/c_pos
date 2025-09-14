@@ -95,7 +95,8 @@ class _BillListWidgetState extends State<BillListWidget> {
                 final BillModel item = state.bills[index];
                 return TransactionItem(
                   id: item.getBillNumber,
-                  amount: item.getTotalAmount,
+                  amount: item
+                      .getTotalAmount, // todp: hỏi lại xem dùng finalAmount hay totalAmount
                   customerName: item.getCustomerName,
                   customerPhone: item.getCustomerPhone,
                   dateTime: item.getCreateDate,
@@ -106,7 +107,7 @@ class _BillListWidgetState extends State<BillListWidget> {
                       context,
                       routeName: RouteName.bills,
                       queryParameters: {
-                        'billId': item.getBillId,
+                        'billId': item.getBillNumber,
                       },
                     );
                   },

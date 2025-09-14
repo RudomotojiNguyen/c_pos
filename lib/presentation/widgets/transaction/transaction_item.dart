@@ -73,10 +73,20 @@ class TransactionItem extends StatelessWidget {
                 style: AppFont.t.s(14).w700,
               ),
               BoxSpacer.s2,
-              Text(
-                'Lập lúc $dateTime',
-                style: AppFont.t.s(11).w400,
-              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.watch_later_outlined,
+                      size: 12.sp, color: AppColors.neutral2Color),
+                  BoxSpacer.s4,
+                  Text(
+                    dateTime,
+                    style: AppFont.t.s(11).w400,
+                  ),
+                ],
+              )
             ],
           ),
           if (status.isNotNullOrEmpty) ...[

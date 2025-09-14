@@ -1,11 +1,9 @@
-import 'package:intl/intl.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
 import '../datasources/local_db/local_db.dart';
 import 'bill_item_model.dart';
-import 'customer_model.dart';
 import 'employee_model.dart';
 import 'payment_model.dart';
 import 'product_model.dart';
@@ -107,12 +105,10 @@ class BillModel {
   String? verifyRevenueDate;
   int? installmentConfirmedBy;
   String? customerEmail;
-  int? customerCity;
-  int? customerDistrict;
-  int? customerWard;
-  int? customerGender;
+  String? customerCity;
+  String? customerDistrict;
+  String? customerWard;
   String? customerDOB;
-  CustomerModel? customer;
   String? orderSourceName;
   int? moneyUsePoint;
   String? storeName;
@@ -120,6 +116,8 @@ class BillModel {
   List<PaymentModel>? payments;
   bool? editable;
   OrderResourceModel? order;
+  int? customerAppellation;
+
   BillModel({
     this.id,
     this.billNumber,
@@ -219,9 +217,7 @@ class BillModel {
     this.customerCity,
     this.customerDistrict,
     this.customerWard,
-    this.customerGender,
     this.customerDOB,
-    this.customer,
     this.orderSourceName,
     this.moneyUsePoint,
     this.storeName,
@@ -229,6 +225,7 @@ class BillModel {
     this.payments,
     this.editable,
     this.order,
+    this.customerAppellation,
   });
 
   BillModel.fromJson(Map<String, dynamic> json) {
@@ -248,7 +245,7 @@ class BillModel {
     status = json['status'];
     customerId = json['customerId'];
     customerName = json['customerName'];
-    customerMobile = json['customerMobile'];
+    customerMobile = json['customerPhone'];
     customerAddress = json['customerAddress'];
     customerNote = json['customerNote'];
     discountType = json['discountType'];
@@ -331,11 +328,7 @@ class BillModel {
     customerCity = json['customerCity'];
     customerDistrict = json['customerDistrist'];
     customerWard = json['customerWard'];
-    customerGender = json['customerGender'];
     customerDOB = json['customerDOB'];
-    customer = json['Customer'] != null
-        ? CustomerModel.fromJson(json['Customer'])
-        : null;
     orderSourceName = json['orderSourceName'];
     moneyUsePoint = json['moneyUsePoint'];
     storeName = json['storeName'];
@@ -355,6 +348,7 @@ class BillModel {
     order = json['order'] != null
         ? OrderResourceModel.fromJson(json['order'])
         : null;
+    customerAppellation = json['customerAppellation'];
   }
 
   String get getBillNumber => billNumber?.toString() ?? '';
@@ -363,25 +357,7 @@ class BillModel {
 
   String get getCustomerPhone => customerMobile ?? '';
 
-  String get getCreateDate {
-    if (createdAt.isNullOrEmpty) return '';
-
-    // Chuỗi thời gian gốc
-    String originalDateTime = createdAt!;
-
-    // Định dạng chuỗi thời gian gốc
-    DateFormat originalFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-    // Định dạng chuỗi thời gian mới
-    DateFormat desiredFormat = DateFormat('HH:mm, dd/MM/yyyy');
-
-    // Chuyển đổi chuỗi thời gian gốc thành đối tượng DateTime
-    DateTime dateTime = originalFormat.parse(originalDateTime);
-
-    // Chuyển đổi đối tượng DateTime thành chuỗi thời gian mới
-    String formattedDateTime = desiredFormat.format(dateTime);
-
-    return formattedDateTime; // Output: 01:12, 20/05/2024
-  }
+  String get getCreateDate => createdAt ?? '';
 
   double get getTotalAmount => totalAmount ?? 0;
 
@@ -465,13 +441,13 @@ class BillModel {
     ..phoneNo = getCustomerPhone
     ..email = customerEmail
     ..dateOfBirth = customerDOB
-    ..city = customerCity
-    ..district = customerDistrict
-    ..ward = customerWard
+    // ..city = customerCity
+    // ..district = customerDistrict
+    // ..ward = customerWard
     ..address = customerAddress
     ..indentifyNo = customerIndentifyNo
-    ..gender = customerGender?.getGender ?? XGenderType.other
-    ..appellation = customerGender?.getGender ?? XGenderType.other;
+    ..gender = customerAppellation?.getGender ?? XGenderType.other
+    ..appellation = customerAppellation?.getGender ?? XGenderType.other;
 
   double get getTotalPriceNoneDiscount => (billItems ?? []).fold(0,
       (previousValue, element) => previousValue + element.calculateTotalPrice);

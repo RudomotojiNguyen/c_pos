@@ -23,7 +23,7 @@ class BillItemModel {
   int? productWebCategory;
   String? productNameVat;
   String? productNote;
-  int? warrantyMonthNo;
+  String? warrantyMonthNo;
   int? productVatAmount;
   String? productUnit;
   late ProductType productType;
@@ -37,7 +37,7 @@ class BillItemModel {
   List<BillItemModel>? listProductInCombo;
   int? billItemType;
   bool? isGiftTaken;
-  int? accessoryGroupId;
+  String? accessoryGroupId;
   String? accessoryGroupCode;
   double? repurchasePrice;
   String? belongBillDetailId;
@@ -73,11 +73,8 @@ class BillItemModel {
   double? customerDiscountSellingPrice;
   double? customerDiscountMaxAmount;
   DiscountProgramModel? discountProgram;
-  bool? statusVieon;
   int? quantityInStock;
   bool? allowViewFullExternalImeiNo;
-  bool? isSoftwareProduct;
-  bool? isVieonProduct;
 
   List<BillItemModel>? gifts;
   List<BillItemModel>? attaches;
@@ -146,11 +143,8 @@ class BillItemModel {
     this.customerDiscountSellingPrice,
     this.customerDiscountMaxAmount,
     this.discountProgram,
-    this.statusVieon,
     this.quantityInStock,
     this.allowViewFullExternalImeiNo,
-    this.isSoftwareProduct,
-    this.isVieonProduct,
     this.gifts,
     this.attaches,
   });
@@ -232,11 +226,8 @@ class BillItemModel {
     discountProgram = json['discountProgram'] != null
         ? DiscountProgramModel.fromJson(json['discountProgram'])
         : null;
-    statusVieon = json['statusVieon'];
     quantityInStock = json['quantityInStock'];
     allowViewFullExternalImeiNo = json['allowViewFullExternalImeiNo'];
-    isSoftwareProduct = json['isSoftwareProduct'];
-    isVieonProduct = json['isVieonProduct'];
 
     if (json['gifts'] != null) {
       gifts = <BillItemModel>[];

@@ -5,7 +5,6 @@ import '../../common/enum/enum.dart';
 import '../../presentation/utils/utils.dart';
 import '../datasources/local_db/local_db.dart';
 import 'stock_model.dart';
-import 'waranty_info_model.dart';
 
 class ProductModel {
   String? id;
@@ -23,7 +22,7 @@ class ProductModel {
   int? productWebCategory;
   String? warrantyAddress;
   String? warrantyPhone;
-  int? warrantyMonthNo;
+  String? warrantyMonthNo;
   String? warrantyDescription;
   double? originalPrice;
   double? sellingPrice;
@@ -50,7 +49,7 @@ class ProductModel {
   int? warrantyPackageId;
   String? code;
   int? promotionId;
-  int? accessoryGroupId;
+  String? accessoryGroupId;
   String? accessoryGroupCode;
 
   int? discountProgramId;
@@ -195,7 +194,7 @@ class ProductModel {
     warrantyPackageId = json['warrantyPackageId'];
     code = json['code'];
     promotionId = json['promotionId'];
-    accessoryGroupId = json['accessoryGroupId']?.toString().toInt();
+    accessoryGroupId = json['accessoryGroupId'];
     accessoryGroupCode = json['accessoryGroupCode'];
     if (json['productStocks'] != null) {
       stocks = <StockModel>[];
@@ -319,13 +318,6 @@ class ProductModel {
             "totalQuantityInStore": e.totalQuantityInStore,
           })
       .toList();
-
-  WarrantyInfoModel get getWarrantyInfo => WarrantyInfoModel(
-        warrantyAddress: warrantyAddress,
-        warrantyPhone: warrantyPhone,
-        warrantyMonthNo: warrantyMonthNo,
-        warrantyDescription: warrantyDescription,
-      );
 
   ProductTable convertToTable({
     int? cartId,

@@ -54,6 +54,8 @@ class FilterBillModel {
 
   int? get getStoreId => store?.id;
 
+  List<int>? get getStoreIds => store?.id != null ? [store!.id!] : null;
+
   int? get getSearchType => searchType.getValue;
 
   int? get getType => type.getValue;

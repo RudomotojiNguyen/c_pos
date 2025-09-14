@@ -6,27 +6,36 @@ class BillServicesImpl implements BillServices {
   BillServicesImpl({required this.billApi});
 
   @override
-  Future<List<BillModel>> getBills({
+  Future<PaginatedResponse<BillModel>> getBills({
     required int page,
     required int size,
-    required int storeId,
-    int? type,
-    int? searchType,
-    String? search,
+    List<int>? storeIds,
+    String? billNumber,
+    String? orderId,
+    String? customerPhoneSearch,
+    String? productSearch,
+    String? imeiSearch,
+    String? searchCoupon,
+    int? employeeId,
   }) async {
-    List<BillModel> data = [];
     final res = await billApi.getBills(
       page: page,
       size: size,
-      type: type,
-      storeId: storeId,
-      searchType: searchType,
-      search: search,
+      type: SearchType.billId.getValue,
+      storeIds: storeIds,
+      billNumber: billNumber,
+      orderId: orderId,
+      customerPhoneSearch: customerPhoneSearch,
+      productSearch: productSearch,
+      imeiSearch: imeiSearch,
+      searchCoupon: searchCoupon,
+      employeeId: employeeId,
     );
-    (res.data ?? []).forEach((item) {
-      data.add(BillModel.fromJson(item));
-    });
-    return data;
+    return PaginatedResponse.fromJson(
+      res.data,
+      (json) => BillModel.fromJson(json),
+      itemsKey: 'dataset',
+    );
   }
 
   @override

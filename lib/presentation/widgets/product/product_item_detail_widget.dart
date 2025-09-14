@@ -230,10 +230,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
           XProductOperationAction.copyData,
         ];
 
-        if (e.getWarrantyInfo.checkWarrantyInfo) {
-          productOperationActions.add(XProductOperationAction.warrantyInfo);
-        }
-
         return BasicShortProductItem(
           product: e,
           baseButtonType: widget.baseButtonTypeChild,
@@ -257,10 +253,6 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
           XProductOperationAction.detail,
           XProductOperationAction.copyData,
         ];
-
-        if (e.getWarrantyInfo.checkWarrantyInfo) {
-          productOperationActions.add(XProductOperationAction.warrantyInfo);
-        }
 
         return BasicShortProductItem(
           product: e,

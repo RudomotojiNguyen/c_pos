@@ -10,19 +10,24 @@ abstract class BillApi {
 
   /// lấy danh sách hóa đơn
   ///
-  @GET('bills/mobile')
+  @GET('v1/bills')
   Future<BaseResponse> getBills({
     @Query('page') required int page,
     @Query('size') required int size,
+    @Query('billNumber') String? billNumber,
+    @Query('orderId') String? orderId,
+    @Query('customerPhoneSearch') String? customerPhoneSearch,
+    @Query('productSearch') String? productSearch,
+    @Query('imeiSearch') String? imeiSearch,
+    @Query('searchCoupon') String? searchCoupon,
+    @Query('employeeId') int? employeeId,
     @Query('type') int? type,
-    @Query('storeId') int? storeId,
-    @Query('searchType') int? searchType,
-    @Query('param') String? search,
+    @Query('storeIds') List<int>? storeIds,
   });
 
   /// lấy thông tin hóa đơn
   ///
-  @GET('bills/mobile/{billId}')
+  @GET('v1/bills/{billId}')
   Future<BaseResponse> getBillDetail(@Path() String billId);
 
   /// tạo hóa đơn

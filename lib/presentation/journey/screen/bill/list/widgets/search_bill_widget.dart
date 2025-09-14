@@ -48,15 +48,15 @@ class _SearchBillWidgetState extends State<SearchBillWidget> {
           onSearch: _onChangeText,
           hintStr: 'Tìm kiếm hoá đơn',
           suffixWidget: IconSearchTypeBill(billBloc: widget.billBloc),
-          isFilter: state.filterInfo.isFilter,
-          filterWidget: BillFilterModal(
-            onSetDefault: () => widget.billBloc.add(SetFilterDefaultEvent()),
-            onFilter: (StoreModel? store, FilterBillAndOrderType type) {
-              widget.billBloc.add(FilterBillEvent(type: type, store: store));
-            },
-            type: state.filterInfo.type,
-            store: state.filterInfo.store,
-          ),
+          // isFilter: state.filterInfo.isFilter,
+          // filterWidget: BillFilterModal(
+          //   onSetDefault: () => widget.billBloc.add(SetFilterDefaultEvent()),
+          //   onFilter: (StoreModel? store, FilterBillAndOrderType type) {
+          //     widget.billBloc.add(FilterBillEvent(type: type, store: store));
+          //   },
+          //   type: state.filterInfo.type,
+          //   store: state.filterInfo.store,
+          // ),
         );
       },
     );
