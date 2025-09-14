@@ -11,7 +11,7 @@ import '../../../common/configs/box.dart';
 import '../../../common/constants/app_constants.dart';
 import '../../../common/di/injection/injection.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../journey/screen/search/bloc/search_product_bloc.dart';
+import '../../journey/screen/search_product/bloc/search_product_bloc.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';
 

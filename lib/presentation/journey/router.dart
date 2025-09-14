@@ -25,7 +25,7 @@ import 'screen/main/main_screen.dart';
 import 'screen/order/detail/order_detail_screen.dart';
 import 'screen/order/list/order_list_screen.dart';
 import 'screen/product/product_screen.dart';
-import 'screen/search/search_screen.dart';
+import 'screen/stock/manage_stock/search_stock_screen.dart';
 import 'screen/splash/splash_screen.dart';
 import 'screen/trade_in/trade_in_detail/trade_in_detail_screen.dart';
 import 'screen/trade_in/trade_in_list/trade_ins_screen.dart';
@@ -59,10 +59,10 @@ class MainRouter {
               const MainScreen(),
           routes: [
             GoRoute(
-              path: RouteName.search,
-              name: RouteName.search,
+              path: RouteName.searchStock,
+              name: RouteName.searchStock,
               builder: (BuildContext context, GoRouterState state) =>
-                  const SearchScreen(),
+                  const SearchStockScreen(),
             ),
             GoRoute(
               path: RouteName.affiliateCommission,
@@ -150,7 +150,6 @@ class MainRouter {
                     return const ProductImeiHistoryScreen();
                   }
                 }),
-
             GoRoute(
               path: RouteName.tradeIn,
               name: RouteName.tradeIn,
@@ -168,12 +167,6 @@ class MainRouter {
                 ),
               ],
             ),
-            // GoRoute(
-            //   path: RouteName.stock,
-            //   name: RouteName.stock,
-            //   builder: (BuildContext context, GoRouterState state) =>
-            //       const ManageStockScreen(),
-            // ),
           ],
         ),
         GoRoute(

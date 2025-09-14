@@ -26,10 +26,19 @@ class StockBloc extends Bloc<StockEvent, StockState> {
           pageInfo: PageInfoEntity(),
           productStockFilter: const FilterProductStockModel(),
         )) {
+    /// lấy danh sách chi nhánh có sản phẩm trong kho
     on<GetStockOfProductEvent>(_onGetStockOfProduct);
+
+    /// cập nhật bộ filter
     on<UpdateFilterEvent>(_onUpdateFilter);
+
+    /// đặt lại bộ filter
     on<SetDefaultFilterEvent>(_onSetDefaultFilter);
+
+    /// lấy danh sách sản phẩm
     on<GetProductsEvent>(_onGetProducts);
+
+    /// lấy thêm danh sách sản phẩm
     on<GetMoreProductsEvent>(_onGetMoreProducts);
   }
 
@@ -83,10 +92,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       final res = await productServices.getProductInventory(
         page: 1,
         size: state.pageInfo.getLimit,
-        categoryId: state.productStockFilter.cateSelected?.id,
+        searchText: state.productStockFilter.searchValue,
         inStock: state.productStockFilter.isInStock,
-        productName: state.productStockFilter.searchValue,
-        productType: state.productStockFilter.getProductTypeValue,
+        storeId: state.productStockFilter.getStoreId,
       );
 
       emit(GetProductsSuccess(
@@ -117,10 +125,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       final res = await productServices.getProductInventory(
         page: page,
         size: state.pageInfo.getLimit,
-        categoryId: state.productStockFilter.cateSelected?.id,
+        searchText: state.productStockFilter.searchValue,
         inStock: state.productStockFilter.isInStock,
-        productName: state.productStockFilter.searchValue,
-        productType: state.productStockFilter.getProductTypeValue,
+        storeId: state.productStockFilter.getStoreId,
       );
 
       products.addAll(res);

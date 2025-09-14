@@ -1,9 +1,9 @@
-part of '../search_screen.dart';
+part of '../manage_stock/search_stock_screen.dart';
 
 class SearchBox extends StatefulWidget {
   const SearchBox({super.key, required this.searchProductBloc});
 
-  final SearchProductBloc searchProductBloc;
+  final StockBloc searchProductBloc;
 
   @override
   State<SearchBox> createState() => _SearchBoxState();
@@ -70,12 +70,12 @@ class _SearchBoxState extends State<SearchBox> {
   Widget _contentSearchType() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.sp),
-      child: BlocBuilder<SearchProductBloc, SearchProductState>(
+      child: BlocBuilder<StockBloc, StockState>(
         bloc: widget.searchProductBloc,
-        buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
+        buildWhen: (previous, current) => current is UpdateFilterSuccess,
         builder: (context, state) {
           return Text(
-            state.searchType.getShortTitle,
+            state.productStockFilter.searchType?.getShortTitle ?? '',
             style: AppFont.t.s(),
           );
         },
@@ -88,7 +88,7 @@ class _SearchBoxState extends State<SearchBox> {
   ///
 
   onChangeSearchTypeEvent(SearchType type) {
-    widget.searchProductBloc.add(ChangeSearchTypeEvent(searchType: type));
+    widget.searchProductBloc.add(UpdateFilterEvent(searchType: type));
     Navigator.pop(context);
   }
 
@@ -98,9 +98,9 @@ class _SearchBoxState extends State<SearchBox> {
         Timer(const Duration(milliseconds: AppConstants.timeSearchValue), () {
       final String textValue = _searchController.text.trim();
       if (textValue.isNullOrEmpty) {
-        widget.searchProductBloc.add(RefreshProductsEvent());
+        widget.searchProductBloc.add(GetProductsEvent());
       } else {
-        widget.searchProductBloc.add(OnSearchProductsEvent(textValue));
+        widget.searchProductBloc.add(UpdateFilterEvent(searchValue: textValue));
       }
     });
   }

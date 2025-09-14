@@ -9,9 +9,9 @@ class RouteName {
   static const String customer = 'customer';
   static const String customerUpdate = 'customerUpdate';
   static const String imeiHistory = 'imeiHistory';
-  // static const String stock = 'stock';
+  static const String stock = 'stock';
   static const String drafts = 'drafts';
-  static const String search = 'search';
+  static const String searchStock = 'searchStock';
   static const String tradeIn = 'tradeIn';
   static const String tradeInDetailScreen = 'tradeInDetailScreen';
 }

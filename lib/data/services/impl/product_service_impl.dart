@@ -349,21 +349,20 @@ class ProductServicesImpl implements ProductServices {
   }
 
   @override
-  Future<List<ProductModel>> getProductInventory(
-      {required int page,
-      required int size,
-      String? productName,
-      bool? inStock,
-      int? categoryId,
-      int? productType}) async {
+  Future<List<ProductModel>> getProductInventory({
+    required int page,
+    required int size,
+    String? searchText,
+    bool? inStock,
+    int? storeId,
+  }) async {
     List<ProductModel> data = [];
     final res = await productApi.getProductInventory(
       page: page,
       size: size,
-      productName: productName,
+      searchText: searchText,
       inStock: inStock,
-      categoryId: categoryId,
-      productType: productType,
+      storeId: storeId,
     );
 
     for (var item in res.data) {

@@ -17,7 +17,7 @@ import '../../../presentation/journey/screen/order/bloc/order_bloc.dart';
 import '../../../presentation/journey/screen/payment/bloc/payment_bloc.dart';
 import '../../../presentation/journey/screen/product/bloc/product_bloc.dart';
 import '../../../presentation/journey/screen/scan/bloc/scan_bloc.dart';
-import '../../../presentation/journey/screen/search/bloc/search_product_bloc.dart';
+import '../../../presentation/journey/screen/search_product/bloc/search_product_bloc.dart';
 import '../../../presentation/journey/screen/setting/bloc/setting_bloc.dart';
 import '../../../presentation/journey/screen/stock/bloc/stock_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';

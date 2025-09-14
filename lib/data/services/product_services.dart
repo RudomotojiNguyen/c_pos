@@ -94,9 +94,8 @@ abstract class ProductServices {
   Future<List<ProductModel>> getProductInventory({
     required int page,
     required int size,
-    String? productName,
+    String? searchText,
     bool? inStock,
-    int? categoryId,
-    int? productType,
+    int? storeId,
   });
 }

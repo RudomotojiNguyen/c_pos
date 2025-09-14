@@ -388,18 +388,18 @@ class DraftingInvoiceBloc
         'typeTradeIn': state.tradeInType.getTypeValue,
       };
 
-      final res = await tradeInServices.saveBillTradeIn(data);
+      // final res = await tradeInServices.saveBillTradeIn(data);
 
-      if (res) {
-        XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
+      // if (res) {
+      //   XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
 
-        /// xóa sau khi tạo thành công
-        await draftingStorage.removeCartById(cart.id);
+      //   /// xóa sau khi tạo thành công
+      //   await draftingStorage.removeCartById(cart.id);
 
-        emit(CreateTradeInbillSuccess(state: state));
-      } else {
-        emit(CreateFailed(state: state));
-      }
+      //   emit(CreateTradeInbillSuccess(state: state));
+      // } else {
+      emit(CreateFailed(state: state));
+      // }
     } on DioException catch (e) {
       emit(CreateFailed(state: state));
       BaseResponse response = BaseResponse.fromErrorJson(e.response!.data);

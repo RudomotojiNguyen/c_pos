@@ -74,6 +74,9 @@ class ProductModel {
   List<String>? images;
   String? imageUrl;
 
+  /// stock
+  int? inStockQuantity;
+
   ProductModel({
     this.id,
     this.productName,
@@ -129,6 +132,7 @@ class ProductModel {
     this.productsCombo,
     this.images,
     this.imageUrl,
+    this.inStockQuantity,
   });
 
   ProductModel.fromJson(Map<String, dynamic> json, {ProductType? type}) {
@@ -223,7 +227,8 @@ class ProductModel {
       }
     }
 
-    imageUrl = json['imageUrl'];
+    imageUrl = json['imageUrl'] ?? json['productImageUrl'];
+    inStockQuantity = json['inStockQuantity'];
   }
 
   ProductType convertType(int value) => value.toProductType;

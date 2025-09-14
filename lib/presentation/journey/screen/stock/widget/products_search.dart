@@ -1,19 +1,9 @@
-import 'package:c_pos/common/extensions/extension.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../../../../../data/models/product_model.dart';
-import '../../../../widgets/widgets.dart';
-import '../../imei_history/search_list/widgets/list_imei_widget.dart';
-import '../bloc/search_product_bloc.dart';
-import 'product_item.dart';
+part of '../manage_stock/search_stock_screen.dart';
 
 class ProductsSearch extends StatefulWidget {
   const ProductsSearch({super.key, required this.searchProductBloc});
 
-  final SearchProductBloc searchProductBloc;
+  final StockBloc searchProductBloc;
 
   @override
   State<ProductsSearch> createState() => _ProductsSearchState();
@@ -32,8 +22,10 @@ class _ProductsSearchState extends State<ProductsSearch> {
   @override
   Widget build(BuildContext context) {
     int crossAxisCount = context.isSmallScreen ? 1 : 2;
-    return BlocConsumer<SearchProductBloc, SearchProductState>(
+    return BlocConsumer<StockBloc, StockState>(
       bloc: widget.searchProductBloc,
+      buildWhen: (previous, current) =>
+          {StockIsLoading, GetProductsSuccess}.contains(current.runtimeType),
       listener: (context, state) {
         if (state.pageInfo.checkCanLoadMore) {
           _refreshController.loadComplete();
@@ -43,7 +35,7 @@ class _ProductsSearchState extends State<ProductsSearch> {
         }
       },
       builder: (context, state) {
-        if (state is SearchLoading) {
+        if (state is StockIsLoading) {
           return const LoadingTransaction();
         }
 
@@ -69,11 +61,11 @@ class _ProductsSearchState extends State<ProductsSearch> {
             noMoreStr: 'Đã hết sản phẩm',
           ),
           onRefresh: () async {
-            widget.searchProductBloc.add(RefreshProductsEvent());
+            widget.searchProductBloc.add(GetProductsEvent());
             _refreshController.refreshCompleted();
           },
           onLoading: () {
-            widget.searchProductBloc.add(LoadMoreProductsEvent());
+            widget.searchProductBloc.add(GetMoreProductsEvent());
           },
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
@@ -87,7 +79,7 @@ class _ProductsSearchState extends State<ProductsSearch> {
               itemCount: products.length,
               itemBuilder: (context, index) {
                 ProductModel product = state.products[index];
-                return ProductItemInCart(
+                return ProductItemInStock(
                   key: ValueKey(product.id!),
                   product: state.products[index],
                 );

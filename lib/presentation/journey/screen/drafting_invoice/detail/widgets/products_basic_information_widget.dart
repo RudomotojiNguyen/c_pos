@@ -51,7 +51,6 @@ class _ProductsBasicInformationWidgetState
           title: 'Sản phẩm',
           rightIcon: XBaseButton(
             onPressed: () {
-              // mainRouter.pushNamed(context, routeName: RouteName.search);
               /// chuyển thành hiện bottomsheet
               _onAddProduct();
             },

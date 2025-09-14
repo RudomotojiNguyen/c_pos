@@ -46,7 +46,7 @@ class TradeInProgramCreteriaGroupOptionModel {
   Map<String, dynamic> toJson() {
     return {
       "id": tradeInProgramCreteriaGroupId,
-      // "id": id,
+      "optionId": id,
       "criteriaName": creteriaName,
       "amount": amount,
       "operator": getOperator.getValue,

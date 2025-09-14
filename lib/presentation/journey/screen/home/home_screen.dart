@@ -304,11 +304,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     children: [
                       _operationItem(
-                        title: 'Sản phẩm',
+                        title: 'Kho',
                         icon: Assets.svg.inventory.svg(width: 32.sp),
                         onPressed: () => _mainRouter.pushNamed(
                           context,
-                          routeName: RouteName.search,
+                          routeName: RouteName.searchStock,
                         ),
                       ),
                       BoxSpacer.s8,

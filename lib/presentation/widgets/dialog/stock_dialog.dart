@@ -87,7 +87,7 @@ class _StockDialogState extends State<StockDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const XPlaceHolder(
-              width: 200,
+              width: 142,
               height: 12,
             ),
             BoxSpacer.s8,
@@ -102,7 +102,7 @@ class _StockDialogState extends State<StockDialog> {
             ),
             BoxSpacer.s8,
             const XPlaceHolder(
-              width: 240,
+              width: 180,
               height: 12,
             ),
           ],

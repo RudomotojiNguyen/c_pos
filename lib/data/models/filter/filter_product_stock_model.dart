@@ -1,3 +1,5 @@
+import 'package:c_pos/common/di/injection/injection.dart';
+import 'package:c_pos/presentation/journey/screen/login/bloc/auth_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../common/enum/enum.dart';
@@ -8,12 +10,14 @@ class FilterProductStockModel extends Equatable {
   final SearchType? searchType;
   final bool isInStock;
   final String searchValue;
+  final int? storeId;
 
   const FilterProductStockModel({
     this.cateSelected,
     this.searchType,
-    this.isInStock = false,
+    this.isInStock = true,
     this.searchValue = '',
+    this.storeId,
   });
 
   FilterProductStockModel copyWith({
@@ -21,21 +25,36 @@ class FilterProductStockModel extends Equatable {
     SearchType? searchType,
     bool? isInStock,
     String? searchValue,
+    int? storeId,
   }) {
     return FilterProductStockModel(
       cateSelected: cateSelected,
       searchType: searchType,
       isInStock: isInStock ?? this.isInStock,
       searchValue: searchValue ?? this.searchValue,
+      storeId: storeId ?? this.storeId,
     );
   }
 
+  int? get getStoreId {
+    if (storeId != null) {
+      return storeId!;
+    }
+    final user = getIt.get<AuthBloc>().state.userInfo;
+    return user?.getStoreId;
+  }
+
   @override
-  List<Object?> get props => [cateSelected, searchType, isInStock, searchValue];
+  List<Object?> get props =>
+      [cateSelected, searchType, isInStock, searchValue, storeId];
 
   int? get getProductTypeValue => searchType?.getValueFilterInventory;
 
   bool get isFilter {
-    return false;
+    return storeId != null ||
+        isInStock ||
+        searchValue.isNotEmpty ||
+        cateSelected != null ||
+        searchType != null;
   }
 }

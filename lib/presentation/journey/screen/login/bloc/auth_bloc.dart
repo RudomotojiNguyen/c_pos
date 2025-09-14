@@ -82,6 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             fullName: user.fullName,
             storeName: user.storeName,
             jobTitleId: user.jobTitleId,
+            storeId: user.storeId,
           ),
         );
         emit(GetProfileSuccess(state: state, userInfo: auth));

@@ -46,6 +46,8 @@ class AuthModel {
     ..accessToken = accessToken
     ..fullName = employee?.fullName
     ..jobTitleId = employee?.jobTitleId
+    ..storeId = employee?.storeId
+    ..storeName = employee?.storeName
     ..userCode = employee?.code;
 
   XJobTitle get getJob => employee?.jobTitleId?.getJob ?? XJobTitle.none;

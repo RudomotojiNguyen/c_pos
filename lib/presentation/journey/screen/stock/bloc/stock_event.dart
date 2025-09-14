@@ -12,13 +12,13 @@ final class GetStockOfProductEvent extends StockEvent {
 final class UpdateFilterEvent extends StockEvent {
   final CategoryModel? cateSelected;
   final SearchType? searchType;
-  final bool isInStock;
+  final bool? isInStock;
   final String? searchValue;
 
   UpdateFilterEvent({
     this.cateSelected,
     this.searchType,
-    required this.isInStock,
+    this.isInStock,
     this.searchValue,
   });
 }

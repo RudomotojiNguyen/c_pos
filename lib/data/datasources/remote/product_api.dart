@@ -55,14 +55,13 @@ abstract class ProductApi {
 
   /// tìm sản phầm tồn kho
   ///
-  @GET('product/mobile/product-stocks')
+  @GET('v1/product-search')
   Future<BaseResponse> getProductInventory({
     @Query('page') required int page,
     @Query('size') required int size,
-    @Query('productName') String? productName,
+    @Query('searchText') String? searchText,
+    @Query('storeId') int? storeId,
     @Query('inStock') bool? inStock,
-    @Query('categoryId') int? categoryId,
-    @Query('productType') int? productType,
   });
 
   /// Lấy danh sách SP tặng kèm(gift)

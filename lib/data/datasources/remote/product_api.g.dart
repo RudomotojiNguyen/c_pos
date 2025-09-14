@@ -79,19 +79,17 @@ class _ProductApi implements ProductApi {
   Future<BaseResponse> getProductInventory({
     required int page,
     required int size,
-    String? productName,
+    String? searchText,
+    int? storeId,
     bool? inStock,
-    int? categoryId,
-    int? productType,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'size': size,
-      r'productName': productName,
+      r'searchText': searchText,
+      r'storeId': storeId,
       r'inStock': inStock,
-      r'categoryId': categoryId,
-      r'productType': productType,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -103,7 +101,7 @@ class _ProductApi implements ProductApi {
     )
         .compose(
           _dio.options,
-          'product/mobile/product-stocks',
+          'v1/product-search',
           queryParameters: queryParameters,
           data: _data,
         )
