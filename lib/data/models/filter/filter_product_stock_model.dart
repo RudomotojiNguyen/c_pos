@@ -41,7 +41,7 @@ class FilterProductStockModel extends Equatable {
       return storeId!;
     }
     final user = getIt.get<AuthBloc>().state.userInfo;
-    return user?.getStoreId;
+    return user?.employee?.storeId;
   }
 
   @override

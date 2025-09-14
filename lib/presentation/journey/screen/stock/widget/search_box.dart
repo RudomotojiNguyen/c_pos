@@ -12,10 +12,28 @@ class SearchBox extends StatefulWidget {
 class _SearchBoxState extends State<SearchBox> {
   final TextEditingController _searchController = TextEditingController();
   Timer? _timer;
+  final ValueNotifier<bool> checkInStock = ValueNotifier(true);
+
+  int? userStoreId = getIt.get<AuthBloc>().state.userInfo?.employee?.storeId;
+  final TextEditingController _storeController = TextEditingController();
+  final ValueNotifier<StoreModel?> store = ValueNotifier(null);
+  final StoreBloc _storeBloc = getIt.get<StoreBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (userStoreId != null) {
+      final store = _getCurrentUserStore();
+      _onSetStore(store);
+    }
+  }
 
   @override
   void dispose() {
     _timer?.cancel();
+    checkInStock.dispose();
+    _storeController.dispose();
+    store.dispose();
     super.dispose();
   }
 
@@ -24,9 +42,8 @@ class _SearchBoxState extends State<SearchBox> {
     return SearchBoxWidget(
       onSearch: _onChangeText,
       searchController: _searchController,
-      hintStr: 'Tìm sản phẩm ...',
-      filterWidget: _dataSearchType(),
-      suffixWidget: _contentSearchType(),
+      hintStr: 'Iphone 15...',
+      filterWidget: _dataFilter(context),
     );
   }
 
@@ -34,52 +51,131 @@ class _SearchBoxState extends State<SearchBox> {
   /// WIDGETS
   ///
 
-  Widget _dataSearchType() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _dataFilter(BuildContext context) {
+    return SizedBox(
+      width: 300.sp,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          BoxSpacer.s8,
+          _store(context),
+          BoxSpacer.s8,
+          _checkInstock(context),
+          BoxSpacer.s32,
+          _bottom(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _bottom(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        XTextButton(
-          title: SearchType.product.getTitle,
+        XButton(
+          title: 'Mặc định',
+          padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 32.sp),
+          type: XButtonType.secondary,
           onPressed: () {
-            onChangeSearchTypeEvent(SearchType.product);
+            checkInStock.value = true;
+            final store = _getCurrentUserStore();
+            _onSetStore(store);
+
+            widget.searchProductBloc
+                .add(UpdateFilterEvent(isInStock: true, storeId: store?.id));
+
+            Navigator.pop(context);
           },
         ),
-        XTextButton(
-          title: SearchType.imei.getTitle,
+        BoxSpacer.s8,
+        XButton(
+          padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 32.sp),
+          title: 'Lọc',
           onPressed: () {
-            onChangeSearchTypeEvent(SearchType.imei);
-          },
-        ),
-        XTextButton(
-          title: SearchType.productCombo.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.productCombo);
-          },
-        ),
-        XTextButton(
-          title: SearchType.service.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.service);
+            widget.searchProductBloc.add(
+              UpdateFilterEvent(
+                isInStock: checkInStock.value,
+                storeId: store.value?.id,
+              ),
+            );
+            Navigator.pop(context);
           },
         ),
       ],
     );
   }
 
-  Widget _contentSearchType() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.sp),
-      child: BlocBuilder<StockBloc, StockState>(
-        bloc: widget.searchProductBloc,
-        buildWhen: (previous, current) => current is UpdateFilterSuccess,
-        builder: (context, state) {
-          return Text(
-            state.productStockFilter.searchType?.getShortTitle ?? '',
+  Widget _store(BuildContext context) {
+    return TypeAheadField<StoreModel>(
+      controller: _storeController,
+      itemBuilder: (context, store) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
+          child: Text(
+            store.name ?? '',
             style: AppFont.t.s(),
-          );
-        },
-      ),
+          ),
+        );
+      },
+      onSelected: (value) => _onSetStore(value),
+      suggestionsCallback: (search) => _storeBloc.suggestionsCallback(search),
+      constraints: BoxConstraints(maxHeight: 180.sp),
+      emptyBuilder: (context) {
+        return const EmptyDataWidget(
+          emptyMessage: 'Không có cửa hàng trùng khớp',
+        );
+      },
+      builder: (context, controller, focusNode) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Cửa hàng',
+              style: AppFont.t.s(),
+            ),
+            BoxSpacer.s4,
+            Container(
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.all(AppRadius.l),
+                  border:
+                      Border.all(width: 1.sp, color: AppColors.dividerColor)),
+              child: XTextField(
+                controller: controller,
+                focusNode: focusNode,
+                hintText: 'Chọn cửa hàng',
+                autoFocus: false,
+                decorationStyle: DecorationStyle.search,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _checkInstock(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: checkInStock,
+      builder: (context, value, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              'Chỉ lấy còn tồn',
+              style: AppFont.t.s(),
+            ),
+            BoxSpacer.s8,
+            XToggleButton(
+              isOn: value,
+              toggleSwitch: () {
+                checkInStock.value = !value;
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -103,5 +199,19 @@ class _SearchBoxState extends State<SearchBox> {
         widget.searchProductBloc.add(UpdateFilterEvent(searchValue: textValue));
       }
     });
+  }
+
+  _onSetStore(StoreModel? value) {
+    store.value = value;
+    _storeController.text = value?.getName ?? '';
+  }
+
+  StoreModel? _getCurrentUserStore() {
+    if (userStoreId != null) {
+      final store = _storeBloc.state.stores
+          .firstWhereOrNull((element) => element.id == userStoreId);
+      return store;
+    }
+    return null;
   }
 }

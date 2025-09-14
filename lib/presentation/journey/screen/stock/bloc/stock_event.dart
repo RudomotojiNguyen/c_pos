@@ -14,12 +14,14 @@ final class UpdateFilterEvent extends StockEvent {
   final SearchType? searchType;
   final bool? isInStock;
   final String? searchValue;
+  final int? storeId;
 
   UpdateFilterEvent({
     this.cateSelected,
     this.searchType,
     this.isInStock,
     this.searchValue,
+    this.storeId,
   });
 }
 

@@ -66,7 +66,9 @@ class StockBloc extends Bloc<StockEvent, StockState> {
             isInStock: event.isInStock,
             searchType: event.searchType,
             searchValue: event.searchValue,
+            storeId: event.storeId,
           )));
+      add(GetProductsEvent());
     } catch (e) {
       _loggerHelper.logError(message: 'UpdateFilterEvent', obj: e);
     }

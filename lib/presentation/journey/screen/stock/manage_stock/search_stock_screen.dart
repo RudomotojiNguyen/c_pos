@@ -4,9 +4,11 @@ import 'package:c_pos/common/configs/box.dart';
 import 'package:c_pos/common/constants/app_constants.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/presentation/mixins/dialog_mixins.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../common/di/injection/injection.dart';
@@ -15,6 +17,8 @@ import '../../../../../data/models/models.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../imei_history/search_list/widgets/list_imei_widget.dart';
+import '../../login/bloc/auth_bloc.dart';
+import '../../store/bloc/store_bloc.dart';
 import '../bloc/stock_bloc.dart';
 
 part '../widget/products_search.dart';
@@ -41,34 +45,7 @@ class _SearchStockScreenState extends XStateWidget<SearchStockScreen>
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return XAppBar(
-      title: 'Kiểm kho sản phẩm',
-      actions: [
-        XButton(
-          padding: EdgeInsets.all(8.sp),
-          type: XButtonType.transparent,
-          onPressed: () async {
-            showModalCameraScan(
-              context,
-              onResult: ({code, codes}) {
-                if (code.isNotNullOrEmpty) {
-                  _searchStockBloc
-                      .add(UpdateFilterEvent(searchValue: code ?? ''));
-                  // searchController.text = code ?? '';
-                  context.hideKeyboard;
-                }
-              },
-            );
-          },
-          child: Icon(
-            Icons.qr_code,
-            size: 20.sp,
-            color: AppColors.iconColor,
-          ),
-        ),
-        BoxSpacer.s16,
-      ],
-    );
+    return const XAppBar(title: 'Kiểm kho sản phẩm');
   }
 
   @override
