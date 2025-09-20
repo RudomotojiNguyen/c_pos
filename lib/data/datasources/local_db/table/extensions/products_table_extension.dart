@@ -21,13 +21,6 @@ extension ProductsTableExtension on List<ProductTable> {
             (previousAttach, attach) =>
                 previousAttach + attach.calculatorTotalSellingPrice);
 
-        // sản phẩm quà tặng cần kiểm tra nếu là thu lại thì phải trừ thêm tiền thu lại
-        totalAmountOfRow -= element.getGifts.fold(
-            0,
-            (previousGift, gift) => gift.isCheckRepurchasePrice
-                ? previousGift + gift.calculatorTotalSellingPrice
-                : previousGift);
-
         return previousValue + totalAmountOfRow;
       },
     );

@@ -142,190 +142,185 @@ const ProductTableSchema = CollectionSchema(
       name: r'isComboProduct',
       type: IsarType.bool,
     ),
-    r'isRepurchasePrice': PropertySchema(
-      id: 25,
-      name: r'isRepurchasePrice',
-      type: IsarType.bool,
-    ),
     r'itemId': PropertySchema(
-      id: 26,
+      id: 25,
       name: r'itemId',
       type: IsarType.string,
     ),
     r'itemType': PropertySchema(
-      id: 27,
+      id: 26,
       name: r'itemType',
       type: IsarType.byte,
       enumMap: _ProductTableitemTypeEnumValueMap,
     ),
     r'listedPrice': PropertySchema(
-      id: 28,
+      id: 27,
       name: r'listedPrice',
       type: IsarType.double,
     ),
     r'merchantId': PropertySchema(
-      id: 29,
+      id: 28,
       name: r'merchantId',
       type: IsarType.long,
     ),
     r'note': PropertySchema(
-      id: 30,
+      id: 29,
       name: r'note',
       type: IsarType.string,
     ),
     r'originalPrice': PropertySchema(
-      id: 31,
+      id: 30,
       name: r'originalPrice',
       type: IsarType.double,
     ),
     r'parentProductId': PropertySchema(
-      id: 32,
+      id: 31,
       name: r'parentProductId',
       type: IsarType.string,
     ),
     r'productCategory': PropertySchema(
-      id: 33,
+      id: 32,
       name: r'productCategory',
       type: IsarType.long,
     ),
     r'productChildComboStr': PropertySchema(
-      id: 34,
+      id: 33,
       name: r'productChildComboStr',
       type: IsarType.string,
     ),
     r'productChildStr': PropertySchema(
-      id: 35,
+      id: 34,
       name: r'productChildStr',
       type: IsarType.string,
     ),
     r'productCode': PropertySchema(
-      id: 36,
+      id: 35,
       name: r'productCode',
       type: IsarType.string,
     ),
     r'productCodeVat': PropertySchema(
-      id: 37,
+      id: 36,
       name: r'productCodeVat',
       type: IsarType.string,
     ),
     r'productId': PropertySchema(
-      id: 38,
+      id: 37,
       name: r'productId',
       type: IsarType.string,
     ),
     r'productInComboQuantity': PropertySchema(
-      id: 39,
+      id: 38,
       name: r'productInComboQuantity',
       type: IsarType.long,
     ),
     r'productName': PropertySchema(
-      id: 40,
+      id: 39,
       name: r'productName',
       type: IsarType.string,
     ),
     r'productNameVat': PropertySchema(
-      id: 41,
+      id: 40,
       name: r'productNameVat',
       type: IsarType.string,
     ),
     r'productTradeName': PropertySchema(
-      id: 42,
+      id: 41,
       name: r'productTradeName',
       type: IsarType.string,
     ),
     r'productType': PropertySchema(
-      id: 43,
+      id: 42,
       name: r'productType',
       type: IsarType.byte,
       enumMap: _ProductTableproductTypeEnumValueMap,
     ),
     r'productWebCategory': PropertySchema(
-      id: 44,
+      id: 43,
       name: r'productWebCategory',
       type: IsarType.long,
     ),
     r'promotionId': PropertySchema(
-      id: 45,
+      id: 44,
       name: r'promotionId',
       type: IsarType.long,
     ),
     r'quantity': PropertySchema(
-      id: 46,
+      id: 45,
       name: r'quantity',
       type: IsarType.long,
     ),
     r'repurchasePrice': PropertySchema(
-      id: 47,
+      id: 46,
       name: r'repurchasePrice',
       type: IsarType.double,
     ),
     r'returnSellingPrice': PropertySchema(
-      id: 48,
+      id: 47,
       name: r'returnSellingPrice',
       type: IsarType.long,
     ),
     r'sellingPrice': PropertySchema(
-      id: 49,
+      id: 48,
       name: r'sellingPrice',
       type: IsarType.double,
     ),
     r'status': PropertySchema(
-      id: 50,
+      id: 49,
       name: r'status',
       type: IsarType.long,
     ),
     r'toPrice': PropertySchema(
-      id: 51,
+      id: 50,
       name: r'toPrice',
       type: IsarType.double,
     ),
     r'totalQuantityInStock': PropertySchema(
-      id: 52,
+      id: 51,
       name: r'totalQuantityInStock',
       type: IsarType.long,
     ),
     r'totalQuantityInStore': PropertySchema(
-      id: 53,
+      id: 52,
       name: r'totalQuantityInStore',
       type: IsarType.long,
     ),
     r'totalQuantityInTransfer': PropertySchema(
-      id: 54,
+      id: 53,
       name: r'totalQuantityInTransfer',
       type: IsarType.long,
     ),
     r'unitId': PropertySchema(
-      id: 55,
+      id: 54,
       name: r'unitId',
       type: IsarType.long,
     ),
     r'warrantyAddress': PropertySchema(
-      id: 56,
+      id: 55,
       name: r'warrantyAddress',
       type: IsarType.string,
     ),
     r'warrantyDescription': PropertySchema(
-      id: 57,
+      id: 56,
       name: r'warrantyDescription',
       type: IsarType.string,
     ),
     r'warrantyMonthNo': PropertySchema(
-      id: 58,
+      id: 57,
       name: r'warrantyMonthNo',
       type: IsarType.string,
     ),
     r'warrantyPackageId': PropertySchema(
-      id: 59,
+      id: 58,
       name: r'warrantyPackageId',
       type: IsarType.long,
     ),
     r'warrantyPhone': PropertySchema(
-      id: 60,
+      id: 59,
       name: r'warrantyPhone',
       type: IsarType.string,
     ),
     r'wholesalePrice': PropertySchema(
-      id: 61,
+      id: 60,
       name: r'wholesalePrice',
       type: IsarType.double,
     )
@@ -571,43 +566,42 @@ void _productTableSerialize(
   writer.writeString(offsets[22], object.image);
   writer.writeString(offsets[23], object.imeiStr);
   writer.writeBool(offsets[24], object.isComboProduct);
-  writer.writeBool(offsets[25], object.isRepurchasePrice);
-  writer.writeString(offsets[26], object.itemId);
-  writer.writeByte(offsets[27], object.itemType.index);
-  writer.writeDouble(offsets[28], object.listedPrice);
-  writer.writeLong(offsets[29], object.merchantId);
-  writer.writeString(offsets[30], object.note);
-  writer.writeDouble(offsets[31], object.originalPrice);
-  writer.writeString(offsets[32], object.parentProductId);
-  writer.writeLong(offsets[33], object.productCategory);
-  writer.writeString(offsets[34], object.productChildComboStr);
-  writer.writeString(offsets[35], object.productChildStr);
-  writer.writeString(offsets[36], object.productCode);
-  writer.writeString(offsets[37], object.productCodeVat);
-  writer.writeString(offsets[38], object.productId);
-  writer.writeLong(offsets[39], object.productInComboQuantity);
-  writer.writeString(offsets[40], object.productName);
-  writer.writeString(offsets[41], object.productNameVat);
-  writer.writeString(offsets[42], object.productTradeName);
-  writer.writeByte(offsets[43], object.productType.index);
-  writer.writeLong(offsets[44], object.productWebCategory);
-  writer.writeLong(offsets[45], object.promotionId);
-  writer.writeLong(offsets[46], object.quantity);
-  writer.writeDouble(offsets[47], object.repurchasePrice);
-  writer.writeLong(offsets[48], object.returnSellingPrice);
-  writer.writeDouble(offsets[49], object.sellingPrice);
-  writer.writeLong(offsets[50], object.status);
-  writer.writeDouble(offsets[51], object.toPrice);
-  writer.writeLong(offsets[52], object.totalQuantityInStock);
-  writer.writeLong(offsets[53], object.totalQuantityInStore);
-  writer.writeLong(offsets[54], object.totalQuantityInTransfer);
-  writer.writeLong(offsets[55], object.unitId);
-  writer.writeString(offsets[56], object.warrantyAddress);
-  writer.writeString(offsets[57], object.warrantyDescription);
-  writer.writeString(offsets[58], object.warrantyMonthNo);
-  writer.writeLong(offsets[59], object.warrantyPackageId);
-  writer.writeString(offsets[60], object.warrantyPhone);
-  writer.writeDouble(offsets[61], object.wholesalePrice);
+  writer.writeString(offsets[25], object.itemId);
+  writer.writeByte(offsets[26], object.itemType.index);
+  writer.writeDouble(offsets[27], object.listedPrice);
+  writer.writeLong(offsets[28], object.merchantId);
+  writer.writeString(offsets[29], object.note);
+  writer.writeDouble(offsets[30], object.originalPrice);
+  writer.writeString(offsets[31], object.parentProductId);
+  writer.writeLong(offsets[32], object.productCategory);
+  writer.writeString(offsets[33], object.productChildComboStr);
+  writer.writeString(offsets[34], object.productChildStr);
+  writer.writeString(offsets[35], object.productCode);
+  writer.writeString(offsets[36], object.productCodeVat);
+  writer.writeString(offsets[37], object.productId);
+  writer.writeLong(offsets[38], object.productInComboQuantity);
+  writer.writeString(offsets[39], object.productName);
+  writer.writeString(offsets[40], object.productNameVat);
+  writer.writeString(offsets[41], object.productTradeName);
+  writer.writeByte(offsets[42], object.productType.index);
+  writer.writeLong(offsets[43], object.productWebCategory);
+  writer.writeLong(offsets[44], object.promotionId);
+  writer.writeLong(offsets[45], object.quantity);
+  writer.writeDouble(offsets[46], object.repurchasePrice);
+  writer.writeLong(offsets[47], object.returnSellingPrice);
+  writer.writeDouble(offsets[48], object.sellingPrice);
+  writer.writeLong(offsets[49], object.status);
+  writer.writeDouble(offsets[50], object.toPrice);
+  writer.writeLong(offsets[51], object.totalQuantityInStock);
+  writer.writeLong(offsets[52], object.totalQuantityInStore);
+  writer.writeLong(offsets[53], object.totalQuantityInTransfer);
+  writer.writeLong(offsets[54], object.unitId);
+  writer.writeString(offsets[55], object.warrantyAddress);
+  writer.writeString(offsets[56], object.warrantyDescription);
+  writer.writeString(offsets[57], object.warrantyMonthNo);
+  writer.writeLong(offsets[58], object.warrantyPackageId);
+  writer.writeString(offsets[59], object.warrantyPhone);
+  writer.writeDouble(offsets[60], object.wholesalePrice);
 }
 
 ProductTable _productTableDeserialize(
@@ -637,44 +631,44 @@ ProductTable _productTableDeserialize(
     image: reader.readStringOrNull(offsets[22]),
     imeiStr: reader.readStringOrNull(offsets[23]),
     isComboProduct: reader.readBoolOrNull(offsets[24]),
-    itemId: reader.readStringOrNull(offsets[26]),
+    itemId: reader.readStringOrNull(offsets[25]),
     itemType:
-        _ProductTableitemTypeValueEnumMap[reader.readByteOrNull(offsets[27])] ??
+        _ProductTableitemTypeValueEnumMap[reader.readByteOrNull(offsets[26])] ??
             XItemType.main,
-    listedPrice: reader.readDoubleOrNull(offsets[28]),
-    merchantId: reader.readLongOrNull(offsets[29]),
-    note: reader.readStringOrNull(offsets[30]),
-    originalPrice: reader.readDoubleOrNull(offsets[31]),
-    parentProductId: reader.readStringOrNull(offsets[32]),
-    productCategory: reader.readLongOrNull(offsets[33]),
-    productCode: reader.readStringOrNull(offsets[36]),
-    productCodeVat: reader.readStringOrNull(offsets[37]),
-    productId: reader.readStringOrNull(offsets[38]),
-    productInComboQuantity: reader.readLongOrNull(offsets[39]),
-    productName: reader.readStringOrNull(offsets[40]),
-    productNameVat: reader.readStringOrNull(offsets[41]),
-    productTradeName: reader.readStringOrNull(offsets[42]),
+    listedPrice: reader.readDoubleOrNull(offsets[27]),
+    merchantId: reader.readLongOrNull(offsets[28]),
+    note: reader.readStringOrNull(offsets[29]),
+    originalPrice: reader.readDoubleOrNull(offsets[30]),
+    parentProductId: reader.readStringOrNull(offsets[31]),
+    productCategory: reader.readLongOrNull(offsets[32]),
+    productCode: reader.readStringOrNull(offsets[35]),
+    productCodeVat: reader.readStringOrNull(offsets[36]),
+    productId: reader.readStringOrNull(offsets[37]),
+    productInComboQuantity: reader.readLongOrNull(offsets[38]),
+    productName: reader.readStringOrNull(offsets[39]),
+    productNameVat: reader.readStringOrNull(offsets[40]),
+    productTradeName: reader.readStringOrNull(offsets[41]),
     productType: _ProductTableproductTypeValueEnumMap[
-            reader.readByteOrNull(offsets[43])] ??
+            reader.readByteOrNull(offsets[42])] ??
         ProductType.normal,
-    productWebCategory: reader.readLongOrNull(offsets[44]),
-    promotionId: reader.readLongOrNull(offsets[45]),
-    quantity: reader.readLongOrNull(offsets[46]),
-    repurchasePrice: reader.readDoubleOrNull(offsets[47]),
-    returnSellingPrice: reader.readLongOrNull(offsets[48]),
-    sellingPrice: reader.readDoubleOrNull(offsets[49]),
-    status: reader.readLongOrNull(offsets[50]),
-    toPrice: reader.readDoubleOrNull(offsets[51]),
-    totalQuantityInStock: reader.readLongOrNull(offsets[52]),
-    totalQuantityInStore: reader.readLongOrNull(offsets[53]),
-    totalQuantityInTransfer: reader.readLongOrNull(offsets[54]),
-    unitId: reader.readLongOrNull(offsets[55]),
-    warrantyAddress: reader.readStringOrNull(offsets[56]),
-    warrantyDescription: reader.readStringOrNull(offsets[57]),
-    warrantyMonthNo: reader.readStringOrNull(offsets[58]),
-    warrantyPackageId: reader.readLongOrNull(offsets[59]),
-    warrantyPhone: reader.readStringOrNull(offsets[60]),
-    wholesalePrice: reader.readDoubleOrNull(offsets[61]),
+    productWebCategory: reader.readLongOrNull(offsets[43]),
+    promotionId: reader.readLongOrNull(offsets[44]),
+    quantity: reader.readLongOrNull(offsets[45]),
+    repurchasePrice: reader.readDoubleOrNull(offsets[46]),
+    returnSellingPrice: reader.readLongOrNull(offsets[47]),
+    sellingPrice: reader.readDoubleOrNull(offsets[48]),
+    status: reader.readLongOrNull(offsets[49]),
+    toPrice: reader.readDoubleOrNull(offsets[50]),
+    totalQuantityInStock: reader.readLongOrNull(offsets[51]),
+    totalQuantityInStore: reader.readLongOrNull(offsets[52]),
+    totalQuantityInTransfer: reader.readLongOrNull(offsets[53]),
+    unitId: reader.readLongOrNull(offsets[54]),
+    warrantyAddress: reader.readStringOrNull(offsets[55]),
+    warrantyDescription: reader.readStringOrNull(offsets[56]),
+    warrantyMonthNo: reader.readStringOrNull(offsets[57]),
+    warrantyPackageId: reader.readLongOrNull(offsets[58]),
+    warrantyPhone: reader.readStringOrNull(offsets[59]),
+    wholesalePrice: reader.readDoubleOrNull(offsets[60]),
   );
   object.attachedImei = reader.readStringOrNull(offsets[3]);
   object.belongBillDetailId = reader.readStringOrNull(offsets[5]);
@@ -682,9 +676,8 @@ ProductTable _productTableDeserialize(
   object.discountType = reader.readLong(offsets[16]);
   object.flexibleComboId = reader.readStringOrNull(offsets[18]);
   object.id = id;
-  object.isRepurchasePrice = reader.readBoolOrNull(offsets[25]);
-  object.productChildComboStr = reader.readStringOrNull(offsets[34]);
-  object.productChildStr = reader.readStringOrNull(offsets[35]);
+  object.productChildComboStr = reader.readStringOrNull(offsets[33]);
+  object.productChildStr = reader.readStringOrNull(offsets[34]);
   return object;
 }
 
@@ -746,25 +739,25 @@ P _productTableDeserializeProp<P>(
     case 24:
       return (reader.readBoolOrNull(offset)) as P;
     case 25:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 26:
       return (reader.readStringOrNull(offset)) as P;
-    case 27:
+    case 26:
       return (_ProductTableitemTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           XItemType.main) as P;
+    case 27:
+      return (reader.readDoubleOrNull(offset)) as P;
     case 28:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 29:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 30:
-      return (reader.readStringOrNull(offset)) as P;
-    case 31:
       return (reader.readDoubleOrNull(offset)) as P;
-    case 32:
+    case 31:
       return (reader.readStringOrNull(offset)) as P;
-    case 33:
+    case 32:
       return (reader.readLongOrNull(offset)) as P;
+    case 33:
+      return (reader.readStringOrNull(offset)) as P;
     case 34:
       return (reader.readStringOrNull(offset)) as P;
     case 35:
@@ -774,35 +767,35 @@ P _productTableDeserializeProp<P>(
     case 37:
       return (reader.readStringOrNull(offset)) as P;
     case 38:
-      return (reader.readStringOrNull(offset)) as P;
-    case 39:
       return (reader.readLongOrNull(offset)) as P;
+    case 39:
+      return (reader.readStringOrNull(offset)) as P;
     case 40:
       return (reader.readStringOrNull(offset)) as P;
     case 41:
       return (reader.readStringOrNull(offset)) as P;
     case 42:
-      return (reader.readStringOrNull(offset)) as P;
-    case 43:
       return (_ProductTableproductTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           ProductType.normal) as P;
+    case 43:
+      return (reader.readLongOrNull(offset)) as P;
     case 44:
       return (reader.readLongOrNull(offset)) as P;
     case 45:
       return (reader.readLongOrNull(offset)) as P;
     case 46:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 47:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 48:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 49:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 50:
       return (reader.readLongOrNull(offset)) as P;
-    case 51:
+    case 50:
       return (reader.readDoubleOrNull(offset)) as P;
+    case 51:
+      return (reader.readLongOrNull(offset)) as P;
     case 52:
       return (reader.readLongOrNull(offset)) as P;
     case 53:
@@ -810,18 +803,16 @@ P _productTableDeserializeProp<P>(
     case 54:
       return (reader.readLongOrNull(offset)) as P;
     case 55:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 56:
       return (reader.readStringOrNull(offset)) as P;
     case 57:
       return (reader.readStringOrNull(offset)) as P;
     case 58:
-      return (reader.readStringOrNull(offset)) as P;
-    case 59:
       return (reader.readLongOrNull(offset)) as P;
-    case 60:
+    case 59:
       return (reader.readStringOrNull(offset)) as P;
-    case 61:
+    case 60:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -3919,34 +3910,6 @@ extension ProductTableQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isComboProduct',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      isRepurchasePriceIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isRepurchasePrice',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      isRepurchasePriceIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isRepurchasePrice',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
-      isRepurchasePriceEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isRepurchasePrice',
         value: value,
       ));
     });
@@ -8290,20 +8253,6 @@ extension ProductTableQuerySortBy
     });
   }
 
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByIsRepurchasePrice() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isRepurchasePrice', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      sortByIsRepurchasePriceDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isRepurchasePrice', Sort.desc);
-    });
-  }
-
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy> sortByItemId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'itemId', Sort.asc);
@@ -9123,20 +9072,6 @@ extension ProductTableQuerySortThenBy
     });
   }
 
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByIsRepurchasePrice() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isRepurchasePrice', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
-      thenByIsRepurchasePriceDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isRepurchasePrice', Sort.desc);
-    });
-  }
-
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy> thenByItemId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'itemId', Sort.asc);
@@ -9795,13 +9730,6 @@ extension ProductTableQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ProductTable, ProductTable, QDistinct>
-      distinctByIsRepurchasePrice() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isRepurchasePrice');
-    });
-  }
-
   QueryBuilder<ProductTable, ProductTable, QDistinct> distinctByItemId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -10220,13 +10148,6 @@ extension ProductTableQueryProperty
   QueryBuilder<ProductTable, bool?, QQueryOperations> isComboProductProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isComboProduct');
-    });
-  }
-
-  QueryBuilder<ProductTable, bool?, QQueryOperations>
-      isRepurchasePriceProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isRepurchasePrice');
     });
   }
 

@@ -182,14 +182,6 @@ abstract class DraftingStorage {
     AuthModel? userInfo,
   });
 
-  /// cập nhật thông tin thu lại sản phẩm
-  Future<DraftingInvoiceTable?> updateCheckRepurchaseProduct({
-    required int cartId,
-    required int productId,
-    required bool isCheck,
-    required XItemType productType,
-  });
-
   /// cập nhật giá mua lại sản phẩm
   Future<DraftingInvoiceTable?> updateRepurchasePriceProduct({
     required int cartId,

@@ -19,7 +19,6 @@ class OrderItemModel {
   int? orderItemType;
   late ProductType productType;
   String? image;
-  int? isGiftTaken;
   double? productPrice;
   int? orderId;
   String? productId;
@@ -53,7 +52,6 @@ class OrderItemModel {
     this.orderItemType,
     required this.productType,
     this.image,
-    this.isGiftTaken,
     this.productPrice,
     this.orderId,
     this.productId,
@@ -102,7 +100,6 @@ class OrderItemModel {
     orderItemType = json['orderItemType'];
     productType = (json['productType'] as int? ?? -1).toProductType;
     image = json['image'];
-    isGiftTaken = json['isGiftTaken'];
     productPrice = Utils.toDouble(json['productPrice']);
     orderId = json['orderId'];
     productId = json['productId'];

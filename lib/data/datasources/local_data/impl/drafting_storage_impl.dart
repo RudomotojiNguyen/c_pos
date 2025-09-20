@@ -1111,36 +1111,6 @@ class DraftingStorageImpl extends DraftingStorage {
   }
 
   @override
-  Future<DraftingInvoiceTable?> updateCheckRepurchaseProduct({
-    required int cartId,
-    required int productId,
-    required bool isCheck,
-    required XItemType productType,
-  }) async {
-    DraftingInvoiceTable? cart = await _findCart(cartId: cartId);
-    if (cart == null) return null;
-
-    // tìm sản phẩm trong productTables theo id và productChildType
-    final product = await isar.productTables
-        .filter()
-        .idEqualTo(productId)
-        .itemTypeEqualTo(productType)
-        .findFirst();
-
-    if (product == null) return null;
-
-    await isar.writeTxn(() async {
-      product.isRepurchasePrice = isCheck;
-      await isar.productTables.put(product);
-    });
-
-    // lấy lại cart
-    cart = await _findCart(cartId: cartId);
-
-    return cart;
-  }
-
-  @override
   Future<DraftingInvoiceTable?> updateRepurchasePriceProduct({
     required int cartId,
     required int productId,

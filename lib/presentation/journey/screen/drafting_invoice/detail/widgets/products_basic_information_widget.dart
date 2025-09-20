@@ -270,16 +270,6 @@ class _ProductsBasicInformationWidgetState
   }
 
   ///
-  /// handle check repurchase price
-  ///
-  _onHandleCheckRepurchasePrice(ProductTable product) {
-    _draftingInvoiceBloc.add(UpdateCheckRepurchaseProductEvent(
-        productId: product.id,
-        isCheck: !product.isCheckRepurchasePrice,
-        productType: product.itemType));
-  }
-
-  ///
   /// handle attach imei
   ///
   // _onHandleAttachImei(ProductTable product) {
@@ -355,9 +345,6 @@ class _ProductsBasicInformationWidgetState
         break;
       case XProductOperationAction.editRepurchasePrice:
         _onHandleEditRepurchasePrice(productItem);
-        break;
-      case XProductOperationAction.checkRepurchasePrice:
-        _onHandleCheckRepurchasePrice(productItem);
         break;
       case XProductOperationAction.addImei:
         _onPressedUpdateImei(productItem);

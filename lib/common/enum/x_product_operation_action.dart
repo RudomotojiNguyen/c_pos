@@ -17,7 +17,6 @@ enum XProductOperationAction {
   addWarrantyImei, // thêm imei bảo hành
   // addAttachImei, // thêm imei sản phẩm mua kèm
   editRepurchasePrice, // sửa giá thu lại
-  checkRepurchasePrice, // thu lại sản phẩm
   updateQuantity, // số lượng
   copyData, // copy thông tin sản phẩm
   update, // cập nhật
@@ -50,8 +49,6 @@ extension XProductOperationActionExtension on XProductOperationAction {
       //   return 'Đính kèm Imei';
       case XProductOperationAction.editRepurchasePrice:
         return 'Chỉnh giá thu lại';
-      case XProductOperationAction.checkRepurchasePrice:
-        return 'Thu lại';
       case XProductOperationAction.copyData:
         return 'Chép thông tin';
       case XProductOperationAction.update:
@@ -116,12 +113,6 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.update:
         return Icon(
           Icons.edit_outlined,
-          color: AppColors.primaryColor,
-          size: 20.sp,
-        );
-      case XProductOperationAction.checkRepurchasePrice:
-        return Icon(
-          Icons.replay_outlined,
           color: AppColors.primaryColor,
           size: 20.sp,
         );

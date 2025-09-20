@@ -138,7 +138,6 @@ class ProductTable {
   String? accessoryGroupId;
   String? accessoryGroupCode;
 
-  bool? isRepurchasePrice; // thu lại sản phẩm
   String? attachedImei; // imei sản phẩm bán kèm
 
   final productsGift = IsarLinks<ProductTable>(); // quà tặng

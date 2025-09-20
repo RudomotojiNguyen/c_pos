@@ -1,4 +1,4 @@
-enum XEnvironment { prod, dev, stag, local }
+enum XEnvironment { prod, dev, stag }
 
 extension XEnvironmentExtension on XEnvironment {
   String get getValue {
@@ -9,8 +9,6 @@ extension XEnvironmentExtension on XEnvironment {
         return 'dev';
       case XEnvironment.stag:
         return 'stag';
-      case XEnvironment.local:
-        return 'local';
     }
   }
 
@@ -22,8 +20,6 @@ extension XEnvironmentExtension on XEnvironment {
         return 'res/configuration/dev.json';
       case XEnvironment.stag:
         return 'res/configuration/stag.json';
-      case XEnvironment.local:
-        return 'res/configuration/local.json';
     }
   }
 }

@@ -36,7 +36,6 @@ class BillItemModel {
   int? discountType;
   List<BillItemModel>? listProductInCombo;
   int? billItemType;
-  bool? isGiftTaken;
   String? accessoryGroupId;
   String? accessoryGroupCode;
   double? repurchasePrice;
@@ -106,7 +105,6 @@ class BillItemModel {
     this.discountType,
     this.listProductInCombo,
     this.billItemType,
-    this.isGiftTaken,
     this.accessoryGroupId,
     this.accessoryGroupCode,
     this.repurchasePrice,
@@ -180,7 +178,6 @@ class BillItemModel {
         ?.map((e) => BillItemModel.fromJson(e))
         .toList();
     billItemType = json['billItemType'];
-    isGiftTaken = json['isGiftTaken'];
     accessoryGroupId = json['accessoryGroupId'];
     accessoryGroupCode = json['accessoryGroupCode'];
     repurchasePrice = Utils.toDouble(json['repurchasePrice']);

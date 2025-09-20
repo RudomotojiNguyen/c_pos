@@ -139,18 +139,6 @@ final class UpdateOrderSubDetailEvent extends DraftingInvoiceEvent {
   UpdateOrderSubDetailEvent({required this.data});
 }
 
-final class UpdateCheckRepurchaseProductEvent extends DraftingInvoiceEvent {
-  final int productId;
-  final bool isCheck;
-  final XItemType productType;
-
-  UpdateCheckRepurchaseProductEvent({
-    required this.productId,
-    required this.isCheck,
-    required this.productType,
-  });
-}
-
 final class UpdateRepurchasePriceProductEvent extends DraftingInvoiceEvent {
   final int productId;
   final double repurchasePrice;

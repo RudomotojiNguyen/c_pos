@@ -18,9 +18,6 @@ class $AssetsConfigurationGen {
   /// File path: assets/configuration/dev.json
   String get dev => 'assets/configuration/dev.json';
 
-  /// File path: assets/configuration/local.json
-  String get local => 'assets/configuration/local.json';
-
   /// File path: assets/configuration/prod.json
   String get prod => 'assets/configuration/prod.json';
 
@@ -28,7 +25,7 @@ class $AssetsConfigurationGen {
   String get staging => 'assets/configuration/staging.json';
 
   /// List of all assets
-  List<String> get values => [dev, local, prod, staging];
+  List<String> get values => [dev, prod, staging];
 }
 
 class $AssetsImageGen {

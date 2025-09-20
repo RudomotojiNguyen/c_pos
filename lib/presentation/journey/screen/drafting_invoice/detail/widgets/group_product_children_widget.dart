@@ -115,19 +115,6 @@ class _ProductChildBuyMoreWidgetState extends State<ProductChildBuyMoreWidget> {
               productPrice.formatCurrency,
               style: AppFont.t.s().primaryColor.w700,
             ),
-            if (widget.product.isCheckRepurchasePrice) ...[
-              BoxSpacer.s8,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Icon(
-                    Icons.replay_outlined,
-                    color: AppColors.primaryColor,
-                    size: 20.sp,
-                  ),
-                ],
-              ),
-            ],
             if (widget.product.getImei.isNotNullOrEmpty) ...[
               BoxSpacer.s4,
               XImeiInfo(imei: widget.product.getImei, isCopyImei: true),

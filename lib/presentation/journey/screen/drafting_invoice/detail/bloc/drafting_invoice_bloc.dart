@@ -95,9 +95,6 @@ class DraftingInvoiceBloc
     /// cập nhật thông tin tiêu điểm
     on<UpdateDiscountBillByPointEvent>(_onUpdateDiscountBillByPoint);
 
-    /// cập nhật thu lại sản phẩm
-    on<UpdateCheckRepurchaseProductEvent>(_onUpdateCheckRepurchaseProduct);
-
     /// cập nhật giá mua lại sản phẩm
     on<UpdateRepurchasePriceProductEvent>(_onUpdateRepurchasePriceProduct);
 
@@ -289,33 +286,6 @@ class DraftingInvoiceBloc
     }
   }
 
-  FutureOr<void> _onUpdateCheckRepurchaseProduct(
-    UpdateCheckRepurchaseProductEvent event,
-    Emitter<DraftingInvoiceState> emit,
-  ) async {
-    try {
-      int? currentDraftId = state.currentDraftId;
-      if (currentDraftId == null) return;
-
-      final res = await draftingStorage.updateCheckRepurchaseProduct(
-        cartId: currentDraftId,
-        productId: event.productId,
-        isCheck: event.isCheck,
-        productType: event.productType,
-      );
-
-      if (res != null) {
-        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
-        updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
-      }
-    } catch (e) {
-      _loggerHelper.logError(
-        message: 'UpdateCheckRepurchaseProductEvent',
-        obj: e,
-      );
-    }
-  }
-
   FutureOr<void> _onUpdateRepurchasePriceProduct(
     UpdateRepurchasePriceProductEvent event,
     Emitter<DraftingInvoiceState> emit,
@@ -388,18 +358,18 @@ class DraftingInvoiceBloc
         'typeTradeIn': state.tradeInType.getTypeValue,
       };
 
-      // final res = await tradeInServices.saveBillTradeIn(data);
+      final res = await tradeInServices.saveBillTradeIn(data);
 
-      // if (res) {
-      //   XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
+      if (res) {
+        XToast.showPositiveSuccess(message: 'Đã tạo phiếu định giá thành công');
 
-      //   /// xóa sau khi tạo thành công
-      //   await draftingStorage.removeCartById(cart.id);
+        /// xóa sau khi tạo thành công
+        await draftingStorage.removeCartById(cart.id);
 
-      //   emit(CreateTradeInbillSuccess(state: state));
-      // } else {
-      emit(CreateFailed(state: state));
-      // }
+        emit(CreateTradeInbillSuccess(state: state));
+      } else {
+        emit(CreateFailed(state: state));
+      }
     } on DioException catch (e) {
       emit(CreateFailed(state: state));
       BaseResponse response = BaseResponse.fromErrorJson(e.response!.data);

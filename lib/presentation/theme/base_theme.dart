@@ -15,7 +15,7 @@ abstract class BaseTheme {
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       cardColor: cardColor,
       dividerColor: dividerColor,
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         backgroundColor: Colors.white,
       ),
       indicatorColor: onPrimarySurfaceColor,
@@ -28,7 +28,7 @@ abstract class BaseTheme {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       bottomNavigationBarTheme: bottomNavigationBarTheme,
       progressIndicatorTheme: progressIndicatorThemeData,
-      bottomAppBarTheme: BottomAppBarTheme(color: colorScheme.surface),
+      bottomAppBarTheme: BottomAppBarThemeData(color: colorScheme.surface),
       disabledColor: disabledColor,
       hintColor: hintColor,
       iconTheme: getIconThemeData,

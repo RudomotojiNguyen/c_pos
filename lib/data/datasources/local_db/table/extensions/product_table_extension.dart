@@ -9,8 +9,6 @@ extension ProductTableExtension on ProductTable {
 
   int get getTotalQuantityInStore => totalQuantityInStore ?? 0;
 
-  bool get isCheckRepurchasePrice => isRepurchasePrice ?? false;
-
   String get getDataCopy => '$productName - $barCode';
 
   /// lấy danh sách quà tặng đã chọn
@@ -174,7 +172,6 @@ extension ProductTableExtension on ProductTable {
       "totalQuantityInStore": totalQuantityInStore,
       "childs": [],
       "productCode": productCode,
-      "isGiftTaken": true,
     };
   }
 
@@ -198,7 +195,6 @@ extension ProductTableExtension on ProductTable {
       "totalQuantityInStock": totalQuantityInStock,
       "totalQuantityInStore": totalQuantityInStore,
       "childs": [],
-      "isGiftTaken": true,
       "quantity": getQuantity,
     };
   }
@@ -263,7 +259,6 @@ extension ProductTableExtension on ProductTable {
           childOfItem?.accessoryGroupId ?? accessoryGroupId ?? '',
       'accessoryGroupCode': childOfItem?.code ?? code ?? '',
       'repurchasePrice': repurchasePrice ?? 0, // Giá thu lại/gift
-      'isGiftTaken': !(isRepurchasePrice ?? false),
       'discountType': childOfItem?.discountType ?? discountType,
       'discountProgramId': childOfItem?.discountProgramId ?? discountProgramId,
       'issuedVat': false,
