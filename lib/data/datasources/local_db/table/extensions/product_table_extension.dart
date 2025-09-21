@@ -102,8 +102,9 @@ extension ProductTableExtension on ProductTable {
 
   /// tính tổng tiền giảm giá của 1 SP = Ctr CK tự động + CK tay
   double get calculatorProductDiscountAmount {
-    final finalProductDiscountAmount =
-        getDiscountAmount + getDiscountAmountByHand;
+    final finalProductDiscountAmount = getDiscountAmount +
+        getDiscountAmountByHand +
+        calculatorAmountDiscountByVoucher;
     return finalProductDiscountAmount > calculatorTotalSellingPrice
         ? calculatorTotalSellingPrice
         : finalProductDiscountAmount;
@@ -273,5 +274,25 @@ extension ProductTableExtension on ProductTable {
       return imei?.imeiNo.isNotNullOrEmpty ?? false;
     }
     return true;
+  }
+
+  /// tính số tiền được giảm giá theo voucher
+  double get calculatorAmountDiscountByVoucher {
+    if (voucher == null) {
+      return 0;
+    }
+    int totalQuantity = voucher?.cumulativeStringValues.isNotEmpty ?? false
+        ? Utils.countQuantityProductApplyMoreBuyMoreDiscount(
+            products,
+            [voucher!],
+          )
+        : getQuantity;
+
+    return Utils.discountAmountByVoucher(
+      usedVoucherQuantity: totalQuantity,
+      voucher: voucher!,
+      sellingPrice: getSellingPrice,
+      quantity: getQuantity,
+    );
   }
 }

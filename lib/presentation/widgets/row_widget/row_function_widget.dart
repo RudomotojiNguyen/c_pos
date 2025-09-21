@@ -20,8 +20,8 @@ class RowFunctionWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           icon,
           BoxSpacer.s8,

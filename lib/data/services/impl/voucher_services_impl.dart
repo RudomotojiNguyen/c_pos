@@ -7,7 +7,7 @@ class VoucherServicesImpl implements VoucherServices {
 
   @override
   Future<List<VoucherModel>> getVoucherUsable(
-      {required int productId,
+      {required String productId,
       required double productAmount,
       int? storeId,
       String? customerPhone}) async {

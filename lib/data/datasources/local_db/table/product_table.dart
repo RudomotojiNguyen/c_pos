@@ -8,6 +8,7 @@ import '../../../../common/constants/app_constants.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/enum/enum.dart';
 import '../../../../presentation/journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
+import '../../../../presentation/utils/utils.dart';
 
 part 'product_table.g.dart';
 
@@ -148,7 +149,6 @@ class ProductTable {
   @ignore
   List<ProductTable>? attachesSelected;
 
-  @ignore
   String? voucherStr;
 
   @ignore

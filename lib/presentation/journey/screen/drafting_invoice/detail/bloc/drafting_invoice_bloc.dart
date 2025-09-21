@@ -140,6 +140,27 @@ class DraftingInvoiceBloc
 
     /// tạo đơn nháp
     on<CreateNewDraftingInvoiceEvent>(_onCreateNewDraftingInvoice);
+
+    /// cập nhật voucher sản phẩm
+    on<UpdateProductVoucherEvent>(_onUpdateProductVoucher);
+  }
+
+  FutureOr<void> _onUpdateProductVoucher(UpdateProductVoucherEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      final res = await draftingStorage.updateProductVoucher(
+        cartId: state.currentDraftId!,
+        product: event.product,
+        voucher: event.voucher,
+      );
+      if (res != null) {
+        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
+
+        /// todo: tính toán lại giá sản phẩm
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateProductVoucherEvent', obj: e);
+    }
   }
 
   FutureOr<void> _onUpdateCurrentStore(
@@ -756,7 +777,7 @@ class DraftingInvoiceBloc
 
       if (isCreateSuccess) {
         /// xóa sau khi tạo thành công
-        // draftingStorage.removeCartById(cart.id);
+        draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
       emit(CreateFailed(state: state));

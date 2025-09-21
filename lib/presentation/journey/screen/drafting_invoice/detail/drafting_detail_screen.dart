@@ -26,6 +26,7 @@ import '../../trade_in/bloc/trade_in_bloc.dart';
 import 'bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
 import 'widgets/search_product_dialog.dart';
+import 'widgets/vouchers_dialog.dart';
 
 part 'widgets/bottom_price_widget.dart';
 part 'widgets/customer_basic_infofmation_widget.dart';

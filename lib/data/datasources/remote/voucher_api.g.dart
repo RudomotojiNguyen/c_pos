@@ -23,7 +23,7 @@ class _VoucherApi implements VoucherApi {
 
   @override
   Future<BaseResponse> getVoucherUsable({
-    required int productId,
+    required String productId,
     required double productAmount,
     int? storeId,
     String? customerPhone,

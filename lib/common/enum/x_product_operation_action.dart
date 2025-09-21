@@ -22,6 +22,8 @@ enum XProductOperationAction {
   update, // cập nhật
   customerInfo, // thông tin khách hàng
   addMore, // lên đơn mới
+  voucher, // thêm voucher
+  removeVoucher, // xóa voucher
 }
 
 extension XProductOperationActionExtension on XProductOperationAction {
@@ -57,6 +59,8 @@ extension XProductOperationActionExtension on XProductOperationAction {
         return 'Thông tin khách hàng';
       case XProductOperationAction.addMore:
         return 'Mua';
+      case XProductOperationAction.voucher:
+        return 'Voucher';
       default:
         return '';
     }
@@ -126,6 +130,12 @@ extension XProductOperationActionExtension on XProductOperationAction {
         return Assets.svg.addToCart.svg(
           width: 24.sp,
           height: 24.sp,
+        );
+      case XProductOperationAction.voucher:
+        return Icon(
+          Icons.loyalty_outlined,
+          color: AppColors.primaryColor,
+          size: 20.sp,
         );
       default:
         return BoxSpacer.blank;

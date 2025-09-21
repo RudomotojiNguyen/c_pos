@@ -74,68 +74,42 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
 
   Widget _renderOperation(
       BuildContext context, Future<void> Function() closeOverlay) {
+    List<XProductOperationAction> productOperationActions = [
+      XProductOperationAction.addGift,
+      XProductOperationAction.addAttach,
+      XProductOperationAction.note,
+      XProductOperationAction.remove,
+      XProductOperationAction.discountByHand,
+    ];
+    if (widget.product.productType == ProductType.imei) {
+      /// thêm imei
+      productOperationActions.add(XProductOperationAction.addImei);
+    }
+
+    /// kiểm tra nếu chưa có voucher thì thêm voucher
+    if (widget.product.voucher == null) {
+      productOperationActions.add(XProductOperationAction.voucher);
+    }
     return Container(
       padding: EdgeInsets.all(8.sp),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RowFunctionWidget(
-            title: XProductOperationAction.addGift.getTitle,
-            icon: XProductOperationAction.addGift.getIcon,
+      width: 240.sp,
+      child: ListView.separated(
+        separatorBuilder: (context, index) => BoxSpacer.s2,
+        padding: EdgeInsets.zero,
+        itemCount: productOperationActions.length,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final action = productOperationActions[index];
+          return RowFunctionWidget(
+            title: action.getTitle,
+            icon: action.getIcon,
             onPressed: () async {
               await closeOverlay();
-              widget.callBackParentAction(
-                  action: XProductOperationAction.addGift);
+              widget.callBackParentAction(action: action);
             },
-          ),
-          RowFunctionWidget(
-            title: XProductOperationAction.addAttach.getTitle,
-            icon: XProductOperationAction.addAttach.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              widget.callBackParentAction(
-                  action: XProductOperationAction.addAttach);
-            },
-          ),
-          if (widget.product.productType == ProductType.imei) ...[
-            RowFunctionWidget(
-              title: XProductOperationAction.addImei.getTitle,
-              icon: XProductOperationAction.addImei.getIcon,
-              onPressed: () async {
-                await closeOverlay();
-                widget.callBackParentAction(
-                    action: XProductOperationAction.addImei);
-              },
-            ),
-          ],
-          RowFunctionWidget(
-            title: XProductOperationAction.note.getTitle,
-            icon: XProductOperationAction.note.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              widget.callBackParentAction(action: XProductOperationAction.note);
-            },
-          ),
-          RowFunctionWidget(
-            title: XProductOperationAction.remove.getTitle,
-            icon: XProductOperationAction.remove.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              widget.callBackParentAction(
-                  action: XProductOperationAction.remove);
-            },
-          ),
-          RowFunctionWidget(
-            title: XProductOperationAction.discountByHand.getTitle,
-            icon: XProductOperationAction.discountByHand.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              widget.callBackParentAction(
-                  action: XProductOperationAction.discountByHand);
-            },
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -235,6 +209,15 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
             ],
           ],
         ),
+        if (widget.product.voucher != null) ...[
+          XStatus(
+              statusStr: widget.product.voucher!.getName,
+              bgColor: AppColors.primaryColor,
+              onClose: () {
+                widget.callBackParentAction(
+                    action: XProductOperationAction.removeVoucher);
+              }),
+        ],
         if (widget.productsCombo.isNotEmpty &&
             widget.product.productType == ProductType.combo) ...[
           ListView.separated(

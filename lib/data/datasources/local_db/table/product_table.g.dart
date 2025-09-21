@@ -294,33 +294,38 @@ const ProductTableSchema = CollectionSchema(
       name: r'unitId',
       type: IsarType.long,
     ),
-    r'warrantyAddress': PropertySchema(
+    r'voucherStr': PropertySchema(
       id: 55,
+      name: r'voucherStr',
+      type: IsarType.string,
+    ),
+    r'warrantyAddress': PropertySchema(
+      id: 56,
       name: r'warrantyAddress',
       type: IsarType.string,
     ),
     r'warrantyDescription': PropertySchema(
-      id: 56,
+      id: 57,
       name: r'warrantyDescription',
       type: IsarType.string,
     ),
     r'warrantyMonthNo': PropertySchema(
-      id: 57,
+      id: 58,
       name: r'warrantyMonthNo',
       type: IsarType.string,
     ),
     r'warrantyPackageId': PropertySchema(
-      id: 58,
+      id: 59,
       name: r'warrantyPackageId',
       type: IsarType.long,
     ),
     r'warrantyPhone': PropertySchema(
-      id: 59,
+      id: 60,
       name: r'warrantyPhone',
       type: IsarType.string,
     ),
     r'wholesalePrice': PropertySchema(
-      id: 60,
+      id: 61,
       name: r'wholesalePrice',
       type: IsarType.double,
     )
@@ -509,6 +514,12 @@ int _productTableEstimateSize(
     }
   }
   {
+    final value = object.voucherStr;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.warrantyAddress;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -596,12 +607,13 @@ void _productTableSerialize(
   writer.writeLong(offsets[52], object.totalQuantityInStore);
   writer.writeLong(offsets[53], object.totalQuantityInTransfer);
   writer.writeLong(offsets[54], object.unitId);
-  writer.writeString(offsets[55], object.warrantyAddress);
-  writer.writeString(offsets[56], object.warrantyDescription);
-  writer.writeString(offsets[57], object.warrantyMonthNo);
-  writer.writeLong(offsets[58], object.warrantyPackageId);
-  writer.writeString(offsets[59], object.warrantyPhone);
-  writer.writeDouble(offsets[60], object.wholesalePrice);
+  writer.writeString(offsets[55], object.voucherStr);
+  writer.writeString(offsets[56], object.warrantyAddress);
+  writer.writeString(offsets[57], object.warrantyDescription);
+  writer.writeString(offsets[58], object.warrantyMonthNo);
+  writer.writeLong(offsets[59], object.warrantyPackageId);
+  writer.writeString(offsets[60], object.warrantyPhone);
+  writer.writeDouble(offsets[61], object.wholesalePrice);
 }
 
 ProductTable _productTableDeserialize(
@@ -663,12 +675,12 @@ ProductTable _productTableDeserialize(
     totalQuantityInStore: reader.readLongOrNull(offsets[52]),
     totalQuantityInTransfer: reader.readLongOrNull(offsets[53]),
     unitId: reader.readLongOrNull(offsets[54]),
-    warrantyAddress: reader.readStringOrNull(offsets[55]),
-    warrantyDescription: reader.readStringOrNull(offsets[56]),
-    warrantyMonthNo: reader.readStringOrNull(offsets[57]),
-    warrantyPackageId: reader.readLongOrNull(offsets[58]),
-    warrantyPhone: reader.readStringOrNull(offsets[59]),
-    wholesalePrice: reader.readDoubleOrNull(offsets[60]),
+    warrantyAddress: reader.readStringOrNull(offsets[56]),
+    warrantyDescription: reader.readStringOrNull(offsets[57]),
+    warrantyMonthNo: reader.readStringOrNull(offsets[58]),
+    warrantyPackageId: reader.readLongOrNull(offsets[59]),
+    warrantyPhone: reader.readStringOrNull(offsets[60]),
+    wholesalePrice: reader.readDoubleOrNull(offsets[61]),
   );
   object.attachedImei = reader.readStringOrNull(offsets[3]);
   object.belongBillDetailId = reader.readStringOrNull(offsets[5]);
@@ -678,6 +690,7 @@ ProductTable _productTableDeserialize(
   object.id = id;
   object.productChildComboStr = reader.readStringOrNull(offsets[33]);
   object.productChildStr = reader.readStringOrNull(offsets[34]);
+  object.voucherStr = reader.readStringOrNull(offsets[55]);
   return object;
 }
 
@@ -809,10 +822,12 @@ P _productTableDeserializeProp<P>(
     case 57:
       return (reader.readStringOrNull(offset)) as P;
     case 58:
-      return (reader.readLongOrNull(offset)) as P;
-    case 59:
       return (reader.readStringOrNull(offset)) as P;
+    case 59:
+      return (reader.readLongOrNull(offset)) as P;
     case 60:
+      return (reader.readStringOrNull(offset)) as P;
+    case 61:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -7024,6 +7039,160 @@ extension ProductTableQueryFilter
   }
 
   QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'voucherStr',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'voucherStr',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'voucherStr',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'voucherStr',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'voucherStr',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'voucherStr',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'voucherStr',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'voucherStr',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'voucherStr',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'voucherStr',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'voucherStr',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
+      voucherStrIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'voucherStr',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterFilterCondition>
       warrantyAddressIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -8649,6 +8818,19 @@ extension ProductTableQuerySortBy
     });
   }
 
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> sortByVoucherStr() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'voucherStr', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
+      sortByVoucherStrDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'voucherStr', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       sortByWarrantyAddress() {
     return QueryBuilder.apply(this, (query) {
@@ -9468,6 +9650,19 @@ extension ProductTableQuerySortThenBy
     });
   }
 
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy> thenByVoucherStr() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'voucherStr', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
+      thenByVoucherStrDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'voucherStr', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProductTable, ProductTable, QAfterSortBy>
       thenByWarrantyAddress() {
     return QueryBuilder.apply(this, (query) {
@@ -9936,6 +10131,13 @@ extension ProductTableQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ProductTable, ProductTable, QDistinct> distinctByVoucherStr(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'voucherStr', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ProductTable, ProductTable, QDistinct> distinctByWarrantyAddress(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -10343,6 +10545,12 @@ extension ProductTableQueryProperty
   QueryBuilder<ProductTable, int?, QQueryOperations> unitIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'unitId');
+    });
+  }
+
+  QueryBuilder<ProductTable, String?, QQueryOperations> voucherStrProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'voucherStr');
     });
   }
 

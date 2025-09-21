@@ -180,7 +180,7 @@ mixin DialogHelper {
 
     _allPopups[keyDialog] = context;
 
-    await showModalBottomSheet(
+    return await showModalBottomSheet(
         context: context,
         enableDrag: enableDrag,
         isScrollControlled: isScrollControlled,
@@ -230,8 +230,8 @@ mixin DialogHelper {
           );
         }).then((value) {
       dismissPopup(key: keyDialog, willPop: false);
+      return value;
     });
-    return null;
   }
 
   Future<void> showConfirmDialog(

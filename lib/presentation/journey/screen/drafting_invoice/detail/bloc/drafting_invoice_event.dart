@@ -220,3 +220,10 @@ final class UpdateCurrentStoreEvent extends DraftingInvoiceEvent {
 
   UpdateCurrentStoreEvent({this.store});
 }
+
+final class UpdateProductVoucherEvent extends DraftingInvoiceEvent {
+  final VoucherModel? voucher;
+  final ProductTable product;
+
+  UpdateProductVoucherEvent({this.voucher, required this.product});
+}

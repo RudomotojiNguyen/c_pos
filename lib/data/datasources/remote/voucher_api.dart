@@ -10,7 +10,7 @@ abstract class VoucherApi {
 
   @GET('v1/vouchers/usable')
   Future<BaseResponse> getVoucherUsable({
-    @Query('productId') required int productId,
+    @Query('productId') required String productId,
     @Query('productAmount') required double productAmount,
     @Query('storeId') int? storeId,
     @Query('customerPhone') String? customerPhone,

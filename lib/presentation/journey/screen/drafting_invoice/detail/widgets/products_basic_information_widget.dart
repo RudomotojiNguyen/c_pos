@@ -91,9 +91,10 @@ class _ProductsBasicInformationWidgetState
                       callBackChildAction: _onHandleChildAction,
                       callBackParentAction: ({required action, quantity}) =>
                           _onHandleParentAction(
-                              action: action,
-                              product: product,
-                              quantity: quantity),
+                        action: action,
+                        product: product,
+                        quantity: quantity,
+                      ),
                     );
                   },
                 );
@@ -106,14 +107,6 @@ class _ProductsBasicInformationWidgetState
   ///
   /// METHOD
   ///
-  // _onDetail(ProductTable product) {
-  //   mainRouter.pushNamed(
-  //     context,
-  //     routeName: RouteName.productDetail,
-  //     queryParameters: {'productId': product.productId.toString()},
-  //     extra: product,
-  //   );
-  // }
 
   _onAddProduct(CartType cartType) {
     showXBottomSheet(
@@ -315,6 +308,12 @@ class _ProductsBasicInformationWidgetState
       case XProductOperationAction.copyData:
         _onCopyData(product);
         break;
+      case XProductOperationAction.voucher:
+        _onAddVoucher(product);
+        break;
+      case XProductOperationAction.removeVoucher:
+        _onRemoveVoucher(product);
+        break;
       default:
         break;
     }
@@ -322,6 +321,32 @@ class _ProductsBasicInformationWidgetState
 
   _onCopyData(ProductTable product) {
     Utils.copyToClipboard(context, text: product.getDataCopy);
+  }
+
+  _onRemoveVoucher(ProductTable product) {
+    _draftingInvoiceBloc.add(UpdateProductVoucherEvent(
+      voucher: null,
+      product: product,
+    ));
+  }
+
+  _onAddVoucher(ProductTable product) async {
+    final voucher = await showXBottomSheet(
+      context,
+      maxHeight: 0.7.sh,
+      body: VouchersDialog(
+        productId: product.productId.toString(),
+        productAmount: product.getSellingPrice,
+        storeId: _draftingInvoiceBloc.state.currentStore?.getStoreId,
+        customerPhone: _draftingInvoiceBloc.state.customer?.getCustomerPhone,
+      ),
+    );
+    if (voucher != null) {
+      _draftingInvoiceBloc.add(UpdateProductVoucherEvent(
+        voucher: voucher,
+        product: product,
+      ));
+    }
   }
 
   // xử lý action của các thằng con
