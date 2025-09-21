@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:c_pos/common/extensions/extension.dart';
@@ -13,6 +12,7 @@ import '../../../../../../common/enum/enum.dart';
 import '../../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../../data/datasources/local_db/local_db.dart';
 import 'package:c_pos/data/models/models.dart';
+import '../../../../../../data/models/employee_sub_detail_model.dart';
 import '../../../../../../data/services/services.dart';
 import '../../../../../utils/utils.dart';
 
@@ -36,7 +36,7 @@ class DraftingInvoiceBloc
     required this.billServices,
     required this.orderServices,
     required this.tradeInServices,
-  }) : super(const DraftingInvoiceInitial(
+  }) : super(DraftingInvoiceInitial(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
           discountOfBill: 0,
@@ -44,10 +44,11 @@ class DraftingInvoiceBloc
           finalPrice: 0,
           mustPay: 0,
           tradeInType: TradeInType.tradeIn,
-          programingSelected: {},
+          programingSelected: const {},
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: EmployeeSubDetailModel(),
         )) {
     /// lấy thông tin dơn nháp trong LS
     on<GetCurrentDraftEvent>(_onGetCurrentDraft);
@@ -60,9 +61,6 @@ class DraftingInvoiceBloc
 
     /// xóa thông tin khách hàng
     on<ClearCustomerEvent>(_onClearCustomer);
-
-    /// thêm sản phẩm vào đơn nháp
-    // on<AddProductEvent>(_onAddProduct);
 
     /// thêm/cập nhật sản phẩm vào đơn nháp
     on<UpdateProductEvent>(_onUpdateProduct);
@@ -190,26 +188,24 @@ class DraftingInvoiceBloc
       ProductTable product =
           event.product.convertToTable(itemType: XItemType.main);
 
-      /// todo: lấy giá ưu đãi
-
       // lấy danh sách quà tặng, chương trình khuyến mãi,
-      // List<ProductModel> resGifts = [];
-      // try {
-      //   resGifts = await productServices.getProductsAttach(
-      //       productId: product.productId!);
-      // } catch (e) {
-      //   _loggerHelper.logError(
-      //       message: 'AddProductFromSearchToCartEvent', obj: e);
-      // }
+      List<ProductModel> resGifts = [];
+      try {
+        resGifts = event.product.gifts ?? [];
+      } catch (e) {
+        _loggerHelper.logError(
+            message: 'AddProductFromSearchToCartEvent', obj: e);
+      }
 
-      // List<ProductTable> gifts = resGifts
-      //     .map((e) => e.convertToTable(itemType: XItemType.gift))
-      //     .toList();
+      List<ProductTable> gifts = resGifts
+          .map((e) => e.convertToTable(itemType: XItemType.gift))
+          .toList();
 
       // gọi tới service storage để lưu product
       final res = await _addItemToCart(
         product: product,
         cartId: state.currentDraftId!,
+        gifts: gifts,
       );
 
       if (res != null) {
@@ -693,6 +689,7 @@ class DraftingInvoiceBloc
     try {
       int? currentDraftId = state.currentDraftId;
       if (currentDraftId == null) return;
+
       final cart = await draftingStorage.getCart(currentDraftId);
       if (cart == null) return;
       bool isCreateSuccess = true;
@@ -702,34 +699,36 @@ class DraftingInvoiceBloc
       if (cart.validateBill && !{CartType.tradeIn}.contains(state.cartType)) {
         final formData = cart.formatBodyData();
 
+        /// todo: validate data
+
         await Future.delayed(const Duration(seconds: 2), () {
           debugPrint('CreateFailed');
-          debugPrint(jsonEncode(formData));
+          Utils.printMultiLine(formData);
           emit(CreateFailed(state: state));
         });
 
         /// check type of draft => send by api
         if (state.cartType == CartType.retail) {
-          // final response = await billRepository.createBill(formData);
-          // isCreateSuccess = response.checkIsSuccess;
-          // if (response.checkIsSuccess) {
-          //   XToast.showPositiveSuccess(message: response.getMess);
-          //   emit(CreateBillSuccess(id: response.data['id']));
-          // } else {
-          //   // emit(CreateFailed(state: state));
-          //   XToast.showNegativeMessage(message: response.toString());
-          // }
+          final response = await billServices.createBill(formData);
+          isCreateSuccess = response.checkIsSuccess;
+          if (response.checkIsSuccess) {
+            XToast.showPositiveSuccess(message: response.getMess);
+            emit(CreateBillSuccess(id: response.data['billNumber']));
+          } else {
+            emit(CreateFailed(state: state));
+            XToast.showNegativeMessage(message: response.toString());
+          }
         }
         if (state.cartType == CartType.updateBill) {
-          // final response = await billRepository.updateBill(formData);
-          // isCreateSuccess = response.checkIsSuccess;
-          // if (response.checkIsSuccess) {
-          //   XToast.showPositiveSuccess(message: response.getMess);
-          //   emit(CreateBillSuccess(id: cart.billId!));
-          // } else {
-          //   // emit(CreateFailed(state: state));
-          //   XToast.showNegativeMessage(message: response.toString());
-          // }
+          final response = await billServices.updateBill(formData);
+          isCreateSuccess = response.checkIsSuccess;
+          if (response.checkIsSuccess) {
+            XToast.showPositiveSuccess(message: response.getMess);
+            emit(CreateBillSuccess(id: cart.billId!));
+          } else {
+            emit(CreateFailed(state: state));
+            XToast.showNegativeMessage(message: response.toString());
+          }
         }
         if (state.cartType == CartType.order) {
           final response = await orderServices.createOrder(formData);
@@ -757,7 +756,7 @@ class DraftingInvoiceBloc
 
       if (isCreateSuccess) {
         /// xóa sau khi tạo thành công
-        draftingStorage.removeCartById(cart.id);
+        // draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
       emit(CreateFailed(state: state));
@@ -1042,7 +1041,7 @@ class DraftingInvoiceBloc
     Emitter<DraftingInvoiceState> emit,
   ) async {
     try {
-      emit(const IsGettingDetail());
+      emit(IsGettingDetail());
       final res = await draftingStorage.getCart(event.currentDraftId);
       if (res == null) {
         emit(GetCurrentDraftDataError(state: state));
@@ -1050,7 +1049,8 @@ class DraftingInvoiceBloc
       emit(
         GetCurrentDraftDataSuccess(
           state: state,
-          orderId: res!.orderId,
+          employeeSubDetail: res!.employeeSubDetail ?? EmployeeSubDetailModel(),
+          orderId: res.orderId,
           cartType: res.typeCart,
           billNumber: res.billNumber,
           currentDraftId: res.id,

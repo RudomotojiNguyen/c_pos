@@ -12,6 +12,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../data/datasources/local_db/local_db.dart';
+import '../../../../../data/models/employee_sub_detail_model.dart';
 import '../../../../../gen/gen.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
@@ -24,6 +25,7 @@ import '../../store/bloc/store_bloc.dart';
 import '../../trade_in/bloc/trade_in_bloc.dart';
 import 'bloc/drafting_invoice_bloc.dart';
 import 'widgets/payment_method_item_widget.dart';
+import 'widgets/search_product_dialog.dart';
 
 part 'widgets/bottom_price_widget.dart';
 part 'widgets/customer_basic_infofmation_widget.dart';
@@ -43,6 +45,7 @@ part 'widgets/delivery_widget.dart';
 part 'widgets/order_sub_detail_widget.dart';
 part 'widgets/current_store.dart';
 part 'widgets/trade_in_program_criteria_group_widget.dart';
+part 'widgets/employee_of_bill_widget.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});
@@ -63,7 +66,9 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
+    if (widget.id.isNotEmpty) {
+      _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
+    }
   }
 
   @override
@@ -113,63 +118,60 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
           current is GetCurrentDraftDataError,
       listener: _listener,
       builder: (context, state) {
-        if (state is IsGettingDetail) {
-          return const XLoading();
-        }
         if (state is GetCurrentDraftDataError) {
           return const EmptyDataWidget(
             emptyMessage: 'Lỗi khi lấy thông tin đơn nháp',
           );
         }
-        if (state is GetCurrentDraftDataSuccess) {
-          return SmartRefresher(
-            controller: _refreshController,
-            enablePullDown: true,
-            header: const RefreshWidget(),
-            onRefresh: () async {
-              _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
-              _refreshController.refreshCompleted();
-            },
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // hiện thông tin billnumber và ordernumber
-                  _orderInfo(),
+        return SmartRefresher(
+          controller: _refreshController,
+          enablePullDown: true,
+          header: const RefreshWidget(),
+          onRefresh: () async {
+            _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
+            _refreshController.refreshCompleted();
+          },
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                /// hiện thông tin billnumber và ordernumber
+                _orderInfo(),
 
-                  // hiện ở tất cả CartType
-                  const CustomerBillInformationWidget(),
+                /// hiện ở tất cả CartType
+                const CustomerBillInformationWidget(),
 
-                  // CartType là tradeIn
-                  /// todo: nào làm thêm phần thu cũ thì xem làm lại chỗ này
-                  const TypeTradeInWidget(),
-                  const ProductTradeInWidget(),
-                  DeviceStatusWidget(tradeInBloc: _tradeInBloc),
+                /// thông tin nhân viên
+                const EmployeeOfBillWidget(),
 
-                  /// cửa hàng đang chọn
-                  const CurrentStoreWidget(),
+                /// CartType là tradeIn
+                /// todo: nào làm thêm phần thu cũ thì xem làm lại chỗ này
+                const TypeTradeInWidget(),
+                const ProductTradeInWidget(),
+                DeviceStatusWidget(tradeInBloc: _tradeInBloc),
 
-                  // CartType là updateOrder, order, updateBill, retail
-                  const ProductsBasicInformationWidget(),
-                  const BillNoteWidget(),
-                  const DeliveryWidget(),
-                  const OrderSubDetailWidget(),
-                  const PromotionWidget(),
-                  const MemberDiscountWidget(),
-                  const PaymentInformationWidget(),
-                  const PaymentMethodOfBillWidget(),
+                /// cửa hàng đang chọn
+                const CurrentStoreWidget(),
 
-                  summaryAmountWidget(),
+                /// CartType là updateOrder, order, updateBill, retail
+                const ProductsBasicInformationWidget(),
+                const BillNoteWidget(),
+                const DeliveryWidget(),
+                const OrderSubDetailWidget(),
+                const PromotionWidget(),
+                const MemberDiscountWidget(),
+                const PaymentInformationWidget(),
+                const PaymentMethodOfBillWidget(),
 
-                  // hiện ở tất cả CartType
-                  const BottomPriceWidget(),
-                ],
-              ),
+                summaryAmountWidget(),
+
+                // hiện ở tất cả CartType
+                const BottomPriceWidget(),
+              ],
             ),
-          );
-        }
-        return BoxSpacer.blank;
+          ),
+        );
       },
     );
   }
@@ -209,6 +211,13 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
 
 extension _DraftDetailScreenStateExtension on _DraftingDetailScreenState {
   void _listener(BuildContext context, DraftingInvoiceState state) {
+    if (state is IsGettingDetail) {
+      XToast.loading();
+    } else {
+      XToast.closeAllLoading();
+    }
+
+    //
     if (state is CreateTradeInbillSuccess) {
       MainRouter.instance.goNamed(context, routeName: RouteName.tradeIn);
     }

@@ -213,8 +213,8 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                 title: e.getTitle,
                 icon: e.getIcon,
                 onPressed: () async {
-                  widget.onPressed?.call(action: e);
                   await closeOverlay();
+                  widget.onPressed?.call(action: e);
                 },
               ))
           .toList(),

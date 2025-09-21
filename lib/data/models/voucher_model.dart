@@ -93,6 +93,11 @@ class VoucherModel {
   String get getName => voucherName ?? '';
 
   XDiscountType get getDiscountType => type ?? XDiscountType.none;
+
+  @override
+  String toString() {
+    return jsonEncode(toJson());
+  }
 }
 
 class CumulativeValueModel {

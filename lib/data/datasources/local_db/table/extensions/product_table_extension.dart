@@ -215,8 +215,6 @@ extension ProductTableExtension on ProductTable {
       'discountAmount': calculatorProductDiscountAmount,
       'discountType': getDiscountType.value,
       'merchantId': getMerchantId,
-      'flexibleComboId': flexibleComboId,
-      'flexibleComboItemId': flexibleComboItemId,
       'productCategory': productCategory,
       'barCode': barCode,
       'quantityInStock': totalQuantityInStock,
@@ -228,7 +226,6 @@ extension ProductTableExtension on ProductTable {
       'productNameVat': productNameVat,
       'listedPrice': listedPrice,
       'orderItemType': itemType.getValueType,
-      'comboItems': [], // todo: check lại xem có sản phẩm combo hay không
     };
 
     data['gifts'] = getGifts.map((e) => e.formatChild(XItemType.gift)).toList();
@@ -258,13 +255,14 @@ extension ProductTableExtension on ProductTable {
       'accessoryGroupId':
           childOfItem?.accessoryGroupId ?? accessoryGroupId ?? '',
       'accessoryGroupCode': childOfItem?.code ?? code ?? '',
-      'repurchasePrice': repurchasePrice ?? 0, // Giá thu lại/gift
+      'repurchasePrice': repurchasePrice ?? 0,
       'discountType': childOfItem?.discountType ?? discountType,
       'discountProgramId': childOfItem?.discountProgramId ?? discountProgramId,
       'issuedVat': false,
       'merchantId': merchantId,
       'checked': true,
       'externalImeiNo': attachedImei,
+      // 'belongBillDetailId': belongBillDetailId,
     };
   }
 

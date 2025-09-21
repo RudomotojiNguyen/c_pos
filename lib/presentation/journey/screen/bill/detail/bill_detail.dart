@@ -1,14 +1,11 @@
 import 'package:c_pos/common/enum/enum.dart';
-import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../../common/configs/box.dart';
 import '../../../../../common/di/injection/injection.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../setting/bloc/setting_bloc.dart';
 import '../list/bloc/bill_bloc.dart';
@@ -41,7 +38,7 @@ class _BillDetailState extends XStateWidget<BillDetail> {
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return XAppBar(
+    return const XAppBar(
       title: 'Chi tiết',
       actions: [
         /// todo: làm sau
@@ -145,82 +142,82 @@ class _BillDetailState extends XStateWidget<BillDetail> {
     );
   }
 
-  Widget _rightActions() {
-    return BlocBuilder<BillBloc, BillState>(
-      bloc: _billBloc,
-      builder: (context, state) {
-        final BillModel? billDetail =
-            state is GetBillDetailSuccess ? state.billDetail : null;
+  // Widget _rightActions() {
+  //   return BlocBuilder<BillBloc, BillState>(
+  //     bloc: _billBloc,
+  //     builder: (context, state) {
+  //       final BillModel? billDetail =
+  //           state is GetBillDetailSuccess ? state.billDetail : null;
 
-        if (billDetail != null) {
-          List<Widget> operations = [];
+  //       if (billDetail != null) {
+  //         List<Widget> operations = [];
 
-          if (billDetail.checkCanEditBill) {
-            // edit phiếu
-            operations.add(XBaseButton(
-              padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 16.sp),
-              onPressed: () {
-                _convertToCartTable(
-                  typeCart: CartType.updateBill,
-                  billDetail: billDetail,
-                );
-              },
-              child: Text(
-                'Cập nhật đơn',
-                style: AppFont.t.s(11),
-              ),
-            ));
-          }
+  //         if (billDetail.checkCanEditBill) {
+  //           // edit phiếu
+  //           operations.add(XBaseButton(
+  //             padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 16.sp),
+  //             onPressed: () {
+  //               _convertToCartTable(
+  //                 typeCart: CartType.updateBill,
+  //                 billDetail: billDetail,
+  //               );
+  //             },
+  //             child: Text(
+  //               'Cập nhật đơn',
+  //               style: AppFont.t.s(11),
+  //             ),
+  //           ));
+  //         }
 
-          if (operations.isNotEmpty) {
-            return XBaseButton(
-              baseButtonType: BaseButtonType.tapOperation,
-              secondaryWidgetBuilder: (closeOverlay) =>
-                  _renderSecondaryWidget(operations, closeOverlay),
-              child: Icon(
-                Icons.more_vert,
-                size: 24.sp,
-                color: AppColors.iconColor,
-              ),
-            );
-          }
-        }
+  //         if (operations.isNotEmpty) {
+  //           return XBaseButton(
+  //             baseButtonType: BaseButtonType.tapOperation,
+  //             secondaryWidgetBuilder: (closeOverlay) =>
+  //                 _renderSecondaryWidget(operations, closeOverlay),
+  //             child: Icon(
+  //               Icons.more_vert,
+  //               size: 24.sp,
+  //               color: AppColors.iconColor,
+  //             ),
+  //           );
+  //         }
+  //       }
 
-        return BoxSpacer.blank;
-      },
-    );
-  }
+  //       return BoxSpacer.blank;
+  //     },
+  //   );
+  // }
 
-  Widget _renderSecondaryWidget(
-      List<Widget> operations, Future<void> Function() closeOverlay) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: operations
-          .map((e) => GestureDetector(
-                onTap: () async {
-                  await closeOverlay();
-                },
-                child: e,
-              ))
-          .toList(),
-    );
-  }
+  // Widget _renderSecondaryWidget(
+  //     List<Widget> operations, Future<void> Function() closeOverlay) {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: operations
+  //         .map((e) => GestureDetector(
+  //               onTap: () async {
+  //                 await closeOverlay();
+  //               },
+  //               child: e,
+  //             ))
+  //         .toList(),
+  //   );
+  // }
 
   ///
   /// METHOD
   ///
-  _convertToCartTable(
-      {required CartType typeCart, required BillModel billDetail}) async {
-    // final cart = await _cartStorage.convertBillDetailToCartStorage(
-    //   billDetail: billDetail,
-    //   typeCart: typeCart,
-    // );
-    // if (cart != null) {
-    //   MainRouter.instance.pushNamed(
-    //     context,
-    //     routeName: CoreRouteName.draftBillDetail,
-    //     queryParameters: {'currentDraftId': cart.id.toString()},
-    //   );
-    // }
-  }
+  // _convertToCartTable(
+  //     {required CartType typeCart, required BillModel billDetail}) async {
+  //   // final cart = await _cartStorage.convertBillDetailToCartStorage(
+  //   //   billDetail: billDetail,
+  //   //   typeCart: typeCart,
+  //   // );
+  //   // if (cart != null) {
+  //   //   MainRouter.instance.pushNamed(
+  //   //     context,
+  //   //     routeName: CoreRouteName.draftBillDetail,
+  //   //     queryParameters: {'currentDraftId': cart.id.toString()},
+  //   //   );
+  //   // }
+  // }
 }

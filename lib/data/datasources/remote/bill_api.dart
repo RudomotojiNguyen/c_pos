@@ -32,11 +32,11 @@ abstract class BillApi {
 
   /// tạo hóa đơn
   ///
-  @POST('bills/mobile/v2')
+  @POST('v1/bills')
   Future<BaseResponse> createBill(@Body() Map<String, dynamic> data);
 
   /// cập nhật hóa đơn
   ///
-  @PUT('bills/v2')
+  @PUT('v1/bills/')
   Future<BaseResponse> updateBill(@Body() Map<String, dynamic> data);
 }

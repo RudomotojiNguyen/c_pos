@@ -31,29 +31,6 @@ abstract class ProductServices {
     SearchType searchType = SearchType.product,
   });
 
-  // Future<ProductModel> getProductById({required String productId});
-
-  // Future<List<ProductModel>> getProductsWarranty({
-  //   required String productId,
-  //   required int page,
-  //   required int pageSize,
-  //   String? searchProduct,
-  // });
-
-  // Future<List<ProductModel>> getProductsAttach({
-  //   required String productId,
-  //   int? page,
-  //   int? pageSize,
-  //   String? searchProduct,
-  // });
-
-  // Future<List<ProductModel>> getPromotionProduct({
-  //   required String productId,
-  //   required int page,
-  //   required int pageSize,
-  //   String? searchProduct,
-  // });
-
   Future<List<ProductModel>> getGiftsProduct({
     required String productId,
     String? productName,
@@ -97,5 +74,13 @@ abstract class ProductServices {
     String? searchText,
     bool? inStock,
     int? storeId,
+  });
+
+  Future<List<ProductModel>> getProductForSale({
+    required int page,
+    required int size,
+    String? searchText,
+    int? storeId,
+    SearchType searchType = SearchType.product,
   });
 }

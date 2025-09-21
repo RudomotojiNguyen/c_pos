@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -345,5 +346,20 @@ class Utils {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Đã sao chép!')),
     );
+  }
+
+  /// hàm in nhiều dòng
+  static void printMultiLine(dynamic data) {
+    // Nếu muốn biết các dòng này thuộc cùng 1 lần in, có thể truyền thêm một tham số optional là "tag" hoặc "label" để đánh dấu.
+    // Hoặc đơn giản hơn, in thêm prefix cho từng dòng, ví dụ: [printMultiLine-<hash>] hoặc [printMultiLine-<timestamp>]
+    // Dưới đây là ví dụ thêm tag theo timestamp để biết các dòng cùng 1 lần in:
+    const int chunkSize = 800;
+    final String jsonStr = jsonEncode(data);
+    final String tag = DateTime.now().millisecondsSinceEpoch.toString();
+    for (var i = 0; i < jsonStr.length; i += chunkSize) {
+      debugPrint(
+        '[printMultiLine-$tag] ${jsonStr.substring(i, i + chunkSize > jsonStr.length ? jsonStr.length : i + chunkSize)}',
+      );
+    }
   }
 }

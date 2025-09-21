@@ -126,7 +126,7 @@ class _BillApi implements BillApi {
     )
         .compose(
           _dio.options,
-          'bills/mobile/v2',
+          'v1/bills',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -160,7 +160,7 @@ class _BillApi implements BillApi {
     )
         .compose(
           _dio.options,
-          'bills/v2',
+          'v1/bills/',
           queryParameters: queryParameters,
           data: _data,
         )

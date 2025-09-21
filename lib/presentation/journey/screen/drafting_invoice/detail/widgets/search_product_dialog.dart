@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../common/configs/box.dart';
-import '../../../common/constants/app_constants.dart';
-import '../../../common/di/injection/injection.dart';
+import '../../../../../../common/configs/box.dart';
+import '../../../../../../common/constants/app_constants.dart';
+import '../../../../../../common/di/injection/injection.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../journey/screen/search_product/bloc/search_product_bloc.dart';
-import '../../theme/themes.dart';
-import '../widgets.dart';
+import '../../../search_product/bloc/search_product_bloc.dart';
+import '../../../../../theme/themes.dart';
+import '../../../../../widgets/widgets.dart';
 
 class SearchProductDialog extends StatefulWidget {
   const SearchProductDialog({
@@ -22,6 +22,7 @@ class SearchProductDialog extends StatefulWidget {
     this.isNeedInStock = false,
     this.parentProductId,
     this.productType,
+    this.cartType = CartType.retail,
   });
 
   final Function(ProductModel)? onSelectProduct;
@@ -29,6 +30,7 @@ class SearchProductDialog extends StatefulWidget {
       isNeedInStock; // xem có cần check sản phẩm còn hàng mới cho ấn không
   final String? parentProductId; // id sản phẩm trước đó
   final XItemType? productType; // loại cần tìm kiếm
+  final CartType cartType; // loại đơn hàng
 
   @override
   State<SearchProductDialog> createState() => _SearchProductDialogState();
@@ -158,7 +160,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
                   productImage: product.getImageThumbnail,
                   productPrice: product.getSellingPrice,
                   isNeedInStock: widget.isNeedInStock,
-                  isExistInStock: product.isExistInStock,
+                  isExistInStock: (product.inStockQuantity ?? 0) > 0,
                   onPressed: () => _onSelectProduct(product),
                 );
               },
@@ -182,6 +184,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
           searchAction: SearchAction.addToCart,
           parentProductId: widget.parentProductId,
           productType: widget.productType,
+          cartType: widget.cartType,
         ));
       } else {
         _searchProductBloc.add(OnSearchProductsEvent(
@@ -189,6 +192,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
           searchAction: SearchAction.addToCart,
           parentProductId: widget.parentProductId,
           productType: widget.productType,
+          cartType: widget.cartType,
         ));
       }
     });
@@ -201,7 +205,8 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
 
   onChangeSearchTypeEvent(SearchType type) {
     _searchController.clear();
-    _searchProductBloc.add(ChangeSearchTypeEvent(searchType: type));
+    _searchProductBloc.add(
+        ChangeSearchTypeEvent(searchType: type, cartType: widget.cartType));
     Navigator.pop(context);
   }
 }

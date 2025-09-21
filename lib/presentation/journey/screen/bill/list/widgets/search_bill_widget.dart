@@ -7,10 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../common/enum/enum.dart';
 import '../../../../../../common/extensions/extension.dart';
-import 'package:c_pos/data/models/models.dart';
 import '../../../../../widgets/widgets.dart';
 import '../bloc/bill_bloc.dart';
-import 'bill_filter_modal.dart';
 
 part 'icon_search_type_bill.dart';
 

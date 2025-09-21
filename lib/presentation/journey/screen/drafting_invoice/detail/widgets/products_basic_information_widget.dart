@@ -50,10 +50,7 @@ class _ProductsBasicInformationWidgetState
           ),
           title: 'Sản phẩm',
           rightIcon: XBaseButton(
-            onPressed: () {
-              /// chuyển thành hiện bottomsheet
-              _onAddProduct();
-            },
+            onPressed: () => _onAddProduct(state.cartType ?? CartType.retail),
             child: Icon(
               Icons.add_circle_rounded,
               color: AppColors.primaryColor,
@@ -86,7 +83,7 @@ class _ProductsBasicInformationWidgetState
                   mainAxisSpacing: 16.sp,
                   itemBuilder: (context, index) {
                     final ProductTable product = state[index];
-                    return ProductItemWidget(
+                    return ProductCartItemWidget(
                       product: product,
                       gifts: product.getGifts,
                       attaches: product.getAttaches,
@@ -118,11 +115,13 @@ class _ProductsBasicInformationWidgetState
   //   );
   // }
 
-  _onAddProduct() {
+  _onAddProduct(CartType cartType) {
     showXBottomSheet(
       context,
       maxHeight: 0.7.sh,
       body: SearchProductDialog(
+        cartType: cartType,
+        isNeedInStock: true,
         onSelectProduct: (result) {
           _draftingInvoiceBloc.add(AddProductFromSearchToCartEvent(result));
         },

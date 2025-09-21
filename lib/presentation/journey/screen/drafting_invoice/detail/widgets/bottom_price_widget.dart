@@ -87,18 +87,6 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
           return ValueListenableBuilder<bool>(
               valueListenable: isLoading,
               builder: (context, loading, child) {
-                // return XButton(
-                //   // disable:
-                //   //     products.checkProductNotEnoughInformation && !loading,
-                //   padding:
-                //       EdgeInsets.symmetric(vertical: 16.sp, horizontal: 32.sp),
-                //   // onPressed: () => withLoading(
-                //   //   () => _draftDetailBloc.add(SubmitDraftEvent()),
-                //   //   warnProcessing: () => XToast.showWarningMessage(
-                //   //       message: 'Đang xử lý, vui lòng đợi...'),
-                //   // ),
-                //   title: 'Hoàn tất',
-                // );
                 if (products.checkProductNotEnoughInformation && !loading) {
                   return BoxSpacer.blank;
                 }

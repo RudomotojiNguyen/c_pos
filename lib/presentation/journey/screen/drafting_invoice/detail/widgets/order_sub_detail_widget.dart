@@ -91,8 +91,7 @@ class _OrderSubDetailWidgetState extends State<OrderSubDetailWidget> {
           current is UpdateCustomerSuccess ||
           current is UpdateProductsSuccess,
       builder: (context, state) {
-        if ({CartType.order, CartType.updateOrder}.contains(state.cartType) &&
-            (state.customer != null &&
+        if ((state.customer != null &&
                 state.customer!.getCustomerPhone.isNotEmpty) &&
             (state.products ?? []).isNotEmpty) {
           return XContainer(
@@ -104,19 +103,22 @@ class _OrderSubDetailWidgetState extends State<OrderSubDetailWidget> {
             title: 'Nội dung đơn',
             child: Column(
               children: [
-                _dateComeToShop(),
-                BoxSpacer.s16,
-                _timeComeToShop(),
-                BoxSpacer.s16,
-                _datePayFor(),
-                BoxSpacer.s16,
-                _codeDelivery(),
+                if ({CartType.order, CartType.updateOrder}
+                    .contains(state.cartType)) ...[
+                  _dateComeToShop(),
+                  BoxSpacer.s16,
+                  _timeComeToShop(),
+                  BoxSpacer.s16,
+                  _datePayFor(),
+                  BoxSpacer.s16,
+                  _codeDelivery(),
+                  BoxSpacer.s16,
+                  _orderType(),
+                  BoxSpacer.s16,
+                  _orderStatus(),
+                ],
                 BoxSpacer.s16,
                 _orderSource(),
-                BoxSpacer.s16,
-                _orderType(),
-                BoxSpacer.s16,
-                _orderStatus(),
               ],
             ),
           );

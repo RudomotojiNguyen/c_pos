@@ -1,9 +1,11 @@
 import 'package:c_pos/common/di/injection/injection.dart';
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/data/models/models.dart';
 import 'package:isar/isar.dart';
 
 import '../../../../common/enum/enum.dart';
 import '../../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
+import '../../../models/employee_sub_detail_model.dart';
 import '../local_db.dart';
 
 part 'drafting_invoice_table.g.dart';
@@ -75,7 +77,7 @@ class DraftingInvoiceTable {
 
   @ignore
   StoreModel? get store =>
-      storeStr != null ? StoreModel().toModel(storeStr!) : null;
+      storeStr.isNotNullOrEmpty ? StoreModel().toModel(storeStr!) : null;
 
   set store(StoreModel? value) {
     storeStr = value?.toString();
@@ -85,7 +87,7 @@ class DraftingInvoiceTable {
   String? deliveryFeeStr;
 
   @ignore
-  DeliveryFeeModel? get deliveryFee => deliveryFeeStr != null
+  DeliveryFeeModel? get deliveryFee => deliveryFeeStr.isNotNullOrEmpty
       ? DeliveryFeeModel().toModel(deliveryFeeStr!)
       : null;
 
@@ -97,12 +99,25 @@ class DraftingInvoiceTable {
   String? orderSubDetailStr;
 
   @ignore
-  OrderSubDetailModel? get orderSubDetail => orderSubDetailStr != null
+  OrderSubDetailModel? get orderSubDetail => orderSubDetailStr.isNotNullOrEmpty
       ? OrderSubDetailModel().toModel(orderSubDetailStr!)
       : null;
 
   set orderSubDetail(OrderSubDetailModel? value) {
     orderSubDetailStr = value?.toString();
+  }
+
+  /// thông tin nhân viên
+  String? employeeSubDetailStr;
+
+  @ignore
+  EmployeeSubDetailModel? get employeeSubDetail =>
+      employeeSubDetailStr.isNotNullOrEmpty
+          ? EmployeeSubDetailModel().toModel(employeeSubDetailStr!)
+          : null;
+
+  set employeeSubDetail(EmployeeSubDetailModel? value) {
+    employeeSubDetailStr = value?.toString();
   }
 
   /// chọn thông tin mặc định

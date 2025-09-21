@@ -58,7 +58,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
     try {
       emit(SearchLoading(state: state));
 
-      final res = await _getProduct(
+      PaginatedResponse<ProductModel>? res = await _getProducts(
         page: 1,
         limit: state.pageInfo.getLimit,
         param: state.searchValue,
@@ -66,9 +66,23 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         searchAction: event.searchAction,
         productType: event.productType,
         productId: event.parentProductId,
+        cartType: event.cartType,
       );
 
-      // await getStockOfProduct(products);
+      if (res == null) {
+        emit(GetProductsSuccess(
+          state: state,
+          products: state.products,
+          pageInfo: state.pageInfo.copyWith(
+            page: 1,
+            hasNextPage: state.products.length >= state.pageInfo.getLimit,
+            itemCount: state.products.length,
+            pageCount: 1,
+          ),
+          searchText: null,
+        ));
+        return;
+      }
 
       List<ProductModel> currentProducts = [];
       currentProducts.addAll(res.items);
@@ -94,7 +108,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
     try {
       emit(SearchLoading(state: state));
 
-      final res = await _getProduct(
+      PaginatedResponse<ProductModel>? res = await _getProducts(
         page: 1,
         limit: state.pageInfo.getLimit,
         param: event.searchValue,
@@ -102,9 +116,23 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         searchAction: event.searchAction,
         productType: event.productType,
         productId: event.parentProductId,
+        cartType: event.cartType,
       );
 
-      // await getStockOfProduct(products);
+      if (res == null) {
+        emit(GetProductsSuccess(
+          state: state,
+          products: state.products,
+          pageInfo: state.pageInfo.copyWith(
+            page: 1,
+            hasNextPage: state.products.length >= state.pageInfo.getLimit,
+            itemCount: state.products.length,
+            pageCount: 1,
+          ),
+          searchText: null,
+        ));
+        return;
+      }
 
       List<ProductModel> currentProducts = [];
       currentProducts.addAll(res.items);
@@ -134,7 +162,8 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
       List<ProductModel> currentProducts = state.products;
       int nextPage = state.pageInfo.getNextPage;
       emit(UpdateIsLoadMore(state: state));
-      final res = await _getProduct(
+
+      PaginatedResponse<ProductModel>? res = await _getProducts(
         page: nextPage,
         limit: state.pageInfo.getLimit,
         param: state.searchValue,
@@ -142,9 +171,18 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         searchAction: event.searchAction,
         productType: event.productType,
         productId: event.parentProductId,
+        cartType: event.cartType,
       );
 
-      // await getStockOfProduct(res.items);
+      if (res == null) {
+        emit(GetProductsSuccess(
+          state: state,
+          products: state.products,
+          pageInfo: state.pageInfo,
+          searchText: null,
+        ));
+        return;
+      }
 
       currentProducts.addAll(res.items);
 
@@ -166,6 +204,62 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
 }
 
 extension SearchProductBlocExtension on SearchProductBloc {
+  Future<PaginatedResponse<ProductModel>?> _getProducts({
+    required int page,
+    required int limit,
+    required String param,
+    required SearchType type,
+    required SearchAction searchAction,
+    int? storeId,
+    bool isInterestZero = false,
+    XItemType? productType,
+    String? productId,
+    CartType? cartType,
+  }) async {
+    final AuthBloc authBloc = getIt.get<AuthBloc>();
+    final DraftingInvoiceBloc draftingInvoiceBloc =
+        getIt.get<DraftingInvoiceBloc>();
+
+    int? store = storeId ??
+        draftingInvoiceBloc.state.currentStore?.getStoreId ??
+        authBloc.state.getUserStoreId;
+
+    if (searchAction != SearchAction.addToCart) {
+      return await productServices.searchProduct(
+        page: page,
+        limit: limit,
+        param: param,
+        type: type.getValue,
+      );
+    }
+    if ({CartType.retail, CartType.updateBill}.contains(cartType)) {
+      return await _getProductForSale(
+        page: page,
+        limit: limit,
+        param: param,
+        type: type,
+        searchAction: searchAction,
+        productType: productType,
+        productId: productId,
+        storeId: store,
+      );
+    }
+    if ({CartType.order, CartType.updateOrder}.contains(cartType)) {
+      return await _getProduct(
+        page: page,
+        limit: limit,
+        param: param,
+        type: type,
+        searchAction: searchAction,
+        productType: productType,
+        productId: productId,
+        storeId: store,
+      );
+    }
+
+    return null;
+  }
+
   Future<PaginatedResponse<ProductModel>> _getProduct({
     required int page,
     required int limit,
@@ -177,53 +271,72 @@ extension SearchProductBlocExtension on SearchProductBloc {
     XItemType? productType,
     String? productId,
   }) async {
-    if (searchAction == SearchAction.addToCart) {
-      final AuthBloc authBloc = getIt.get<AuthBloc>();
-      final DraftingInvoiceBloc draftingInvoiceBloc =
-          getIt.get<DraftingInvoiceBloc>();
-      int? store = storeId ??
-          draftingInvoiceBloc.state.currentStore?.getStoreId ??
-          authBloc.state.getUserStoreId;
+    List<ProductModel> res = [];
 
-      List<ProductModel> res = [];
-
-      if (productType == XItemType.gift) {
-        res = await productServices.getGiftsProduct(
-          productId: productId ?? '',
-          productName: param,
-          storeId: store,
-          searchType: type,
-        );
-      } else if (productType == XItemType.attach) {
-        res = await productServices.getAttachesProduct(
-          productId: productId ?? '',
-          productName: param,
-          storeId: store,
-          searchType: type,
-        );
-      } else {
-        res = await productServices.productSearch(
-          searchProduct: param,
-          searchType: type,
-          storeId: store,
-          isInterestZero: isInterestZero,
-        );
-      }
-
-      return PaginatedResponse(
-        items: res,
-        totalItems: res.length,
-        totalPages: 1,
-        currentPage: 1,
+    if (productType == XItemType.gift) {
+      res = await productServices.getGiftsProduct(
+        productId: productId ?? '',
+        productName: param,
+        storeId: storeId,
+        searchType: type,
+      );
+    } else if (productType == XItemType.attach) {
+      res = await productServices.getAttachesProduct(
+        productId: productId ?? '',
+        productName: param,
+        storeId: storeId,
+        searchType: type,
       );
     } else {
-      return await productServices.searchProduct(
-        page: page,
-        limit: limit,
-        param: param,
-        type: type.getValue,
+      res = await productServices.productSearch(
+        searchProduct: param,
+        searchType: type,
+        storeId: storeId,
+        isInterestZero: isInterestZero,
       );
     }
+
+    return PaginatedResponse(
+      items: res,
+      totalItems: res.length,
+      totalPages: 1,
+      currentPage: 1,
+    );
+  }
+
+  Future<PaginatedResponse<ProductModel>> _getProductForSale({
+    required int page,
+    required int limit,
+    required String param,
+    required SearchType type,
+    required SearchAction searchAction,
+    int? storeId,
+    bool isInterestZero = false,
+    XItemType? productType,
+    String? productId,
+  }) async {
+    List<ProductModel> res = [];
+
+    if (productType == XItemType.gift) {
+      //
+    } else if (productType == XItemType.attach) {
+      //
+    } else {
+      res = await productServices.getProductForSale(
+        searchText: param,
+        page: page,
+        size: limit,
+        storeId: storeId,
+        searchType: type,
+      );
+    }
+
+    return PaginatedResponse(
+      items: res,
+      totalItems: res.length,
+      totalPages: 1,
+      currentPage: 1,
+    );
   }
 
   Future getStockOfProduct(List<ProductModel> products) async {

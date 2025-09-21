@@ -47,6 +47,8 @@ class GlobalAppKey {
   static const addImeiDialogKey = ValueKey('addImeiDialogKey');
   static const productNoteDialogKey = ValueKey('productNoteDialogKey');
   static const imeiAttachDialogKey = ValueKey('imeiAttachDialogKey');
+  static const groupProductChildrenDetailDialogKey =
+      ValueKey('groupProductChildrenDetailDialogKey');
 }
 
 enum TextStyleEnum {

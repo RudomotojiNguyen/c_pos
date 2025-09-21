@@ -48,7 +48,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(IsLoading(state: state, isLoading: true));
       final res = await paymentServices.getAccountantsByStore(
         type: PaymentType.cash.getValue,
-        storeId: authBloc.state.userInfo!.getStoreId,
+        storeId: event.storeId,
       );
       emit(UpdateCashAccountant(state: state, cashAccountants: res));
     } catch (e) {

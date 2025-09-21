@@ -18,7 +18,6 @@ abstract class BaseTheme {
       dialogTheme: const DialogThemeData(
         backgroundColor: Colors.white,
       ),
-      indicatorColor: onPrimarySurfaceColor,
       textTheme: textTheme,
       applyElevationOverlayColor: isDark,
       useMaterial3: true,
@@ -37,6 +36,7 @@ abstract class BaseTheme {
         error: errorColor,
         primaryContainer: primaryContainer,
       ),
+      tabBarTheme: TabBarThemeData(indicatorColor: onPrimarySurfaceColor),
     );
   }
 

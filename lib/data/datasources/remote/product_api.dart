@@ -110,51 +110,6 @@ abstract class ProductApi {
     @Query('storeId') int? storeId,
   });
 
-  ///
-  ///
-  // @GET('product/mobile/{productId}')
-  // Future<BaseResponse> getProductById(@Path() String productId);
-
-  /// Tìm sản phẩm cho sản phẩm combo
-  ///
-  // @GET('flexible-combo/search')
-  // Future<BaseResponse> searchProductCombo({
-  //   @Query('textSearch') String? textSearch,
-  //   @Query('storeId') int? storeId,
-  //   @Query('page') required int page,
-  //   @Query('size') required int size,
-  // });
-
-  /// Tìm sản phẩm cho sản phẩm combo
-  ///
-  // @GET('flexible-combo/search-product')
-  // Future<BaseResponse> searchProductInCombo({
-  //   @Query('textSearch') String? textSearch,
-  //   @Query('referenceType') int? referenceType,
-  //   @Query('referenceId') int? referenceId,
-  //   @Query('page') required int page,
-  //   @Query('size') required int size,
-  // });
-
-  /// lấy barcode sp từ link
-  ///
-  // @GET('{link}')
-  // @Headers(<String, dynamic>{
-  //   'Content-Type': 'application/json',
-  //   'isUseBaseUrl': false,
-  // })
-  // Future<BaseResponse> getProductBarcode(@Path() String link);
-
-  /// lấy thông tin giảm giá cho danh sách SP hiện tại
-  /// params: {
-  ///            productIds: List<int>,
-  ///            customerPhone: String,
-  ///            billNumber: int,
-  ///          };
-  // @POST('customer/discount')
-  // Future<BaseResponse> getProductDiscountInfoByCustomer(
-  //     @Body() Map<String, dynamic> params);
-
   /// lấy imeis
   @GET('imeis/get-by-product')
   Future<BaseResponse> getImei({
@@ -189,5 +144,28 @@ abstract class ProductApi {
   @GET('tradeIn/mobile')
   Future<BaseResponse> getImeiTradeinTransaction({
     @Query('imei') required String imei,
+  });
+
+  /// search product for sale
+  /// note: dành cho việc lên bill
+
+  /// tìm sản phầm để bán
+  ///
+  @GET('v1/product-search/for-sale')
+  Future<BaseResponse> getProductForSale({
+    @Query('page') required int page,
+    @Query('size') required int size,
+    @Query('searchText') String? searchText,
+    @Query('storeId') int? storeId,
+  });
+
+  /// tìm sản phầm để bán
+  ///
+  @GET('v1/product-search/by-imei-for-sale')
+  Future<BaseResponse> getProductForSaleByImei({
+    @Query('page') required int page,
+    @Query('size') required int size,
+    @Query('searchText') String? searchText,
+    @Query('storeId') int? storeId,
   });
 }

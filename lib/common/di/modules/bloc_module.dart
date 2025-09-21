@@ -22,6 +22,7 @@ import '../../../presentation/journey/screen/setting/bloc/setting_bloc.dart';
 import '../../../presentation/journey/screen/stock/bloc/stock_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';
 import '../../../presentation/journey/screen/trade_in/bloc/trade_in_bloc.dart';
+import '../../../presentation/journey/screen/voucher/bloc/voucher_bloc.dart';
 import '../../../presentation/journey/screen/warranty/bloc/warranty_bloc.dart';
 import '../../base/di_module.dart';
 
@@ -79,6 +80,8 @@ class BlocModule extends DIModule {
         () => TradeInBloc(tradeInServices: getIt.get<TradeInServices>()),
       )
       ..registerFactory(() => ScanBloc())
+      ..registerFactory(
+          () => VoucherBloc(voucherServices: getIt.get<VoucherServices>()))
       ..registerFactory(
           () => AddressBloc(addressServices: getIt.get<AddressServices>()));
   }

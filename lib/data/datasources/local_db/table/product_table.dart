@@ -27,7 +27,7 @@ class ProductTable {
 
   @ignore
   ProductImeiModel? get imei =>
-      imeiStr != null ? ProductImeiModel().toModel(imeiStr!) : null;
+      imeiStr.isNotNullOrEmpty ? ProductImeiModel().toModel(imeiStr!) : null;
 
   set imei(ProductImeiModel? value) {
     imeiStr = value != null ? jsonEncode(value.toJson()) : null;
@@ -85,7 +85,7 @@ class ProductTable {
   String? discountByHandStr;
 
   @ignore
-  HandDiscount? get discountByHand => discountByHandStr != null
+  HandDiscount? get discountByHand => discountByHandStr.isNotNullOrEmpty
       ? HandDiscount().toModel(discountByHandStr!)
       : null;
 
@@ -147,6 +147,18 @@ class ProductTable {
   final productsAttach = IsarLinks<ProductTable>(); // mua kèm
   @ignore
   List<ProductTable>? attachesSelected;
+
+  @ignore
+  String? voucherStr;
+
+  @ignore
+  VoucherModel? get voucher => voucherStr.isNotNullOrEmpty
+      ? VoucherModel.fromJson(jsonDecode(voucherStr!))
+      : null;
+
+  set voucher(VoucherModel? value) {
+    voucherStr = value != null ? jsonEncode(value.toJson()) : null;
+  }
 
   ProductTable({
     this.itemType = XItemType.main,

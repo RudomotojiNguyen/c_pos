@@ -94,7 +94,6 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.sp),
           padding: EdgeInsets.symmetric(horizontal: 4.sp),
           decoration: BoxDecoration(
             border: Border.all(width: 1.sp, color: AppColors.dividerColor),
@@ -121,19 +120,16 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
   }
 
   Widget _bottom() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.sp),
-      child: XButton(
-        padding: EdgeInsets.symmetric(vertical: 12.sp),
-        onPressed: () {
-          final result = imeiSelected.value;
-          if (result != null) {
-            widget.callback(result);
-            Navigator.pop(context);
-          }
-        },
-        title: 'Xong',
-      ),
+    return XButton(
+      padding: EdgeInsets.symmetric(vertical: 12.sp),
+      onPressed: () {
+        final result = imeiSelected.value;
+        if (result != null) {
+          widget.callback(result);
+          Navigator.pop(context);
+        }
+      },
+      title: 'Xong',
     );
   }
 
@@ -143,7 +139,7 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
       builder: (context, state) {
         if (state is OnLoadingGetProductImei) {
           return ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
+            padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               return _loadingItem(Utils.randomNumber(40, 200).sp);
             },
@@ -173,10 +169,7 @@ class _ImeiOfProductDialogState extends State<ImeiOfProductDialog>
             _productBloc.add(GetProductImeiSearchTextEvent());
           },
           child: ListView.separated(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.sp,
-              vertical: 12.sp,
-            ),
+            padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               final ProductImeiModel imei = imeiList[index];
               return XBaseButton(

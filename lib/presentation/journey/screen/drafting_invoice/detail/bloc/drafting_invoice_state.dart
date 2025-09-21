@@ -25,6 +25,7 @@ sealed class DraftingInvoiceState extends Equatable {
     this.method,
     this.billNumber,
     this.currentStore,
+    required this.employeeSubDetail,
     //
     required this.totalPriceNoneDiscount,
     required this.totalDiscountPriceOfBillItem,
@@ -115,6 +116,7 @@ sealed class DraftingInvoiceState extends Equatable {
   final List<PaymentMethodTable>? paymentByTransfer;
   final List<PaymentMethodTable>? paymentByCredit;
   // final List<PaymentMethodTable>? paymentByInstallment;
+  final EmployeeSubDetailModel employeeSubDetail;
 
   @override
   List<Object?> get props => [
@@ -159,6 +161,7 @@ sealed class DraftingInvoiceState extends Equatable {
         totalCriteriaPrice,
         tradeInProgramId,
         currentStore,
+        employeeSubDetail,
       ];
 
   bool get checkNullDraft => currentDraftId == null;
@@ -186,6 +189,7 @@ final class DraftingInvoiceInitial extends DraftingInvoiceState {
     required super.productBuyingPrice,
     required super.estimationBuyingPrice,
     required super.totalCriteriaPrice,
+    required super.employeeSubDetail,
   });
 }
 
@@ -194,6 +198,7 @@ final class CreateFailed extends DraftingInvoiceState {
       : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
 
           customer: state.customer,
           discountTotalBillByPoint: state.discountTotalBillByPoint,
@@ -254,11 +259,12 @@ final class DraftingInvoiceCreated extends DraftingInvoiceState {
           productBuyingPrice: 0,
           estimationBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: state.employeeSubDetail,
         );
 }
 
 final class GetCurrentDraftDataError extends DraftingInvoiceState {
-  const GetCurrentDraftDataError({required DraftingInvoiceState state})
+  GetCurrentDraftDataError({required DraftingInvoiceState state})
       : super(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
@@ -271,11 +277,12 @@ final class GetCurrentDraftDataError extends DraftingInvoiceState {
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: EmployeeSubDetailModel(),
         );
 }
 
 final class IsGettingDetail extends DraftingInvoiceState {
-  const IsGettingDetail()
+  IsGettingDetail()
       : super(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
@@ -288,6 +295,7 @@ final class IsGettingDetail extends DraftingInvoiceState {
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: EmployeeSubDetailModel(),
         );
 }
 
@@ -295,6 +303,7 @@ final class GetCurrentDraftDataSuccess extends DraftingInvoiceState {
   const GetCurrentDraftDataSuccess({
     required DraftingInvoiceState state,
     //
+    required super.employeeSubDetail,
     super.currentDraftId,
     super.customer,
     super.products,
@@ -348,7 +357,7 @@ final class UpdateCustomerSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
-
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -396,6 +405,7 @@ final class IsLoadingDetailState extends DraftingInvoiceState {
   IsLoadingDetailState({required DraftingInvoiceState state})
       : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           customer: state.customer,
           products: state.products,
           billId: state.billId,
@@ -447,6 +457,7 @@ final class UpdateBillNoteSuccess extends DraftingInvoiceState {
     required super.warrantyNote,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           products: state.products,
           billId: state.billId,
           billNumber: state.billNumber,
@@ -492,6 +503,7 @@ final class UpdateProductsSuccess extends DraftingInvoiceState {
     required super.products,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           customer: state.customer,
           billId: state.billId,
           billNumber: state.billNumber,
@@ -542,6 +554,7 @@ final class UpdatePaymentMethodSuccess extends DraftingInvoiceState {
     // required super.paymentByInstallment,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           products: state.products,
           billId: state.billId,
           billNumber: state.billNumber,
@@ -587,6 +600,7 @@ final class UpdateCouponDiscountSuccess extends DraftingInvoiceState {
     required super.discountTotalBill,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           products: state.products,
           billId: state.billId,
           billNumber: state.billNumber,
@@ -633,6 +647,7 @@ final class UpdateAmountDiscountTotalBillSuccess extends DraftingInvoiceState {
     required super.discountTotalBill,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           products: state.products,
           billId: state.billId,
           billNumber: state.billNumber,
@@ -680,6 +695,7 @@ final class UpdateDiscountBillByPointSuccess extends DraftingInvoiceState {
     required super.discountTotalBillByPoint,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           products: state.products,
           billId: state.billId,
           billNumber: state.billNumber,
@@ -740,6 +756,7 @@ final class UpdateCalculatorPriceSuccess extends DraftingInvoiceState {
     required super.mustPay,
   }) : super(
           currentDraftId: state.currentDraftId,
+          employeeSubDetail: state.employeeSubDetail,
           customer: state.customer,
           products: state.products,
           billId: state.billId,
@@ -779,7 +796,7 @@ final class UpdateCalculatorPriceSuccess extends DraftingInvoiceState {
 final class CreateBillSuccess extends DraftingInvoiceState {
   final String id;
 
-  const CreateBillSuccess({required this.id})
+  CreateBillSuccess({required this.id})
       : super(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
@@ -792,13 +809,14 @@ final class CreateBillSuccess extends DraftingInvoiceState {
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: EmployeeSubDetailModel(),
         );
 }
 
 final class CreateOrderSuccess extends DraftingInvoiceState {
   final int newBillNum;
 
-  const CreateOrderSuccess({required this.newBillNum})
+  CreateOrderSuccess({required this.newBillNum})
       : super(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
@@ -811,6 +829,7 @@ final class CreateOrderSuccess extends DraftingInvoiceState {
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: EmployeeSubDetailModel(),
         );
 }
 
@@ -821,6 +840,7 @@ final class UpdateDeliveryFeeSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -868,6 +888,7 @@ final class UpdateOrderSubDetailSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -917,6 +938,7 @@ final class UpdateTradeInTypeSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -964,6 +986,7 @@ final class UpdateProductTradeInSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1011,6 +1034,7 @@ final class UpdateTradeInProgramSelectedSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1060,6 +1084,7 @@ final class UpdatePriceOverViewTradeInSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1105,6 +1130,7 @@ final class UpdateTradeInProgram extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1146,7 +1172,7 @@ final class UpdateTradeInProgram extends DraftingInvoiceState {
 }
 
 final class CreateTradeInbillSuccess extends DraftingInvoiceState {
-  const CreateTradeInbillSuccess({required DraftingInvoiceState state})
+  CreateTradeInbillSuccess({required DraftingInvoiceState state})
       : super(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
@@ -1159,6 +1185,7 @@ final class CreateTradeInbillSuccess extends DraftingInvoiceState {
           estimationBuyingPrice: 0,
           productBuyingPrice: 0,
           totalCriteriaPrice: 0,
+          employeeSubDetail: EmployeeSubDetailModel(),
         );
 }
 
@@ -1167,6 +1194,7 @@ final class AddProductFromSearchToCartSuccess extends DraftingInvoiceState {
       : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1215,6 +1243,7 @@ final class UpdateCurrentStoreSuccess extends DraftingInvoiceState {
   }) : super(
           currentDraftId: state.currentDraftId,
           products: state.products,
+          employeeSubDetail: state.employeeSubDetail,
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
@@ -1252,5 +1281,53 @@ final class UpdateCurrentStoreSuccess extends DraftingInvoiceState {
           productBuyingPrice: state.productBuyingPrice,
           totalCriteriaPrice: state.totalCriteriaPrice,
           tradeInProgramId: state.tradeInProgramId,
+        );
+}
+
+final class UpdateEmployeeSubDetailSuccess extends DraftingInvoiceState {
+  UpdateEmployeeSubDetailSuccess({
+    required DraftingInvoiceState state,
+    required super.employeeSubDetail,
+  }) : super(
+          currentDraftId: state.currentDraftId,
+          products: state.products,
+          billId: state.billId,
+          billNumber: state.billNumber,
+          orderId: state.orderId,
+          customerNote: state.customerNote,
+          warrantyNote: state.warrantyNote,
+          saleNote: state.saleNote,
+          discountTotalBill: state.discountTotalBill,
+          isDefaultInfo: state.isDefaultInfo,
+          vatChecked: state.vatChecked,
+          isCountPoint: state.isCountPoint,
+          cartType: state.cartType,
+          customer: state.customer,
+          couponDiscountCode: null,
+          productTradeIn: state.productTradeIn,
+          productImei: state.productImei,
+          isEstimateCost: state.isEstimateCost,
+          isSoldByCompany: state.isSoldByCompany,
+          method: state.method,
+          totalPriceNoneDiscount: state.totalPriceNoneDiscount,
+          totalDiscountPriceOfBillItem: state.totalDiscountPriceOfBillItem,
+          discountOfBill: state.discountOfBill,
+          totalPrePayment: state.totalPrePayment,
+          finalPrice: state.finalPrice,
+          mustPay: state.mustPay,
+          paymentByCash: state.paymentByCash,
+          paymentByTransfer: state.paymentByTransfer,
+          paymentByCredit: state.paymentByCredit,
+          // paymentByInstallment: state.paymentByInstallment,
+          deliveryFee: state.deliveryFee,
+          orderSubDetail: state.orderSubDetail,
+          tradeInType: state.tradeInType,
+          product: state.product,
+          programingSelected: state.programingSelected,
+          estimationBuyingPrice: state.estimationBuyingPrice,
+          productBuyingPrice: state.productBuyingPrice,
+          totalCriteriaPrice: state.totalCriteriaPrice,
+          tradeInProgramId: state.tradeInProgramId,
+          currentStore: state.currentStore,
         );
 }

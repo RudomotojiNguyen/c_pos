@@ -40,9 +40,10 @@ class CustomerTable {
   String? discountByPointStr;
 
   @ignore
-  OtpCustomerPointModel? get discountByPoint => discountByPointStr != null
-      ? OtpCustomerPointModel().toModel(discountByPointStr!)
-      : null;
+  OtpCustomerPointModel? get discountByPoint =>
+      discountByPointStr.isNotNullOrEmpty
+          ? OtpCustomerPointModel().toModel(discountByPointStr!)
+          : null;
 
   set discountByPoint(OtpCustomerPointModel? value) {
     discountByPointStr = value?.toString();

@@ -82,7 +82,6 @@ export 'container/x_glass_container.dart';
 export 'dialog/form_product_trade_in_dialog.dart';
 export 'dialog/discount_by_hand_dialog.dart';
 export 'dialog/imei_of_product_dialog.dart';
-export 'dialog/search_product_dialog.dart';
 export 'dialog/note_dialog.dart';
 export 'dialog/repurchase_price_dialog.dart';
 export 'dialog/imei_attach_dialog.dart';

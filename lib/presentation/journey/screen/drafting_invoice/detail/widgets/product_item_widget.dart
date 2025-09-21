@@ -1,7 +1,7 @@
 part of '../drafting_detail_screen.dart';
 
-class ProductItemWidget extends StatefulWidget {
-  const ProductItemWidget({
+class ProductCartItemWidget extends StatefulWidget {
+  const ProductCartItemWidget({
     super.key,
     required this.product,
     this.gifts = const [],
@@ -26,10 +26,10 @@ class ProductItemWidget extends StatefulWidget {
       callBackParentAction;
 
   @override
-  State<ProductItemWidget> createState() => _ProductItemWidgetState();
+  State<ProductCartItemWidget> createState() => _ProductCartItemWidgetState();
 }
 
-class _ProductItemWidgetState extends State<ProductItemWidget> {
+class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
   final ValueNotifier<int> quantityController = ValueNotifier(1);
 
   @override
@@ -99,7 +99,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             },
           ),
           if (widget.product.productType == ProductType.imei) ...[
-            BoxSpacer.s8,
             RowFunctionWidget(
               title: XProductOperationAction.addImei.getTitle,
               icon: XProductOperationAction.addImei.getIcon,

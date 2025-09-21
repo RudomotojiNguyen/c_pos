@@ -189,13 +189,13 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
       return total + (currentItem.amount ?? 0);
     });
 
-    dynamic draftBillId = id;
+    dynamic draftBillId;
     if (typeCart == CartType.updateBill) {
       draftBillId = billId;
     }
-    if (typeCart == CartType.updateOrder) {
-      draftBillId = orderId;
-    }
+    // if (typeCart == CartType.updateOrder) {
+    //   draftBillId = orderId;
+    // }
 
     final listBillItemInfo = getProducts.formatBodyData;
     final AuthModel userInfo = getIt.get<AuthBloc>().state.userInfo!;
@@ -209,7 +209,7 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
       'discountType': XDiscountType.amount.value,
       'discountAmount': discountTotalBill ?? 0,
       'couponCode': couponDiscountCode,
-      'listBillItem': listBillItemInfo,
+      'billItems': listBillItemInfo,
       ...getCustomer?.formatCustomerCreateBill() ?? {},
       ...discountByPoint?.formatCustomerPointCreateBill() ?? {},
       ...userInfo.formatCreatorInfoCreateBill(),
@@ -255,16 +255,33 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
 
     if ({CartType.updateOrder, CartType.order}.contains(typeCart)) {
       /// thông tin đơn hàng sẽ hơi khác nên sẽ format thêm ở đây
-      data.remove(
-          'listBillItem'); // do là order nên không truyền listBillItem => xóa trường này
+
+      /// do là order nên không truyền listBillItem => xóa trường này
+      data.remove('billItems');
+
       data = {
         ...data,
-        ...orderSubDetail?.formatOrderSubDetailCreateBill() ?? {},
         ...deliveryFee?.formatDeliveryFeeCreateBill() ?? {},
         'orderItems': listBillItemInfo,
         'draftBillId': draftBillId,
         'id': orderId,
       };
+    }
+
+    /// thông tin đơn hàng
+    data = {
+      ...data,
+      ...orderSubDetail?.formatOrderSubDetailCreateBill() ?? {},
+    };
+
+    /// thông tin nhân viên
+    data = {
+      ...data,
+      ...employeeSubDetail?.formatEmployeeSubDetailCreateBill() ?? {},
+    };
+
+    if ({CartType.retail, CartType.updateBill}.contains(typeCart)) {
+      data['billType'] = 1;
     }
 
     return data;

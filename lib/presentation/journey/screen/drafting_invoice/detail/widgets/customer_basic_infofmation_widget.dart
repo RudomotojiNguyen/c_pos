@@ -38,7 +38,8 @@ class _CustomerBillInformationWidgetState
           listener: (context, state) {
             if (state is GetCurrentDraftDataSuccess && mounted) {
               /// lấy lại thông tin khách hàng
-              if (state.customer != null) {
+              if (state.customer != null &&
+                  state.customer!.customerId != null) {
                 _customerBloc.add(
                   GetCustomerByIdEvent(state.customer!.customerId!),
                 );

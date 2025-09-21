@@ -32,8 +32,14 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
                   (current.products?.isEmpty ?? true)) &&
               current is UpdateProductsSuccess),
       listener: (context, state) {
-        if (state is GetCurrentDraftDataSuccess) {
-          getAccountants(state.cartType ?? CartType.retail);
+        if (state is GetCurrentDraftDataSuccess ||
+            state is UpdateCurrentStoreSuccess) {
+          if (state.cartType == CartType.tradeIn) {
+            return;
+          }
+
+          getAccountants(
+              state.cartType ?? CartType.retail, state.currentStore?.id);
         }
       },
       builder: (context, state) {
@@ -322,8 +328,8 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
   /// method
   ///
 
-  void getAccountants(CartType cartType) {
-    _paymentBloc.add(GetCashAccountsEvent());
+  void getAccountants(CartType cartType, int? storeId) {
+    _paymentBloc.add(GetCashAccountsEvent(storeId: storeId));
     _paymentBloc.add(GetTransferAccountsEvent(cartType: cartType));
     _paymentBloc.add(GetCreditAccountsEvent(cartType: cartType));
     _paymentBloc.add(GetInstallmentAccountsEvent());

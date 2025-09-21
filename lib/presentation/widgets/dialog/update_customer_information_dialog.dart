@@ -207,7 +207,6 @@ class _UpdateCustomerInformationDialogState
                   return XTextField(
                     labelText: 'Ngày sinh',
                     hintText: 'Chọn ngày sinh',
-                    isRequired: true,
                     textInputStyle: TextInputStyle.selectSingleDate,
                     dates: value,
                     onResultDateSelect: (List<DateTime?>? dates) {

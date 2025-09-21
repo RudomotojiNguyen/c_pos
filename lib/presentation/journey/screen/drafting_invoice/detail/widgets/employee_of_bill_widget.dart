@@ -1,17 +1,17 @@
-// part of '../drafting_detail_screen.dart';
+part of '../drafting_detail_screen.dart';
 
-// class EmployeeOfBillWidget extends StatefulWidget {
-//   const EmployeeOfBillWidget({super.key});
+class EmployeeOfBillWidget extends StatefulWidget {
+  const EmployeeOfBillWidget({super.key});
 
-//   @override
-//   State<EmployeeOfBillWidget> createState() => _EmployeeOfBillWidgetState();
-// }
+  @override
+  State<EmployeeOfBillWidget> createState() => _EmployeeOfBillWidgetState();
+}
 
-// class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
-//     with DialogHelper {
-//   final EmployeeBloc _employeeBloc = getIt.get<EmployeeBloc>();
-//   final DraftingInvoiceBloc _draftingInvoiceBloc =
-//       getIt.get<DraftingInvoiceBloc>();
+class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
+    with DialogHelper {
+  // final EmployeeBloc _employeeBloc = getIt.get<EmployeeBloc>();
+  final DraftingInvoiceBloc _draftingInvoiceBloc =
+      getIt.get<DraftingInvoiceBloc>();
 
 //   @override
 //   void initState() {
@@ -19,35 +19,45 @@
 //     _employeeBloc.add(GetEmployeesEvent());
 //   }
 
-//   // thông nhân viên luôn hiển thị đầu tiên
-//   // widget render lại khi state hiện tại là:
-//   //    - lấy thông tin đơn
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
-//       bloc: _draftingInvoiceBloc,
-//       buildWhen: (previous, current) =>
-//           current is GetCurrentDraftDataSuccess || current is IsGettingDetail,
-//       builder: (context, state) {
-//         if (state.checkNullDraft ||
-//             {CartType.tradeIn}.contains(state.cartType)) {
-//           return BoxSpacer.blank;
-//         }
-//         return XContainer(
-//           margin: EdgeInsets.only(top: 16.sp),
-//           iconTitle: Assets.svg.person.svg(
-//             width: 22.sp,
-//             height: 22.sp,
-//           ),
-//           title: 'NV Hỗ trợ',
-//           child: SizedBox(
-//             width: double.infinity,
-//             child: Wrap(
-//               alignment: WrapAlignment.start,
-//               direction: Axis.horizontal,
-//               runSpacing: 8.sp,
-//               spacing: 8.sp,
-//               children: [
+  // thông nhân viên luôn hiển thị đầu tiên
+  // widget render lại khi state hiện tại là:
+  //    - lấy thông tin đơn
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
+      bloc: _draftingInvoiceBloc,
+      buildWhen: (previous, current) => {
+        GetCurrentDraftDataSuccess,
+        IsGettingDetail,
+        GetCurrentDraftDataError
+      }.contains(current.runtimeType),
+      builder: (context, state) {
+        if (state.checkNullDraft ||
+            {CartType.tradeIn, CartType.updateOrder, CartType.order}
+                .contains(state.cartType)) {
+          return BoxSpacer.blank;
+        }
+        EmployeeSubDetailModel employeeSubDetail = state.employeeSubDetail;
+
+        return XContainer(
+          margin: EdgeInsets.only(top: 16.sp),
+          iconTitle: Assets.svg.person.svg(
+            width: 22.sp,
+            height: 22.sp,
+          ),
+          title: 'Thông tin nhân viên',
+          child: SizedBox(
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              direction: Axis.horizontal,
+              runSpacing: 8.sp,
+              spacing: 8.sp,
+              children: [
+                if (!employeeSubDetail.isEmpty) ...[
+                  const EmptyDataWidget(
+                    emptyMessage: 'Chưa có nhân viên được chọn',
+                  ),
+                ],
 //                 BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
 //                     EmployeeModel?>(
 //                   bloc: _draftingInvoiceBloc,
@@ -64,13 +74,13 @@
 //                     return _renderTechnicalInfo(state);
 //                   },
 //                 ),
-//               ],
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
 //   Widget _renderSaleInfo(EmployeeModel? sale) {
 //     return BlocBuilder<EmployeeBloc, EmployeeState>(
@@ -177,4 +187,4 @@
 //       ),
 //     );
 //   }
-// }
+}
