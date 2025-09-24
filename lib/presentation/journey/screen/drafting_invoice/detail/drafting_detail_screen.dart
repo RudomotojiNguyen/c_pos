@@ -19,6 +19,7 @@ import '../../../../theme/themes.dart';
 import '../../../../utils/utils.dart';
 import '../../../router.dart';
 import '../../customer/bloc/customer_bloc.dart';
+import '../../employee/bloc/employee_bloc.dart';
 import '../../global_bloc/global_core_bloc.dart';
 import '../../payment/bloc/payment_bloc.dart';
 import '../../store/bloc/store_bloc.dart';
@@ -67,9 +68,7 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.id.isNotEmpty) {
-      _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
-    }
+    _getDraftData();
   }
 
   @override
@@ -129,8 +128,7 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
           enablePullDown: true,
           header: const RefreshWidget(),
           onRefresh: () async {
-            _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
-            _refreshController.refreshCompleted();
+            _getDraftData();
           },
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
@@ -240,6 +238,13 @@ extension _DraftDetailScreenStateExtension on _DraftingDetailScreenState {
         routeName: RouteName.orders,
         queryParameters: {'orderId': state.newBillNum.toString()},
       );
+    }
+  }
+
+  _getDraftData() {
+    if (widget.id.isNotEmpty) {
+      _draftingInvoiceBloc.add(GetCurrentDraftEvent(widget.id.toInt()));
+      _refreshController.refreshCompleted();
     }
   }
 }

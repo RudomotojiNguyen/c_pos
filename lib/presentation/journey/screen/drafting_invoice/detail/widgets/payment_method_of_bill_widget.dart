@@ -37,9 +37,10 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
           if (state.cartType == CartType.tradeIn) {
             return;
           }
-
-          getAccountants(
-              state.cartType ?? CartType.retail, state.currentStore?.id);
+          if (state.currentStore?.id != null) {
+            getAccountants(
+                state.cartType ?? CartType.retail, state.currentStore?.id);
+          }
         }
       },
       builder: (context, state) {

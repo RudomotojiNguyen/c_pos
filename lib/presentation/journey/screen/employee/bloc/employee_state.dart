@@ -30,3 +30,21 @@ final class UpdateEmployeesData extends EmployeeState {
     required super.employees,
   }) : super();
 }
+
+/// start get employees by store
+final class GetEmployeesByStoreSuccess extends EmployeeState {
+  const GetEmployeesByStoreSuccess({
+    required EmployeeState state,
+    required super.employees,
+  }) : super();
+}
+
+final class GetEmployeesByStoreLoading extends EmployeeState {
+  GetEmployeesByStoreLoading({
+    required EmployeeState state,
+  }) : super(
+          employees: state.employees,
+        );
+}
+
+/// end get employees by store

@@ -51,6 +51,7 @@ extension CustomerTableExtension on CustomerTable {
     data['customerDOB'] = dateOfBirth?.formatDate();
     data['customerType'] = type.getValueType;
     data['totalPoint'] = point;
+    data['email'] = email;
 
     return data;
   }

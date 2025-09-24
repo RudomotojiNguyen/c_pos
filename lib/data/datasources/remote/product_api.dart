@@ -23,36 +23,6 @@ abstract class ProductApi {
     @Query('name') String? name,
   });
 
-  /// Lấy danh sách SP tặng kèm(gift)
-  ///
-  // @GET('product/mobile/v2/{productId}/product-attachs')
-  // Future<BaseResponse> getProductAttached({
-  //   @Path() required String productId,
-  //   @Query('page') int? page,
-  //   @Query('pageSize') int? pageSize,
-  //   @Query('searchProduct') String? searchProduct,
-  // });
-
-  /// Lấy danh sách SP bán kèm(attach)
-  ///
-  // @GET('product/mobile/{productId}/product-promotions')
-  // Future<BaseResponse> getProductPromotions({
-  //   @Path() required String productId,
-  //   @Query('page') required int page,
-  //   @Query('pageSize') required int pageSize,
-  //   @Query('searchProduct') String? searchProduct,
-  // });
-
-  /// Lấy danh sách SP gói bảo hành(warranty) của 1 SP cha
-  ///
-  // @GET('product/mobile/{productId}/product-warrantys')
-  // Future<BaseResponse> getProductWarranties({
-  //   @Path() required String productId,
-  //   @Query('page') required int page,
-  //   @Query('pageSize') required int pageSize,
-  //   @Query('searchProduct') String? searchProduct,
-  // });
-
   /// tìm sản phầm tồn kho
   ///
   @GET('v1/product-search')
@@ -167,5 +137,32 @@ abstract class ProductApi {
     @Query('size') required int size,
     @Query('searchText') String? searchText,
     @Query('storeId') int? storeId,
+  });
+
+  /// tìm sản phẩm bán kèm
+  // @GET('v1/product-promotion/attach')
+  // Future<BaseResponse> getAttachesProductForSale({
+  //   @Query('productId') required String productId,
+  //   @Query('storeId') int? storeId,
+  // });
+
+  /// tìm sản phẩm combo
+  @GET('v1/flexible-combo/search')
+  Future<BaseResponse> getComboProductForSale({
+    @Query('page') required int page,
+    @Query('size') required int size,
+    @Query('searchText') String? searchText,
+    @Query('storeId') int? storeId,
+  });
+
+  /// tìm sản phẩm con của combo
+  @GET('v1/flexible-combo/search-product')
+  Future<BaseResponse> getComboItemProductForSale({
+    @Query('page') required int page,
+    @Query('size') required int size,
+    @Query('searchText') String? searchText,
+    @Query('storeId') int? storeId,
+    @Query('referenceType') int? referenceType,
+    @Query('referenceId') int? referenceId,
   });
 }

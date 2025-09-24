@@ -24,7 +24,7 @@ class InstallmentAccountingModel {
   });
 
   InstallmentAccountingModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id']?.toString();
     name = json['name'];
     code = json['code'];
     phone = json['phone'];

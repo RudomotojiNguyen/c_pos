@@ -18,7 +18,24 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
 
   EmployeeBloc(this.employeeServices)
       : super(const EmployeeInitial(employees: [])) {
+    /// lấy danh sách nhân viên
     on<GetEmployeesEvent>(_onGetEmployees);
+
+    /// lấy danh sách nhân viên theo store
+    on<GetEmployeesByStoreEvent>(_onGetEmployeesByStore);
+  }
+
+  FutureOr<void> _onGetEmployeesByStore(
+      GetEmployeesByStoreEvent event, Emitter<EmployeeState> emit) async {
+    try {
+      emit(GetEmployeesByStoreLoading(state: state));
+      final res =
+          await employeeServices.getEmployeesByStore(storeIds: event.storeIds);
+      emit(GetEmployeesByStoreSuccess(state: state, employees: res));
+    } catch (e) {
+      _loggerHelper.logError(message: 'GetEmployeesByStoreEvent', obj: e);
+      emit(GetEmployeesByStoreSuccess(state: state, employees: const []));
+    }
   }
 
   FutureOr<void> _onGetEmployees(

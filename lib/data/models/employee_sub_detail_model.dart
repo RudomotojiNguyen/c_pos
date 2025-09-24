@@ -112,16 +112,6 @@ class EmployeeSubDetailModel {
 }
 
 extension EmployeeSubDetailModelExtension on EmployeeSubDetailModel {
-  bool get isEmpty =>
-      employee == null &&
-      technical == null &&
-      cdpk == null &&
-      cashier == null &&
-      manager == null &&
-      assistant == null &&
-      receptionist == null &&
-      delivery == null;
-
   EmployeeSubDetailModel updateEmployee({EmployeeModel? employee}) {
     return copyWith(employee: employee);
   }

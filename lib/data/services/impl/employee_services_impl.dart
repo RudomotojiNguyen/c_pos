@@ -19,4 +19,19 @@ class EmployeeServicesImpl implements EmployeeServices {
       },
     );
   }
+
+  @override
+  Future<List<EmployeeModel>> getEmployeesByStore({
+    required List<int> storeIds,
+  }) async {
+    final res = await employeeApi.getEmployeesByStore(storeIds: storeIds);
+
+    List<EmployeeModel> data = [];
+
+    for (var employee in res.data) {
+      data.add(EmployeeModel.fromJson(employee));
+    }
+
+    return data;
+  }
 }

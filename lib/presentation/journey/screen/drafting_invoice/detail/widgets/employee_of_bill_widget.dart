@@ -9,28 +9,31 @@ class EmployeeOfBillWidget extends StatefulWidget {
 
 class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
     with DialogHelper {
-  // final EmployeeBloc _employeeBloc = getIt.get<EmployeeBloc>();
+  final EmployeeBloc _employeeBloc = getIt.get<EmployeeBloc>();
   final DraftingInvoiceBloc _draftingInvoiceBloc =
       getIt.get<DraftingInvoiceBloc>();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _employeeBloc.add(GetEmployeesEvent());
-//   }
 
   // thông nhân viên luôn hiển thị đầu tiên
   // widget render lại khi state hiện tại là:
   //    - lấy thông tin đơn
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DraftingInvoiceBloc, DraftingInvoiceState>(
+    return BlocConsumer<DraftingInvoiceBloc, DraftingInvoiceState>(
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) => {
         GetCurrentDraftDataSuccess,
         IsGettingDetail,
         GetCurrentDraftDataError
       }.contains(current.runtimeType),
+      listener: (context, state) {
+        if (state is UpdateCurrentStoreSuccess ||
+            state is GetCurrentDraftDataSuccess) {
+          if (state.currentStore?.id != null) {
+            _employeeBloc.add(GetEmployeesByStoreEvent(
+                storeIds: [state.currentStore?.id ?? 0]));
+          }
+        }
+      },
       builder: (context, state) {
         if (state.checkNullDraft ||
             {CartType.tradeIn, CartType.updateOrder, CartType.order}
@@ -53,27 +56,53 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
               runSpacing: 8.sp,
               spacing: 8.sp,
               children: [
-                if (!employeeSubDetail.isEmpty) ...[
-                  const EmptyDataWidget(
-                    emptyMessage: 'Chưa có nhân viên được chọn',
-                  ),
-                ],
-//                 BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
-//                     EmployeeModel?>(
-//                   bloc: _draftingInvoiceBloc,
-//                   selector: (state) => state.saleInfo,
-//                   builder: (context, state) {
-//                     return _renderSaleInfo(state);
-//                   },
-//                 ),
-//                 BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
-//                     EmployeeModel?>(
-//                   bloc: _draftingInvoiceBloc,
-//                   selector: (state) => state.technicalInfo,
-//                   builder: (context, state) {
-//                     return _renderTechnicalInfo(state);
-//                   },
-//                 ),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.employee,
+                  title: 'Nhân viên bán hàng',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.technical,
+                  title: 'Nhân viên kỹ thuật',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.cdpk,
+                  title: 'Nhân viên CDPK',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.cashier,
+                  title: 'Nhân viên thu ngân',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.manager,
+                  title: 'Nhân viên quản lý',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.assistant,
+                  title: 'Nhân viên trợ lý',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.receptionist,
+                  title: 'Nhân viên tiếp đón',
+                  onPressed: () {},
+                ),
+                const XDivider(),
+                _renderEmployeeInfo(
+                  employee: employeeSubDetail.delivery,
+                  title: 'Nhân viên giao hàng',
+                  onPressed: () {},
+                ),
               ],
             ),
           ),
@@ -82,109 +111,49 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
     );
   }
 
-//   Widget _renderSaleInfo(EmployeeModel? sale) {
-//     return BlocBuilder<EmployeeBloc, EmployeeState>(
-//       bloc: _employeeBloc,
-//       builder: (context, state) {
-//         return _renderEmployeeInfo(
-//           title: 'BH:',
-//           employeeColor: AppColors.informationColor,
-//           onPressed: () {
-//             showWidgetDialog(
-//               context,
-//               barrierDismissible: true,
-//               title: 'Danh sách nhân viên',
-//               content: SearchEmployeeDialog(
-//                 employees: state.employees,
-//                 callback: (result) {
-//                   _draftingInvoiceBloc.add(UpdateSaleInfoOfBillEvent(result));
-//                 },
-//               ),
-//             );
-//           },
-//           value: sale?.fullName ?? 'Chưa có',
-//         );
-//       },
-//     );
-//   }
+  ///
+  /// WIDGET
+  ///
+  Widget _renderEmployeeInfo(
+      {EmployeeModel? employee, String? title, Function()? onPressed}) {
+    return XBaseButton(
+      onPressed: onPressed,
+      child: Row(
+        children: [
+          Text(
+            title ?? '',
+            style: AppFont.t.s(),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (employee != null) ...[
+                Text(
+                  employee.fullName ?? '',
+                  style: AppFont.t.s(),
+                ),
+              ] else ...{
+                Text(
+                  'Chưa có chọn',
+                  style: AppFont.t.s(),
+                ),
+              },
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 12.sp,
+                color: AppColors.iconColor,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-//   Widget _renderTechnicalInfo(EmployeeModel? tech) {
-//     return BlocBuilder<EmployeeBloc, EmployeeState>(
-//       bloc: _employeeBloc,
-//       builder: (context, state) {
-//         return _renderEmployeeInfo(
-//           title: 'KT:',
-//           employeeColor: AppColors.primaryColor,
-//           onPressed: () {
-//             showWidgetDialog(
-//               context,
-//               barrierDismissible: true,
-//               title: 'Danh sách nhân viên',
-//               content: SearchEmployeeDialog(
-//                 employees: state.employees,
-//                 callback: (result) {
-//                   _draftingInvoiceBloc.add(UpdateTechInfoOfBillEvent(result));
-//                 },
-//               ),
-//             );
-//           },
-//           value: tech?.fullName ?? 'Chưa có',
-//         );
-//       },
-//     );
-//   }
+  ///
+  /// METHOD
+  ///
 
-//   Widget _renderEmployeeInfo({
-//     required String title,
-//     required String value,
-//     Function()? onPressed,
-//     required Color employeeColor,
-//   }) {
-//     Color colorStatus =
-//         value.isEmpty ? AppColors.disabledActionColor : employeeColor;
-
-//     return XBaseButton(
-//       onPressed: onPressed,
-//       child: Container(
-//         padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 4.sp),
-//         decoration: BoxDecoration(
-//           color: AppColors.white,
-//           border: Border.all(width: 1.sp, color: colorStatus),
-//           borderRadius: BorderRadius.all(AppRadius.l),
-//         ),
-//         child: Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Text(
-//               title,
-//               style: AppFont.t.s().copyWith(
-//                     fontWeight: FontWeight.w700,
-//                     color: colorStatus,
-//                   ),
-//             ),
-//             BoxSpacer.s8,
-//             if (value.isEmpty) ...[
-//               Text(
-//                 'Trống NV',
-//                 style: AppFont.t.s().copyWith(
-//                       fontWeight: FontWeight.w700,
-//                       color: colorStatus,
-//                     ),
-//               ),
-//             ] else ...[
-//               Text(
-//                 value,
-//                 style: AppFont.t.s().copyWith(
-//                       fontWeight: FontWeight.w700,
-//                       color: employeeColor,
-//                     ),
-//               ),
-//             ],
-//             BoxSpacer.s8,
-//             Icon(Icons.edit_note, color: colorStatus, size: 18.sp),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+  ///
 }

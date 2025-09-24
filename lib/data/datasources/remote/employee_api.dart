@@ -12,4 +12,10 @@ abstract class EmployeeApi {
   ///
   @GET('v1/employees/all')
   Future<BaseResponse> getEmployees();
+
+  /// lấy danh sách nhân viên theo store
+  @GET('v1/employees/by-store')
+  Future<BaseResponse> getEmployeesByStore({
+    @Query('storeIds') required List<int> storeIds,
+  });
 }
