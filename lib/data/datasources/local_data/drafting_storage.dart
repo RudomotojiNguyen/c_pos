@@ -6,6 +6,7 @@ import 'package:isar/isar.dart';
 import '../../../common/constants/app_constants.dart';
 import '../../../common/enum/enum.dart';
 import '../../../presentation/journey/screen/login/bloc/auth_bloc.dart';
+import '../../models/employee_sub_detail_model.dart';
 import '../local_db/local_db.dart';
 
 part 'impl/drafting_storage_impl.dart';
@@ -232,5 +233,11 @@ abstract class DraftingStorage {
   Future<DraftingInvoiceTable?> updateProductTradeIn({
     required ProductTable product,
     required int cartId,
+  });
+
+  /// cập nhật thông tin nhân viên
+  Future<DraftingInvoiceTable?> updateEmployeeSubDetail({
+    required int cartId,
+    required EmployeeSubDetailModel employeeSubDetail,
   });
 }

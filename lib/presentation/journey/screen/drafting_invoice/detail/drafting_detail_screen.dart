@@ -141,9 +141,6 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
                 /// hiện ở tất cả CartType
                 const CustomerBillInformationWidget(),
 
-                /// thông tin nhân viên
-                const EmployeeOfBillWidget(),
-
                 /// CartType là tradeIn
                 /// todo: nào làm thêm phần thu cũ thì xem làm lại chỗ này
                 const TypeTradeInWidget(),
@@ -152,6 +149,9 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
 
                 /// cửa hàng đang chọn
                 const CurrentStoreWidget(),
+
+                /// thông tin nhân viên
+                const EmployeeOfBillWidget(),
 
                 /// CartType là updateOrder, order, updateBill, retail
                 const ProductsBasicInformationWidget(),

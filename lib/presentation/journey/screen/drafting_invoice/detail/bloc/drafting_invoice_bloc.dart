@@ -143,6 +143,207 @@ class DraftingInvoiceBloc
 
     /// cập nhật voucher sản phẩm
     on<UpdateProductVoucherEvent>(_onUpdateProductVoucher);
+
+    /// cập nhật nhân viên bán hàng
+    on<UpdateSalerOfBillEvent>(_onUpdateSalerOfBill);
+
+    /// cập nhật nhân viên kỹ thuật
+    on<UpdateTechnicalOfBillEvent>(_onUpdateTechnicalOfBill);
+
+    /// cập nhật nhân viên thu ngân
+    on<UpdateCashierOfBillEvent>(_onUpdateCashierOfBill);
+
+    /// cập nhật nhân viên quản lý
+    on<UpdateManagerOfBillEvent>(_onUpdateManagerOfBill);
+
+    /// cập nhật nhân viên trợ lý
+    on<UpdateAssistantOfBillEvent>(_onUpdateAssistantOfBill);
+
+    /// cập nhật nhân viên tiếp đón
+    on<UpdateReceptionistOfBillEvent>(_onUpdateReceptionistOfBill);
+
+    /// cập nhật nhân viên giao hàng
+    on<UpdateDeliveryOfBillEvent>(_onUpdateDeliveryOfBill);
+
+    /// cập nhật nhân viên cdpk
+    on<UpdateCdpkOfBillEvent>(_onUpdateCdpkOfBill);
+  }
+
+  FutureOr<void> _onUpdateCdpkOfBill(
+      UpdateCdpkOfBillEvent event, Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateCdpk(
+        cdpk: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateCdpkOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateSalerOfBill(
+      UpdateSalerOfBillEvent event, Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateEmployee(
+        employee: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateSalerOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateTechnicalOfBill(UpdateTechnicalOfBillEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateTechnical(
+        technical: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateTechnicalOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateCashierOfBill(UpdateCashierOfBillEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateCashier(
+        cashier: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateCashierOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateManagerOfBill(UpdateManagerOfBillEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateManager(
+        manager: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateManagerOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateAssistantOfBill(UpdateAssistantOfBillEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateAssistant(
+        assistant: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateAssistantOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateReceptionistOfBill(
+      UpdateReceptionistOfBillEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateReceptionist(
+        receptionist: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateReceptionistOfBillEvent', obj: e);
+    }
+  }
+
+  FutureOr<void> _onUpdateDeliveryOfBill(UpdateDeliveryOfBillEvent event,
+      Emitter<DraftingInvoiceState> emit) async {
+    try {
+      EmployeeSubDetailModel currentEmployeeSubDetail = state.employeeSubDetail;
+      currentEmployeeSubDetail = currentEmployeeSubDetail.updateDelivery(
+        delivery: event.employee,
+      );
+      final res = await draftingStorage.updateEmployeeSubDetail(
+        cartId: state.currentDraftId!,
+        employeeSubDetail: currentEmployeeSubDetail,
+      );
+      if (res != null) {
+        emit(UpdateEmployeeSubDetailSuccess(
+          state: state,
+          employeeSubDetail: res.employeeSubDetail ?? EmployeeSubDetailModel(),
+        ));
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateDeliveryOfBillEvent', obj: e);
+    }
   }
 
   FutureOr<void> _onUpdateProductVoucher(UpdateProductVoucherEvent event,

@@ -1257,6 +1257,21 @@ class DraftingStorageImpl extends DraftingStorage {
 
     return currentDraft;
   }
+
+  @override
+  Future<DraftingInvoiceTable?> updateEmployeeSubDetail(
+      {required int cartId,
+      required EmployeeSubDetailModel employeeSubDetail}) async {
+    DraftingInvoiceTable? currentDraft = await _findCart(cartId: cartId);
+    if (currentDraft == null) return null;
+
+    await isar.writeTxn(() async {
+      currentDraft.employeeSubDetail = employeeSubDetail;
+      await isar.draftingInvoiceTables.put(currentDraft);
+    });
+
+    return currentDraft;
+  }
 }
 
 extension DraftingStorageImplExtension on DraftingStorageImpl {

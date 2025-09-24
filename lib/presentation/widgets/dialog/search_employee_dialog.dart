@@ -5,17 +5,14 @@ import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../common/configs/box.dart';
 import '../../../common/di/injection/injection.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../journey/screen/employee/bloc/employee_bloc.dart';
 import '../widgets.dart';
 
 class SearchEmployeeDialog extends StatefulWidget {
-  const SearchEmployeeDialog(
-      {super.key, required this.callback, required this.employees});
+  const SearchEmployeeDialog({super.key, required this.employees});
 
-  final Function(EmployeeModel) callback;
   final List<EmployeeModel> employees;
 
   @override
@@ -37,65 +34,65 @@ class _SearchEmployeeDialogState extends State<SearchEmployeeDialog> {
   @override
   void dispose() {
     employees.dispose();
-    _searchTextController.dispose();
     _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const HeaderDialog(title: 'Tìm nhân viên'),
+        const XDivider(),
+        Expanded(child: _listSearch()),
+        _header(),
+      ],
+    );
+  }
+
+  Widget _listSearch() {
     return Expanded(
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: context.maxWidthDialog,
-        ),
-        child: Column(
-          children: [
-            XTextField(
-              hintText: 'Nhập tên hoặc mã nhân viên',
-              onChanged: _onChangeText,
-              controller: _searchTextController,
-            ),
-            BoxSpacer.s8,
-            Expanded(
-              child: ValueListenableBuilder(
-                  valueListenable: employees,
-                  builder: (context, value, _) {
-                    return ListView.separated(
-                      itemBuilder: (context, index) {
-                        final EmployeeModel employee = value[index];
-                        return XBaseButton(
-                          key: ValueKey(employee.id),
-                          onPressed: () {
-                            widget.callback(employee);
-                            Navigator.pop(context);
-                          },
-                          padding: EdgeInsets.symmetric(vertical: 8.sp),
-                          child: Text.rich(
+      child: ValueListenableBuilder(
+          valueListenable: employees,
+          builder: (context, value, _) {
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                final EmployeeModel employee = value[index];
+                return XBaseButton(
+                  key: ValueKey(employee.id),
+                  onPressed: () {
+                    Navigator.pop(context, employee);
+                  },
+                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                  child: Text.rich(
+                    TextSpan(
+                        text: employee.getFullName,
+                        style: AppFont.t.s(),
+                        children: [
+                          if (employee.getCode.isNotEmpty) ...[
+                            const TextSpan(
+                              text: ' - ',
+                            ),
                             TextSpan(
-                                text: employee.getFullName,
-                                style: AppFont.t.s(),
-                                children: [
-                                  if (employee.getCode.isNotEmpty) ...[
-                                    const TextSpan(
-                                      text: ' - ',
-                                    ),
-                                    TextSpan(
-                                      text: employee.getCode,
-                                    ),
-                                  ],
-                                ]),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => BoxSpacer.blank,
-                      itemCount: value.length,
-                    );
-                  }),
-            ),
-          ],
-        ),
-      ),
+                              text: employee.getCode,
+                            ),
+                          ],
+                        ]),
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => const XDivider(),
+              itemCount: value.length,
+            );
+          }),
+    );
+  }
+
+  Widget _header() {
+    return SearchBoxWidget(
+      onSearch: _onChangeText,
+      searchController: _searchTextController,
+      hintStr: 'Nhập tên ',
     );
   }
 

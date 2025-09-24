@@ -227,3 +227,56 @@ final class UpdateProductVoucherEvent extends DraftingInvoiceEvent {
 
   UpdateProductVoucherEvent({this.voucher, required this.product});
 }
+
+/// update employee of bill
+
+final class UpdateSalerOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateSalerOfBillEvent({required this.employee});
+}
+
+final class UpdateTechnicalOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateTechnicalOfBillEvent({required this.employee});
+}
+
+final class UpdateCdpkOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateCdpkOfBillEvent({required this.employee});
+}
+
+final class UpdateCashierOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateCashierOfBillEvent({required this.employee});
+}
+
+final class UpdateManagerOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateManagerOfBillEvent({required this.employee});
+}
+
+final class UpdateAssistantOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateAssistantOfBillEvent({required this.employee});
+}
+
+final class UpdateReceptionistOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateReceptionistOfBillEvent({required this.employee});
+}
+
+final class UpdateDeliveryOfBillEvent extends DraftingInvoiceEvent {
+  final EmployeeModel employee;
+
+  UpdateDeliveryOfBillEvent({required this.employee});
+}
+
+
+/// update assistant of bill
