@@ -108,18 +108,19 @@ class _ProductsBasicInformationWidgetState
   /// METHOD
   ///
 
-  _onAddProduct(CartType cartType) {
-    showXBottomSheet(
+  _onAddProduct(CartType cartType) async {
+    final res = await showXBottomSheet(
       context,
       maxHeight: 0.7.sh,
       body: SearchProductDialog(
         cartType: cartType,
         isNeedInStock: true,
-        onSelectProduct: (result) {
-          _draftingInvoiceBloc.add(AddProductFromSearchToCartEvent(result));
-        },
       ),
     );
+
+    if (res != null) {
+      _draftingInvoiceBloc.add(AddProductFromSearchToCartEvent(res));
+    }
   }
 
   ///
@@ -184,43 +185,58 @@ class _ProductsBasicInformationWidgetState
   ///
   /// handle add product gift
   ///
-  _onAddGift(ProductTable product) {
-    // todo: hiện dialog tìm sản phẩm
-    showXBottomSheet(
+  _onAddGift(ProductTable product) async {
+    final res = await showXBottomSheet(
       context,
       body: SearchProductDialog(
         isNeedInStock: true,
         parentProductId: product.productId,
         productType: XItemType.gift,
-        onSelectProduct: (result) {
-          _draftingInvoiceBloc.add(AddProductGiftEvent(
-            product: result,
-            parentProductId: product.id,
-          ));
-        },
       ),
     );
+
+    if (res != null) {
+      _draftingInvoiceBloc.add(AddProductGiftEvent(
+        product: res,
+        parentProductId: product.id,
+      ));
+    }
   }
 
   ///
   /// handle add product attach
   ///
-  _onAddAttach(ProductTable product) {
-    // todo: hiện dialog tìm sản phẩm
-    showXBottomSheet(
-      context,
-      body: SearchProductDialog(
-        isNeedInStock: true,
-        parentProductId: product.productId,
-        productType: XItemType.attach,
-        onSelectProduct: (result) {
-          _draftingInvoiceBloc.add(AddProductAttachEvent(
-            product: result,
-            parentProductId: product.id,
-          ));
-        },
-      ),
-    );
+  _onAddAttach(ProductTable product) async {
+    final cartType = _draftingInvoiceBloc.state.cartType ?? CartType.retail;
+    ProductModel? res;
+    if ({CartType.retail, CartType.updateBill}.contains(cartType)) {
+      res = await showXBottomSheet(
+        context,
+        body: FilterProductDialog(
+          parentProductId: product.productId,
+          productType: XItemType.attach,
+          cartType: _draftingInvoiceBloc.state.cartType ?? CartType.retail,
+        ),
+      );
+    }
+    if ({CartType.order, CartType.updateOrder}.contains(cartType)) {
+      res = await showXBottomSheet(
+        context,
+        body: SearchProductDialog(
+          isNeedInStock: true,
+          parentProductId: product.productId,
+          productType: XItemType.attach,
+          cartType: _draftingInvoiceBloc.state.cartType ?? CartType.retail,
+        ),
+      );
+    }
+
+    if (res != null) {
+      _draftingInvoiceBloc.add(AddProductAttachEvent(
+        product: res,
+        parentProductId: product.id,
+      ));
+    }
   }
 
   ///

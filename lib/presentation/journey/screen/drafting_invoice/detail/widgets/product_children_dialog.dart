@@ -142,24 +142,25 @@ class _ProductChildrenDialogState extends State<ProductChildrenDialog>
     required ProductModel product,
     required int index,
   }) async {
-    await showXBottomSheet(
+    final res = await showXBottomSheet(
       context,
       maxHeight: 0.7.sh,
       body: SearchProductDialog(
         productType: XItemType.main,
         cartType: CartType.retail,
         referenceId: product.referenceId,
-        onSelectProduct: (product) {
-          List<ProductModel> currentProducts = [..._productsCombo.value];
-          ProductModel currentProduct = currentProducts[index];
-
-          /// update product combo
-          currentProduct = currentProduct.updateProductCombo(product);
-
-          currentProducts[index] = currentProduct;
-          _productsCombo.value = currentProducts;
-        },
       ),
     );
+
+    if (res != null) {
+      List<ProductModel> currentProducts = [..._productsCombo.value];
+      ProductModel currentProduct = currentProducts[index];
+
+      /// update product combo
+      currentProduct = currentProduct.updateProductCombo(res);
+
+      currentProducts[index] = currentProduct;
+      _productsCombo.value = currentProducts;
+    }
   }
 }

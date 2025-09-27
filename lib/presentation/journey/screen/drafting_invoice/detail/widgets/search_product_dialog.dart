@@ -18,15 +18,12 @@ import '../../../../../widgets/widgets.dart';
 class SearchProductDialog extends StatefulWidget {
   const SearchProductDialog({
     super.key,
-    this.onSelectProduct,
     this.isNeedInStock = false,
     this.parentProductId,
     this.productType,
     this.cartType = CartType.retail,
     this.referenceId,
   });
-
-  final Function(ProductModel)? onSelectProduct;
 
   /// xem có cần check sản phẩm còn hàng mới cho ấn không
   final bool isNeedInStock;
@@ -68,7 +65,6 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BoxSpacer.s16,
         const HeaderDialog(title: 'Tìm kiếm sản phẩm'),
         Expanded(child: _renderProductList()),
         _renderSearchBox(),
@@ -234,8 +230,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   }
 
   _onSelectProduct(ProductModel product) {
-    widget.onSelectProduct?.call(product);
-    Navigator.pop(context);
+    Navigator.pop(context, product);
   }
 
   onChangeSearchTypeEvent(SearchType type) {
