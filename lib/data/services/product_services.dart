@@ -1,4 +1,7 @@
+import 'package:c_pos/common/extensions/extension.dart';
+
 import '../../common/enum/search_type.dart';
+import '../../common/enum/x_ref_type.dart';
 import '../datasources/remote/api_remote.dart';
 import '../models/models.dart';
 
@@ -82,5 +85,11 @@ abstract class ProductServices {
     String? searchText,
     int? storeId,
     SearchType searchType = SearchType.product,
+    String? referenceId,
+  });
+
+  Future<List<ProductModel>> getAttachesProductForSale({
+    required String productId,
+    int? storeId,
   });
 }

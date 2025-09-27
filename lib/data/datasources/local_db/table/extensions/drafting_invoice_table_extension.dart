@@ -286,4 +286,6 @@ extension DraftingInvoiceTableExtension on DraftingInvoiceTable {
 
     return data;
   }
+
+  bool get validationCart => true;
 }

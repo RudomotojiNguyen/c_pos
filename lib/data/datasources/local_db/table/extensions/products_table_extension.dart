@@ -42,12 +42,18 @@ extension ProductsTableExtension on List<ProductTable> {
   /// định dạng lại danh sách bill item
   List<Map<String, dynamic>> get formatBodyData {
     List<Map<String, dynamic>> data = [];
+    List<Map<String, dynamic>> dataCombo = [];
 
     for (var product in this) {
-      data.add(product.toJsonCreate());
+      if (product.productChildCombo != null &&
+          product.productChildCombo!.isNotEmpty) {
+        dataCombo.addAll(product.toJsonComboCreate());
+      } else {
+        data.add(product.toJsonCreate());
+      }
     }
 
-    return data;
+    return [...data, ...dataCombo];
   }
 
   double get getFinalPrice =>

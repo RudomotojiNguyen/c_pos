@@ -240,4 +240,11 @@ abstract class DraftingStorage {
     required int cartId,
     required EmployeeSubDetailModel employeeSubDetail,
   });
+
+  /// cập nhật sản phẩm combo
+  Future<DraftingInvoiceTable?> updateProductCombo({
+    required int cartId,
+    required ProductTable product,
+    required List<ProductModel> productCombos,
+  });
 }

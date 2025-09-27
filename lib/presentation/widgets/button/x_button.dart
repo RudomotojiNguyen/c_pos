@@ -33,16 +33,18 @@ class XButton extends StatelessWidget {
     this.color,
   });
 
+  Color get btnColor =>
+      color ?? (disable ? AppColors.disabledColor : AppColors.primaryColor);
+
+  get borderRadius => BorderRadius.all(AppRadius.xxl);
+
   @override
   Widget build(BuildContext context) {
-    Color btnColor =
-        color ?? (disable ? AppColors.disabledColor : AppColors.primaryColor);
-
     return Material(
-      borderRadius: BorderRadius.all(AppRadius.xxm),
+      borderRadius: borderRadius,
       color: _getBackgroundColor(),
       child: InkWell(
-        borderRadius: BorderRadius.all(AppRadius.xxm),
+        borderRadius: borderRadius,
         onTap: disable ? null : onPressed,
         child: Container(
           width: width,
@@ -53,13 +55,13 @@ class XButton extends StatelessWidget {
               ),
           decoration: onPressed != null
               ? BoxDecoration(
-                  borderRadius: BorderRadius.all(AppRadius.xxm),
+                  borderRadius: borderRadius,
                   border: type == XButtonType.outline
                       ? Border.all(color: btnColor, width: 1.sp)
                       : null,
                 )
               : BoxDecoration(
-                  borderRadius: BorderRadius.all(AppRadius.xxm),
+                  borderRadius: borderRadius,
                   color: type == XButtonType.hyperlink
                       ? Colors.transparent
                       : Colors.grey[400],

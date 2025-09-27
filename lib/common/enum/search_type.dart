@@ -120,9 +120,11 @@ extension SearchTypeExtension on SearchType {
   String get getHintText {
     switch (this) {
       case SearchType.product:
-        return 'Tìm kiếm theo tên, mã, mã vạch sản phẩm';
+        return 'Nhập tên, mã sản phẩm';
       case SearchType.imei:
-        return 'Tìm kiếm theo mã imel';
+        return 'Nhập mã imel';
+      case SearchType.productCombo:
+        return 'Nhập tên combo';
       default:
         return '';
     }

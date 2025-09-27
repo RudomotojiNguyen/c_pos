@@ -1272,6 +1272,23 @@ class DraftingStorageImpl extends DraftingStorage {
 
     return currentDraft;
   }
+
+  @override
+  Future<DraftingInvoiceTable?> updateProductCombo({
+    required int cartId,
+    required ProductTable product,
+    required List<ProductModel> productCombos,
+  }) async {
+    DraftingInvoiceTable? currentDraft = await _findCart(cartId: cartId);
+    if (currentDraft == null) return null;
+
+    await isar.writeTxn(() async {
+      product.productChildCombo = productCombos;
+      await isar.productTables.put(product);
+    });
+
+    return currentDraft;
+  }
 }
 
 extension DraftingStorageImplExtension on DraftingStorageImpl {

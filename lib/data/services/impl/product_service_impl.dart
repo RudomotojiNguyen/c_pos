@@ -14,6 +14,8 @@ class ProductServicesImpl implements ProductServices {
   }) async {
     BaseResponse res;
 
+    //getAttachesProductForSale
+
     if (searchType == SearchType.product) {
       res = await productApi.getAttachesProduct(
         productId: productId,
@@ -270,8 +272,41 @@ class ProductServicesImpl implements ProductServices {
     String? searchText,
     int? storeId,
     SearchType searchType = SearchType.product,
+    String? referenceId,
   }) async {
     List<ProductModel> data = [];
+
+    if (referenceId.isNotNullOrEmpty) {
+      final res = await productApi.getComboItemProductForSale(
+        page: page,
+        size: size,
+        searchText: searchText,
+        storeId: storeId,
+        referenceType: XRefType.product.getValue,
+        referenceId: referenceId,
+      );
+
+      for (var item in res.data) {
+        data.add(ProductModel.fromJson(item));
+      }
+
+      return data;
+    }
+
+    if (searchType == SearchType.productCombo) {
+      final res = await productApi.getComboProductForSale(
+        page: page,
+        size: size,
+        searchText: searchText,
+        storeId: storeId,
+      );
+
+      for (var item in res.data) {
+        data.add(ProductModel.fromJson(item));
+      }
+
+      return data;
+    }
     if (searchType == SearchType.product) {
       final res = await productApi.getProductForSale(
         page: page,
@@ -283,6 +318,8 @@ class ProductServicesImpl implements ProductServices {
       for (var item in res.data) {
         data.add(ProductModel.fromJson(item));
       }
+
+      return data;
     }
     if (searchType == SearchType.imei) {
       final res = await productApi.getProductForSaleByImei(
@@ -295,9 +332,28 @@ class ProductServicesImpl implements ProductServices {
       for (var item in res.data) {
         data.add(ProductModel.fromJson(item));
       }
+
+      return data;
     }
 
-    /// todo: theem combo product
+    return data;
+  }
+
+  @override
+  Future<List<ProductModel>> getAttachesProductForSale({
+    required String productId,
+    int? storeId,
+  }) async {
+    final res = await productApi.getAttachesProductForSale(
+      productId: productId,
+      storeId: storeId,
+    );
+
+    List<ProductModel> data = [];
+
+    for (var item in res.data) {
+      data.add(ProductModel.fromJson(item));
+    }
 
     return data;
   }

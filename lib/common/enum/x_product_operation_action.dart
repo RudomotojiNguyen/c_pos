@@ -24,6 +24,7 @@ enum XProductOperationAction {
   addMore, // lên đơn mới
   voucher, // thêm voucher
   removeVoucher, // xóa voucher
+  addProductCombo, // thêm sản phẩm combo
 }
 
 extension XProductOperationActionExtension on XProductOperationAction {
@@ -61,6 +62,8 @@ extension XProductOperationActionExtension on XProductOperationAction {
         return 'Mua';
       case XProductOperationAction.voucher:
         return 'Voucher';
+      case XProductOperationAction.addProductCombo:
+        return 'Thêm sản phẩm con';
       default:
         return '';
     }
@@ -134,6 +137,12 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.voucher:
         return Icon(
           Icons.loyalty_outlined,
+          color: AppColors.primaryColor,
+          size: 20.sp,
+        );
+      case XProductOperationAction.addProductCombo:
+        return Icon(
+          Icons.add_outlined,
           color: AppColors.primaryColor,
           size: 20.sp,
         );

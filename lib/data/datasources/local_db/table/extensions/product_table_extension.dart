@@ -9,6 +9,8 @@ extension ProductTableExtension on ProductTable {
 
   int get getTotalQuantityInStore => totalQuantityInStore ?? 0;
 
+  List<ProductModel> get getProductsCombo => productChildCombo ?? [];
+
   String get getDataCopy => '$productName - $barCode';
 
   /// lấy danh sách quà tặng đã chọn
@@ -60,12 +62,30 @@ extension ProductTableExtension on ProductTable {
   /// hoặc có thể là giá thu lại (đối với quà tặng)
   double get getRepurchasePrice => repurchasePrice ?? 0;
 
+  /// giá của toàn bộ combo
+  double get getTotalPriceOfCombo {
+    return (productChildCombo ?? []).fold(
+        0,
+        (previousValue, element) =>
+            previousValue + element.getTotalPriceComboAfterDiscount);
+  }
+
   /// giá sản phẩm sau khi tr chương trình và các giảm giá khác
-  double get getProductPrice =>
-      (getSellingPrice * getQuantity) - (calculatorProductDiscountAmount);
+  double get getProductPrice {
+    if (productChildCombo != null && productChildCombo!.isNotEmpty) {
+      return getTotalPriceOfCombo;
+    }
+
+    return (getSellingPrice * getQuantity) - (calculatorProductDiscountAmount);
+  }
 
   /// tính tiền sản phẩm theo số lượng
-  double get calculatorTotalSellingPrice => getSellingPrice * getQuantity;
+  double get calculatorTotalSellingPrice {
+    if (productChildCombo != null && productChildCombo!.isNotEmpty) {
+      return getTotalPriceOfCombo;
+    }
+    return getSellingPrice * getQuantity;
+  }
 
   /// chiết khấu tự động
   double get getDiscountAmount => discountAmount;
@@ -234,6 +254,39 @@ extension ProductTableExtension on ProductTable {
         getAttaches.map((e) => e.formatChild(XItemType.attach)).toList();
 
     return data;
+  }
+
+  /// format cho thông tin sản phẩm combo
+  List<Map<String, dynamic>> toJsonComboCreate() {
+    List<Map<String, dynamic>> data = [];
+    for (var product in productChildCombo ?? []) {
+      data.add(toJsonComboCreateItem(
+          flexibleComboId: productId ?? '-1', product: product));
+    }
+    return data;
+  }
+
+  Map<String, dynamic> toJsonComboCreateItem(
+      {required ProductModel product, required String flexibleComboId}) {
+    return {
+      "id": null, // todo: check lại
+      "productId": product.id,
+      "productPrice": product.listedPrice,
+      "quantity": product.quantity ?? 1,
+      "discountAmount": product.getComboPriceDiscount,
+      "imeiCode": "",
+      "productType": product.productType.getValueType,
+      "accessoryGroupId": product.accessoryGroupId,
+      "accessoryGroupCode": product.accessoryGroupCode,
+      "repurchasePrice": product.repurchasePrice,
+      "note": "",
+      "gifts": [],
+      "attachs": [],
+      "discountType": 1,
+      "discountProgramId": null, // todo: check lại
+      "flexibleComboId": flexibleComboId, // id thằng cha
+      "flexibleComboItemId": product.flexibleComboItemId,
+    };
   }
 
   /// format thông tin sản phẩm con

@@ -90,6 +90,14 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
     if (widget.product.voucher == null) {
       productOperationActions.add(XProductOperationAction.voucher);
     }
+
+    if (widget.product.productType == ProductType.combo) {
+      productOperationActions.add(XProductOperationAction.addProductCombo);
+      productOperationActions.remove(XProductOperationAction.addGift);
+      productOperationActions.remove(XProductOperationAction.addAttach);
+      productOperationActions.remove(XProductOperationAction.discountByHand);
+    }
+
     return Container(
       padding: EdgeInsets.all(8.sp),
       width: 240.sp,
@@ -224,21 +232,7 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               final product = widget.productsCombo[index];
-              return Text.rich(
-                style: AppFont.t.s().neutral3.w500,
-                TextSpan(
-                  text: '- ',
-                  children: [
-                    TextSpan(text: product.getName),
-                    const TextSpan(text: ' ('),
-                    TextSpan(
-                      text: product.getSellingPrice.formatCurrency,
-                      style: AppFont.t.s().primaryColor.w700,
-                    ),
-                    const TextSpan(text: ')'),
-                  ],
-                ),
-              );
+              return _renderProductComboItem(product, index + 1);
             },
             separatorBuilder: (context, index) => BoxSpacer.s2,
             itemCount: widget.productsCombo.length,
@@ -247,6 +241,32 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
           ),
         ],
       ],
+    );
+  }
+
+  Widget _renderProductComboItem(ProductModel product, int index) {
+    if (product.getName.isNullOrEmpty) {
+      return Text.rich(
+        style: AppFont.t.s(12).neutral3.w500,
+        TextSpan(
+          text: '- Thiếu sản phẩm $index',
+        ),
+      );
+    }
+    return Text.rich(
+      style: AppFont.t.s(12).neutral3.w500,
+      TextSpan(
+        text: '- ',
+        children: [
+          TextSpan(text: product.getName),
+          // const TextSpan(text: ' ('),
+          // TextSpan(
+          //   text: product.getSellingPrice.formatCurrency,
+          //   style: AppFont.t.s().primaryColor.w700,
+          // ),
+          // const TextSpan(text: ')'),
+        ],
+      ),
     );
   }
 

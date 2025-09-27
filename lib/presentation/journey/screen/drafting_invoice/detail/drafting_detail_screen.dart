@@ -48,6 +48,7 @@ part 'widgets/order_sub_detail_widget.dart';
 part 'widgets/current_store.dart';
 part 'widgets/trade_in_program_criteria_group_widget.dart';
 part 'widgets/employee_of_bill_widget.dart';
+part 'widgets/product_children_dialog.dart';
 
 class DraftingDetailScreen extends StatefulWidget {
   const DraftingDetailScreen({super.key, required this.id});

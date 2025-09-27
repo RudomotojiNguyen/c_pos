@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_initializing_formals
+
 import 'package:c_pos/common/extensions/extension.dart';
 
 import '../../common/constants/app_constants.dart';
@@ -76,6 +78,12 @@ class ProductModel {
   /// stock
   int? inStockQuantity;
 
+  /// product combo
+  String? description;
+  int? flexibleComboItemId; // id của sản phẩm con trong sản phẩm combo
+  String? referenceId;
+  double? discountRate;
+
   ProductModel({
     this.id,
     this.productName,
@@ -132,13 +140,17 @@ class ProductModel {
     this.images,
     this.imageUrl,
     this.inStockQuantity,
+    this.description,
+    this.flexibleComboItemId,
+    this.referenceId,
+    this.discountRate,
   });
 
   ProductModel.fromJson(Map<String, dynamic> json, {ProductType? type}) {
     productType = type ?? convertType(json['productType'] ?? -1);
-    id = json['id'] ?? json['productId'];
-    productName = json['productName'];
-    productCode = json['productCode'];
+    id = json['id']?.toString() ?? json['productId']?.toString();
+    productName = json['productName'] ?? json['name'];
+    productCode = json['productCode'] ?? json['code'];
     productCodeVat = json['productCodeVat'];
     productNameVat = json['productNameVat'];
     returnSellingPrice = json['returnSellingPrice'];
@@ -228,6 +240,22 @@ class ProductModel {
 
     imageUrl = json['imageUrl'] ?? json['productImageUrl'];
     inStockQuantity = json['inStockQuantity'];
+    description = json['description'];
+    if (json['listItem'] != null) {
+      /// nếu có thông in listItem thì chứng tỏ nó là sp combo
+      /// cập nhật lại productType là combo
+      productType = ProductType.combo;
+
+      productsCombo = <ProductModel>[];
+      (json['listItem'] ?? []).forEach((v) {
+        final prod = ProductModel.fromJson(v);
+        prod.flexibleComboItemId = v['id'];
+        productsCombo!.add(prod);
+      });
+    }
+    flexibleComboItemId = json['flexibleComboItemId'];
+    referenceId = json['referenceId'];
+    discountRate = Utils.toDouble(json['discountRate']);
   }
 
   ProductType convertType(int value) => value.toProductType;
@@ -239,6 +267,8 @@ class ProductModel {
   List<String> get getImages => images ?? [];
 
   String get getName => productChildSelected?.getName ?? productName ?? '';
+
+  String get getDescription => description ?? '';
 
   String get getDataCopy => '$productName - $barCode';
 
@@ -296,28 +326,28 @@ class ProductModel {
         "productName": productName,
         "productCode": productCode,
         "sellingPrice": sellingPrice,
+        "listedPrice": listedPrice,
         "quantity": quantity ?? 1,
         "discountAmount": discountAmount,
         "accessoryGroupId": accessoryGroupId,
         "code": code,
         "discountType": discountType,
         "discountProgramId": discountProgramId,
+        "flexibleComboItemId": flexibleComboItemId,
+        "referenceId": referenceId,
+        "discountRate": discountRate,
+        "repurchasePrice": repurchasePrice,
       };
 
-  List<Map<String, dynamic>> toChildComboJson() => (productsCombo ?? [])
-      .map((e) => {
-            "id": e.id,
-            "parentProductId": e.parentProductId,
-            "productName": e.productName,
-            "productNameVat": e.productNameVat,
-            "productType": e.productType.getValueType,
-            "originalPrice": e.originalPrice,
-            "sellingPrice": e.sellingPrice,
-            "inComboQuantity": 1,
-            "totalQuantityInStock": e.totalQuantityInStock,
-            "totalQuantityInStore": e.totalQuantityInStore,
-          })
-      .toList();
+  ProductModel updateProductCombo(ProductModel product) => product
+    ..discountAmount = discountAmount
+    ..code = code
+    ..discountType = discountType
+    ..discountProgramId = discountProgramId
+    ..flexibleComboItemId = flexibleComboItemId
+    ..referenceId = referenceId
+    ..discountRate = discountRate
+    ..accessoryGroupId = accessoryGroupId;
 
   ProductTable convertToTable({
     int? cartId,
@@ -375,4 +405,33 @@ class ProductModel {
       )
         ..productChild = productChildSelected
         ..productChildCombo = productsCombo;
+
+  int get getQuantity => quantity ?? 1;
+}
+
+/// tính toán cho combo
+extension ProductComboExtension on ProductModel {
+  double get getDiscountRate => discountRate ?? 0;
+
+  double get getTotalPriceComboAfterDiscount {
+    return getTotalPriceComboBeforeDiscount - getComboPriceDiscount;
+  }
+
+  double get getTotalPriceComboBeforeDiscount {
+    return getListedPrice * getQuantity;
+  }
+
+  double get getComboPriceDiscount {
+    if (discountType == XDiscountType.amount.value) {
+      return getDiscountRate;
+    }
+    if (discountType == XDiscountType.percent.value) {
+      return getTotalPriceComboBeforeDiscount * (getDiscountRate / 100);
+    }
+    return 0;
+  }
+
+  bool get isProductEnoughInformation {
+    return getName.isNotNullOrEmpty;
+  }
 }

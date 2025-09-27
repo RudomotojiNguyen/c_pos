@@ -67,6 +67,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         productType: event.productType,
         productId: event.parentProductId,
         cartType: event.cartType,
+        referenceId: event.referenceId,
       );
 
       if (res == null) {
@@ -117,6 +118,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         productType: event.productType,
         productId: event.parentProductId,
         cartType: event.cartType,
+        referenceId: event.referenceId,
       );
 
       if (res == null) {
@@ -172,6 +174,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
         productType: event.productType,
         productId: event.parentProductId,
         cartType: event.cartType,
+        referenceId: event.referenceId,
       );
 
       if (res == null) {
@@ -215,6 +218,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
     XItemType? productType,
     String? productId,
     CartType? cartType,
+    String? referenceId,
   }) async {
     final AuthBloc authBloc = getIt.get<AuthBloc>();
     final DraftingInvoiceBloc draftingInvoiceBloc =
@@ -242,6 +246,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
         productType: productType,
         productId: productId,
         storeId: store,
+        referenceId: referenceId,
       );
     }
     if ({CartType.order, CartType.updateOrder}.contains(cartType)) {
@@ -254,6 +259,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
         productType: productType,
         productId: productId,
         storeId: store,
+        referenceId: referenceId,
       );
     }
 
@@ -270,6 +276,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
     bool isInterestZero = false,
     XItemType? productType,
     String? productId,
+    String? referenceId,
   }) async {
     List<ProductModel> res = [];
 
@@ -314,13 +321,17 @@ extension SearchProductBlocExtension on SearchProductBloc {
     bool isInterestZero = false,
     XItemType? productType,
     String? productId,
+    String? referenceId,
   }) async {
     List<ProductModel> res = [];
 
     if (productType == XItemType.gift) {
       //
     } else if (productType == XItemType.attach) {
-      //
+      res = await productServices.getAttachesProductForSale(
+        productId: productId ?? '',
+        storeId: storeId,
+      );
     } else {
       res = await productServices.getProductForSale(
         searchText: param,
@@ -328,6 +339,7 @@ extension SearchProductBlocExtension on SearchProductBloc {
         size: limit,
         storeId: storeId,
         searchType: type,
+        referenceId: referenceId,
       );
     }
 

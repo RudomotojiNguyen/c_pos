@@ -49,6 +49,8 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
             width: 22.sp,
             height: 22.sp,
           ),
+          containerType: ContainerType.expand,
+          initiallyExpanded: false,
           title: 'Thông tin nhân viên',
           child: BlocBuilder<EmployeeBloc, EmployeeState>(
             bloc: _employeeBloc,

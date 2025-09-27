@@ -621,6 +621,46 @@ class _ProductApi implements ProductApi {
   }
 
   @override
+  Future<BaseResponse> getAttachesProductForSale({
+    required String productId,
+    int? storeId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'productId': productId,
+      r'storeId': storeId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'v1/product-promotion/attach',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse _value;
+    try {
+      _value = BaseResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<BaseResponse> getComboProductForSale({
     required int page,
     required int size,
@@ -671,7 +711,7 @@ class _ProductApi implements ProductApi {
     String? searchText,
     int? storeId,
     int? referenceType,
-    int? referenceId,
+    String? referenceId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{

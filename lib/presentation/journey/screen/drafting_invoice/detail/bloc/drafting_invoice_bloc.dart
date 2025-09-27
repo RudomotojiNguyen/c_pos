@@ -167,6 +167,26 @@ class DraftingInvoiceBloc
 
     /// cập nhật nhân viên cdpk
     on<UpdateCdpkOfBillEvent>(_onUpdateCdpkOfBill);
+
+    /// cập nhật sản phẩm combo
+    on<UpdateProductComboEvent>(_onUpdateProductCombo);
+  }
+
+  FutureOr<void> _onUpdateProductCombo(
+      UpdateProductComboEvent event, Emitter<DraftingInvoiceState> emit) async {
+    try {
+      final res = await draftingStorage.updateProductCombo(
+        cartId: state.currentDraftId!,
+        product: event.product,
+        productCombos: event.productCombos,
+      );
+      if (res != null) {
+        emit(UpdateProductsSuccess(state: state, products: res.getProducts));
+        updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'UpdateProductComboEvent', obj: e);
+    }
   }
 
   FutureOr<void> _onUpdateCdpkOfBill(
@@ -356,8 +376,7 @@ class DraftingInvoiceBloc
       );
       if (res != null) {
         emit(UpdateProductsSuccess(state: state, products: res.getProducts));
-
-        /// todo: tính toán lại giá sản phẩm
+        updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
       }
     } catch (e) {
       _loggerHelper.logError(message: 'UpdateProductVoucherEvent', obj: e);
@@ -921,7 +940,10 @@ class DraftingInvoiceBloc
       if (cart.validateBill && !{CartType.tradeIn}.contains(state.cartType)) {
         final formData = cart.formatBodyData();
 
-        /// todo: validate data
+        if (!cart.validationCart) {
+          emit(CreateFailed(state: state));
+          return;
+        }
 
         await Future.delayed(const Duration(seconds: 2), () {
           debugPrint('CreateFailed');
@@ -978,7 +1000,7 @@ class DraftingInvoiceBloc
 
       if (isCreateSuccess) {
         /// xóa sau khi tạo thành công
-        draftingStorage.removeCartById(cart.id);
+        // draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
       emit(CreateFailed(state: state));
@@ -1205,29 +1227,6 @@ class DraftingInvoiceBloc
       _loggerHelper.logError(message: 'UpdateProductEvent', obj: e);
     }
   }
-
-  // FutureOr<void> _onAddProduct(
-  //   AddProductEvent event,
-  //   Emitter<DraftingInvoiceState> emit,
-  // ) async {
-  //   try {
-  //     int? currentDraftId = state.currentDraftId;
-  //     if (currentDraftId == null) return;
-
-  //     final res = await _addItemToCart(
-  //       product: event.product,
-  //       cartId: currentDraftId,
-  //       gifts: event.gifts,
-  //       attaches: event.attaches,
-  //     );
-  //     if (res != null) {
-  //       emit(UpdateProductsSuccess(state: state, products: res.getProducts));
-  //       updateCalculatorPriceSuccess(emit: emit, state: state, res: res);
-  //     }
-  //   } catch (e) {
-  //     _loggerHelper.logError(message: 'AddProductEvent', obj: e);
-  //   }
-  // }
 
   FutureOr<void> _onUpdateCustomerInfoOfBill(
     UpdateCustomerInfoOfBillEvent event,

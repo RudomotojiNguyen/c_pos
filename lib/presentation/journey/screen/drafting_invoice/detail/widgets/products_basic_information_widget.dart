@@ -314,8 +314,25 @@ class _ProductsBasicInformationWidgetState
       case XProductOperationAction.removeVoucher:
         _onRemoveVoucher(product);
         break;
+      case XProductOperationAction.addProductCombo:
+        _onAddProductCombo(product);
+        break;
       default:
         break;
+    }
+  }
+
+  _onAddProductCombo(ProductTable product) async {
+    final prod = await showXBottomSheet(
+      context,
+      maxHeight: 0.5.sh,
+      body: ProductChildrenDialog(product: product),
+    );
+    if (prod != null && prod is List<ProductModel>) {
+      _draftingInvoiceBloc.add(UpdateProductComboEvent(
+        product: product,
+        productCombos: prod,
+      ));
     }
   }
 

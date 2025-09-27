@@ -140,11 +140,11 @@ abstract class ProductApi {
   });
 
   /// tìm sản phẩm bán kèm
-  // @GET('v1/product-promotion/attach')
-  // Future<BaseResponse> getAttachesProductForSale({
-  //   @Query('productId') required String productId,
-  //   @Query('storeId') int? storeId,
-  // });
+  @GET('v1/product-promotion/attach')
+  Future<BaseResponse> getAttachesProductForSale({
+    @Query('productId') required String productId,
+    @Query('storeId') int? storeId,
+  });
 
   /// tìm sản phẩm combo
   @GET('v1/flexible-combo/search')
@@ -163,6 +163,6 @@ abstract class ProductApi {
     @Query('searchText') String? searchText,
     @Query('storeId') int? storeId,
     @Query('referenceType') int? referenceType,
-    @Query('referenceId') int? referenceId,
+    @Query('referenceId') String? referenceId,
   });
 }

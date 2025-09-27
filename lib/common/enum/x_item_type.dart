@@ -34,11 +34,6 @@ extension XItemTypeExtension on XItemType {
           Icons.attach_file,
           size: width ?? 18.sp,
         );
-      // case ProductType.warranty:
-      //   return Icon(
-      //     Icons.shield,
-      //     size: width ?? 18.sp,
-      //   );
       case XItemType.main:
         return BoxSpacer.blank;
     }

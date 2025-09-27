@@ -23,14 +23,27 @@ class SearchProductDialog extends StatefulWidget {
     this.parentProductId,
     this.productType,
     this.cartType = CartType.retail,
+    this.referenceId,
   });
 
   final Function(ProductModel)? onSelectProduct;
-  final bool
-      isNeedInStock; // xem có cần check sản phẩm còn hàng mới cho ấn không
-  final String? parentProductId; // id sản phẩm trước đó
-  final XItemType? productType; // loại cần tìm kiếm
-  final CartType cartType; // loại đơn hàng
+
+  /// xem có cần check sản phẩm còn hàng mới cho ấn không
+  final bool isNeedInStock;
+
+  /// id sản phẩm trước đó
+  /// chỗ này sẽ dành cho bán kèm hoặc quà tặng
+  final String? parentProductId;
+
+  /// loại cần tìm kiếm
+  final XItemType? productType;
+
+  /// loại đơn hàng
+  final CartType cartType;
+
+  /// id sản phẩm con trong sản phẩm combo
+  /// dành cho phần tìm sản phẩm con của sản phẩm combo
+  final String? referenceId;
 
   @override
   State<SearchProductDialog> createState() => _SearchProductDialogState();
@@ -75,29 +88,45 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
           onSearch: _onChangeText,
           searchController: _searchController,
           hintStr: state.searchType.getHintText,
-          filterWidget: _dataSearchType(),
+          suffixWidget: widget.referenceId.isNotNullOrEmpty
+              ? null
+              : CustomizePopUpWidget(
+                  content: _dataSearchType(),
+                  child: _contentSearchType(),
+                ),
+        );
+      },
+    );
+  }
+
+  _contentSearchType() {
+    return BlocBuilder<SearchProductBloc, SearchProductState>(
+      bloc: _searchProductBloc,
+      buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
+      builder: (context, state) {
+        return Text(
+          state.searchType.getShortTitle,
+          style: AppFont.t.s(),
         );
       },
     );
   }
 
   Widget _dataSearchType() {
+    List<SearchType> searchTypes = [SearchType.product, SearchType.imei];
+    if ({CartType.retail, CartType.updateBill}.contains(widget.cartType)) {
+      searchTypes.add(SearchType.productCombo);
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        XTextButton(
-          title: SearchType.product.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.product);
-          },
-        ),
-        XTextButton(
-          title: SearchType.imei.getTitle,
-          onPressed: () {
-            onChangeSearchTypeEvent(SearchType.imei);
-          },
-        ),
+        ...searchTypes.map((e) => XTextButton(
+              title: e.getTitle,
+              onPressed: () {
+                onChangeSearchTypeEvent(e);
+              },
+            )),
       ],
     );
   }
@@ -158,9 +187,13 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
                   productName: product.getName,
                   productCode: product.getBarCode,
                   productImage: product.getImageThumbnail,
-                  productPrice: product.getSellingPrice,
+                  productPrice: widget.referenceId.isNotNullOrEmpty
+                      ? product.getListedPrice
+                      : product.getSellingPrice,
                   isNeedInStock: widget.isNeedInStock,
                   isExistInStock: (product.inStockQuantity ?? 0) > 0,
+                  productType: product.productType,
+                  productsCombo: product.productsCombo,
                   onPressed: () => _onSelectProduct(product),
                 );
               },
@@ -185,6 +218,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
           parentProductId: widget.parentProductId,
           productType: widget.productType,
           cartType: widget.cartType,
+          referenceId: widget.referenceId,
         ));
       } else {
         _searchProductBloc.add(OnSearchProductsEvent(
@@ -193,6 +227,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
           parentProductId: widget.parentProductId,
           productType: widget.productType,
           cartType: widget.cartType,
+          referenceId: widget.referenceId,
         ));
       }
     });
@@ -222,6 +257,8 @@ class ProductItemSearchDialog extends StatelessWidget {
     this.onRemove,
     required this.isNeedInStock,
     required this.isExistInStock,
+    required this.productType,
+    required this.productsCombo,
   });
 
   final String productName;
@@ -232,10 +269,13 @@ class ProductItemSearchDialog extends StatelessWidget {
   final Function()? onRemove;
   final bool isNeedInStock;
   final bool isExistInStock;
+  final ProductType productType;
+  final List<ProductModel>? productsCombo;
 
   // nếu như cần check stock và sp hết hàng thì không cho ấn
   // nếu như không cần check stock thì cho ấn
-  bool get isDisable => isNeedInStock && !isExistInStock;
+  bool get isDisable =>
+      isNeedInStock && !isExistInStock && productType != ProductType.combo;
 
   @override
   Widget build(BuildContext context) {
@@ -263,37 +303,11 @@ class ProductItemSearchDialog extends StatelessWidget {
             borderRadius: BorderRadius.all(AppRadius.l),
           ),
           BoxSpacer.s8,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  productName,
-                  style: AppFont.t.s(13).copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (!isDisable) ...[
-                  BoxSpacer.s4,
-                  Text(
-                    productPrice.formatCurrency,
-                    style: AppFont.t.s().primaryColor,
-                  ),
-                ],
-                if (isDisable) ...[
-                  BoxSpacer.s4,
-                  Text(
-                    'Không còn hàng',
-                    style: AppFont.t.s().copyWith(
-                          color: AppColors.warningColor,
-                        ),
-                  ),
-                ],
-              ],
-            ),
-          ),
+          if (productType == ProductType.combo) ...[
+            _renderProductCombo(),
+          ] else ...[
+            _renderProductNormal(),
+          ],
           if (onRemove != null) ...[
             BoxSpacer.s8,
             XBaseButton(
@@ -305,6 +319,57 @@ class ProductItemSearchDialog extends StatelessWidget {
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+
+  Widget _renderProductNormal() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            productName,
+            style: AppFont.t.s(13).copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          if (!isDisable) ...[
+            BoxSpacer.s4,
+            Text(
+              productPrice.formatCurrency,
+              style: AppFont.t.s().primaryColor,
+            ),
+          ],
+          if (isDisable) ...[
+            BoxSpacer.s4,
+            Text(
+              'Không còn hàng',
+              style: AppFont.t.s().copyWith(
+                    color: AppColors.warningColor,
+                  ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _renderProductCombo() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(productName),
+          BoxSpacer.s4,
+          Text.rich(TextSpan(
+            text: 'Cần chọn ${productsCombo?.length} sản phẩm',
+            style: AppFont.t.s().primaryColor,
+          )),
+          BoxSpacer.s4,
         ],
       ),
     );

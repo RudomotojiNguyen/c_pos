@@ -278,5 +278,13 @@ final class UpdateDeliveryOfBillEvent extends DraftingInvoiceEvent {
   UpdateDeliveryOfBillEvent({required this.employee});
 }
 
-
 /// update assistant of bill
+
+/// update product combo
+
+final class UpdateProductComboEvent extends DraftingInvoiceEvent {
+  final ProductTable product;
+  final List<ProductModel> productCombos;
+
+  UpdateProductComboEvent({required this.product, required this.productCombos});
+}

@@ -27,6 +27,7 @@ export 'x_job_title.dart';
 export 'x_order_insert_type.dart';
 export 'x_entity_enum.dart';
 export 'x_asset_model_name.dart';
+export 'x_ref_type.dart';
 
 enum XMomentTimeEnum { morning, evening }
 
