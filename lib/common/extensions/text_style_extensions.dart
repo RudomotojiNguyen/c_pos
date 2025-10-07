@@ -56,7 +56,7 @@ extension MyFontSize on TextStyle {
 class AppFont {
   static TextStyle get t => TextStyle(
         color: AppColors.neutralColor,
-        fontSize: 14.sp,
+        fontSize: 12.sp,
         fontWeight: FontWeight.w400,
         // fontFamily: FontFamily.beVN,
       );

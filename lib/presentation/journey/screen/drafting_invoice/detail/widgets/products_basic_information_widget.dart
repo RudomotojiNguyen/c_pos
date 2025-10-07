@@ -38,8 +38,10 @@ class _ProductsBasicInformationWidgetState
         return false;
       },
       builder: (context, state) {
+        final cartType = state.cartType ?? CartType.retail;
+
         if ((state.customer?.getCustomerPhoneNumber?.isNullOrEmpty ?? true) ||
-            {CartType.tradeIn}.contains(state.cartType)) {
+            {CartType.tradeIn}.contains(cartType)) {
           return BoxSpacer.blank;
         }
         return XContainer(
@@ -50,7 +52,7 @@ class _ProductsBasicInformationWidgetState
           ),
           title: 'Sản phẩm',
           rightIcon: XBaseButton(
-            onPressed: () => _onAddProduct(state.cartType ?? CartType.retail),
+            onPressed: () => _onAddProduct(cartType),
             child: Icon(
               Icons.add_circle_rounded,
               color: AppColors.primaryColor,
@@ -88,6 +90,7 @@ class _ProductsBasicInformationWidgetState
                       gifts: product.getGifts,
                       attaches: product.getAttaches,
                       productsCombo: product.productChildCombo ?? [],
+                      cartType: cartType,
                       callBackChildAction: _onHandleChildAction,
                       callBackParentAction: ({required action, quantity}) =>
                           _onHandleParentAction(

@@ -9,6 +9,7 @@ class ProductCartItemWidget extends StatefulWidget {
     this.productsCombo = const [],
     required this.callBackChildAction,
     required this.callBackParentAction,
+    this.cartType = CartType.none,
   });
 
   //state
@@ -18,6 +19,8 @@ class ProductCartItemWidget extends StatefulWidget {
   final List<ProductTable> attaches;
 
   final List<ProductModel> productsCombo;
+
+  final CartType cartType;
 
   //action
   final Function(XProductOperationAction action, ProductTable productItem)
@@ -96,6 +99,10 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
       productOperationActions.remove(XProductOperationAction.addGift);
       productOperationActions.remove(XProductOperationAction.addAttach);
       productOperationActions.remove(XProductOperationAction.discountByHand);
+    }
+
+    if (widget.cartType == CartType.retail) {
+      productOperationActions.remove(XProductOperationAction.addGift);
     }
 
     return Container(
