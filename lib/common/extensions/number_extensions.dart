@@ -75,4 +75,7 @@ extension NumberExtensions on num {
 
   TradeInStatus get getTradeInStatus =>
       TradeInStatusExtension.mapTradeInStatus[this] ?? TradeInStatus.undefine;
+
+  RewardOperatorType get getRewardOperatorType =>
+      RewardOperatorTypeExtension.map[this] ?? RewardOperatorType.none;
 }

@@ -94,6 +94,10 @@ class MainAppState extends State<MainApp> with DialogHelper {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
+              locale: const Locale('vi'),
+              supportedLocales: const [
+                Locale('vi'),
+              ],
               routeInformationParser: router.routeInformationParser,
               routerDelegate: router.routerDelegate,
               routeInformationProvider: router.routeInformationProvider,

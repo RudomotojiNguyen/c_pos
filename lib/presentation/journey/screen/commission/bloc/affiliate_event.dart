@@ -27,3 +27,19 @@ final class GetCommissionDetailEvent extends AffiliateEvent {
     required this.fromDate,
   });
 }
+
+final class CheckCommissionEvent extends AffiliateEvent {
+  final String productId;
+  final String storeId;
+  final String month;
+  final String year;
+
+  CheckCommissionEvent({
+    required this.productId,
+    required this.storeId,
+    required this.month,
+    required this.year,
+  });
+}
+
+final class ClearProductEvent extends AffiliateEvent {}

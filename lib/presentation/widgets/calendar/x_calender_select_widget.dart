@@ -1,3 +1,4 @@
+import 'package:c_pos/presentation/theme/themes.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,8 @@ class XCalenderSelectWidget extends StatelessWidget {
         lastDate: lastDate,
         firstDayOfWeek: 1,
         weekdayLabels: weekdayLabels,
+        selectedDayHighlightColor: AppColors.primaryColor,
+        selectedRangeHighlightColor: AppColors.pinkLightColor,
         monthBuilder: (
                 {decoration,
                 isCurrentMonth,

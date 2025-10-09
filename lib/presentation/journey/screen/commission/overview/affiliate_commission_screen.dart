@@ -7,10 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../common/configs/box.dart';
+import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../../theme/themes.dart';
+import '../../../router.dart';
 import '../bloc/affiliate_bloc.dart';
 import '../widgets/commission_item_detail_widget.dart';
 import '../widgets/header_commission_widget.dart';
@@ -38,6 +40,8 @@ class _AffiliateCommissionScreenState
   void initState() {
     super.initState();
     _affiliateBloc.add(GetRewardEvent());
+    // Khởi tạo TabController với length mặc định
+    _tabController = TabController(length: 1, vsync: this);
   }
 
   @override
@@ -67,6 +71,20 @@ class _AffiliateCommissionScreenState
           BoxSpacer.size(40),
         ],
       ),
+      actions: [
+        XBaseButton(
+          onPressed: () {
+            MainRouter.instance
+                .pushNamed(context, routeName: RouteName.productReward);
+          },
+          child: Icon(
+            Icons.search,
+            size: 20.sp,
+            color: AppColors.iconColor,
+          ),
+        ),
+        BoxSpacer.s16,
+      ],
     );
   }
 
@@ -81,6 +99,10 @@ class _AffiliateCommissionScreenState
       listener: (context, state) {
         if (state is UpdateFilterSuccess) {
           _affiliateBloc.add(GetRewardEvent());
+        }
+        // Xử lý refresh completion
+        if (state is GetDetailSuccess || state is GetDetailError) {
+          _refreshController.refreshCompleted();
         }
       },
       builder: (context, state) {
@@ -125,8 +147,7 @@ class _AffiliateCommissionScreenState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                EmptyDataWidget(
-                    emptyMessage: 'Không có thông tin chi tiết hoa hồng'),
+                EmptyDataWidget(emptyMessage: 'Không có thông tin hoa hồng'),
               ],
             ),
           );
@@ -140,7 +161,11 @@ class _AffiliateCommissionScreenState
           },
         );
 
-        _tabController = TabController(length: tabs.length, vsync: this);
+        // Chỉ tạo TabController mới nếu length khác với controller hiện tại
+        if (_tabController == null || _tabController!.length != tabs.length) {
+          _tabController?.dispose();
+          _tabController = TabController(length: tabs.length, vsync: this);
+        }
 
         return SmartRefresher(
           controller: _refreshController,
@@ -148,7 +173,6 @@ class _AffiliateCommissionScreenState
           header: const RefreshWidget(),
           onRefresh: () async {
             _affiliateBloc.add(GetRewardEvent());
-            _refreshController.refreshCompleted();
           },
           child: NestedScrollView(
             headerSliverBuilder:

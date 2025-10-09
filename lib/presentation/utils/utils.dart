@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:c_pos/common/extensions/extension.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -443,5 +445,65 @@ class Utils {
         '[printMultiLine-$tag] ${jsonStr.substring(i, i + chunkSize > jsonStr.length ? jsonStr.length : i + chunkSize)}',
       );
     }
+  }
+
+  /// hiển thị picker tháng
+  static Future<DateTime?> selectMonthPicker(
+    BuildContext context, {
+    DateTime? initialDate,
+    DateTime? firstDate,
+    DateTime? lastDate,
+  }) async {
+    final result = await showMonthPicker(
+      context: context,
+      firstDate: firstDate ?? DateTime(DateTime.now().year - 5, 5),
+      lastDate: lastDate ?? DateTime(DateTime.now().year + 8, 9),
+      initialDate: initialDate ?? DateTime.now(),
+      monthStylePredicate: (DateTime val) {
+        return TextButton.styleFrom(
+          textStyle: AppFont.t.s(14).w600,
+        );
+      },
+      yearStylePredicate: (int val) {
+        return TextButton.styleFrom(
+          textStyle: AppFont.t.s(14).w600,
+        );
+      },
+      monthPickerDialogSettings: MonthPickerDialogSettings(
+        dialogSettings: PickerDialogSettings(
+          blockScrolling: false,
+          dialogRoundedCornersRadius: 32.sp,
+          dialogBackgroundColor: AppColors.white,
+        ),
+        dateButtonsSettings: PickerDateButtonsSettings(
+          monthTextStyle: AppFont.t.s(),
+          yearTextStyle: AppFont.t.s(),
+          selectedMonthBackgroundColor: AppColors.primaryColor,
+          selectedMonthTextColor: AppColors.white,
+          unselectedMonthsTextColor: AppColors.neutralColor,
+          unselectedYearsTextColor: AppColors.neutralColor,
+          currentMonthTextColor: AppColors.primaryColor,
+          currentYearTextColor: AppColors.primaryColor,
+          selectedYearTextColor: AppColors.white,
+          selectedDateRadius: 6.sp,
+        ),
+        headerSettings: PickerHeaderSettings(
+          headerCurrentPageTextStyle: AppFont.t.s(12).white,
+          headerSelectedIntervalTextStyle: AppFont.t.s(12).white,
+        ),
+        actionBarSettings: PickerActionBarSettings(
+          confirmWidget: Text(
+            'Chọn',
+            style: AppFont.t.s(14).w900,
+          ),
+          cancelWidget: Text(
+            'Hủy',
+            style: AppFont.t.s(14).w900.primaryColor,
+          ),
+        ),
+      ),
+    );
+
+    return result;
   }
 }

@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:c_pos/data/models/models.dart';
+import '../../../../../data/models/reward_product_check_model.dart';
 import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 
@@ -19,9 +20,31 @@ class AffiliateBloc extends Bloc<AffiliateEvent, AffiliateState> {
       : super(AffiliateInitial(
             fromDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
             toDate: DateTime.now())) {
+    /// cập nhật filter
     on<UpdateFilterEvent>(_onUpdateFilter);
+
+    /// lấy danh sách hoa hồng
     on<GetRewardEvent>(_onGetReward);
+
+    /// lấy danh sách chi tiết hoa hồng
     on<GetCommissionDetailEvent>(_onGetCommissionDetail);
+
+    /// kiểm tra xem sản phẩm có được cấu hình hoa hồng không
+    on<CheckCommissionEvent>(_onCheckCommission);
+
+    /// xóa sản phẩm
+    on<ClearProductEvent>(_onClearProduct);
+  }
+
+  FutureOr<void> _onClearProduct(
+      ClearProductEvent event, Emitter<AffiliateState> emit) async {
+    if (state is GetCommissionDetailLoading ||
+        (state is GetProductRewardSuccess &&
+            (state as GetProductRewardSuccess).rewardProductCheck.isEmpty)) {
+      return;
+    }
+    emit(GetCommissionDetailLoading(state: state));
+    emit(GetProductRewardSuccess(state: state, rewardProductCheck: const []));
   }
 
   FutureOr<void> _onGetCommissionDetail(
@@ -67,6 +90,25 @@ class AffiliateBloc extends Bloc<AffiliateEvent, AffiliateState> {
     } catch (e) {
       _loggerHelper.logError(message: 'GetRewardEvent', obj: e);
       emit(GetDetailError(state: state));
+    }
+  }
+
+  FutureOr<void> _onCheckCommission(
+      CheckCommissionEvent event, Emitter<AffiliateState> emit) async {
+    try {
+      emit(GetCommissionDetailLoading(state: state));
+      //
+      final res = await affiliateCommissionServices.checkCommission(
+        productId: event.productId,
+        storeId: event.storeId,
+        month: event.month,
+        year: event.year,
+      );
+      //
+      emit(GetProductRewardSuccess(state: state, rewardProductCheck: res));
+    } catch (e) {
+      _loggerHelper.logError(message: 'CheckCommissionEvent', obj: e);
+      emit(GetProductRewardSuccess(state: state, rewardProductCheck: const []));
     }
   }
 }

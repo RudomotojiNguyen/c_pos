@@ -68,3 +68,12 @@ final class GetCommissionDetailLoading extends AffiliateState {
 }
 
 ///--- start commission detail ---///
+
+class GetProductRewardSuccess extends AffiliateState {
+  final List<RewardProductCheckModel> rewardProductCheck;
+
+  GetProductRewardSuccess({
+    required AffiliateState state,
+    required this.rewardProductCheck,
+  }) : super(fromDate: state.fromDate, toDate: state.toDate);
+}

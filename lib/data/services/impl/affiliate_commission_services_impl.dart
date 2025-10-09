@@ -30,4 +30,25 @@ class AffiliateCommissionServicesImpl implements AffiliateCommissionServices {
         ids: ids.toString().replaceAll(" ", ""));
     return CommissionDetailModel.fromJson(res.data);
   }
+
+  @override
+  Future<List<RewardProductCheckModel>> checkCommission({
+    required String productId,
+    required String storeId,
+    required String month,
+    required String year,
+  }) async {
+    final res = await commissionApi.checkCommission(
+        productId: productId, storeId: storeId, month: month, year: year);
+
+    List<RewardProductCheckModel> data = [];
+
+    if (res.data.isNotEmpty) {
+      for (var e in res.data) {
+        data.add(RewardProductCheckModel.fromJson(e));
+      }
+    }
+
+    return data;
+  }
 }

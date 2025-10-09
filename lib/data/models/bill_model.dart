@@ -245,7 +245,7 @@ class BillModel {
     status = json['status'];
     customerId = json['customerId'];
     customerName = json['customerName'];
-    customerMobile = json['customerPhone'];
+    customerMobile = json['customerPhone'] ?? json['customerMobile'];
     customerAddress = json['customerAddress'];
     customerNote = json['customerNote'];
     discountType = json['discountType'];
@@ -325,11 +325,11 @@ class BillModel {
     verifyRevenueDate = json['verifyRevenueDate'];
     installmentConfirmedBy = json['installmentConfirmedBy'];
     customerEmail = json['customerEmail'];
-    customerCity = json['customerCity'];
-    customerDistrict = json['customerDistrist'];
-    customerWard = json['customerWard'];
-    customerDOB = json['customerDOB'];
-    orderSourceName = json['orderSourceName'];
+    customerCity = json['customerCity']?.toString();
+    customerDistrict = json['customerDistrist']?.toString();
+    customerWard = json['customerWard']?.toString();
+    customerDOB = json['customerDOB']?.toString();
+    orderSourceName = json['orderSourceName']?.toString();
     moneyUsePoint = json['moneyUsePoint'];
     storeName = json['storeName'];
     if (json['billItems'] != null) {

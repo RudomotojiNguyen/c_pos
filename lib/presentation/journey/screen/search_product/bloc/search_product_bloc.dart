@@ -207,6 +207,20 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
 }
 
 extension SearchProductBlocExtension on SearchProductBloc {
+  Future<PaginatedResponse<ProductModel>> getProducts({
+    String? param,
+    required int page,
+    required int limit,
+    required SearchType type,
+  }) async {
+    return await productServices.searchProduct(
+      page: page,
+      limit: limit,
+      param: param ?? '',
+      type: type.getValue,
+    );
+  }
+
   Future<PaginatedResponse<ProductModel>?> _getProducts({
     required int page,
     required int limit,

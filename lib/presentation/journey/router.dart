@@ -13,6 +13,7 @@ import '../widgets/widgets.dart';
 import 'screen/bill/detail/bill_detail.dart';
 import 'screen/bill/list/bills_screen.dart';
 import 'screen/commission/overview/affiliate_commission_screen.dart';
+import 'screen/commission/product_reward/product_reward_screen.dart';
 import 'screen/customer/customer_history/customer_history_screen.dart';
 import 'screen/customer/detail/customer_detail_screen.dart';
 import 'screen/customer/list_customer/customers_screen.dart';
@@ -69,6 +70,13 @@ class MainRouter {
               name: RouteName.affiliateCommission,
               builder: (BuildContext context, GoRouterState state) =>
                   const AffiliateCommissionScreen(),
+            ),
+            GoRoute(
+              path: RouteName.productReward,
+              name: RouteName.productReward,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const ProductRewardScreen(),
+              routes: const [],
             ),
             GoRoute(
                 path: RouteName.drafts,

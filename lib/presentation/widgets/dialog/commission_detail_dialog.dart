@@ -29,7 +29,7 @@ class CommissionDetailDialog extends StatelessWidget {
             final RewardMoreModel item = data[index];
             return Container(
               width: double.maxFinite,
-              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
+              padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
               margin:
                   EdgeInsets.symmetric(vertical: 8.sp).copyWith(left: 16.sp),
               decoration: BoxDecoration(
@@ -51,11 +51,11 @@ class CommissionDetailDialog extends StatelessWidget {
                     item.getDate,
                     style: AppFont.t.s(10),
                   ),
-                  BoxSpacer.s4,
+                  BoxSpacer.s2,
                   Text(
                     item.getAmountStr,
                     style: AppFont.t
-                        .s(16)
+                        .s(12)
                         .w800
                         .copyWith(color: item.operatorType.getExpressionColor),
                   ),

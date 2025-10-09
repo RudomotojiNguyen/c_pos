@@ -61,12 +61,12 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
             Row(
               children: [
                 _baseContainer(
-                  title: 'Hoa hồng phát sinh',
+                  title: 'Phát sinh',
                   value: widget.commissionsArise.formatCurrency,
                 ),
                 BoxSpacer.s16,
                 _baseContainer(
-                  title: 'Tiền thực lãnh',
+                  title: 'Thực lãnh',
                   value: widget.actualMoneyReceived.formatCurrency,
                 ),
               ],
@@ -75,10 +75,15 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
             Row(
               children: [
                 _navigateContainer(
-                  title: 'Tiền cộng khác',
+                  title: 'Tiền cộng thêm',
                   value: widget.otherAmountAdded.formatCurrency,
                   colorBtn: AppColors.successColor,
                   onPressed: () {
+                    if (widget.listBonus.isEmpty) {
+                      XToast.showWarningMessage(
+                          message: 'Bạn không có tiền cộng thêm');
+                      return;
+                    }
                     showXBottomSheet(
                       context,
                       body: CommissionDetailDialog(data: widget.listBonus),
@@ -87,10 +92,15 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
                 ),
                 BoxSpacer.s16,
                 _navigateContainer(
-                  title: 'Tiền trừ khác',
+                  title: 'Tiền bị trừ',
                   value: widget.otherAmountDeducted.formatCurrency,
                   colorBtn: AppColors.errorColor,
                   onPressed: () {
+                    if (widget.listMinus.isEmpty) {
+                      XToast.showWarningMessage(
+                          message: 'Bạn không có tiền bị trừ');
+                      return;
+                    }
                     showXBottomSheet(
                       context,
                       body: CommissionDetailDialog(data: widget.listMinus),

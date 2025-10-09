@@ -8,6 +8,7 @@ enum XDateTimeEnum {
   yearMonthDay,
   hourMinuteSecond,
   yearMonth,
+  monthYear,
 }
 
 extension XDateTimeEnumExtension on XDateTimeEnum {
@@ -31,6 +32,8 @@ extension XDateTimeEnumExtension on XDateTimeEnum {
         return 'dd-MM-yyyy';
       case XDateTimeEnum.dayMonthYear:
         return 'dd/MM/yyyy';
+      case XDateTimeEnum.monthYear:
+        return 'MM/yyyy';
     }
   }
 }

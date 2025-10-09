@@ -108,15 +108,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               BoxSpacer.s8,
-              _operationItem(
-                title: 'Cài đặt',
-                icon: Assets.svg.setting.svg(width: 32.sp),
-                // onPressed: () => _mainRouter.pushNamed(
-                //   context,
-                //   routeName: RouteName.setting,
-                // ),
-              ),
-              BoxSpacer.s8,
+              // _operationItem(
+              //   title: 'Cài đặt',
+              //   icon: Assets.svg.setting.svg(width: 32.sp),
+              //   // onPressed: () => _mainRouter.pushNamed(
+              //   //   context,
+              //   //   routeName: RouteName.setting,
+              //   // ),
+              // ),
+              // BoxSpacer.s8,
               _operationItem(
                 title: 'Thoát',
                 icon: Assets.svg.logout.svg(width: 32.sp),

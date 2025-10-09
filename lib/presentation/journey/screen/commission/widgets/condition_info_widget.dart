@@ -49,7 +49,8 @@ class ConditionInfoWidget extends StatelessWidget {
         final ConditionModel condition = conditions[index];
         return TableRow(children: [
           XBaseButton(
-            onPressed: () => onPressDetail(ids: condition.getIds),
+            /// TODO: chỉ để để hiện thị
+            // onPressed: () => onPressDetail(ids: condition.getIds),
             padding: EdgeInsets.symmetric(vertical: 6.sp),
             child: Text(
               condition.getName,

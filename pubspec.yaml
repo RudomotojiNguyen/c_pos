@@ -77,7 +77,11 @@ dependencies:
   #
   smooth_page_indicator: ^1.2.0+3
   expandable_page_view: ^1.0.17
+
   calendar_date_picker2: ^1.1.7
+  # mat_month_picker_dialog: ^1.1.2
+  month_picker_dialog: ^6.5.0
+
   pull_to_refresh: ^2.0.0
   webview_flutter: ^4.8.0
   toastification: ^2.1.0

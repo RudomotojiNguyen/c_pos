@@ -155,7 +155,7 @@ class XTextFieldState<T> extends State<XTextField<T>> {
   final ValueNotifier<String?> valueButtonController = ValueNotifier(null);
 
   /// get state
-  BorderRadius get getBorderRadius => BorderRadius.all(AppRadius.l);
+  BorderRadius get getBorderRadius => BorderRadius.all(AppRadius.xxl);
 
   @override
   void initState() {
