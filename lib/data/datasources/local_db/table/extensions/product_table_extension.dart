@@ -46,7 +46,19 @@ extension ProductTableExtension on ProductTable {
   int get getStockQuantity => totalQuantityInStock ?? 0;
 
   /// lấy giá chiết khấu tự động
-  double get getDiscountPrice => discountPrice ?? 0;
+  double get getDiscountPrice {
+    double result = 0;
+    if (discountPrice != null && discountPrice! > 0) {
+      return discountPrice!;
+    }
+    if (discountType == XDiscountType.amount.value) {
+      result = discountAmount;
+    }
+    if (discountType == XDiscountType.percent.value) {
+      result = getSellingPrice * (discountAmount / 100);
+    }
+    return result;
+  }
 
   /// lấy giá bán của sản phẩm
   double get getSellingPrice {
@@ -87,9 +99,6 @@ extension ProductTableExtension on ProductTable {
     return getSellingPrice * getQuantity;
   }
 
-  /// chiết khấu tự động
-  double get getDiscountAmount => discountAmount;
-
   /// số lần xuất hiện
   int get getAppearTimes => appearTimes ?? 0;
 
@@ -122,9 +131,10 @@ extension ProductTableExtension on ProductTable {
 
   /// tính tổng tiền giảm giá của 1 SP = Ctr CK tự động + CK tay
   double get calculatorProductDiscountAmount {
-    final finalProductDiscountAmount = getDiscountAmount +
+    final finalProductDiscountAmount = getDiscountPrice +
         getDiscountAmountByHand +
         calculatorAmountDiscountByVoucher;
+
     return finalProductDiscountAmount > calculatorTotalSellingPrice
         ? calculatorTotalSellingPrice
         : finalProductDiscountAmount;
@@ -306,6 +316,7 @@ extension ProductTableExtension on ProductTable {
       'imeiCode': imei?.imeiNo,
       'imeiNo': imei?.imeiNo,
       'productType': productType.getValueType,
+      'billItemType': productType.getValueType,
       'accessoryGroupId':
           childOfItem?.accessoryGroupId ?? accessoryGroupId ?? '',
       'accessoryGroupCode': childOfItem?.code ?? code ?? '',

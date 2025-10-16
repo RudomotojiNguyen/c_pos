@@ -1,3 +1,4 @@
+import 'package:c_pos/presentation/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -137,22 +138,38 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               if (widget.sellingPrice > 0) ...[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.sellingPrice.formatCurrency,
-                                      style: AppFont.t.s().w700.primaryColor,
-                                    ),
-                                    if (widget.discountPrice > 0) ...[
+                                if (widget.discountPrice > 0) ...[
+                                  Row(
+                                    children: [
+                                      Text(
+                                        widget.sellingPrice.formatCurrency,
+                                        style: AppFont.t
+                                            .s()
+                                            .w700
+                                            .neutral2
+                                            .lineThrough,
+                                      ),
+                                      BoxSpacer.s4,
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        size: 8.sp,
+                                        color: AppColors.neutral2Color,
+                                      ),
                                       BoxSpacer.s4,
                                       Text(
-                                        'CK: ${widget.discountPrice.formatCurrency}',
-                                        style: AppFont.t.s(10).neutral2,
+                                        (widget.sellingPrice -
+                                                widget.discountPrice)
+                                            .formatCurrency,
+                                        style: AppFont.t.s().w700.primaryColor,
                                       ),
                                     ],
-                                  ],
-                                ),
+                                  ),
+                                ] else ...[
+                                  Text(
+                                    widget.sellingPrice.formatCurrency,
+                                    style: AppFont.t.s().w700.primaryColor,
+                                  ),
+                                ],
                               ],
                               if (widget.quantity > 0) ...[
                                 BoxSpacer.s8,
@@ -226,7 +243,7 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
     return Column(
       children: widget.gifts.map((e) {
         List<XProductOperationAction> productOperationActions = [
-          XProductOperationAction.detail,
+          // XProductOperationAction.detail,
           XProductOperationAction.copyData,
         ];
 
@@ -236,10 +253,10 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
           productOperationActions: productOperationActions,
           decorationIsOverlay: widget.decorationChildIsOverlayChild,
           paddingIsOverlay: widget.paddingChildIsOverlayChild,
-          onPressed: ({action}) => widget.onPressedChild?.call(
-            action: action ?? XProductOperationAction.detail,
-            productChild: e,
-          ),
+          // onPressed: ({action}) => widget.onPressedChild?.call(
+          //   action: action ?? XProductOperationAction.detail,
+          //   productChild: e,
+          // ),
         );
       }).toList(),
     );
@@ -250,7 +267,7 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
     return Column(
       children: widget.attachs.map((e) {
         List<XProductOperationAction> productOperationActions = [
-          XProductOperationAction.detail,
+          // XProductOperationAction.detail,
           XProductOperationAction.copyData,
         ];
 
@@ -260,10 +277,10 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
           productOperationActions: productOperationActions,
           decorationIsOverlay: widget.decorationChildIsOverlayChild,
           paddingIsOverlay: widget.paddingChildIsOverlayChild,
-          onPressed: ({action}) => widget.onPressedChild?.call(
-            action: action ?? XProductOperationAction.detail,
-            productChild: e,
-          ),
+          // onPressed: ({action}) => widget.onPressedChild?.call(
+          //   action: action ?? XProductOperationAction.detail,
+          //   productChild: e,
+          // ),
         );
       }).toList(),
     );

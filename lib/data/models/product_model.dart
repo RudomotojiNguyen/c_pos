@@ -239,7 +239,7 @@ class ProductModel {
     }
 
     imageUrl = json['imageUrl'] ?? json['productImageUrl'];
-    inStockQuantity = json['inStockQuantity'];
+    inStockQuantity = json['inStockQuantity'] ?? json['quantityInStock'];
     description = json['description'];
     if (json['listItem'] != null) {
       /// nếu có thông in listItem thì chứng tỏ nó là sp combo
@@ -295,9 +295,23 @@ class ProductModel {
 
   double get getDiscountPrice => discountPrice ?? 0;
 
+  double get getDiscountAmount {
+    if ((discountAmount ?? 0) <= 0) {
+      return 0;
+    }
+    if (discountType == XDiscountType.amount.value) {
+      return discountAmount ?? 0;
+    }
+    if (discountType == XDiscountType.percent.value) {
+      return ((sellingPrice ?? 0) *
+          ((discountValue ?? discountAmount ?? 0) / 100));
+    }
+    return 0;
+  }
+
   /// giá bán
   double get getSellingPrice {
-    return sellingPrice ?? 0;
+    return (sellingPrice ?? 0) - getDiscountAmount;
   }
 
   /// giá bán sau chiết khấu

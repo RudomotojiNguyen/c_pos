@@ -957,7 +957,8 @@ class DraftingInvoiceBloc
           isCreateSuccess = response.checkIsSuccess;
           if (response.checkIsSuccess) {
             XToast.showPositiveSuccess(message: response.getMess);
-            emit(CreateBillSuccess(id: response.data['billNumber']));
+            emit(CreateBillSuccess(
+                id: response.data['billNumber']?.toString() ?? ''));
           } else {
             emit(CreateFailed(state: state));
             XToast.showNegativeMessage(message: response.toString());
@@ -968,7 +969,8 @@ class DraftingInvoiceBloc
           isCreateSuccess = response.checkIsSuccess;
           if (response.checkIsSuccess) {
             XToast.showPositiveSuccess(message: response.getMess);
-            emit(CreateBillSuccess(id: cart.billId!));
+            emit(CreateBillSuccess(
+                id: formData['billNumber']?.toString() ?? ''));
           } else {
             emit(CreateFailed(state: state));
             XToast.showNegativeMessage(message: response.toString());
@@ -990,7 +992,7 @@ class DraftingInvoiceBloc
           isCreateSuccess = response.checkIsSuccess;
           if (response.checkIsSuccess) {
             XToast.showPositiveSuccess(message: response.getMess);
-            emit(CreateOrderSuccess(newBillNum: cart.orderId!));
+            emit(CreateOrderSuccess(newBillNum: formData['orderId']));
           } else {
             emit(CreateFailed(state: state));
             XToast.showNegativeMessage(message: response.toString());
@@ -1000,7 +1002,7 @@ class DraftingInvoiceBloc
 
       if (isCreateSuccess) {
         /// xóa sau khi tạo thành công
-        // draftingStorage.removeCartById(cart.id);
+        draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
       emit(CreateFailed(state: state));

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../common/constants/go_router.dart';
 import '../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../gen/gen.dart';
-import '../../journey/router.dart';
 import '../../mixins/mixins.dart';
 import '../../theme/themes.dart';
 import '../../utils/utils.dart';
@@ -23,8 +21,6 @@ class ProductDetailWidget extends StatefulWidget {
 
 class _ProductDetailWidgetState extends State<ProductDetailWidget>
     with DialogHelper {
-  final MainRouter _router = MainRouter.instance;
-
   @override
   Widget build(BuildContext context) {
     return XContainer(
@@ -49,7 +45,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
               itemBuilder: (context, index) {
                 final ProductModel product = widget.products[index];
                 List<XProductOperationAction> productOperationActions = [
-                  XProductOperationAction.detail,
+                  // XProductOperationAction.detail,
                   XProductOperationAction.copyData,
                 ];
 
@@ -97,13 +93,13 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
   _onHandleChildAction(
       {required XProductOperationAction action,
       required ProductModel productChild}) {
-    if (action == XProductOperationAction.detail) {
-      _router.pushNamed(
-        context,
-        routeName: RouteName.productDetail,
-        queryParameters: {'productId': productChild.id.toString()},
-      );
-    }
+    // if (action == XProductOperationAction.detail) {
+    //   _router.pushNamed(
+    //     context,
+    //     routeName: RouteName.productDetail,
+    //     queryParameters: {'productId': productChild.id.toString()},
+    //   );
+    // }
     if (action == XProductOperationAction.copyData) {
       Utils.copyToClipboard(context, text: productChild.getDataCopy);
     }
@@ -111,13 +107,13 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
 
   _onHandleParrentAction(
       {XProductOperationAction? action, required ProductModel product}) {
-    if (action == XProductOperationAction.detail) {
-      _router.pushNamed(
-        context,
-        routeName: RouteName.productDetail,
-        queryParameters: {'productId': product.id.toString()},
-      );
-    }
+    // if (action == XProductOperationAction.detail) {
+    //   _router.pushNamed(
+    //     context,
+    //     routeName: RouteName.productDetail,
+    //     queryParameters: {'productId': product.id.toString()},
+    //   );
+    // }
     if (action == XProductOperationAction.copyData) {
       Utils.copyToClipboard(context, text: product.getDataCopy);
     }

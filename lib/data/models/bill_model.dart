@@ -5,6 +5,7 @@ import '../../presentation/utils/utils.dart';
 import '../datasources/local_db/local_db.dart';
 import 'bill_item_model.dart';
 import 'employee_model.dart';
+import 'employee_sub_detail_model.dart';
 import 'payment_model.dart';
 import 'product_model.dart';
 import 'store_model.dart';
@@ -87,14 +88,18 @@ class BillModel {
   String? installMoneyAccountCode;
   int? customerReceptionId;
   int? managerId;
+  String? managerName;
   int? assistantId;
+  String? assistantName;
   int? accessoryStaffId;
+  String? accessoryStaffName;
   String? couponCode;
   bool? isCountPoint;
   String? email;
   int? deviceType;
   String? codeShip;
   int? shipperId;
+  String? shipperName;
   int? installmentProgramId;
   String? installmentProgramMonthNo;
   bool? isInterestZero;
@@ -146,6 +151,9 @@ class BillModel {
     this.cashAmount,
     this.cashAccountID,
     this.transferAmount,
+    this.managerName,
+    this.assistantName,
+    this.accessoryStaffName,
     this.transferAccountId,
     this.transferCode,
     this.customerTransferNo,
@@ -239,7 +247,7 @@ class BillModel {
     saleName = json['saleName'];
     saleNote = json['saleNote'];
     technicalId = json['technicalId'];
-    technicalName = json['technicalName'];
+    technicalName = json['technicalName'] ?? json['techName'];
     cashierId = json['cashierId'];
     cashierName = json['cashierName'];
     status = json['status'];
@@ -306,14 +314,18 @@ class BillModel {
     installMoneyAccountCode = json['installMoneyAccountCode'];
     customerReceptionId = json['customerReceptionId'];
     managerId = json['managerId'];
+    managerName = json['managerName'];
     assistantId = json['assistantId'];
+    assistantName = json['assistantName'];
     accessoryStaffId = json['accessoryStaffId'];
+    accessoryStaffName = json['accessoryStaffName'];
     couponCode = json['couponCode'];
     isCountPoint = json['isCountPoint'];
     email = json['email'];
     deviceType = json['deviceType'];
     codeShip = json['codeShip'];
     shipperId = json['shipperId'];
+    shipperName = json['shipperName'];
     installmentProgramId = json['installmentProgramId'];
     installmentProgramMonthNo = json['installmentProgramMonthNo']?.toString();
     isInterestZero = json['isInterestZero'];
@@ -333,10 +345,13 @@ class BillModel {
     moneyUsePoint = json['moneyUsePoint'];
     storeName = json['storeName'];
     if (json['billItems'] != null) {
-      billItems = <BillItemModel>[];
+      List<BillItemModel> data = <BillItemModel>[];
       json['billItems'].forEach((v) {
-        billItems!.add(BillItemModel.fromJson(v));
+        data.add(BillItemModel.fromJson(v));
       });
+
+      ///
+      billItems = formatProducts(data);
     }
     if (json['payments'] != null) {
       payments = <PaymentModel>[];
@@ -350,6 +365,41 @@ class BillModel {
         : null;
     customerAppellation = json['customerAppellation'];
   }
+
+  EmployeeSubDetailModel get getSubEmployeeInfo => EmployeeSubDetailModel(
+        employee: EmployeeModel(
+          id: saleId,
+          fullName: saleName,
+        ),
+        technical: EmployeeModel(
+          id: technicalId,
+          fullName: technicalName,
+        ),
+        cashier: EmployeeModel(
+          id: cashierId,
+          fullName: cashierName,
+        ),
+        manager: EmployeeModel(
+          id: managerId,
+          fullName: managerName,
+        ),
+        assistant: EmployeeModel(
+          id: assistantId,
+          fullName: assistantName,
+        ),
+        delivery: EmployeeModel(
+          id: shipperId,
+          fullName: shipperName,
+        ),
+        cdpk: EmployeeModel(
+          id: accessoryStaffId,
+          fullName: accessoryStaffName,
+        ),
+        receptionist: EmployeeModel(
+          id: assistantId,
+          fullName: assistantName,
+        ),
+      );
 
   String get getBillNumber => billNumber?.toString() ?? '';
 
@@ -390,6 +440,7 @@ class BillModel {
           sellingPrice: e.getSellingPrice,
           discountAmount: e.getDiscountPrice,
           discountPrice: e.getDiscountPrice,
+          discountType: e.discountType,
           quantity: e.getQuantity,
           warrantyMonthNo: e.warrantyMonthNo,
           warrantyAddress: e.warrantyAddress,
@@ -453,7 +504,9 @@ class BillModel {
       (previousValue, element) => previousValue + element.calculateTotalPrice);
 
   double get getTotalDiscountPriceOfBillItem => (billItems ?? []).fold(
-      0, (previousValue, element) => previousValue + element.getDiscountPrice);
+      0,
+      (previousValue, element) =>
+          previousValue + element.calculateDiscountOfItem);
 
   double get calculateDiscountOfBill => discountAmount ?? 0;
 
@@ -476,6 +529,55 @@ class BillModel {
         id: storeId,
         name: storeName,
       );
+
+  /// todo: xem lại format sản phẩm combo
+  ///
+  ///
+
+  List<BillItemModel> formatProducts(List<BillItemModel> billItems) {
+    /// key là BillItemModel id
+    /// value là BillItemModel
+    // 1. Tạo một Map để dễ dàng tìm kiếm sản phẩm chính bằng ID
+    final Map<String, BillItemModel> parentMap = {};
+
+    // 2. Phân loại và điền vào Map
+    // Các item có 'belongBillDetailId' là null (hoặc không có) được coi là sản phẩm chính (parent)
+    for (var item in billItems) {
+      String key = item.id ?? '';
+      if (item.belongBillDetailId.isNullOrEmpty) {
+        // Đây là sản phẩm chính (parent)
+        parentMap[key] = item;
+      }
+    }
+
+    // 3. Gán các sản phẩm phụ (child) vào sản phẩm chính tương ứng
+    for (var item in billItems) {
+      if (item.belongBillDetailId.isNotNullOrEmpty) {
+        // Đây là sản phẩm phụ (child)
+        final parentId = item.belongBillDetailId ?? '';
+        final parent = parentMap[parentId];
+
+        if (parent != null) {
+          /// kiểm tra nó là quà tặng không
+          if (item.isGift) {
+            parent.gifts ??= <BillItemModel>[];
+            parent.gifts!.add(item);
+          }
+
+          /// nếu không là quà tặng thì thêm vào attachs
+          if (item.isAttach) {
+            parent.attaches ??= <BillItemModel>[];
+            parent.attaches!.add(item);
+          }
+
+          /// cập nhật lại parent
+          parentMap[parentId] = parent;
+        }
+      }
+    }
+
+    return parentMap.values.toList();
+  }
 }
 
 class OrderResourceModel {

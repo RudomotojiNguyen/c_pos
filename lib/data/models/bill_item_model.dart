@@ -170,10 +170,15 @@ class BillItemModel {
             .toProductType;
     quantity = json['quantity'];
     productPrice = Utils.toDouble(json['productPrice']);
-    imeiNo = json['imeiNo'];
+    imeiNo = json['imeiNo'] ?? json['imeiCode'];
     totalPrice = Utils.toDouble(json['totalPrice']);
     discountAmount = Utils.toDouble(json['discountAmount']);
-    discountType = json['discountType'];
+    if (json['discountPrice'] != null) {
+      discountAmount = Utils.toDouble(json['discountPrice']);
+    }
+    if (json['discountType'] != null) {
+      discountType = Utils.toInt(json['discountType']);
+    }
     listProductInCombo = (json['listProductInCombo'] as List?)
         ?.map((e) => BillItemModel.fromJson(e))
         .toList();
@@ -250,6 +255,17 @@ class BillItemModel {
 
   double get getDiscountPrice => discountAmount ?? 0;
 
+  double get calculateDiscountOfItem {
+    double discountPrice = calculateDiscountPrice;
+    if (attaches != null && attaches!.isNotEmpty) {
+      discountPrice += attaches!.fold(
+          0,
+          (previousValue, element) =>
+              previousValue + element.calculateDiscountPrice);
+    }
+    return discountPrice;
+  }
+
   int get getQuantity => quantity ?? 0;
 
   // todo: check với nhiều loại sản phẩn, voucher, chiết khấu tay,...
@@ -309,6 +325,7 @@ class BillItemModel {
         sellingPrice: getSellingPrice,
         discountAmount: getDiscountPrice,
         discountPrice: getDiscountPrice,
+        discountType: discountType,
         quantity: getQuantity,
         id: productId,
         barCode: barCode,
@@ -327,5 +344,35 @@ class BillItemModel {
       [];
 
   // tính lại tiền sản phẩm
-  double get calculateTotalPrice => (productPrice ?? 0) * (quantity ?? 1);
+  double get calculateTotalPrice {
+    double totalPrice = ((productPrice ?? 0) * (quantity ?? 1));
+
+    if (attaches != null && attaches!.isNotEmpty) {
+      totalPrice += attaches!.fold(
+          0,
+          (previousValue, element) =>
+              previousValue + element.calculateTotalPrice);
+    }
+
+    return totalPrice;
+  }
+
+  bool get isGift =>
+      belongBillDetailId.isNotNullOrEmpty &&
+      billItemType == XItemType.gift.getValueType;
+
+  bool get isAttach =>
+      belongBillDetailId.isNotNullOrEmpty &&
+      (billItemType == XItemType.main.getValueType ||
+          billItemType == XItemType.attach.getValueType);
+
+  double get calculateDiscountPrice {
+    if (discountType == XDiscountType.amount.value) {
+      return discountAmount ?? 0;
+    }
+    if (discountType == XDiscountType.percent.value) {
+      return ((productPrice ?? 0) * ((discountAmount ?? 0) / 100));
+    }
+    return 0;
+  }
 }

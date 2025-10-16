@@ -6,6 +6,7 @@ import '../../presentation/utils/utils.dart';
 import 'base_enum_model.dart';
 import 'delivery_fee_model.dart';
 import 'employee_model.dart';
+import 'employee_sub_detail_model.dart';
 import 'order_item.dart';
 import 'order_sub_detail_model.dart';
 import 'payment_model.dart';
@@ -254,10 +255,11 @@ class OrderModel {
     creditCode = json['creditCode'];
     insertType = json['insertType'];
     if (json['orderItems'] != null) {
-      orderItems = <OrderItemModel>[];
+      List<OrderItemModel> data = <OrderItemModel>[];
       json['orderItems'].forEach((v) {
-        orderItems!.add(OrderItemModel.fromJson(v));
+        data.add(OrderItemModel.fromJson(v));
       });
+      orderItems = formatProducts(data);
     }
     couponCode = json['couponCode'];
     subtractPoint = json['subtractPoint'];
@@ -306,6 +308,51 @@ class OrderModel {
     }
   }
 
+  List<OrderItemModel> formatProducts(List<OrderItemModel> orderItems) {
+    /// key là OrderItemModel id
+    /// value là OrderItemModel
+    // 1. Tạo một Map để dễ dàng tìm kiếm sản phẩm chính bằng ID
+    final Map<String, OrderItemModel> parentMap = {};
+
+    // 2. Phân loại và điền vào Map
+    // Các item có 'belongBillDetailId' là null (hoặc không có) được coi là sản phẩm chính (parent)
+    for (var item in orderItems) {
+      String key = item.id ?? '';
+      if (item.belongOrderDetailId.isNullOrEmpty) {
+        // Đây là sản phẩm chính (parent)
+        parentMap[key] = item;
+      }
+    }
+
+    // 3. Gán các sản phẩm phụ (child) vào sản phẩm chính tương ứng
+    for (var item in orderItems) {
+      if (item.belongOrderDetailId.isNotNullOrEmpty) {
+        // Đây là sản phẩm phụ (child)
+        final parentId = item.belongOrderDetailId ?? '';
+        final parent = parentMap[parentId];
+
+        if (parent != null) {
+          /// kiểm tra nó là quà tặng không
+          if (item.isGift) {
+            parent.gifts ??= <OrderItemModel>[];
+            parent.gifts!.add(item);
+          }
+
+          /// nếu không là quà tặng thì thêm vào attachs
+          if (item.isAttach) {
+            parent.attaches ??= <OrderItemModel>[];
+            parent.attaches!.add(item);
+          }
+
+          /// cập nhật lại parent
+          parentMap[parentId] = parent;
+        }
+      }
+    }
+
+    return parentMap.values.toList();
+  }
+
   List<ProductModel> get products => (orderItems ?? [])
       .map((e) => ProductModel(
             productType: e.productType,
@@ -339,6 +386,41 @@ class OrderModel {
   String get getCustomerAddress => customerAddress ?? '';
 
   String get getCustomerBirthDate => '';
+
+  EmployeeSubDetailModel get getSubEmployeeInfo => EmployeeSubDetailModel(
+        employee: EmployeeModel(
+          id: saleId,
+          fullName: createdByName,
+        ),
+        // technical: EmployeeModel(
+        //   id: technicalId,
+        //   fullName: technicalName,
+        // ),
+        // cashier: EmployeeModel(
+        //   id: cashierId,
+        //   fullName: cashierName,
+        // ),
+        // manager: EmployeeModel(
+        //   id: managerId,
+        //   fullName: managerName,
+        // ),
+        // assistant: EmployeeModel(
+        //   id: assistantId,
+        //   fullName: assistantName,
+        // ),
+        // delivery: EmployeeModel(
+        //   id: shipperId,
+        //   fullName: shipperName,
+        // ),
+        // cdpk: EmployeeModel(
+        //   id: accessoryStaffId,
+        //   fullName: accessoryStaffName,
+        // ),
+        // receptionist: EmployeeModel(
+        //   id: assistantId,
+        //   fullName: assistantName,
+        // ),
+      );
 
   String get getOrderSource => orderSourceName ?? '';
 

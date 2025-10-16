@@ -6,7 +6,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:c_pos/data/models/models.dart';
+import '../../../../../common/configs/box.dart';
+import '../../../../../common/constants/go_router.dart';
+import '../../../../../common/extensions/extension.dart';
+import '../../../../../data/datasources/local_data/local_data.dart';
+import '../../../../../data/services/services.dart';
+import '../../../../theme/app_radius.dart';
+import '../../../../theme/colors.dart';
+import '../../../../widgets/detail/employee_detail_widget.dart';
 import '../../../../widgets/widgets.dart';
+import '../../../router.dart';
 import '../bloc/order_bloc.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -20,9 +29,8 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
   final OrderBloc _orderBloc = getIt.get<OrderBloc>();
-  // final CartStorage _cartStorage = getIt.get<CartStorage>();
-  // final CustomerRepository _customerRepository =
-  //     getIt.get<CustomerRepository>();
+  final DraftingStorage _cartStorage = getIt.get<DraftingStorage>();
+  final CustomerServices _customerServices = getIt.get<CustomerServices>();
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -41,12 +49,12 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return const XAppBar(
+    return XAppBar(
       title: 'Chi tiết',
-      // actions: [
-      //   _rightActions(),
-      //   BoxSpacer.s16,
-      // ],
+      actions: [
+        _rightActions(),
+        BoxSpacer.s16,
+      ],
     );
   }
 
@@ -88,7 +96,7 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                   id: orderDetail.getBillNumber,
                   statusName: orderDetail.getOrderStatus.getTitle,
                   statusColor: orderDetail.getOrderStatus.getColorStatus,
-                  employeeName: orderDetail.getSaleName,
+                  // employeeName: orderDetail.getSaleName,
                   point: orderDetail.subtractPoint,
                   orderSource: orderDetail.getOrderSource,
                   orderType: orderDetail.getOrderType,
@@ -102,6 +110,8 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                   customerLocation: orderDetail.getCustomerAddress,
                   customerDOB: orderDetail.getCustomerBirthDate,
                 ),
+                EmployeeDetailWidget(
+                    employeeSubDetail: orderDetail.getSubEmployeeInfo),
                 ProductDetailWidget(products: orderDetail.products),
                 SummaryAmountWidget(
                   paymentByCash: orderDetail.paymentByCash,
@@ -132,90 +142,90 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
     );
   }
 
-  // Widget _rightActions() {
-  //   return BlocBuilder<OrderBloc, OrderState>(
-  //     bloc: _orderBloc,
-  //     builder: (context, state) {
-  //       final OrderModel? orderDetail =
-  //           state is GetOrderDetailSuccess ? state.orderDetail : null;
+  Widget _rightActions() {
+    return BlocBuilder<OrderBloc, OrderState>(
+      bloc: _orderBloc,
+      builder: (context, state) {
+        final OrderModel? orderDetail =
+            state is GetOrderDetailSuccess ? state.orderDetail : null;
 
-  //       if (orderDetail != null) {
-  //         if (orderDetail.getOrderStatus != StatusEnum.success) {
-  //           return XBaseButton(
-  //             baseButtonType: BaseButtonType.tapOperation,
-  //             secondaryWidgetBuilder: (closeOverlay) => Container(
-  //               decoration: BoxDecoration(
-  //                 color: AppColors.white,
-  //                 borderRadius: BorderRadius.all(AppRadius.l),
-  //               ),
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   XBaseButton(
-  //                     padding: EdgeInsets.symmetric(
-  //                         vertical: 10.sp, horizontal: 16.sp),
-  //                     onPressed: () async {
-  //                       await closeOverlay();
-  //                       _convertToCartTable(
-  //                         typeCart: CartType.updateOrder,
-  //                         orderDetail: orderDetail,
-  //                       );
-  //                     },
-  //                     child: Text(
-  //                       'Cập nhật đơn',
-  //                       style: AppFont.t.s(11),
-  //                     ),
-  //                   ),
-  //                   XBaseButton(
-  //                     padding: EdgeInsets.symmetric(
-  //                         vertical: 10.sp, horizontal: 16.sp),
-  //                     onPressed: () async {
-  //                       await closeOverlay();
-  //                       _convertToCartTable(
-  //                         typeCart: CartType.retail,
-  //                         orderDetail: orderDetail,
-  //                       );
-  //                     },
-  //                     child: Text(
-  //                       'Tạo hóa đơn',
-  //                       style: AppFont.t.s(11),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //             child: Icon(
-  //               Icons.more_vert,
-  //               size: 24.sp,
-  //               color: AppColors.iconColor,
-  //             ),
-  //           );
-  //         }
-  //       }
+        if (orderDetail != null) {
+          if (orderDetail.getOrderStatus != StatusEnum.success) {
+            return XBaseButton(
+              baseButtonType: BaseButtonType.tapOperation,
+              secondaryWidgetBuilder: (closeOverlay) => Container(
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.all(AppRadius.l),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    XBaseButton(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.sp, horizontal: 16.sp),
+                      onPressed: () async {
+                        await closeOverlay();
+                        _convertToCartTable(
+                          typeCart: CartType.updateOrder,
+                          orderDetail: orderDetail,
+                        );
+                      },
+                      child: Text(
+                        'Cập nhật đơn',
+                        style: AppFont.t.s(11),
+                      ),
+                    ),
+                    XBaseButton(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.sp, horizontal: 16.sp),
+                      onPressed: () async {
+                        await closeOverlay();
+                        _convertToCartTable(
+                          typeCart: CartType.retail,
+                          orderDetail: orderDetail,
+                        );
+                      },
+                      child: Text(
+                        'Tạo hóa đơn',
+                        style: AppFont.t.s(11),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              child: Icon(
+                Icons.more_vert,
+                size: 24.sp,
+                color: AppColors.iconColor,
+              ),
+            );
+          }
+        }
 
-  //       return BoxSpacer.blank;
-  //     },
-  //   );
-  // }
+        return BoxSpacer.blank;
+      },
+    );
+  }
 
   ///
   /// METHOD
   ///
-  // _convertToCartTable(
-  //     {required CartType typeCart, required OrderModel orderDetail}) async {
-  //   // final customer = await _customerRepository.getCustomerInfoById(
-  //   //     customerId: orderDetail.customerId!);
-  //   // final cart = await _cartStorage.convertOrderDetailToCartStorage(
-  //   //   orderDetail: orderDetail,
-  //   //   typeCart: typeCart,
-  //   //   customer: customer,
-  //   // );
-  //   // if (cart != null) {
-  //   //   MainRouter.instance.pushNamed(
-  //   //     context,
-  //   //     routeName: CoreRouteName.draftBillDetail,
-  //   //     queryParameters: {'currentDraftId': cart.id.toString()},
-  //   //   );
-  //   // }
-  // }
+  _convertToCartTable(
+      {required CartType typeCart, required OrderModel orderDetail}) async {
+    final customer = await _customerServices.getCustomerInfoById(
+        customerId: orderDetail.customerId!);
+    final cart = await _cartStorage.convertOrderDetailToCartStorage(
+      orderDetail: orderDetail,
+      typeCart: typeCart,
+      customer: customer,
+    );
+    if (cart != null) {
+      MainRouter.instance.pushNamed(
+        context,
+        routeName: RouteName.drafts,
+        queryParameters: {'currentDraftId': cart.id.toString()},
+      );
+    }
+  }
 }

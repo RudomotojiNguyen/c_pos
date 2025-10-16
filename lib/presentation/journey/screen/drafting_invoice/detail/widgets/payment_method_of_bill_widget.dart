@@ -331,8 +331,11 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
 
   void getAccountants(CartType cartType, int? storeId) {
     _paymentBloc.add(GetCashAccountsEvent(storeId: storeId));
-    _paymentBloc.add(GetTransferAccountsEvent(cartType: cartType));
-    _paymentBloc.add(GetCreditAccountsEvent(cartType: cartType));
+
+    /// todo: check
+    // _paymentBloc.add(GetTransferAccountsEvent(cartType: cartType));
+    // _paymentBloc.add(GetCreditAccountsEvent(cartType: cartType));
+
     _paymentBloc.add(GetInstallmentAccountsEvent());
     _paymentBloc.add(GetPaymentEnumEvent());
   }

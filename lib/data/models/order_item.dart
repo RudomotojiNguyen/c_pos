@@ -142,7 +142,7 @@ class OrderItemModel {
     ..productCode = productCode
     ..barCode = barCode
     ..originalPrice = originalPrice
-    ..sellingPrice = sellingPrice
+    ..sellingPrice = productPrice
     ..createdAt = createdAt
     ..companyId = companyId
     ..note = note
@@ -153,4 +153,12 @@ class OrderItemModel {
     ..productType = productType
     ..productId = productId
     ..repurchasePrice = repurchasePrice;
+
+  bool get isGift =>
+      belongOrderDetailId.isNotNullOrEmpty &&
+      orderItemType == XItemType.gift.getValueType;
+
+  bool get isAttach =>
+      belongOrderDetailId.isNotNullOrEmpty &&
+      orderItemType == XItemType.attach.getValueType;
 }

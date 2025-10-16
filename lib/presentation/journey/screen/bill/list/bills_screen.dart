@@ -26,22 +26,7 @@ class _BillsScreenState extends XStateWidget<BillsScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return XAppBar(
-      title: 'Danh sách hóa đơn',
-      actions: [
-        XButton(
-          type: XButtonType.transparent,
-          onPressed: () {
-            //
-          },
-          child: Icon(
-            Icons.add_circle,
-            size: 24.sp,
-            color: AppColors.iconColor,
-          ),
-        )
-      ],
-    );
+    return const XAppBar(title: 'Danh sách hóa đơn');
   }
 
   @override

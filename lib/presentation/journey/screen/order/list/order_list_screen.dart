@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../common/di/injection/injection.dart';
-import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../bloc/order_bloc.dart';
 import 'widgets/order_list_widget.dart';
@@ -26,20 +25,7 @@ class _OrderListScreenState extends XStateWidget<OrderListScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return XAppBar(
-      title: 'Quản lý đơn hàng',
-      actions: [
-        XButton(
-          onPressed: () {},
-          type: XButtonType.transparent,
-          child: Icon(
-            Icons.add_circle,
-            size: 24.sp,
-            color: AppColors.iconColor,
-          ),
-        ),
-      ],
-    );
+    return const XAppBar(title: 'Quản lý đơn hàng');
   }
 
   @override

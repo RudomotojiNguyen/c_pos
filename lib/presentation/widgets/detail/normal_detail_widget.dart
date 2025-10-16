@@ -11,14 +11,14 @@ class NormalDetailWidget extends StatelessWidget {
     super.key,
     required this.storeName,
     required this.createDate,
-    this.employeeName,
+    // this.employeeName,
     this.userAssignee,
     this.id,
     this.statusName,
     this.statusColor,
     this.point,
-    this.cashierName,
-    this.techName,
+    // this.cashierName,
+    // this.techName,
     this.typeName,
     this.orderSource,
     this.orderType,
@@ -28,10 +28,10 @@ class NormalDetailWidget extends StatelessWidget {
 
   final String storeName;
   final String createDate;
-  final String? employeeName;
+  // final String? employeeName;
   final String? userAssignee;
-  final String? cashierName;
-  final String? techName;
+  // final String? cashierName;
+  // final String? techName;
   final String? id;
   final num? point;
   final String? typeName;
@@ -100,22 +100,22 @@ class NormalDetailWidget extends StatelessWidget {
               value: checkTime,
             ),
           ],
-          if (employeeName.isNotNullOrEmpty) ...[
-            BoxSpacer.s8,
-            _rowInfo(context, title: 'Nhân viên', value: employeeName),
-          ],
+          // if (employeeName.isNotNullOrEmpty) ...[
+          //   BoxSpacer.s8,
+          //   _rowInfo(context, title: 'Nhân viên', value: employeeName),
+          // ],
           if (userAssignee.isNotNullOrEmpty) ...[
             BoxSpacer.s8,
             _rowInfo(context, title: 'Người duyệt', value: userAssignee),
           ],
-          if (cashierName.isNotNullOrEmpty) ...[
-            BoxSpacer.s8,
-            _rowInfo(context, title: 'Thu ngân', value: cashierName),
-          ],
-          if (techName.isNotNullOrEmpty) ...[
-            BoxSpacer.s8,
-            _rowInfo(context, title: 'Kỹ thuật', value: techName),
-          ],
+          // if (cashierName.isNotNullOrEmpty) ...[
+          //   BoxSpacer.s8,
+          //   _rowInfo(context, title: 'Thu ngân', value: cashierName),
+          // ],
+          // if (techName.isNotNullOrEmpty) ...[
+          //   BoxSpacer.s8,
+          //   _rowInfo(context, title: 'Kỹ thuật', value: techName),
+          // ],
           if (point != null && point! > 0) ...[
             BoxSpacer.s8,
             _rowInfo(context, title: 'Điểm thưởng', value: point!.formatNumber),

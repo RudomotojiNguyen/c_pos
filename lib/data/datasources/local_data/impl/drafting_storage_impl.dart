@@ -820,6 +820,9 @@ class DraftingStorageImpl extends DraftingStorage {
         ..customerNote = orderDetail.customerNote
         ..warrantyNote = orderDetail.warrantyNote
         ..saleNote = orderDetail.saleNote
+        ..tradeInType = TradeInType.undefine
+        ..store = orderDetail.getStore
+        ..employeeSubDetail = orderDetail.getSubEmployeeInfo
         ..deliveryFee = orderDetail.getDeliveryFee as DeliveryFeeModel?
         ..orderSubDetail = orderDetail.getOrderSubDetail as OrderSubDetailModel?
         ..isDefaultInfo =
@@ -833,6 +836,9 @@ class DraftingStorageImpl extends DraftingStorage {
         ..customerNote = orderDetail.customerNote
         ..warrantyNote = orderDetail.warrantyNote
         ..saleNote = orderDetail.saleNote
+        ..tradeInType = TradeInType.undefine
+        ..store = orderDetail.getStore
+        ..employeeSubDetail = orderDetail.getSubEmployeeInfo
         ..deliveryFee = orderDetail.getDeliveryFee as DeliveryFeeModel?
         ..orderSubDetail =
             orderDetail.getOrderSubDetail as OrderSubDetailModel?;
@@ -905,24 +911,25 @@ class DraftingStorageImpl extends DraftingStorage {
     return cartTable;
   }
 
-  // todo: chuyển đơn hàng thành đơn nháp
+  /// chuyển đơn hàng thành đơn nháp
   @override
   Future<DraftingInvoiceTable?> convertBillDetailToCartStorage({
     required BillModel billDetail,
     required CartType typeCart,
   }) async {
     /// tìm khách cùng số điện thoại
-    CustomerTable? customerInfo = await _findCustomer(
-      phone: billDetail.getCustomerPhone,
-      customerId: billDetail.customerId,
-    );
+    CustomerTable? customerInfo = billDetail.getCustomerInfo;
+    //await _findCustomer(
+    //   phone: billDetail.getCustomerPhone,
+    //   customerId: billDetail.customerId,
+    // );
 
-    /// nếu thông tin là từ sdt mặc định hoặc bị rỗng thì lấy từ order detail
-    if (billDetail.getCustomerPhone ==
-            AppConstants.defaultCustomer.getCustomerPhone ||
-        customerInfo == null) {
-      customerInfo ??= billDetail.getCustomerInfo;
-    }
+    // /// nếu thông tin là từ sdt mặc định hoặc bị rỗng thì lấy từ order detail
+    // if (billDetail.getCustomerPhone ==
+    //         AppConstants.defaultCustomer.getCustomerPhone ||
+    //     customerInfo == null) {
+    //   customerInfo ??= billDetail.getCustomerInfo;
+    // }
 
     /// kiểm tra xem có đơn nháp nào dng có cùng order id không
     // DraftingInvoiceTable? cartTable = await _findCart(billId: billDetail.id);
@@ -939,6 +946,8 @@ class DraftingStorageImpl extends DraftingStorage {
       ..saleNote = billDetail.saleNote
       ..deliveryFee = null
       ..orderSubDetail = null
+      ..store = billDetail.getStore
+      ..employeeSubDetail = billDetail.getSubEmployeeInfo
       ..isDefaultInfo = billDetail.getCustomerPhone ==
           AppConstants.defaultCustomer.getCustomerPhone;
 
@@ -1002,7 +1011,7 @@ class DraftingStorageImpl extends DraftingStorage {
 
       /// thứ tự thêm như sau
       await Future.wait([
-        isar.customerTables.put(customerInfo!),
+        isar.customerTables.put(customerInfo),
         isar.productTables.putAll(productMap.values.toList()),
         isar.paymentMethodTables.putAll(payments),
       ]);

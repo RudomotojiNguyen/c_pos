@@ -28,9 +28,9 @@ class BasicShortProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return XBaseButton(
-      onPressed: baseButtonType != BaseButtonType.basic
-          ? null
-          : () => onPressed?.call(action: XProductOperationAction.detail),
+      // onPressed: baseButtonType != BaseButtonType.basic
+      //     ? null
+      //     : () => onPressed?.call(action: XProductOperationAction.detail),
       secondaryWidgetBuilder: (closeOverlay) => _secondaryWidget(closeOverlay),
       baseButtonType: baseButtonType,
       paddingChildIsOverlay: paddingIsOverlay,

@@ -15,12 +15,14 @@ class XBaseButton extends StatefulWidget {
   final GestureTapCallback? onLongPress;
 
   /// Callback để tạo secondary widget (dialog, menu, etc.)
+  /// Nếu null, button sẽ hoạt động như button thông thường không có overlay
+  ///
   /// [closeOverlay] là function để đóng overlay, nên được gọi khi:
   /// - User chọn một action trong secondary widget
   /// - User muốn đóng secondary widget
   /// - Secondary widget bị đóng bằng bất kỳ cách nào khác
   ///
-  /// closeOverlay() trả về Future<void> để có thể await
+  /// closeOverlay() trả về Future để có thể await
   final Widget Function(Future<void> Function() closeOverlay)?
       secondaryWidgetBuilder;
   final EdgeInsetsGeometry? padding;
@@ -82,6 +84,23 @@ class XBaseButtonState extends State<XBaseButton>
     _zoomAnimation = Tween<double>(begin: 1.0, end: 1.009).animate(
       CurvedAnimation(parent: _zoomController, curve: Curves.easeInOut),
     );
+
+    // Lắng nghe sự kiện back button để đóng overlay
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final route = ModalRoute.of(context);
+        if (route != null) {
+          // ignore: deprecated_member_use
+          route.addScopedWillPopCallback(() async {
+            if (_overlayEntry != null) {
+              await removeOverlay();
+              return false; // Ngăn không cho pop route
+            }
+            return true;
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -100,32 +119,25 @@ class XBaseButtonState extends State<XBaseButton>
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: _overlayEntry == null,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!didPop && _overlayEntry != null) {
-          removeOverlay();
-        }
-      },
-      child: GestureDetector(
-        onTap: widget.disable ? null : () => onPress(context),
-        onLongPress: widget.disable ? null : () => longPress(context),
-        child: Container(
-          key: _childKey,
-          width: widget.width,
-          padding: widget.padding ?? EdgeInsets.zero,
-          margin: widget.margin,
-          constraints: widget.constraints,
-          decoration: widget.decoration ??
-              BoxDecoration(borderRadius: BorderRadius.all(AppRadius.xxm)),
-          child: widget.child,
-        ),
+    return GestureDetector(
+      onTap: widget.disable ? null : () => onPress(context),
+      onLongPress: widget.disable ? null : () => longPress(context),
+      child: Container(
+        key: _childKey,
+        width: widget.width,
+        padding: widget.padding ?? EdgeInsets.zero,
+        margin: widget.margin,
+        constraints: widget.constraints,
+        decoration: widget.decoration ??
+            BoxDecoration(borderRadius: BorderRadius.all(AppRadius.xxm)),
+        child: widget.child,
       ),
     );
   }
 
   onPress(BuildContext context) {
-    if (widget.baseButtonType == BaseButtonType.tapOperation) {
+    if (widget.baseButtonType == BaseButtonType.tapOperation &&
+        widget.secondaryWidgetBuilder != null) {
       _showOverlay(context);
     }
     if (widget.onPressed != null) {
@@ -134,7 +146,8 @@ class XBaseButtonState extends State<XBaseButton>
   }
 
   longPress(BuildContext context) {
-    if (widget.baseButtonType == BaseButtonType.longPressOperation) {
+    if (widget.baseButtonType == BaseButtonType.longPressOperation &&
+        widget.secondaryWidgetBuilder != null) {
       _showOverlay(context);
     }
     if (widget.onLongPress != null) {
@@ -148,7 +161,6 @@ class XBaseButtonState extends State<XBaseButton>
 
     // Đánh dấu rằng overlay đang được đóng để tránh gọi nhiều lần
     final overlayEntry = _overlayEntry;
-    _overlayEntry = null;
 
     try {
       await Future.wait([_controller.reverse(), _zoomController.reverse()]);
@@ -156,6 +168,8 @@ class XBaseButtonState extends State<XBaseButton>
     } catch (e) {
       // Xử lý lỗi nếu có
       overlayEntry?.remove();
+    } finally {
+      _overlayEntry = null;
     }
   }
 
@@ -187,7 +201,8 @@ class XBaseButtonState extends State<XBaseButton>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double overlayTop = offset.dy;
-      right = offset.dx + childWidth;
+      double adjustedLeft = left < 16.sp ? 16.sp : left;
+      double adjustedRight = adjustedLeft + childWidth;
       double secondaryHeight = (_secondaryWidgetKey.currentContext
               ?.findRenderObject()
               ?.paintBounds
@@ -202,9 +217,9 @@ class XBaseButtonState extends State<XBaseButton>
           spaceBelow < secondaryHeight && spaceAbove > secondaryHeight;
 
       addOverlay(
-        left: left,
+        left: adjustedLeft,
         top: overlayTop,
-        right: right,
+        right: adjustedRight,
         childHeight:
             childHeight + (widget.paddingChildIsOverlay?.vertical ?? 0),
         childWidth:
@@ -234,12 +249,37 @@ class XBaseButtonState extends State<XBaseButton>
     double? newLeft;
     double? newRight;
 
-    if (right > maxOffset) {
-      newRight = null;
-      newLeft = left + childWidth > maxOffset ? 200.sp : childWidth;
-    } else {
-      newRight = maxOffset - right;
+    // Kiểm tra và điều chỉnh vị trí left để đảm bảo overlay không bị cắt
+    double adjustedLeft = left;
+
+    // Nếu left bị âm hoặc quá gần lề trái (có thể bị cắt), đặt về vị trí an toàn
+    if (left < 16.sp) {
+      adjustedLeft = 16.sp; // Đặt một khoảng cách an toàn từ lề trái
+    }
+
+    // Kiểm tra và điều chỉnh vị trí right
+    double adjustedRight = adjustedLeft + childWidth;
+    if (adjustedRight > maxOffset - 16.sp) {
+      newRight = 16.sp; // Đặt một khoảng cách an toàn từ lề phải
       newLeft = null;
+    } else {
+      // Nếu button nằm ở giữa màn hình, đặt secondary widget ở giữa
+      double centerPosition = adjustedLeft + (childWidth / 2);
+      if (centerPosition < maxOffset / 2) {
+        newLeft = adjustedLeft;
+        newRight = null;
+      } else {
+        newRight = maxOffset - adjustedRight;
+        newLeft = null;
+      }
+    }
+
+    // Đảm bảo adjustedLeft không bị âm và có khoảng cách an toàn
+    adjustedLeft = adjustedLeft < 16.sp ? 16.sp : adjustedLeft;
+
+    // Đảm bảo secondary widget không bị cắt ở lề phải
+    if (newLeft != null && newLeft + 200.sp > maxOffset - 16.sp) {
+      newLeft = maxOffset - 200.sp - 16.sp;
     }
 
     _overlayEntry?.remove();
@@ -254,12 +294,12 @@ class XBaseButtonState extends State<XBaseButton>
                 removeOverlay();
               },
               child: Container(
-                color: Colors.white.withValues(alpha: 0.8),
+                color: AppColors.neutralColor.withValues(alpha: 0.1),
               ),
             ),
           ),
           Positioned(
-            left: left,
+            left: adjustedLeft,
             top: top,
             child: Opacity(
               opacity: opacity,
@@ -332,7 +372,7 @@ class XBaseButtonState extends State<XBaseButton>
           scale: _scaleAnimation,
           child: GestureDetector(
             // GestureDetector này để đóng overlay khi chạm vào khoảng trống
-            // trong secondaryWidget (ví dụ: nền của XGlassContainer)
+            // trong secondaryWidget (ví dụ: nền của XGlassMorphinContainer)
             onTap: () async {
               await safeCloseOverlay();
             },
@@ -340,7 +380,7 @@ class XBaseButtonState extends State<XBaseButton>
             behavior: HitTestBehavior.translucent,
             child: XGlassContainer(
               key: _secondaryWidgetKey,
-              bgColor: Colors.white.withValues(alpha: 0.7),
+              bgColor: Colors.white.withValues(alpha: 0.9),
               child: secondaryContent,
             ),
           ),

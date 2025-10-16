@@ -6,7 +6,7 @@ import '../../presentation/theme/themes.dart';
 import '../configs/box.dart';
 
 enum XProductOperationAction {
-  detail, // chi tiết sản phẩm
+  // detail, // chi tiết sản phẩm
   customerDetail, // chi tiết khách hàng
   remove, // xóa sản phẩm
   note, // ghi chú sản phẩm
@@ -30,8 +30,8 @@ enum XProductOperationAction {
 extension XProductOperationActionExtension on XProductOperationAction {
   String get getTitle {
     switch (this) {
-      case XProductOperationAction.detail:
-        return 'Chi tiết';
+      // case XProductOperationAction.detail:
+      //   return 'Chi tiết';
       case XProductOperationAction.customerDetail:
         return 'Thông tin khách';
       case XProductOperationAction.remove:
@@ -71,7 +71,7 @@ extension XProductOperationActionExtension on XProductOperationAction {
 
   Widget get getIcon {
     switch (this) {
-      case XProductOperationAction.detail:
+      // case XProductOperationAction.detail:
       case XProductOperationAction.customerDetail:
         return Icon(
           Icons.info_outline,

@@ -23,6 +23,9 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
   final ProductServices productServices;
 
   final LoggerHelper _loggerHelper = LoggerHelper();
+  final AuthBloc authBloc = getIt.get<AuthBloc>();
+  final DraftingInvoiceBloc draftingInvoiceBloc =
+      getIt.get<DraftingInvoiceBloc>();
 
   SearchProductBloc({
     required this.productServices,
@@ -107,6 +110,9 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
   FutureOr<void> _onSearchProducts(
       OnSearchProductsEvent event, Emitter<SearchProductState> emit) async {
     try {
+      if (state is SearchLoading) {
+        return;
+      }
       emit(SearchLoading(state: state));
 
       PaginatedResponse<ProductModel>? res = await _getProducts(
@@ -152,6 +158,12 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
       ));
     } catch (e) {
       _loggerHelper.logError(message: 'OnSearchProductsEvent', obj: e);
+      emit(GetProductsSuccess(
+        state: state,
+        products: state.products,
+        pageInfo: state.pageInfo,
+        searchText: event.searchValue,
+      ));
     }
   }
 
@@ -234,10 +246,6 @@ extension SearchProductBlocExtension on SearchProductBloc {
     CartType? cartType,
     String? referenceId,
   }) async {
-    final AuthBloc authBloc = getIt.get<AuthBloc>();
-    final DraftingInvoiceBloc draftingInvoiceBloc =
-        getIt.get<DraftingInvoiceBloc>();
-
     int? store = storeId ??
         draftingInvoiceBloc.state.currentStore?.getStoreId ??
         authBloc.state.getUserStoreId;
@@ -340,7 +348,10 @@ extension SearchProductBlocExtension on SearchProductBloc {
     List<ProductModel> res = [];
 
     if (productType == XItemType.gift) {
-      //
+      res = await productServices.productSearch(
+        searchProduct: param,
+        storeId: storeId,
+      );
     } else if (productType == XItemType.attach) {
       res = await productServices.getAttachesProductForSale(
         productId: productId ?? '',

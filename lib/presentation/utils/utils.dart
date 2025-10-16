@@ -261,6 +261,36 @@ class Utils {
     }
   }
 
+  /// Converts a dynamic value to an integer.
+  ///
+  /// This method attempts to convert the given data to an integer. It handles
+  /// null values, existing integers, and other types that can be converted to a string.
+  ///
+  /// @param data The value to convert to an integer.
+  /// @return The converted integer value, or 0 if the input is null or cannot be converted.
+  ///
+  /// Example:
+  /// ```dart
+  /// int result = Utils.toInt(10);
+  /// print(result); // Output: 10
+  /// ```
+  static int toInt(dynamic data) {
+    if (data == null) {
+      return 0;
+    }
+    if (data is int) {
+      return data;
+    }
+    if (data is double) {
+      return data.toInt();
+    }
+    try {
+      return int.parse(data.toString());
+    } catch (e) {
+      return 0;
+    }
+  }
+
   static bool toBoolean(dynamic data) {
     if (data == null) {
       return false;

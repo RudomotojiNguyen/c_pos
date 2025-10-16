@@ -25,6 +25,7 @@ class RowDetail extends StatelessWidget {
         style: AppFont.t.s(12),
         maxLines: 10,
         overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.right,
       ),
     );
   }

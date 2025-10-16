@@ -389,14 +389,14 @@ class _ProductsBasicInformationWidgetState
   _onHandleChildAction(
       XProductOperationAction action, ProductTable productItem) {
     switch (action) {
-      case XProductOperationAction.detail:
-        mainRouter.pushNamed(
-          context,
-          routeName: RouteName.productDetail,
-          queryParameters: {'productId': productItem.productId.toString()},
-          extra: productItem,
-        );
-        break;
+      // case XProductOperationAction.detail:
+      //   mainRouter.pushNamed(
+      //     context,
+      //     routeName: RouteName.productDetail,
+      //     queryParameters: {'productId': productItem.productId.toString()},
+      //     extra: productItem,
+      //   );
+      //   break;
       case XProductOperationAction.remove:
         _onDelete(productItem.id);
         break;

@@ -87,7 +87,7 @@ class _TradeInDetailScreenState extends XStateWidget<TradeInDetailScreen> {
                   id: data.getBillNumber,
                   statusName: data.getStatusStr,
                   statusColor: data.getOrderStatus.getColorStatus,
-                  employeeName: data.createdBy,
+                  // employeeName: data.createdBy,
                 ),
                 CustomerInfoWidget(
                   customerName: data.getCustomerName,

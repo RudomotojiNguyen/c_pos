@@ -107,6 +107,10 @@ class GroupProductChildrenDetailDialog extends StatelessWidget {
           discountPrice: product.getDiscountPrice,
           quantity: product.getQuantity,
           baseButtonType: BaseButtonType.tapOperation,
+          decorationChildIsOverlay: BoxDecoration(
+            borderRadius: BorderRadius.all(AppRadius.l),
+            color: AppColors.white,
+          ),
           productOperationActions: const [
             XProductOperationAction.copyData,
             XProductOperationAction.remove,
