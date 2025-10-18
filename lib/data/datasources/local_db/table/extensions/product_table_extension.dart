@@ -257,6 +257,7 @@ extension ProductTableExtension on ProductTable {
       'productNameVat': productNameVat,
       'listedPrice': listedPrice,
       'orderItemType': itemType.getValueType,
+      'billItemType': itemType.getValueType,
     };
 
     data['gifts'] = getGifts.map((e) => e.formatChild(XItemType.gift)).toList();

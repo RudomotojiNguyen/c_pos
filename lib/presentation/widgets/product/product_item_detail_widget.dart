@@ -253,6 +253,7 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
           productOperationActions: productOperationActions,
           decorationIsOverlay: widget.decorationChildIsOverlayChild,
           paddingIsOverlay: widget.paddingChildIsOverlayChild,
+          itemType: XItemType.gift,
           // onPressed: ({action}) => widget.onPressedChild?.call(
           //   action: action ?? XProductOperationAction.detail,
           //   productChild: e,
@@ -277,6 +278,7 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
           productOperationActions: productOperationActions,
           decorationIsOverlay: widget.decorationChildIsOverlayChild,
           paddingIsOverlay: widget.paddingChildIsOverlayChild,
+          itemType: XItemType.attach,
           // onPressed: ({action}) => widget.onPressedChild?.call(
           //   action: action ?? XProductOperationAction.detail,
           //   productChild: e,

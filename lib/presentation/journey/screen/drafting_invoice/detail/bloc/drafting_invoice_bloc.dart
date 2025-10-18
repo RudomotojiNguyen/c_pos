@@ -691,7 +691,7 @@ class DraftingInvoiceBloc
 
       final res = await draftingStorage.updateProductTradeIn(
         cartId: currentDraftId,
-        product: event.product,
+        product: event.product..itemType = XItemType.main,
       );
       if (res != null) {
         emit(

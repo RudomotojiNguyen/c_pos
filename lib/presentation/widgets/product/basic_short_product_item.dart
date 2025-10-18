@@ -16,6 +16,7 @@ class BasicShortProductItem extends StatelessWidget {
     this.productOperationActions = const [],
     this.decorationIsOverlay,
     this.paddingIsOverlay,
+    this.itemType = XItemType.main,
   });
 
   final ProductModel product;
@@ -24,6 +25,7 @@ class BasicShortProductItem extends StatelessWidget {
   final List<XProductOperationAction> productOperationActions;
   final Decoration? decorationIsOverlay;
   final EdgeInsetsGeometry? paddingIsOverlay;
+  final XItemType itemType;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class BasicShortProductItem extends StatelessWidget {
       child: Row(
         children: [
           BoxSpacer.s16,
+          _prefixWidget(),
           SizedBox(
             width: 220.sp,
             child: Row(
@@ -72,6 +75,16 @@ class BasicShortProductItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _prefixWidget() {
+    if (itemType == XItemType.gift) {
+      return XItemType.gift.getIconType(width: 16.sp);
+    }
+    if (itemType == XItemType.attach) {
+      return XItemType.attach.getIconType(width: 16.sp);
+    }
+    return BoxSpacer.blank;
   }
 
   Widget _secondaryWidget(Future<void> Function() closeOverlay) {
