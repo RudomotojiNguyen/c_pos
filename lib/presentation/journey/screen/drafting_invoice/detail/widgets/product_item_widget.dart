@@ -256,14 +256,14 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
       return Text.rich(
         style: AppFont.t.s(12).neutral3.w500,
         TextSpan(
-          text: '- Thiếu sản phẩm $index',
+          text: '• Thiếu sản phẩm $index',
         ),
       );
     }
     return Text.rich(
       style: AppFont.t.s(12).neutral3.w500,
       TextSpan(
-        text: '- ',
+        text: '• ',
         children: [
           TextSpan(text: product.getName),
           // const TextSpan(text: ' ('),

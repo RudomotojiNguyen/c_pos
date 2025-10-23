@@ -198,9 +198,9 @@ class BillItemModel {
     sellingPrice = Utils.toDouble(json['sellingPrice']);
     listedPrice = Utils.toDouble(json['listedPrice']);
     merchantId = json['merchantId'];
-    flexibleComboId = json['flexibleComboId'];
+    flexibleComboId = json['flexibleComboId']?.toString();
     flexibleComboName = json['flexibleComboName'];
-    flexibleComboItemId = json['flexibleComboItemId'];
+    flexibleComboItemId = json['flexibleComboItemId']?.toString();
     warrantyReasonName = json['warrantyReasonName'];
     newProductId = json['newProductId'];
     newProductName = json['newProductName'];
@@ -323,11 +323,14 @@ class BillItemModel {
         productName: getName,
         imeiNo: getImeiNo,
         sellingPrice: getSellingPrice,
+        listedPrice: listedPrice,
         discountAmount: getDiscountPrice,
         discountPrice: getDiscountPrice,
+        discountRate: getDiscountPrice,
         discountType: discountType,
         quantity: getQuantity,
         id: productId,
+        flexibleComboItemId: flexibleComboItemId?.toInt(),
         barCode: barCode,
       );
 
@@ -365,6 +368,9 @@ class BillItemModel {
       belongBillDetailId.isNotNullOrEmpty &&
       (billItemType == XItemType.main.getValueType ||
           billItemType == XItemType.attach.getValueType);
+
+  bool get isCombo =>
+      listProductInCombo != null && listProductInCombo!.isNotEmpty;
 
   double get calculateDiscountPrice {
     if (discountType == XDiscountType.amount.value) {

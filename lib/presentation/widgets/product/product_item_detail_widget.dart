@@ -33,6 +33,7 @@ class ProductItemDetailWidget extends StatefulWidget {
     this.onPressedChild,
     this.provider,
     this.barCode,
+    this.productsCombo = const [],
   });
 
   final String productName;
@@ -48,6 +49,7 @@ class ProductItemDetailWidget extends StatefulWidget {
   final String? barCode;
   final List<ProductModel> gifts;
   final List<ProductModel> attachs;
+  final List<ProductModel> productsCombo;
 
   final BaseButtonType? baseButtonType;
   final List<XProductOperationAction> productOperationActions;
@@ -218,7 +220,23 @@ class _ProductItemDetailWidgetState extends State<ProductItemDetailWidget> {
         if (widget.attachs.isNotEmpty) ...[
           _attachs(),
         ],
+        if (widget.productsCombo.isNotEmpty) ...[
+          BoxSpacer.s8,
+          _productsCombo(),
+        ],
       ],
+    );
+  }
+
+  Widget _productsCombo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widget.productsCombo.map((e) {
+        return Text(
+          '• ${e.getName}',
+          style: AppFont.t.s(10).neutral3,
+        );
+      }).toList(),
     );
   }
 

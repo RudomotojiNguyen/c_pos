@@ -434,9 +434,10 @@ class BillModel {
   List<ProductModel> get products => (billItems ?? []).map((e) {
         return ProductModel(
           id: e.productId,
-          productType: e.productType,
+          productType: e.isCombo ? ProductType.combo : e.productType,
           productName: e.getName,
           imeiNo: e.getImeiNo,
+          listedPrice: e.listedPrice,
           sellingPrice: e.getSellingPrice,
           discountAmount: e.getDiscountPrice,
           discountPrice: e.getDiscountPrice,
@@ -449,6 +450,8 @@ class BillModel {
           gifts: e.gifts?.map((e) => e.toProductModel()).toList(),
           attachs: e.attaches?.map((e) => e.toProductModel()).toList(),
           barCode: e.barCode,
+          productsCombo:
+              e.listProductInCombo?.map((e) => e.toProductModel()).toList(),
         );
       }).toList();
 
@@ -500,24 +503,63 @@ class BillModel {
     ..gender = customerAppellation?.getGender ?? XGenderType.other
     ..appellation = customerAppellation?.getGender ?? XGenderType.other;
 
-  double get getTotalPriceNoneDiscount => (billItems ?? []).fold(0,
-      (previousValue, element) => previousValue + element.calculateTotalPrice);
+  /// tính lại giá tiền chưa giảm giá của bill item
+  double get getTotalPriceNoneDiscount {
+    double totalPrice = 0;
 
-  double get getTotalDiscountPriceOfBillItem => (billItems ?? []).fold(
-      0,
-      (previousValue, element) =>
-          previousValue + element.calculateDiscountOfItem);
+    for (var item in billItems ?? []) {
+      if (item.isCombo) {
+        for (var product in item.listProductInCombo ?? []) {
+          totalPrice += product.calculateTotalPrice;
+        }
+      } else {
+        totalPrice += item.calculateTotalPrice;
+      }
+    }
 
-  double get calculateDiscountOfBill => discountAmount ?? 0;
+    return totalPrice;
+  }
 
+  /// tính lại giảm giá của bill item
+  double get getTotalDiscountPriceOfBillItem {
+    double totalDiscount = 0;
+    for (var item in billItems ?? []) {
+      if (item.isCombo) {
+        for (var product in item.listProductInCombo ?? []) {
+          totalDiscount += product.calculateDiscountPrice;
+        }
+      } else {
+        totalDiscount += item.calculateDiscountPrice;
+      }
+    }
+    return totalDiscount;
+  }
+
+  /// tính lại giảm giá của bill
+  double get calculateDiscountOfBill {
+    double totalDiscount = 0;
+
+    if (discountType == XDiscountType.amount.value) {
+      totalDiscount += discountAmount ?? 0;
+    }
+    if (discountType == XDiscountType.percent.value) {
+      totalDiscount +=
+          (getTotalPriceNoneDiscount * (discountAmount ?? 0) / 100);
+    }
+    return totalDiscount;
+  }
+
+  /// tính lại giảm giá của điểm
   double get calculateDiscountOfPoint => pointAmount ?? 0;
 
+  /// tính lại giảm giá của thanh toán trước
   double get calculateTotalPrePayment {
     if (order == null) return 0;
 
     return order!.totalDeposit ?? 0;
   }
 
+  /// tính lại giá tiền cuối cùng của bill
   double get calculateFinalPrice =>
       getTotalPriceNoneDiscount -
       getTotalDiscountPriceOfBillItem -
@@ -540,9 +582,75 @@ class BillModel {
     // 1. Tạo một Map để dễ dàng tìm kiếm sản phẩm chính bằng ID
     final Map<String, BillItemModel> parentMap = {};
 
-    // 2. Phân loại và điền vào Map
-    // Các item có 'belongBillDetailId' là null (hoặc không có) được coi là sản phẩm chính (parent)
+    // 2. Gom các sản phẩm có cùng flexibleComboId
+    final Map<String, List<BillItemModel>> comboGroups = {};
+    final List<BillItemModel> nonComboItems = [];
+
     for (var item in billItems) {
+      if (item.flexibleComboId.isNotNullOrEmpty) {
+        // Sản phẩm thuộc combo
+        final comboId = item.flexibleComboId!;
+        comboGroups[comboId] ??= [];
+        comboGroups[comboId]!.add(item);
+      } else {
+        // Sản phẩm không thuộc combo
+        nonComboItems.add(item);
+      }
+    }
+
+    // 3. Tạo BillItemModel cho mỗi combo
+    for (var comboEntry in comboGroups.entries) {
+      final comboId = comboEntry.key;
+      final comboItems = comboEntry.value;
+
+      if (comboItems.isNotEmpty) {
+        // Lấy thông tin combo từ item đầu tiên
+        final firstItem = comboItems.first;
+
+        /// tạo product model cho combo
+        final comboProduct = BillItemModel(
+          id: comboId,
+          productType: ProductType.combo,
+          productId: comboId,
+          barCode: firstItem.barCode,
+          productName: firstItem.flexibleComboName,
+          productNameVat: firstItem.productNameVat,
+          productNote: firstItem.productNote,
+          warrantyMonthNo: firstItem.warrantyMonthNo,
+          productVatAmount: firstItem.productVatAmount,
+          quantity: 1,
+          listProductInCombo: comboItems,
+          flexibleComboId: comboId,
+          flexibleComboName: firstItem.flexibleComboName,
+          flexibleComboItemId: firstItem.flexibleComboItemId,
+          warrantyReasonName: firstItem.warrantyReasonName,
+          newProductId: firstItem.newProductId,
+          newProductName: firstItem.newProductName,
+          newProductCode: firstItem.newProductCode,
+          newQuantity: firstItem.newQuantity,
+          newProductPrice: firstItem.newProductPrice,
+          newProductType: firstItem.newProductType,
+          newTotalPrice: firstItem.newTotalPrice,
+          newImeiCode: firstItem.newImeiCode,
+          isLostProduct: firstItem.isLostProduct,
+          voucherId: firstItem.voucherId,
+          voucherDetailId: firstItem.voucherDetailId,
+          voucherCode: firstItem.voucherCode,
+          accessoryGroupId: firstItem.accessoryGroupId,
+          accessoryGroupCode: firstItem.accessoryGroupCode,
+          repurchasePrice: firstItem.repurchasePrice,
+          belongBillDetailId: firstItem.belongBillDetailId,
+          note: firstItem.note,
+          listAccessoryPromotion: firstItem.listAccessoryPromotion,
+          listProductPromotion: firstItem.listProductPromotion,
+        );
+
+        parentMap[comboId] = comboProduct;
+      }
+    }
+
+    // 4. Thêm các sản phẩm không thuộc combo vào parentMap
+    for (var item in nonComboItems) {
       String key = item.id ?? '';
       if (item.belongBillDetailId.isNullOrEmpty) {
         // Đây là sản phẩm chính (parent)
@@ -550,7 +658,7 @@ class BillModel {
       }
     }
 
-    // 3. Gán các sản phẩm phụ (child) vào sản phẩm chính tương ứng
+    // 5. Gán các sản phẩm phụ (child) vào sản phẩm chính tương ứng
     for (var item in billItems) {
       if (item.belongBillDetailId.isNotNullOrEmpty) {
         // Đây là sản phẩm phụ (child)

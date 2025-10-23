@@ -945,12 +945,6 @@ class DraftingInvoiceBloc
           return;
         }
 
-        await Future.delayed(const Duration(seconds: 2), () {
-          debugPrint('CreateFailed');
-          Utils.printMultiLine(formData);
-          emit(CreateFailed(state: state));
-        });
-
         /// check type of draft => send by api
         if (state.cartType == CartType.retail) {
           final response = await billServices.createBill(formData);

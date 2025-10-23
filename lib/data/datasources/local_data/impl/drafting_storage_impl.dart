@@ -917,8 +917,9 @@ class DraftingStorageImpl extends DraftingStorage {
     required BillModel billDetail,
     required CartType typeCart,
   }) async {
-    /// tìm khách cùng số điện thoại
     CustomerTable? customerInfo = billDetail.getCustomerInfo;
+
+    /// tìm khách cùng số điện thoại
     //await _findCustomer(
     //   phone: billDetail.getCustomerPhone,
     //   customerId: billDetail.customerId,
@@ -957,6 +958,15 @@ class DraftingStorageImpl extends DraftingStorage {
     for (BillItemModel item in (billDetail.billItems ?? [])) {
       // todo: check thông tin nhiều loại sản phẩm
       ProductTable productTable = item.convertToProductTable;
+
+      /// sản phẩm combo
+      if (item.isCombo) {
+        List<ProductModel> productsCombo = [];
+        for (BillItemModel product in (item.listProductInCombo ?? [])) {
+          productsCombo.add(product.toProductModel());
+        }
+        productTable.productChildCombo = productsCombo;
+      }
 
       // nếu quà tặng, bán kèm và bảo hành không trống thì set vào product
       productTable.giftsSelected ??= [];

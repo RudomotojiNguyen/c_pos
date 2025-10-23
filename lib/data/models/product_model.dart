@@ -311,7 +311,24 @@ class ProductModel {
 
   /// giá bán
   double get getSellingPrice {
+    if (productType == ProductType.combo) {
+      return calculateSellingPriceCombo;
+    }
     return (sellingPrice ?? 0) - getDiscountAmount;
+  }
+
+  /// tính lại giá tiền sản phẩm combo
+  double get calculateSellingPriceCombo {
+    double result = 0;
+    for (var product in productsCombo ?? []) {
+      result += product.getSellingPriceCombo;
+    }
+    return result;
+  }
+
+  /// lấy giá bán của sản phẩm combo
+  double get getSellingPriceCombo {
+    return (listedPrice ?? 0) - getDiscountAmount;
   }
 
   /// giá bán sau chiết khấu
@@ -425,7 +442,8 @@ class ProductModel {
 
 /// tính toán cho combo
 extension ProductComboExtension on ProductModel {
-  double get getDiscountRate => discountRate ?? 0;
+  double get getDiscountRate =>
+      (discountRate ?? 0) > 0 ? discountRate ?? (discountAmount ?? 0) : 0;
 
   double get getTotalPriceComboAfterDiscount {
     return getTotalPriceComboBeforeDiscount - getComboPriceDiscount;

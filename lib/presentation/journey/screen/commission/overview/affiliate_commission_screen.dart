@@ -7,12 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../common/configs/box.dart';
-import '../../../../../common/constants/go_router.dart';
+// import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../../theme/themes.dart';
-import '../../../router.dart';
+// import '../../../router.dart';
 import '../bloc/affiliate_bloc.dart';
 import '../widgets/commission_item_detail_widget.dart';
 import '../widgets/header_commission_widget.dart';
@@ -71,20 +71,20 @@ class _AffiliateCommissionScreenState
           BoxSpacer.size(40),
         ],
       ),
-      actions: [
-        XBaseButton(
-          onPressed: () {
-            MainRouter.instance
-                .pushNamed(context, routeName: RouteName.productReward);
-          },
-          child: Icon(
-            Icons.search,
-            size: 20.sp,
-            color: AppColors.iconColor,
-          ),
-        ),
-        BoxSpacer.s16,
-      ],
+      // actions: [
+      //   XBaseButton(
+      //     onPressed: () {
+      //       MainRouter.instance
+      //           .pushNamed(context, routeName: RouteName.productReward);
+      //     },
+      //     child: Icon(
+      //       Icons.search,
+      //       size: 20.sp,
+      //       color: AppColors.iconColor,
+      //     ),
+      //   ),
+      //   BoxSpacer.s16,
+      // ],
     );
   }
 
