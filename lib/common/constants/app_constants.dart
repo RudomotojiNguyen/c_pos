@@ -14,7 +14,7 @@ class AppConstants {
       'https://178c08c15a654258607b889c5aee3c39@o440638.ingest.us.sentry.io/4508979448250368';
 
   //
-  static const timeSearchValue = 400;
+  static const timeSearchValue = 600;
 
   static const defaultNullValue = '--';
 

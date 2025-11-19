@@ -136,7 +136,19 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   }
 
   Future<List<StoreModel>> suggestionsCallback(String pattern) async {
-    return state.stores.where((store) {
+    List<StoreModel> stores = state.stores;
+
+    if (stores.isEmpty) {
+      add(GetStoreEvent());
+      final res = await storeServices.getStores();
+      stores = res;
+    }
+    return _onGetStores(stores: stores, pattern: pattern);
+  }
+
+  _onGetStores(
+      {required List<StoreModel> stores, required String pattern}) async {
+    return stores.where((store) {
       final nameLower =
           store.getName.toLowerCase().removeUtf8.split(' ').join('');
       final patternLower = pattern.toLowerCase().removeUtf8.split(' ').join('');

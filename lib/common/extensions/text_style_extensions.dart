@@ -21,6 +21,8 @@ extension ColorExtension on TextStyle {
   TextStyle get disabled => copyWith(color: AppColors.disabledActionColor);
 
   TextStyle get information => copyWith(color: AppColors.informationColor);
+
+  TextStyle get error => copyWith(color: AppColors.errorColor);
 }
 
 extension MyFontWeight on TextStyle {

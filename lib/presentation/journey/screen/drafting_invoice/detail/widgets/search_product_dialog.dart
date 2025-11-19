@@ -150,11 +150,14 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
 
         List<ProductModel> products = state.products;
         if (state.products.isEmpty) {
-          return const Column(
+          return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              EmptyDataWidget(emptyMessage: 'Không có sản phẩm cần tìm'),
+              EmptyDataWidget(
+                  emptyMessage: _searchController.text.isNullOrEmpty
+                      ? 'Vui lòng tìm sản phẩm'
+                      : 'Không có sản phẩm cần tìm'),
             ],
           );
         }

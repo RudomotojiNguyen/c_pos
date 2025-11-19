@@ -14,6 +14,7 @@ import '../../common/extensions/extension.dart';
 import '../theme/themes.dart';
 import '../utils/utils.dart';
 import 'widgets.dart';
+import 'x_linked_overlay_wrapper.dart';
 
 enum DecorationStyle { normal, transparent, rounded, search }
 
@@ -134,7 +135,8 @@ class XTextField<T> extends StatefulWidget {
   XTextFieldState createState() => XTextFieldState();
 }
 
-class XTextFieldState<T> extends State<XTextField<T>> {
+class XTextFieldState<T> extends State<XTextField<T>>
+    with WidgetsBindingObserver {
   TextStyle? get getHintStyle =>
       widget.hintStyle ??
       AppFont.t.s(12).w400.neutral.copyWith(color: AppColors.neutral3Color);
@@ -143,7 +145,6 @@ class XTextFieldState<T> extends State<XTextField<T>> {
 
   late FocusNode _focusNode;
 
-  late OverlayEntry _overlayEntry;
   Timer? _timer;
 
   final LayerLink _layerLink = LayerLink();
@@ -153,6 +154,9 @@ class XTextFieldState<T> extends State<XTextField<T>> {
   final ValueNotifier<DateTime?> dateController = ValueNotifier(null);
   final ValueNotifier<TimeOfDay?> timeController = ValueNotifier(null);
   final ValueNotifier<String?> valueButtonController = ValueNotifier(null);
+
+  bool _isWaitingForKeyboard = false;
+  final LinkedOverlayController _overlayController = LinkedOverlayController();
 
   /// get state
   BorderRadius get getBorderRadius => BorderRadius.all(AppRadius.xxl);
@@ -174,10 +178,18 @@ class XTextFieldState<T> extends State<XTextField<T>> {
     if (widget.futureRequest != null) {
       _focusNode.addListener(() {
         if (_focusNode.hasFocus) {
-          _overlayEntry = _createOverlayEntry();
-          Overlay.of(context).insert(_overlayEntry);
+          // CASE 1: Bàn phím đang đóng
+          if (MediaQuery.of(context).viewInsets.bottom == 0) {
+            _isWaitingForKeyboard = true;
+            _overlayController.show();
+          } else {
+            // CASE 2: Bàn phím đã mở sẵn
+            _isWaitingForKeyboard = false;
+            _overlayController.show();
+          }
         } else {
-          _overlayEntry.remove();
+          _isWaitingForKeyboard = false;
+          _overlayController.hide();
         }
       });
     }
@@ -219,6 +231,32 @@ class XTextFieldState<T> extends State<XTextField<T>> {
     super.dispose();
   }
 
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+
+    // 1. LẤY THÔNG TIN CHIỀU CAO BÀN PHÍM
+    final platformDispatcher = WidgetsBinding.instance.platformDispatcher;
+    if (platformDispatcher.views.isEmpty) return;
+    final view = platformDispatcher.views.first;
+    final keyboardHeight = view.viewInsets.bottom / view.devicePixelRatio;
+
+    // 2. KIỂM TRA
+    if (_isWaitingForKeyboard && keyboardHeight > 0) {
+      // 3. NGỪNG ĐỢI
+      _isWaitingForKeyboard = false;
+
+      // 4. ĐỢI ANIMATION KẾT THÚC: Đợi bàn phím mở xong
+      Future.delayed(const Duration(milliseconds: 250), () {
+        // 5. HIỂN THỊ OVERLAY
+        //    Kiểm tra lại lần cuối xem user có unfocus không
+        if (_focusNode.hasFocus) {
+          _overlayController.show();
+        }
+      });
+    }
+  }
+
   EdgeInsetsGeometry? get getContentPadding =>
       widget.contentPadding ??
       EdgeInsets.symmetric(horizontal: 12.sp, vertical: 12.sp);
@@ -251,28 +289,62 @@ class XTextFieldState<T> extends State<XTextField<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return CompositedTransformTarget(
-      link: _layerLink,
+    return XLinkedOverlayWrapper(
+      controller: _overlayController,
+      overlayContentBuilder: (context, showAbove, maxOverlayHeight) {
+        return Material(
+          elevation: 1.0,
+          color: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(AppRadius.l),
+          ),
+          child: ValueListenableBuilder<List<T>?>(
+            valueListenable: items,
+            builder: (context, value, _) {
+              return ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: min(300.sp, maxOverlayHeight),
+                ),
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.sp,
+                    horizontal: 8.sp,
+                  ),
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  reverse: showAbove,
+                  itemBuilder: (context, index) {
+                    final T item = value![index];
+                    return XBaseButton(
+                      onPressed: () => onSelectData(item),
+                      child: widget.itemSearchBuilder!(context, index, item),
+                    );
+                  },
+                  separatorBuilder: (context, index) => BoxSpacer.s8,
+                  itemCount: value?.length ?? 0,
+                ),
+              );
+            },
+          ),
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (widget.labelText?.isNotEmpty ?? false) ...[
-            Row(
-              mainAxisAlignment: widget.isCenterLabel
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start,
-              children: [
-                Text(
-                  widget.labelText ?? '',
-                  style: AppFont.t.s(12).w500,
-                ),
-                if (widget.isRequired) ...[
-                  Text(
-                    ' *',
-                    style: AppFont.t.s(12).w500.primaryColor,
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: widget.labelText ?? '',
+                    style: AppFont.t.w700.s(),
                   ),
+                  if (widget.isRequired)
+                    TextSpan(text: ' *', style: AppFont.t.w700.error),
                 ],
-              ],
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
             BoxSpacer.s8,
           ],
