@@ -20,6 +20,9 @@ class _CurrentStoreWidgetState extends State<CurrentStoreWidget> {
   void initState() {
     super.initState();
     initData(_draftingInvoiceBloc.state.currentStore);
+    if (_storeBloc.state.storesOfUser.isEmpty) {
+      _storeBloc.add(GetStoresByUserEvent());
+    }
   }
 
   @override
@@ -59,7 +62,7 @@ class _CurrentStoreWidgetState extends State<CurrentStoreWidget> {
   Widget _storeName() {
     return BlocSelector<StoreBloc, StoreState, List<StoreModel>>(
       bloc: _storeBloc,
-      selector: (state) => state.stores,
+      selector: (state) => state.storesOfUser,
       builder: (context, state) {
         return XTextField<StoreModel>(
           controller: _storeNameController,
@@ -103,7 +106,7 @@ class _CurrentStoreWidgetState extends State<CurrentStoreWidget> {
             );
           },
           futureRequest: (value) async {
-            return await _storeBloc.suggestionsCallback(value);
+            return await _storeBloc.suggestionsUserCallback(value);
           },
         );
       },

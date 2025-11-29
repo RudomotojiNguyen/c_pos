@@ -26,7 +26,8 @@ class _ProductItemInStockState extends State<ProductItemInStock>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return XBaseButton(
+      onPressed: _onShowStockDialog,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.all(AppRadius.l),
@@ -74,16 +75,13 @@ class _ProductItemInStockState extends State<ProductItemInStock>
               ],
               if (hasStock) ...[
                 BoxSpacer.s4,
-                XBaseButton(
-                  onPressed: _onShowStockDialog,
-                  child: XRowInfo(
-                    title: '${widget.product.inStockQuantity} sản phẩm',
-                    style: AppFont.t.s(10).information,
-                    icon: Icon(
-                      Icons.store,
-                      size: 12.sp,
-                      color: AppColors.informationColor,
-                    ),
+                XRowInfo(
+                  title: '${widget.product.inStockQuantity} sản phẩm',
+                  style: AppFont.t.s(10).information,
+                  icon: Icon(
+                    Icons.store,
+                    size: 12.sp,
+                    color: AppColors.informationColor,
                   ),
                 ),
               ] else ...[

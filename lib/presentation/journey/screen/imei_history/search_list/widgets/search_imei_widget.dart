@@ -66,6 +66,15 @@ class _SearchImeiWidgetState extends State<SearchImeiWidget> {
           hintStr: 'DNJWNDF123....',
           filterWidget: _dataFilter(context),
           isFilter: state.filterImeiHistory.isFilter,
+          suffixWidget: XIconScancode(
+            scanMode: XScanMode.inventory,
+            onResult: ({String? code, List<String>? codes}) {
+              if (code.isNotNullOrEmpty) {
+                _searchImeiController.text = code ?? '';
+                _onSearch(_searchImeiController.text);
+              }
+            },
+          ),
         );
       },
     );
@@ -131,7 +140,7 @@ class _SearchImeiWidgetState extends State<SearchImeiWidget> {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
           child: Text(
-            store.name ?? '',
+            store.getName,
             style: AppFont.t.s(),
           ),
         );
@@ -140,7 +149,8 @@ class _SearchImeiWidgetState extends State<SearchImeiWidget> {
         storeSelected.value = value;
         _storeController.text = value.getName;
       },
-      suggestionsCallback: (search) => _storeBloc.suggestionsCallback(search),
+      suggestionsCallback: (search) =>
+          _storeBloc.suggestionsUserCallback(search),
       constraints: BoxConstraints(maxHeight: 180.sp),
       emptyBuilder: (context) {
         return const EmptyDataWidget(
@@ -155,7 +165,7 @@ class _SearchImeiWidgetState extends State<SearchImeiWidget> {
             Container(
               decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.all(AppRadius.l),
+                  borderRadius: BorderRadius.all(AppRadius.xxl),
                   border:
                       Border.all(width: 1.sp, color: AppColors.dividerColor)),
               child: XTextField(

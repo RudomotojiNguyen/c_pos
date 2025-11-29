@@ -88,3 +88,4 @@ export 'dialog/imei_attach_dialog.dart';
 export 'dialog/trade_in_confirm_dialog.dart';
 export 'dialog/search_product_trade_in_dialog.dart';
 export 'button/x_button_upload_image.dart';
+export 'x_icon_scancode.dart';

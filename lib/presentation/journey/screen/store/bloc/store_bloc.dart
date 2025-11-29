@@ -22,6 +22,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc({required this.storeServices, required this.authBloc})
       : super(StoreInitial(
             stores: const [],
+            storesOfUser: const [],
             userStoresCanChange: const [],
             exchangeHistory: const [],
             pageInfo: PageInfoEntity())) {
@@ -31,6 +32,19 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     on<GetExchangeHistoryEvent>(_onGetExchangeHistory);
     on<GetMoreExchangeHistoryEvent>(_onGetMoreExchangeHistory);
     on<CreateTicketExchangeEvent>(_onCreateTicketExchange);
+    on<GetStoresByUserEvent>(_onGetStoresByUser);
+  }
+
+  FutureOr<void> _onGetStoresByUser(
+      GetStoresByUserEvent event, Emitter<StoreState> emit) async {
+    try {
+      emit(GetStoresByUserLoading(state: state));
+      final res = await storeServices.getStoresByUser();
+      emit(GetStoresByUserSuccess(state: state, storesOfUser: res));
+    } catch (e) {
+      loggerHelper.logError(message: 'GetStoresByUserEvent', obj: e);
+      emit(GetStoresByUserSuccess(state: state, storesOfUser: const []));
+    }
   }
 
   FutureOr<void> _onCreateTicketExchange(
@@ -143,10 +157,25 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       final res = await storeServices.getStores();
       stores = res;
     }
-    return _onGetStores(stores: stores, pattern: pattern);
+    List<StoreModel> res =
+        await _onFilterStores(stores: stores, pattern: pattern);
+    return res;
   }
 
-  _onGetStores(
+  Future<List<StoreModel>> suggestionsUserCallback(String pattern) async {
+    List<StoreModel> stores = state.storesOfUser;
+
+    if (stores.isEmpty) {
+      add(GetStoresByUserEvent());
+      final res = await storeServices.getStoresByUser();
+      stores = res;
+    }
+    List<StoreModel> res =
+        await _onFilterStores(stores: stores, pattern: pattern);
+    return res;
+  }
+
+  Future<List<StoreModel>> _onFilterStores(
       {required List<StoreModel> stores, required String pattern}) async {
     return stores.where((store) {
       final nameLower =

@@ -17,7 +17,7 @@ class HeaderDialog extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppFont.t.s(24).w700,
+          style: AppFont.t.s(18).w700,
         ),
         XBaseButton(
           onPressed: () => Navigator.pop(context),

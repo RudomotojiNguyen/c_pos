@@ -3,6 +3,7 @@ part of 'store_bloc.dart';
 @immutable
 sealed class StoreState extends Equatable {
   final List<StoreModel> stores;
+  final List<StoreModel> storesOfUser;
   final List<StoreModel>
       userStoresCanChange; // cửa hàng cửa người dùng có thể chuyển
   final List<HistoryChangeStoreModel>
@@ -11,6 +12,7 @@ sealed class StoreState extends Equatable {
 
   const StoreState({
     required this.stores,
+    required this.storesOfUser,
     required this.userStoresCanChange,
     required this.exchangeHistory,
     required this.pageInfo,
@@ -18,7 +20,7 @@ sealed class StoreState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [stores, userStoresCanChange, pageInfo, exchangeHistory];
+      [stores, userStoresCanChange, pageInfo, exchangeHistory, storesOfUser];
 
   int get currentPage => pageInfo.getPage;
 
@@ -28,6 +30,7 @@ sealed class StoreState extends Equatable {
 final class StoreInitial extends StoreState {
   const StoreInitial({
     required super.stores,
+    required super.storesOfUser,
     required super.userStoresCanChange,
     required super.exchangeHistory,
     required super.pageInfo,
@@ -42,6 +45,7 @@ final class GetStoreSuccess extends StoreState {
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -53,6 +57,7 @@ final class GetUserStoreCanChangeSuccess extends StoreState {
           stores: state.stores,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -64,6 +69,7 @@ final class GetUserStoreCanChangeLoading extends StoreState {
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -75,6 +81,7 @@ final class ChangeUserStoreSuccess extends StoreState {
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -86,6 +93,7 @@ final class GetExchangeHistoryLoading extends StoreState {
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -97,6 +105,7 @@ final class GetExchangeHistoryLoadMore extends StoreState {
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -108,6 +117,7 @@ final class GetExchangeHistorySuccess extends StoreState {
   }) : super(
           stores: state.stores,
           userStoresCanChange: state.userStoresCanChange,
+          storesOfUser: state.storesOfUser,
         );
 }
 
@@ -119,5 +129,33 @@ final class CreateTicketExchangeSuccess extends StoreState {
           userStoresCanChange: state.userStoresCanChange,
           exchangeHistory: state.exchangeHistory,
           pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
         );
 }
+
+/// start get stores by user
+final class GetStoresByUserSuccess extends StoreState {
+  GetStoresByUserSuccess({
+    required StoreState state,
+    required super.storesOfUser,
+  }) : super(
+          stores: state.stores,
+          userStoresCanChange: state.userStoresCanChange,
+          exchangeHistory: state.exchangeHistory,
+          pageInfo: state.pageInfo,
+        );
+}
+
+final class GetStoresByUserLoading extends StoreState {
+  GetStoresByUserLoading({
+    required StoreState state,
+  }) : super(
+          stores: state.stores,
+          userStoresCanChange: state.userStoresCanChange,
+          exchangeHistory: state.exchangeHistory,
+          pageInfo: state.pageInfo,
+          storesOfUser: state.storesOfUser,
+        );
+}
+
+/// end get stores by user

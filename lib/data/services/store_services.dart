@@ -19,4 +19,6 @@ abstract class StoreServices {
       required int currentStoreId,
       required int targetStoreId,
       required String description});
+
+  Future<List<StoreModel>> getStoresByUser();
 }

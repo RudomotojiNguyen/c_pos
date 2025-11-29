@@ -1,19 +1,25 @@
 import 'dart:io';
 
-import 'package:c_pos/common/configs/configurations.dart';
-import 'package:c_pos/common/di/injection/injection.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 
+import '../../../../../common/enum/enum.dart';
 import '../../../../widgets/widgets.dart';
 import '../bloc/scan_bloc.dart';
 
 class CameraScan extends StatefulWidget {
-  const CameraScan({super.key, required this.scanBloc});
+  const CameraScan({
+    super.key,
+    required this.scanBloc,
+    this.onResult,
+    this.scanMode = XScanMode.defaultMode,
+  });
 
   final ScanBloc scanBloc;
+  final XScanMode scanMode;
+  final Function({String? code, List<String>? codes})? onResult;
 
   @override
   State<CameraScan> createState() => _CameraScanState();
@@ -21,10 +27,8 @@ class CameraScan extends StatefulWidget {
 
 class _CameraScanState extends State<CameraScan> {
   CameraController? _cameraController;
-  BarcodeScanner? _barcodeScanner;
+  late BarcodeScanner _barcodeScanner;
   bool _isScanning = false;
-
-  final Configurations _configurations = getIt.get<Configurations>();
 
   // final _orientations = {
   //   DeviceOrientation.portraitUp: 0,
@@ -36,45 +40,37 @@ class _CameraScanState extends State<CameraScan> {
   @override
   void initState() {
     super.initState();
-    if (_configurations.isPhysical) {
-      _initializeCamera();
-      _barcodeScanner = BarcodeScanner();
-    }
+    _initializeCamera();
+    _barcodeScanner = BarcodeScanner();
   }
 
   @override
   void dispose() {
     _cameraController?.dispose();
-    _barcodeScanner?.close();
+    _barcodeScanner.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_configurations.isPhysical) {
-      return const Center(
-        child: Text('Không tìm thấy camera để quét'),
+    if (_cameraController != null && _cameraController!.value.isInitialized) {
+      final double aspectRatio = _cameraController!.value.aspectRatio;
+
+      return AspectRatio(
+        aspectRatio: aspectRatio,
+        child: CameraPreview(_cameraController!),
       );
     }
-
-    if (_cameraController != null && _cameraController!.value.isInitialized) {
-      return CameraPreview(_cameraController!);
-    }
-    return const Center(
-      child: XLoading(),
-    );
+    return const Center(child: XLoading());
   }
 
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
-    if (cameras.isEmpty) {
-      return;
-    }
     final camera = cameras.first;
 
     _cameraController = CameraController(
       camera,
-      ResolutionPreset.medium,
+      ResolutionPreset.max,
       enableAudio: false,
       imageFormatGroup: Platform.isAndroid
           ? ImageFormatGroup.nv21 // for Android
@@ -145,15 +141,23 @@ class _CameraScanState extends State<CameraScan> {
           ),
         );
 
-        if (_barcodeScanner == null) {
-          return;
-        }
-
         // Phân tích mã bằng ML Kit
-        final barcodes = await _barcodeScanner!.processImage(inputImage);
+        final barcodes = await _barcodeScanner.processImage(inputImage);
 
         if (barcodes.isNotEmpty) {
           debugPrint('Barcode detected: ${barcodes.first.rawValue}');
+          if (widget.scanMode == XScanMode.inventory &&
+              widget.onResult != null) {
+            await _cameraController!.stopImageStream();
+            XToast.loading();
+            await widget.onResult!(code: barcodes.first.rawValue);
+            XToast.closeAllLoading();
+            if (!_cameraController!.value.isStreamingImages) {
+              await Future.delayed(
+                  const Duration(milliseconds: 500), () => _startImageStream());
+            }
+            return;
+          }
           widget.scanBloc.add(UpdateScanValueEvent(barcodes));
         }
       } catch (e) {

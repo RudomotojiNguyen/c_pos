@@ -124,7 +124,8 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
         store.value = value;
         _controller.text = value.getName;
       },
-      suggestionsCallback: (search) => _storeBloc.suggestionsCallback(search),
+      suggestionsCallback: (search) =>
+          _storeBloc.suggestionsUserCallback(search),
       constraints: BoxConstraints(maxHeight: 180.sp),
       emptyBuilder: (context) {
         return const EmptyDataWidget(
@@ -144,7 +145,7 @@ class _OrderModalFilterState extends State<OrderModalFilter> {
             Container(
               decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.all(AppRadius.l),
+                borderRadius: BorderRadius.all(AppRadius.xxl),
                 border: Border.all(width: 1.sp, color: AppColors.dividerColor),
               ),
               child: XTextField(

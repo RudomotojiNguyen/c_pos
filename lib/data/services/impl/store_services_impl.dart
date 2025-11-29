@@ -80,4 +80,19 @@ class StoreServicesImpl implements StoreServices {
       return res.checkIsSuccess;
     });
   }
+
+  @override
+  Future<List<StoreModel>> getStoresByUser() async {
+    List<StoreModel> data = [];
+
+    final res = await storeApi.getStoresByUser();
+
+    final storesData = res.data['stores'] as List;
+
+    for (var item in storesData) {
+      data.add(StoreModel.fromJson(item));
+    }
+
+    return data;
+  }
 }

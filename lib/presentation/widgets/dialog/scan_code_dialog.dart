@@ -11,10 +11,12 @@ class ScanCodeDialog extends StatefulWidget {
     super.key,
     required this.onResult,
     this.typeSelect = TypeSelect.single,
+    this.scanMode = XScanMode.defaultMode,
   });
 
   final Function({String? code, List<String>? codes}) onResult;
   final TypeSelect typeSelect;
+  final XScanMode scanMode;
 
   @override
   State<ScanCodeDialog> createState() => _ScanCodeDialogState();
@@ -28,7 +30,11 @@ class _ScanCodeDialogState extends State<ScanCodeDialog> {
     return Stack(
       children: [
         Positioned.fill(
-          child: CameraScan(scanBloc: _scanBloc),
+          child: CameraScan(
+            scanBloc: _scanBloc,
+            scanMode: widget.scanMode,
+            onResult: widget.onResult,
+          ),
         ),
         Positioned(
           bottom: 0,

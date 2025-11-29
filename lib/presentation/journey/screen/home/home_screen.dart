@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       BoxSpacer.s8,
                       _operationItem(
-                        title: 'Tra Imei',
+                        title: 'Tra IMEI',
                         icon: Assets.svg.barcode.svg(width: 32.sp),
                         onPressed: () => _mainRouter.pushNamed(
                           context,

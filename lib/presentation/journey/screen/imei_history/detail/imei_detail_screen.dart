@@ -55,7 +55,7 @@ class _ImeiDetailScreenState extends XStateWidget<ImeiDetailScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Thông tin imei',
+          'Thông tin IMEI',
           style: AppFont.t.s(16).w600,
         ),
         Text(

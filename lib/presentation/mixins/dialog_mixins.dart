@@ -314,6 +314,7 @@ mixin DialogHelper {
     BuildContext context, {
     required Function({String? code, List<String>? codes}) onResult,
     TypeSelect typeSelect = TypeSelect.single,
+    XScanMode scanMode = XScanMode.defaultMode,
   }) async {
     Key keyDialog = _keyForPopup();
     if (_allPopups.containsKey(keyDialog)) {
@@ -323,28 +324,30 @@ mixin DialogHelper {
     _allPopups[keyDialog] = context;
 
     await showModalBottomSheet(
-        context: context,
-        enableDrag: true,
-        isDismissible: true,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (_) {
-          return XBaseButton(
-            onPressed: () => context.hideKeyboard,
-            child: Container(
-              padding: EdgeInsets.zero,
-              margin: EdgeInsets.only(top: 120.sp),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.all(AppRadius.xxl),
-              ),
-              child: ScanCodeDialog(
-                typeSelect: typeSelect,
-                onResult: onResult,
-              ),
+      context: context,
+      enableDrag: true,
+      isDismissible: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) {
+        return XBaseButton(
+          onPressed: () => context.hideKeyboard,
+          child: Container(
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.only(top: 120.sp),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.all(AppRadius.xxl),
             ),
-          );
-        }).then((value) {
+            child: ScanCodeDialog(
+              typeSelect: typeSelect,
+              scanMode: scanMode,
+              onResult: onResult,
+            ),
+          ),
+        );
+      },
+    ).then((value) {
       dismissPopup(key: keyDialog, willPop: false);
     });
     return null;

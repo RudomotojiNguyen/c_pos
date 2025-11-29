@@ -28,7 +28,7 @@ class _ProductImeiHistoryScreenState
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     return const XAppBar(
-      title: 'Lịch sử Imei',
+      title: 'Lịch sử IMEI',
     );
   }
 

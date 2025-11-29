@@ -53,4 +53,8 @@ abstract class StoreApi {
     @Query('page') required int page,
     @Query('pageSize') required int pageSize,
   });
+
+  /// lấy danh sách cửa hàng theo user
+  @GET('v1/stores/get-by-user')
+  Future<BaseResponse> getStoresByUser();
 }

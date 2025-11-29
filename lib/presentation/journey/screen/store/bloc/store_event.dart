@@ -28,3 +28,5 @@ final class CreateTicketExchangeEvent extends StoreEvent {
     required this.description,
   });
 }
+
+final class GetStoresByUserEvent extends StoreEvent {}

@@ -76,22 +76,42 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
   /// WIDGET
   ///
   Widget _renderSearchBox() {
-    return BlocBuilder<SearchProductBloc, SearchProductState>(
-      bloc: _searchProductBloc,
-      buildWhen: (previous, current) => current is ChangeSearchTypeSuccess,
-      builder: (context, state) {
-        return SearchBoxWidget(
-          onSearch: _onChangeText,
-          searchController: _searchController,
-          hintStr: state.searchType.getHintText,
-          suffixWidget: widget.referenceId.isNotNullOrEmpty
-              ? null
-              : CustomizePopUpWidget(
-                  content: _dataSearchType(),
-                  child: _contentSearchType(),
-                ),
-        );
-      },
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 280.sp,
+          child: BlocBuilder<SearchProductBloc, SearchProductState>(
+            bloc: _searchProductBloc,
+            buildWhen: (previous, current) =>
+                current is ChangeSearchTypeSuccess,
+            builder: (context, state) {
+              return SearchBoxWidget(
+                onSearch: _onChangeText,
+                searchController: _searchController,
+                hintStr: state.searchType.getHintText,
+                suffixWidget: widget.referenceId.isNotNullOrEmpty
+                    ? null
+                    : CustomizePopUpWidget(
+                        content: _dataSearchType(),
+                        child: _contentSearchType(),
+                      ),
+              );
+            },
+          ),
+        ),
+        XIconScancode(
+          scanMode: XScanMode.inventory,
+          onResult: ({String? code, List<String>? codes}) {
+            if (code.isNotNullOrEmpty) {
+              _searchController.text = code ?? '';
+              _onChangeText(_searchController.text);
+            }
+          },
+        ),
+      ],
     );
   }
 

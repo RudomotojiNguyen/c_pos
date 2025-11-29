@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/configs/box.dart';
 import '../theme/themes.dart';
-import 'popup_menu/customize_pop_up_widget.dart';
+import 'button/base_button.dart';
+import 'x_linked_overlay_wrapper.dart';
 import 'x_textfield.dart';
 
 class SearchBoxWidget extends StatefulWidget {
@@ -19,6 +20,7 @@ class SearchBoxWidget extends StatefulWidget {
     this.filterWidget,
     this.isFilter = false,
     this.suffixWidget,
+    this.filterController,
   });
 
   final Function(String searchValue) onSearch;
@@ -27,6 +29,7 @@ class SearchBoxWidget extends StatefulWidget {
   final Widget? filterWidget;
   final bool isFilter;
   final Widget? suffixWidget;
+  final LinkedOverlayController? filterController;
 
   @override
   State<SearchBoxWidget> createState() => _SearchBoxWidgetState();
@@ -34,18 +37,26 @@ class SearchBoxWidget extends StatefulWidget {
 
 class _SearchBoxWidgetState extends State<SearchBoxWidget> {
   Timer? _timer;
+  late LinkedOverlayController _filterController;
+
+  @override
+  void initState() {
+    super.initState();
+    _filterController = widget.filterController ?? LinkedOverlayController();
+  }
 
   @override
   void dispose() {
     widget.searchController?.dispose();
     _timer?.cancel();
+    _filterController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.sp).copyWith(top: 16.sp),
+      margin: EdgeInsets.symmetric(horizontal: 20.sp),
       padding: EdgeInsets.symmetric(horizontal: 16.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -73,27 +84,53 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
           ),
           if (widget.filterWidget != null) ...[
             BoxSpacer.s4,
-            CustomizePopUpWidget(
-              content: widget.filterWidget!,
-              child: Stack(
-                children: [
-                  Icon(
-                    Icons.tune,
-                    color: AppColors.iconColor,
-                    size: 20.sp,
+            XLinkedOverlayWrapper(
+              controller: _filterController,
+              matchChildWidth: false,
+              scrimColor: AppColors.neutralColor.withValues(alpha: 0.1),
+              overlayContentBuilder: (context, showAbove, maxOverlayHeight) {
+                return Material(
+                  elevation: 1.0,
+                  color: AppColors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(AppRadius.l),
                   ),
-                  if (widget.isFilter)
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: CircleAvatar(
-                        radius: 4.sp,
-                        backgroundColor: AppColors.primaryColor,
-                      ),
+                  child: Container(
+                    padding: EdgeInsets.all(16.sp),
+                    child: SingleChildScrollView(
+                      child: widget.filterWidget!,
                     ),
-                ],
+                  ),
+                );
+              },
+              child: XBaseButton(
+                onPressed: () {
+                  if (_filterController.isOpen) {
+                    _filterController.hide();
+                  } else {
+                    _filterController.show();
+                  }
+                },
+                child: Stack(
+                  children: [
+                    Icon(
+                      Icons.tune,
+                      color: AppColors.iconColor,
+                      size: 20.sp,
+                    ),
+                    if (widget.isFilter)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 4.sp,
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ],
       ),

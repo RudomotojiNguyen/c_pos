@@ -18,6 +18,7 @@ class _SearchBoxState extends State<SearchBox> {
   final TextEditingController _storeController = TextEditingController();
   final ValueNotifier<StoreModel?> store = ValueNotifier(null);
   final StoreBloc _storeBloc = getIt.get<StoreBloc>();
+  final LinkedOverlayController _filterController = LinkedOverlayController();
 
   @override
   void initState() {
@@ -44,6 +45,16 @@ class _SearchBoxState extends State<SearchBox> {
       searchController: _searchController,
       hintStr: 'Iphone 15...',
       filterWidget: _dataFilter(context),
+      filterController: _filterController,
+      suffixWidget: XIconScancode(
+        scanMode: XScanMode.inventory,
+        onResult: ({String? code, List<String>? codes}) {
+          if (code.isNotNullOrEmpty) {
+            _searchController.text = code ?? '';
+            _onChangeText(_searchController.text);
+          }
+        },
+      ),
     );
   }
 
@@ -84,7 +95,7 @@ class _SearchBoxState extends State<SearchBox> {
             widget.searchProductBloc
                 .add(UpdateFilterEvent(isInStock: true, storeId: store?.id));
 
-            Navigator.pop(context);
+            _onCloseFilter();
           },
         ),
         BoxSpacer.s8,
@@ -98,7 +109,8 @@ class _SearchBoxState extends State<SearchBox> {
                 storeId: store.value?.id,
               ),
             );
-            Navigator.pop(context);
+
+            _onCloseFilter();
           },
         ),
       ],
@@ -118,7 +130,8 @@ class _SearchBoxState extends State<SearchBox> {
         );
       },
       onSelected: (value) => _onSetStore(value),
-      suggestionsCallback: (search) => _storeBloc.suggestionsCallback(search),
+      suggestionsCallback: (search) =>
+          _storeBloc.suggestionsUserCallback(search),
       constraints: BoxConstraints(maxHeight: 180.sp),
       emptyBuilder: (context) {
         return const EmptyDataWidget(
@@ -138,7 +151,7 @@ class _SearchBoxState extends State<SearchBox> {
             Container(
               decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.all(AppRadius.l),
+                  borderRadius: BorderRadius.all(AppRadius.xxl),
                   border:
                       Border.all(width: 1.sp, color: AppColors.dividerColor)),
               child: XTextField(
@@ -185,7 +198,9 @@ class _SearchBoxState extends State<SearchBox> {
 
   onChangeSearchTypeEvent(SearchType type) {
     widget.searchProductBloc.add(UpdateFilterEvent(searchType: type));
-    Navigator.pop(context);
+
+    // Đóng overlay bằng cách unfocus và pop nếu có route
+    _onCloseFilter();
   }
 
   _onChangeText(String? value) {
@@ -208,10 +223,14 @@ class _SearchBoxState extends State<SearchBox> {
 
   StoreModel? _getCurrentUserStore() {
     if (userStoreId != null) {
-      final store = _storeBloc.state.stores
+      final store = _storeBloc.state.storesOfUser
           .firstWhereOrNull((element) => element.id == userStoreId);
       return store;
     }
     return null;
+  }
+
+  _onCloseFilter() {
+    _filterController.hide();
   }
 }

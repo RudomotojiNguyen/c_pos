@@ -33,3 +33,5 @@ export 'reward_operator_type.dart';
 enum XMomentTimeEnum { morning, evening }
 
 enum XTabIndexEnum { main, setting }
+
+enum XScanMode { defaultMode, inventory }

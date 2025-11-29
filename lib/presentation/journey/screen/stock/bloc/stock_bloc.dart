@@ -109,6 +109,11 @@ class StockBloc extends Bloc<StockEvent, StockState> {
       ));
     } catch (e) {
       _loggerHelper.logError(message: 'GetProductsEvent', obj: e);
+      emit(GetProductsSuccess(
+        state: state,
+        products: const [],
+        pageInfo: state.pageInfo,
+      ));
     }
   }
 

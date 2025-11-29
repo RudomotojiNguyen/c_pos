@@ -71,7 +71,7 @@ class _ListImeiWidgetState extends State<ListImeiWidget> {
           enablePullUp: true,
           header: const RefreshWidget(),
           footer: const BottomLoadWidget(
-            canLoadingStr: 'Vuốt để tìm thêm imei',
+            canLoadingStr: 'Vuốt để tìm thêm IMEI',
             noMoreStr: 'Đã hết dữ liệu',
           ),
           onRefresh: () async {
