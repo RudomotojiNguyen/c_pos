@@ -90,8 +90,8 @@ class Configurations {
 
   String get urlWeb => 'https://didongviet.vn/';
 
-  // bool get isProduct => true;
-  bool get isProduct => _env == XEnvironment.prod;
+  bool get isProduct => true;
+  // bool get isProduct => _env == XEnvironment.prod;
 
   bool get isAnalyticAndCrashlytic => false;
 

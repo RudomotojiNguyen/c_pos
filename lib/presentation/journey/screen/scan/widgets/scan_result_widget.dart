@@ -1,12 +1,12 @@
+import 'package:c_pos/common/configs/box.dart';
+import 'package:c_pos/common/enum/enum.dart';
 import 'package:c_pos/common/extensions/extension.dart';
+import 'package:c_pos/presentation/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
-import '../../../../../common/configs/box.dart';
-import '../../../../../common/enum/enum.dart';
-import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../bloc/scan_bloc.dart';
 
@@ -39,18 +39,17 @@ class _ScanResultWidgetState extends State<ScanResultWidget> {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.sp),
           decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.sp),
-                topRight: Radius.circular(16.sp),
-              )),
-          constraints: BoxConstraints(
-            maxHeight: 240.sp,
+            color: AppColors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.sp),
+              topRight: Radius.circular(16.sp),
+            ),
           ),
+          constraints: BoxConstraints(maxHeight: 240.sp),
           child: ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 16.sp),
             itemBuilder: (context, index) {
-              String valueStr = barcodes[index].rawValue ?? '';
+              String valueStr = barcodes[index].code ?? '';
               return XBaseButton(
                 padding: EdgeInsets.symmetric(vertical: 16.sp),
                 onPressed: () {
@@ -60,12 +59,11 @@ class _ScanResultWidgetState extends State<ScanResultWidget> {
                 },
                 child: Row(
                   children: [
-                    Expanded(
-                      child: Text(valueStr, style: AppFont.t.s()),
-                    ),
-                    const Icon(
+                    Expanded(child: Text(valueStr, style: AppFont.t)),
+                    Icon(
                       Icons.check_circle_outline,
                       color: AppColors.primaryColor,
+                      size: 28.sp,
                     ),
                   ],
                 ),

@@ -316,7 +316,7 @@ mixin DialogHelper {
     TypeSelect typeSelect = TypeSelect.single,
     XScanMode scanMode = XScanMode.defaultMode,
   }) async {
-    Key keyDialog = _keyForPopup();
+    Key keyDialog = GlobalAppKey.scanDialogKey;
     if (_allPopups.containsKey(keyDialog)) {
       return;
     }

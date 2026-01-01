@@ -302,17 +302,14 @@ class _DiscountOtpFormWidgetState extends State<DiscountOtpFormWidget> {
       valueListenable: _enableInputOtpController,
       child: Text.rich(
         TextSpan(
-          text:
-              'Nhập mã OTP đã có trong App Loyalty hoặc mã đã gửi tới số điện thoại của khách ',
+          text: 'Nhập mã OTP đã gửi tới số điện thoại của khách ',
           style: AppFont.t.s(),
           children: [
-            if (!_configurations.isProduct) ...[
-              TextSpan(
-                text: '(Gửi OTP)',
-                style: AppFont.t.s().information,
-                recognizer: TapGestureRecognizer()..onTap = onResendOTP,
-              ),
-            ],
+            TextSpan(
+              text: '(Gửi OTP)',
+              style: AppFont.t.s().information,
+              recognizer: TapGestureRecognizer()..onTap = onResendOTP,
+            ),
           ],
         ),
       ),

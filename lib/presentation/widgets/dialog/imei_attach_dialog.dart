@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
+import '../../../common/constants/app_constants.dart';
 import '../../../gen/gen.dart';
 import '../../mixins/mixins.dart';
 import '../widgets.dart';
@@ -61,6 +62,7 @@ class _ImeiAttachDialogState extends State<ImeiAttachDialog> with DialogHelper {
               if (code.isNotNullOrEmpty) {
                 _imeiController.text = code ?? '';
               }
+              dismissPopup(key: GlobalAppKey.scanDialogKey);
             },
           );
         },

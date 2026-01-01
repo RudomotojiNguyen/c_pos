@@ -147,7 +147,7 @@ class XTextFieldState<T> extends State<XTextField<T>>
 
   Timer? _timer;
 
-  final LayerLink _layerLink = LayerLink();
+  // final LayerLink _layerLink = LayerLink();
   final ValueNotifier<List<T>?> items = ValueNotifier(null);
 
   final ValueNotifier<List<DateTime?>> datesController = ValueNotifier([]);
@@ -606,6 +606,12 @@ class XTextFieldState<T> extends State<XTextField<T>>
       minLines: widget.minLines,
       validator: widget.validator,
       autocorrect: false,
+      onTapOutside: (_) {
+        if (widget.onSelectData == null) {
+          context.hideKeyboard; // dùng extension của bạn
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
     );
   }
 
@@ -762,60 +768,60 @@ class XTextFieldState<T> extends State<XTextField<T>>
     );
   }
 
-  OverlayEntry _createOverlayEntry() {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    var size = renderBox.size;
+  // OverlayEntry _createOverlayEntry() {
+  //   RenderBox renderBox = context.findRenderObject() as RenderBox;
+  //   var size = renderBox.size;
 
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        width: size.width,
-        child: CompositedTransformFollower(
-          link: _layerLink,
-          showWhenUnlinked: false,
-          offset: Offset(0.0, size.height + 5.sp),
-          child: Material(
-            elevation: 1.0,
-            color: AppColors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(AppRadius.l),
-            ),
-            child: ValueListenableBuilder<List<T>?>(
-              valueListenable: items,
-              builder: (context, value, _) {
-                if (value?.isEmpty ?? true) {
-                  return BoxSpacer.blank;
-                }
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 300.sp,
-                  ),
-                  child: ListView.separated(
-                    padding: EdgeInsets.zero.copyWith(
-                      top: 8.sp,
-                      bottom: 8.sp,
-                      left: 8.sp,
-                      right: 8.sp,
-                    ),
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final T item = value![index];
-                      return XBaseButton(
-                        onPressed: () => onSelectData(item),
-                        child: widget.itemSearchBuilder!(context, index, item),
-                      );
-                    },
-                    separatorBuilder: (context, index) => BoxSpacer.s8,
-                    itemCount: value?.length ?? 0,
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  //   return OverlayEntry(
+  //     builder: (context) => Positioned(
+  //       width: size.width,
+  //       child: CompositedTransformFollower(
+  //         link: _layerLink,
+  //         showWhenUnlinked: false,
+  //         offset: Offset(0.0, size.height + 5.sp),
+  //         child: Material(
+  //           elevation: 1.0,
+  //           color: AppColors.white,
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.all(AppRadius.l),
+  //           ),
+  //           child: ValueListenableBuilder<List<T>?>(
+  //             valueListenable: items,
+  //             builder: (context, value, _) {
+  //               if (value?.isEmpty ?? true) {
+  //                 return BoxSpacer.blank;
+  //               }
+  //               return ConstrainedBox(
+  //                 constraints: BoxConstraints(
+  //                   maxHeight: 300.sp,
+  //                 ),
+  //                 child: ListView.separated(
+  //                   padding: EdgeInsets.zero.copyWith(
+  //                     top: 8.sp,
+  //                     bottom: 8.sp,
+  //                     left: 8.sp,
+  //                     right: 8.sp,
+  //                   ),
+  //                   physics: const BouncingScrollPhysics(),
+  //                   shrinkWrap: true,
+  //                   itemBuilder: (context, index) {
+  //                     final T item = value![index];
+  //                     return XBaseButton(
+  //                       onPressed: () => onSelectData(item),
+  //                       child: widget.itemSearchBuilder!(context, index, item),
+  //                     );
+  //                   },
+  //                   separatorBuilder: (context, index) => BoxSpacer.s8,
+  //                   itemCount: value?.length ?? 0,
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   ///--- method ---///
   void onSelectData(T dataSelected) {

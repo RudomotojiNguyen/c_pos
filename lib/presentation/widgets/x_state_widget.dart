@@ -32,12 +32,7 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
         backgroundColor: backgroundColor(),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         appBar: buildAppBar(context),
-        body: InkWell(
-          onTap: () {
-            context.hideKeyboard;
-          },
-          child: buildContentView(context),
-        ),
+        body: buildContentView(context),
         bottomNavigationBar: buildBottomNavigationBar(context),
         floatingActionButton: buildFloatingActionButton(context),
         // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

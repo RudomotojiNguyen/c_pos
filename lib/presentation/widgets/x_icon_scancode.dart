@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../common/constants/app_constants.dart';
 import '../../common/enum/enum.dart';
 import '../mixins/dialog_mixins.dart';
 import '../theme/colors.dart';
@@ -23,7 +24,7 @@ class XIconScancode extends StatelessWidget with DialogHelper {
           context,
           scanMode: scanMode,
           onResult: ({String? code, List<String>? codes}) {
-            Navigator.pop(context);
+            dismissPopup(key: GlobalAppKey.scanDialogKey);
             onResult?.call(code: code, codes: codes);
           },
         );
