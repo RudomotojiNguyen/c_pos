@@ -1,28 +1,13 @@
-import 'dart:async';
-
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../theme/colors.dart';
 
 abstract class XStateWidget<T extends StatefulWidget> extends State<T>
     with RouteAware {
-  late StreamSubscription<bool> _keyboardSubscription;
-
-  // late final AnalyticsUtils analyticsUtils;
-
   @override
   void initState() {
     super.initState();
-    // analyticsUtils = getIt.get<AnalyticsUtils>();
-    final keyboardVisibilityController = KeyboardVisibilityController();
-    _keyboardSubscription =
-        keyboardVisibilityController.onChange.listen((bool visible) {
-      if (!visible) {
-        context.hideKeyboard;
-      }
-    });
   }
 
   @override
@@ -35,7 +20,6 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
         body: buildContentView(context),
         bottomNavigationBar: buildBottomNavigationBar(context),
         floatingActionButton: buildFloatingActionButton(context),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
@@ -73,7 +57,6 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
 
   @override
   void dispose() {
-    _keyboardSubscription.cancel();
     super.dispose();
   }
 }

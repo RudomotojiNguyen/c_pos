@@ -34,10 +34,8 @@ class _MemberDiscountWidgetState extends State<MemberDiscountWidget>
         }
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.discountCoupon.svg(
-            width: 24.sp,
-            height: 24.sp,
-          ),
+          iconTitle:
+              Icon(Icons.discount, size: 18.sp, color: AppColors.neutral3Color),
           title: 'Chiết khấu khách hàng',
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -162,8 +162,6 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     XBaseButton(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.sp, horizontal: 16.sp),
                       onPressed: () async {
                         await closeOverlay();
                         _convertToCartTable(
@@ -177,8 +175,6 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
                       ),
                     ),
                     XBaseButton(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.sp, horizontal: 16.sp),
                       onPressed: () async {
                         await closeOverlay();
                         _convertToCartTable(

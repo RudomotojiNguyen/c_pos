@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/configs/box.dart';
 import '../../common/enum/enum.dart';
 import '../../common/extensions/extension.dart';
-import '../../gen/gen.dart';
+import '../theme/colors.dart';
 import 'widgets.dart';
 
 class XSummeryPaymentInfo extends StatelessWidget {
@@ -29,10 +29,8 @@ class XSummeryPaymentInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
-      iconTitle: Assets.svg.cash.svg(
-        width: 28.sp,
-        height: 28.sp,
-      ),
+      iconTitle:
+          Icon(Icons.payments, size: 18.sp, color: AppColors.neutral3Color),
       title: 'Thông tin thanh toán',
       child: Column(
         children: [

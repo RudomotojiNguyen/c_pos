@@ -5,7 +5,7 @@ import '../../../../../../common/configs/box.dart';
 import '../../../../../../common/enum/enum.dart';
 import '../../../../../../common/extensions/extension.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../../../../../gen/gen.dart';
+import '../../../../../theme/colors.dart';
 import '../../../../../widgets/widgets.dart';
 
 class TradeCheckListWidget extends StatelessWidget {
@@ -23,9 +23,10 @@ class TradeCheckListWidget extends StatelessWidget {
     if (listCriteria.isEmpty) {
       return XContainer(
         margin: EdgeInsets.only(top: 16.sp),
-        iconTitle: Assets.svg.checklist.svg(
-          width: 22.sp,
-          height: 22.sp,
+        iconTitle: Icon(
+          Icons.checklist,
+          size: 18.sp,
+          color: AppColors.neutral3Color,
         ),
         title: 'Tình trạng máy',
         child: const EmptyDataWidget(emptyMessage: 'Không chọn tiêu chí nào'),
@@ -34,9 +35,10 @@ class TradeCheckListWidget extends StatelessWidget {
 
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
-      iconTitle: Assets.svg.checklist.svg(
-        width: 22.sp,
-        height: 22.sp,
+      iconTitle: Icon(
+        Icons.checklist,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       title: 'Tình trạng máy',
       child: ListView.separated(

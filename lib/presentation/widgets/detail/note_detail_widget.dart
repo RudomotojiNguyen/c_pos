@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../gen/gen.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';
 
@@ -31,9 +30,10 @@ class NoteDetailWidget extends StatelessWidget {
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
       title: 'Ghi chú',
-      iconTitle: Assets.svg.stickyNotes.svg(
-        width: 22.sp,
-        height: 22.sp,
+      iconTitle: Icon(
+        Icons.sticky_note_2,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

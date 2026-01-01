@@ -202,7 +202,6 @@ class _BillDetailState extends XStateWidget<BillDetail> {
   Widget _buildUpdateBillButton(BillModel billDetail,
       {Future<void> Function()? closeOverlay}) {
     return XBaseButton(
-      padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 16.sp),
       onPressed: () =>
           _handleUpdateBill(billDetail, closeOverlay: closeOverlay),
       child: Text(
@@ -246,8 +245,10 @@ class _BillDetailState extends XStateWidget<BillDetail> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: operations
-          .map((operation) => GestureDetector(
-                onTap: () async {
+          .map((operation) => XBaseButton(
+                padding:
+                    EdgeInsets.symmetric(vertical: 4.sp, horizontal: 16.sp),
+                onPressed: () async {
                   await closeOverlay();
                 },
                 child: operation,

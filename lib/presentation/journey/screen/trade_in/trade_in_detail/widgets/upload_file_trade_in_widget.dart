@@ -41,9 +41,10 @@ class _UploadFileTradeInWidgetState extends State<UploadFileTradeInWidget> {
   Widget build(BuildContext context) {
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
-      iconTitle: Assets.svg.idCard.svg(
-        width: 28.sp,
-        height: 28.sp,
+      iconTitle: Icon(
+        Icons.attach_file,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       title: 'File đính kèm',
       child: BlocBuilder<TradeInBloc, TradeInState>(

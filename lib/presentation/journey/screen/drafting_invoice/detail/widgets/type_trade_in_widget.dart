@@ -48,9 +48,10 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
             {CartType.tradeIn}.contains(state.cartType)) {
           return XContainer(
             margin: EdgeInsets.only(top: 16.sp),
-            iconTitle: Assets.svg.checklist.svg(
-              width: 22.sp,
-              height: 22.sp,
+            iconTitle: Icon(
+              Icons.checklist,
+              size: 18.sp,
+              color: AppColors.neutral3Color,
             ),
             title: 'Loại giao dịch',
             child: _typeTradeInWidget(context),

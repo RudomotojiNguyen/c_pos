@@ -86,10 +86,6 @@ class Configurations {
 
   String get version => _version;
 
-  String get urlCDNWeb => 'https://cdn-v2.didongviet.vn/';
-
-  String get urlWeb => 'https://didongviet.vn/';
-
   bool get isProduct => true;
   // bool get isProduct => _env == XEnvironment.prod;
 

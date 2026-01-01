@@ -44,10 +44,8 @@ class _CurrentStoreWidgetState extends State<CurrentStoreWidget> {
 
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.bill.svg(
-            width: 26.sp,
-            height: 26.sp,
-          ),
+          iconTitle:
+              Icon(Icons.store, size: 18.sp, color: AppColors.neutral3Color),
           title: 'Cửa hàng lên đơn',
           child: Column(
             children: [
@@ -66,7 +64,6 @@ class _CurrentStoreWidgetState extends State<CurrentStoreWidget> {
       builder: (context, state) {
         return XTextField<StoreModel>(
           controller: _storeNameController,
-          labelText: 'Cửa hàng lên đơn',
           isRequired: true,
           hintText: 'Chọn cửa hàng',
           onChanged: (String? value) {

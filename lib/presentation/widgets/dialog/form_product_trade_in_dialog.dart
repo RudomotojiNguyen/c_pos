@@ -8,7 +8,6 @@ import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/datasources/local_db/local_db.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../../gen/assets.gen.dart';
 import '../../mixins/mixins.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';
@@ -224,10 +223,8 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
                           onPressed: () {
                             _onSearchProductTradeIn();
                           },
-                          child: Assets.svg.edit.svg(
-                            width: 24.sp,
-                            height: 24.sp,
-                          ),
+                          child: Icon(Icons.edit,
+                              size: 18.sp, color: AppColors.iconColor),
                         ),
                       ],
                     ),

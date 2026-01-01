@@ -45,10 +45,8 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
 
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.person.svg(
-            width: 22.sp,
-            height: 22.sp,
-          ),
+          iconTitle:
+              Icon(Icons.person, size: 18.sp, color: AppColors.neutral3Color),
           containerType: ContainerType.expand,
           initiallyExpanded: false,
           title: 'Thông tin nhân viên',

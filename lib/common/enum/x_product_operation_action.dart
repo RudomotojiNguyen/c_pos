@@ -75,37 +75,37 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.customerDetail:
         return Icon(
           Icons.info_outline,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 20.sp,
         );
       case XProductOperationAction.remove:
         return Icon(
           Icons.backspace_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 18.sp,
         );
       case XProductOperationAction.note:
         return Icon(
           Icons.sticky_note_2_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 18.sp,
         );
       case XProductOperationAction.addGift:
         return Icon(
           Icons.card_giftcard,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 18.sp,
         );
       case XProductOperationAction.addAttach:
         return Icon(
           Icons.attach_file,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 18.sp,
         );
       case XProductOperationAction.discountByHand:
         return Icon(
           Icons.discount_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 18.sp,
         );
       case XProductOperationAction.addImei:
@@ -113,20 +113,20 @@ extension XProductOperationActionExtension on XProductOperationAction {
         // case XProductOperationAction.addAttachImei:
         return Icon(
           Icons.sticky_note_2_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 20.sp,
         );
       case XProductOperationAction.editRepurchasePrice:
       case XProductOperationAction.update:
         return Icon(
           Icons.edit_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 20.sp,
         );
       case XProductOperationAction.copyData:
         return Icon(
           Icons.copy_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 20.sp,
         );
       case XProductOperationAction.addMore:
@@ -137,13 +137,13 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.voucher:
         return Icon(
           Icons.loyalty_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 20.sp,
         );
       case XProductOperationAction.addProductCombo:
         return Icon(
           Icons.add_outlined,
-          color: AppColors.primaryColor,
+          color: AppColors.iconColor,
           size: 20.sp,
         );
       default:

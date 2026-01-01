@@ -22,9 +22,10 @@ class _ProductTradeInWidgetState extends State<ProductTradeInWidget>
             {CartType.tradeIn}.contains(state.cartType)) {
           return XContainer(
             margin: EdgeInsets.only(top: 16.sp),
-            iconTitle: Assets.svg.shopping.svg(
-              width: 22.sp,
-              height: 22.sp,
+            iconTitle: Icon(
+              Icons.shopping_bag,
+              size: 18.sp,
+              color: AppColors.neutral3Color,
             ),
             rightIcon: _renderRightIcon(),
             title: 'Sản phẩm cần định giá',
@@ -82,10 +83,7 @@ class _ProductTradeInWidgetState extends State<ProductTradeInWidget>
             onPressed: () {
               _onDialogProductInfo();
             },
-            child: Assets.svg.edit.svg(
-              width: 24.sp,
-              height: 24.sp,
-            ),
+            child: Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
           );
         });
   }

@@ -34,9 +34,10 @@ class _DeviceStatusWidgetState extends State<DeviceStatusWidget> {
             {CartType.tradeIn}.contains(state.cartType)) {
           return XContainer(
             margin: EdgeInsets.only(top: 16.sp),
-            iconTitle: Assets.svg.checklist.svg(
-              width: 22.sp,
-              height: 22.sp,
+            iconTitle: Icon(
+              Icons.checklist,
+              size: 18.sp,
+              color: AppColors.neutral3Color,
             ),
             title: 'Tình trạng máy',
             child: _programingDetail(state.product),

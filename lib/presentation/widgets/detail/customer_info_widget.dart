@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../common/extensions/extension.dart';
-import '../../../gen/gen.dart';
+import '../../theme/colors.dart';
 import '../widgets.dart';
 
 class CustomerInfoWidget extends StatelessWidget {
@@ -26,9 +26,10 @@ class CustomerInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
-      iconTitle: Assets.svg.customer.svg(
-        width: 22.sp,
-        height: 22.sp,
+      iconTitle: Icon(
+        Icons.person,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       title: customerName,
       child: Column(

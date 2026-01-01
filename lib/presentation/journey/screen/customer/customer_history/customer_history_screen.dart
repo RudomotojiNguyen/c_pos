@@ -11,7 +11,6 @@ import '../bloc/customer_bloc.dart';
 import 'widgets/customer_bills_widget.dart';
 import 'widgets/customer_orders_widget.dart';
 import 'widgets/customer_trade_in_widget.dart';
-import 'widgets/customer_warranties_widget.dart';
 
 class CustomerHistoryScreen extends StatefulWidget {
   const CustomerHistoryScreen({super.key, required this.customerId});
@@ -68,11 +67,11 @@ class _CustomerHistoryScreenState extends XStateWidget<CustomerHistoryScreen> {
               title: const Tab(text: 'Thu cũ'),
               content: CustomerTradeInWidget(customer: state.customer),
             ),
-            TabData(
-              index: 4,
-              title: const Tab(text: 'Bảo hành'),
-              content: CustomerWarrantiesWidget(customer: state.customer),
-            ),
+            // TabData(
+            //   index: 4,
+            //   title: const Tab(text: 'Bảo hành'),
+            //   content: CustomerWarrantiesWidget(customer: state.customer),
+            // ),
           ];
           return DynamicTabBarWidget(
             dynamicTabs: tabs,

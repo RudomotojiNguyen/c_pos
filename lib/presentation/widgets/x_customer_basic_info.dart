@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/configs/box.dart';
 import '../../common/constants/go_router.dart';
-import '../../gen/gen.dart';
 import '../journey/router.dart';
 import '../theme/themes.dart';
 import 'button/base_button.dart';
@@ -110,13 +109,13 @@ class XCustomerBasicInfo extends StatelessWidget {
                 ),
                 BoxSpacer.s32,
               ],
-              XBaseButton(
-                onPressed: onPressedEdit,
-                child: Assets.svg.edit.svg(
-                  width: 24.sp,
-                  height: 24.sp,
+              if (onPressedEdit != null) ...[
+                XBaseButton(
+                  onPressed: onPressedEdit,
+                  child:
+                      Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
                 ),
-              ),
+              ],
             ],
           ),
         ],

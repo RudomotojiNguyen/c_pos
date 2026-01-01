@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../gen/gen.dart';
 import '../../theme/themes.dart';
 
 class CustomerBasicInfo extends StatelessWidget {
@@ -22,12 +21,19 @@ class CustomerBasicInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          backgroundColor: AppColors.primaryColor,
-          child: Assets.svg.customer.svg(
-            width: 16.sp,
-            height: 16.sp,
-            color: AppColors.white,
+        Container(
+          padding: EdgeInsets.all(8.sp),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.primaryColor,
+              width: 1.sp,
+            ),
+            borderRadius: BorderRadius.all(AppRadius.xxl),
+          ),
+          child: Icon(
+            Icons.person,
+            size: 24.sp,
+            color: AppColors.primaryColor,
           ),
         ),
         BoxSpacer.s8,

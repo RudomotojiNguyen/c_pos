@@ -37,6 +37,7 @@ class _CameraScanState extends State<CameraScan> {
   void dispose() {
     flashOn.dispose();
     cameraInitialized.dispose();
+    // ignore: deprecated_member_use
     cameraController?.dispose();
     _timer?.cancel();
     super.dispose();

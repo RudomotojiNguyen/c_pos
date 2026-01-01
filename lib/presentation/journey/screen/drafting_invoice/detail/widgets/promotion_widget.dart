@@ -34,10 +34,8 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
 
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.discountCoupon.svg(
-            width: 24.sp,
-            height: 24.sp,
-          ),
+          iconTitle:
+              Icon(Icons.discount, size: 18.sp, color: AppColors.neutral3Color),
           rightIcon: _rightIcon(),
           title: 'Chiết khấu',
           child: _child(),
@@ -58,10 +56,7 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
         if (state == null) {
           return XBaseButton(
             onPressed: onPressedEdit,
-            child: Assets.svg.edit.svg(
-              width: 24.sp,
-              height: 24.sp,
-            ),
+            child: Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
           );
         }
         return XBaseButton(
@@ -98,10 +93,8 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
               BoxSpacer.s16,
               XBaseButton(
                 onPressed: onPressedEdit,
-                child: Assets.svg.edit.svg(
-                  width: 24.sp,
-                  height: 24.sp,
-                ),
+                child:
+                    Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
               ),
             ],
           ),

@@ -100,52 +100,49 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
 
   Widget _operation(
       BuildContext context, Future<void> Function() closeOverlay) {
-    return Container(
-      padding: EdgeInsets.all(8.sp),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// todo: làm thêm các tính năng
-          RowFunctionWidget(
-            title: XProductOperationAction.update.getTitle,
-            icon: XProductOperationAction.update.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              MainRouter.instance.pushNamed(
-                context,
-                routeName: RouteName.customerUpdate,
-                queryParameters: {'customerId': widget.customer.id?.toString()},
-              );
-            },
-          ),
-          RowFunctionWidget(
-            title: XProductOperationAction.customerDetail.getTitle,
-            icon: XProductOperationAction.customerDetail.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              MainRouter.instance.pushNamed(
-                context,
-                routeName: RouteName.customer,
-                queryParameters: {'customerId': widget.customer.id?.toString()},
-              );
-            },
-          ),
-          RowFunctionWidget(
-            title: XProductOperationAction.addMore.getTitle,
-            icon: XProductOperationAction.addMore.getIcon,
-            onPressed: () async {
-              await closeOverlay();
-              showXBottomSheet(
-                context,
-                key: GlobalAppKey.selectBillTypeDialogKey,
-                body: const OperationCreateDialog(),
-              );
-            },
-          ),
-          BoxSpacer.s8,
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// todo: làm thêm các tính năng
+        RowFunctionWidget(
+          title: XProductOperationAction.update.getTitle,
+          icon: XProductOperationAction.update.getIcon,
+          onPressed: () async {
+            await closeOverlay();
+            MainRouter.instance.pushNamed(
+              context,
+              routeName: RouteName.customerUpdate,
+              queryParameters: {'customerId': widget.customer.id?.toString()},
+            );
+          },
+        ),
+        RowFunctionWidget(
+          title: XProductOperationAction.customerDetail.getTitle,
+          icon: XProductOperationAction.customerDetail.getIcon,
+          onPressed: () async {
+            await closeOverlay();
+            MainRouter.instance.pushNamed(
+              context,
+              routeName: RouteName.customer,
+              queryParameters: {'customerId': widget.customer.id?.toString()},
+            );
+          },
+        ),
+        RowFunctionWidget(
+          title: XProductOperationAction.addMore.getTitle,
+          icon: XProductOperationAction.addMore.getIcon,
+          onPressed: () async {
+            await closeOverlay();
+            showXBottomSheet(
+              context,
+              key: GlobalAppKey.selectBillTypeDialogKey,
+              body: const OperationCreateDialog(),
+            );
+          },
+        ),
+        BoxSpacer.s8,
+      ],
     );
   }
 }

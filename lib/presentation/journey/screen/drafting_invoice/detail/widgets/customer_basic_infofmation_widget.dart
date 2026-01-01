@@ -54,10 +54,8 @@ class _CustomerBillInformationWidgetState
         selector: (state) => state.customer,
         builder: (context, state) {
           return XContainer(
-            iconTitle: Assets.svg.customer.svg(
-              width: 22.sp,
-              height: 22.sp,
-            ),
+            iconTitle:
+                Icon(Icons.person, size: 18.sp, color: AppColors.neutral3Color),
             rightIcon: _rightButton(state),
             title: state == null || state.gender == XGenderType.none
                 ? 'Khách hàng'
@@ -93,22 +91,9 @@ class _CustomerBillInformationWidgetState
   /// WIDGET
   ///
   Widget _rightButton(CustomerTable? customer) {
-    if (customer?.isNullCustomer ?? true) {
-      return XBaseButton(
-        onPressed: () => onPressedEdit(customer),
-        child: Assets.svg.edit.svg(
-          width: 24.sp,
-          height: 24.sp,
-        ),
-      );
-    }
-
     return XBaseButton(
-      onPressed: clearCustomerInfo,
-      child: Assets.svg.remove.svg(
-        width: 24.sp,
-        height: 24.sp,
-      ),
+      onPressed: () => onPressedEdit(customer),
+      child: Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
     );
   }
 
@@ -119,7 +104,6 @@ class _CustomerBillInformationWidgetState
       customerBirthday: customer.dateOfBirth,
       customerPoint: customer.point,
       customerId: customer.customerId,
-      onPressedEdit: () => onPressedEdit(customer),
     );
   }
 

@@ -44,16 +44,11 @@ class _DeliveryWidgetState extends State<DeliveryWidget>
             (state.products ?? []).isNotEmpty) {
           return XContainer(
             margin: EdgeInsets.only(top: 16.sp),
-            iconTitle: Assets.svg.scooterDelivery.svg(
-              width: 26.sp,
-              height: 26.sp,
-            ),
+            iconTitle: Icon(Icons.local_shipping,
+                size: 18.sp, color: AppColors.neutral3Color),
             rightIcon: XBaseButton(
               onPressed: () => onPressedEdit(context),
-              child: Assets.svg.edit.svg(
-                width: 24.sp,
-                height: 24.sp,
-              ),
+              child: Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
             ),
             title: 'Vận chuyển',
             child: Column(

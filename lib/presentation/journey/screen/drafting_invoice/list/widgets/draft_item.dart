@@ -114,28 +114,25 @@ class _DraftItemState extends State<DraftItem> {
 
   Widget _secondaryWidget(
       BuildContext context, Future<void> Function() closeOverlay) {
-    return Container(
-      padding: EdgeInsets.all(8.sp),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          XRowButton(
-            title: 'Xóa phiếu bán hàng',
-            icon: Icon(
-              Icons.close_outlined,
-              color: AppColors.primaryColor,
-              size: 20.sp,
-            ),
-            onPressed: () async {
-              await closeOverlay();
-              _draftingInvoicesBloc.add(
-                RemoveDraftingInvoiceEvent(id: widget.cartDetail.id),
-              );
-            },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        XRowButton(
+          title: 'Xóa phiếu bán hàng',
+          icon: Icon(
+            Icons.close_outlined,
+            color: AppColors.iconColor,
+            size: 20.sp,
           ),
-        ],
-      ),
+          onPressed: () async {
+            await closeOverlay();
+            _draftingInvoicesBloc.add(
+              RemoveDraftingInvoiceEvent(id: widget.cartDetail.id),
+            );
+          },
+        ),
+      ],
     );
   }
 

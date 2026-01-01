@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:c_pos/data/models/models.dart';
 
+import '../../../../../../common/di/injection/injection.dart';
+import '../../../../../../common/enum/enum.dart';
+import '../../../trade_in/bloc/trade_in_bloc.dart';
+import '../../../trade_in/trade_in_list/widgets/trade_in_list_widget.dart';
+
 // todo: chưa làm
 
 class CustomerTradeInWidget extends StatefulWidget {
@@ -14,20 +19,19 @@ class CustomerTradeInWidget extends StatefulWidget {
 }
 
 class _CustomerTradeInWidgetState extends State<CustomerTradeInWidget> {
-  // final TradeInBloc _tradeInBloc = getIt.get<TradeInBloc>();
+  final TradeInBloc _tradeInBloc = getIt.get<TradeInBloc>();
 
   @override
   void initState() {
     super.initState();
-    // _tradeInBloc.add(UpdateFilterEvent(
-    //   searchType: SearchType.phoneNumber,
-    //   searchValue: widget.customer.getCustomerPhone,
-    // ));
+    _tradeInBloc.add(UpdateFilterEvent(
+      searchType: SearchType.phoneNumber,
+      searchValue: widget.customer.getCustomerPhone,
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    // return TradeInListWidget(tradeInBloc: _tradeInBloc);
-    return Container();
+    return TradeInListWidget(tradeInBloc: _tradeInBloc);
   }
 }

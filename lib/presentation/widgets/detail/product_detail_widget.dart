@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/configs/box.dart';
 import '../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../../gen/gen.dart';
 import '../../mixins/mixins.dart';
 import '../../theme/themes.dart';
 import '../../utils/utils.dart';
@@ -25,9 +24,10 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
   Widget build(BuildContext context) {
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
-      iconTitle: Assets.svg.shopping.svg(
-        width: 24.sp,
-        height: 24.sp,
+      iconTitle: Icon(
+        Icons.shopping_bag,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       title: 'Thông tin sản phẩm',
       child: Column(

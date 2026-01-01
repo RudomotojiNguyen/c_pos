@@ -41,7 +41,7 @@ class _DraftsScreenState extends XStateWidget<DraftsScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return const XAppBar(title: 'Đơn phục vụ khách');
+    return const XAppBar(title: 'Đơn nháp');
   }
 
   @override

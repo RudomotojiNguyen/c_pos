@@ -33,16 +33,11 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
         }
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.stickyNotes.svg(
-            width: 26.sp,
-            height: 26.sp,
-          ),
+          iconTitle: Icon(Icons.sticky_note_2,
+              size: 18.sp, color: AppColors.neutral3Color),
           rightIcon: XBaseButton(
             onPressed: () => onPressedEdit(context),
-            child: Assets.svg.edit.svg(
-              width: 24.sp,
-              height: 24.sp,
-            ),
+            child: Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
           ),
           title: 'Ghi chú',
           child: Column(

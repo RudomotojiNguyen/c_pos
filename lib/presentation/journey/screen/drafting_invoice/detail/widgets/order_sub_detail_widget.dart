@@ -96,10 +96,8 @@ class _OrderSubDetailWidgetState extends State<OrderSubDetailWidget> {
             (state.products ?? []).isNotEmpty) {
           return XContainer(
             margin: EdgeInsets.only(top: 16.sp),
-            iconTitle: Assets.svg.bill.svg(
-              width: 26.sp,
-              height: 26.sp,
-            ),
+            iconTitle: Icon(Icons.receipt_long,
+                size: 18.sp, color: AppColors.neutral3Color),
             title: 'Nội dung đơn',
             child: Column(
               children: [

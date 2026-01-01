@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       BoxSpacer.s8,
                       _operationItem(
-                        title: 'Đơn nháp',
+                        title: 'Nháp',
                         icon: Assets.svg.shopping.svg(width: 32.sp),
                         onPressed: () => _mainRouter.pushNamed(
                           context,

@@ -46,10 +46,8 @@ class _ProductsBasicInformationWidgetState
         }
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.shopping.svg(
-            width: 24.sp,
-            height: 24.sp,
-          ),
+          iconTitle: Icon(Icons.shopping_bag,
+              size: 18.sp, color: AppColors.neutral3Color),
           title: 'Sản phẩm',
           rightIcon: XBaseButton(
             onPressed: () => _onAddProduct(cartType),

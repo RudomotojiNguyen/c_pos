@@ -51,10 +51,8 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
 
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
-          iconTitle: Assets.svg.wallet.svg(
-            width: 24.sp,
-            height: 24.sp,
-          ),
+          iconTitle:
+              Icon(Icons.wallet, size: 18.sp, color: AppColors.neutral3Color),
           title: 'Phương thức thanh toán',
           rightIcon: XBaseButton(
             key: baseButtonKey,

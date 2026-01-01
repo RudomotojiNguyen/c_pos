@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../gen/gen.dart';
+import '../../theme/colors.dart';
 import '../widgets.dart';
 
 class NormalDetailWidget extends StatelessWidget {
@@ -47,9 +47,10 @@ class NormalDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return XContainer(
       title: id?.toString() ?? 'Thông tin chung',
-      iconTitle: Assets.svg.invoice.svg(
-        width: 24.sp,
-        height: 24.sp,
+      iconTitle: Icon(
+        Icons.receipt,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       child: Column(
         children: [

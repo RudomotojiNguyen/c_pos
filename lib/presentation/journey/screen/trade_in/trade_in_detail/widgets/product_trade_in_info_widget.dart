@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../gen/gen.dart';
+import '../../../../../theme/colors.dart';
 import '../../../../../widgets/widgets.dart';
 
 class ProductTradeInInfoWidget extends StatelessWidget {
@@ -24,9 +24,10 @@ class ProductTradeInInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return XContainer(
       margin: EdgeInsets.only(top: 16.sp),
-      iconTitle: Assets.svg.shopping.svg(
-        width: 24.sp,
-        height: 24.sp,
+      iconTitle: Icon(
+        Icons.shopping_bag,
+        size: 18.sp,
+        color: AppColors.neutral3Color,
       ),
       title: 'Thông tin sản phẩm',
       child: Column(

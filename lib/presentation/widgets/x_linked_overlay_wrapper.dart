@@ -27,6 +27,7 @@ class XLinkedOverlayWrapper extends StatefulWidget {
   final Color? scrimColor;
 
   @override
+  // ignore: library_private_types_in_public_api
   _XLinkedOverlayWrapperState createState() => _XLinkedOverlayWrapperState();
 }
 
