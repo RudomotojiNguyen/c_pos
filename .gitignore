@@ -35,6 +35,12 @@ migrate_working_dir/
 /build/
 pubspec.lock
 
+# Generated plugin registrant files
+**/GeneratedPluginRegistrant.*
+**/generated_plugin_registrant.*
+**/generated_plugins.cmake
+**/ephemeral/
+
 # Symbolication related
 app.*.symbols
 

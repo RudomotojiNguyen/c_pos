@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../common/constants/app_constants.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/datasources/local_db/local_db.dart';

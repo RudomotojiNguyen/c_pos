@@ -182,11 +182,13 @@ class _DraftingDetailScreenState extends XStateWidget<DraftingDetailScreen> {
       bloc: _draftingInvoiceBloc,
       buildWhen: (previous, current) =>
           current is GetCurrentDraftDataSuccess ||
-          current is UpdatePriceOverViewTradeInSuccess,
+          current is UpdatePriceOverViewTradeInSuccess ||
+          current is UpdateTradeInTypeSuccess,
       builder: (context, state) {
         if ((state is UpdatePriceOverViewTradeInSuccess ||
                 state is GetCurrentDraftDataSuccess) &&
-            state.cartType == CartType.tradeIn) {
+            state.cartType == CartType.tradeIn &&
+            state.tradeInType != TradeInType.testDevice) {
           return SummaryAmountWidget(
             summaryType: SummaryType.tradeIn,
             productBuyingPrice: state.productBuyingPrice,

@@ -16,17 +16,22 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
     TradeInType.tradeIn,
     TradeInType.buyingOldItems,
     TradeInType.exchangeWarranty,
+    TradeInType.testDevice,
   ];
+  final SingleSelectController<TradeInType?> selectedItemNotifier =
+      SingleSelectController(null);
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
+    selectedItemNotifier.value = types.first;
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    selectedItemNotifier.dispose();
     super.dispose();
   }
 
@@ -48,59 +53,46 @@ class _TypeTradeInWidgetState extends State<TypeTradeInWidget>
               height: 22.sp,
             ),
             title: 'Loại giao dịch',
-            child: ListView.separated(
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final TradeInType type = types[index];
-                bool isSelected = type == state.tradeInType;
-                return XBaseButton(
-                  onPressed: () {
-                    if (!isSelected) {
-                      _draftingInvoiceBloc.add(UpdateTradeInTypeEvent(type));
-                    }
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 16.sp,
-                      horizontal: 16.sp,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.pinkLightColor
-                          : AppColors.white,
-                      borderRadius: BorderRadius.all(AppRadius.xxm),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            type.getTitle,
-                            style: AppFont.t.s().neutral,
-                          ),
-                        ),
-                        if (isSelected) ...[
-                          BoxSpacer.s16,
-                          Icon(
-                            Icons.check,
-                            size: 18.sp,
-                            color: AppColors.neutralColor,
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => BoxSpacer.s16,
-              itemCount: types.length,
-            ),
+            child: _typeTradeInWidget(context),
           );
         }
 
         return BoxSpacer.blank;
+      },
+    );
+  }
+
+  Widget _typeTradeInWidget(BuildContext context) {
+    return XBasicDropDown<TradeInType>(
+      hintText: 'Loại giao dịch',
+      expandedHeaderPadding: EdgeInsets.zero,
+      items: types,
+      selectedItemNotifier: selectedItemNotifier,
+      listItemBuilder: (BuildContext context, TradeInType result,
+          bool isSelected, VoidCallback onItemSelect) {
+        return Text(
+          result.getTitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppFont.t.s(12).neutral2,
+        );
+      },
+      headerBuilder:
+          (BuildContext context, TradeInType result, bool isSelected) {
+        return Text(
+          result.getTitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppFont.t.s(12).neutral2,
+        );
+      },
+      onChanged: (value) {
+        if (value != null) {
+          _draftingInvoiceBloc.add(UpdateTradeInTypeEvent(value));
+        }
+      },
+      validator: (value) {
+        return null;
       },
     );
   }

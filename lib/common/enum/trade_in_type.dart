@@ -7,6 +7,7 @@ enum TradeInType {
   tradeIn, // Khách thu cũ đổi mới
   buyingOldItems, // Khách thu cũ không đổi mới
   exchangeWarranty, // Khách đổi bảo hành
+  testDevice, // kiểm Thử thiết bị
 }
 
 enum TradeInStatus {
@@ -20,6 +21,7 @@ extension TradeInTypeExtension on TradeInType {
     1: TradeInType.tradeIn, // Khách thu cũ đổi mới
     2: TradeInType.buyingOldItems, // Khách thu cũ không đổi mới
     3: TradeInType.exchangeWarranty, // Khách đổi bảo hành
+    4: TradeInType.testDevice, // kiểm Thử thiết bị
   };
 
   String get getTitle {
@@ -30,6 +32,8 @@ extension TradeInTypeExtension on TradeInType {
         return 'Khách thu cũ không đổi mới';
       case TradeInType.exchangeWarranty:
         return 'Khách đổi bảo hành';
+      case TradeInType.testDevice:
+        return 'Kiểm Thử thiết bị';
       default:
         return '';
     }
@@ -42,6 +46,8 @@ extension TradeInTypeExtension on TradeInType {
       case TradeInType.buyingOldItems:
         return AppColors.primaryLightColor;
       case TradeInType.exchangeWarranty:
+        return AppColors.primaryLightColor;
+      case TradeInType.testDevice:
         return AppColors.primaryLightColor;
       default:
         return AppColors.primaryLightColor;
