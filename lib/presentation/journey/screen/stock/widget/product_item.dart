@@ -105,6 +105,7 @@ class _ProductItemInStockState extends State<ProductItemInStock>
   _onShowStockDialog() {
     showXBottomSheet(
       context,
+      key: GlobalAppKey.stockDialogKey,
       body: StockDialog(productId: widget.product.id!),
     );
   }

@@ -2,6 +2,7 @@ import 'package:c_pos/gen/gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/constants/app_constants.dart';
 import '../../../common/di/injection/injection.dart';
 import '../../journey/screen/drafting_invoice/list/bloc/drafting_invoices_bloc.dart';
 import '../../mixins/mixins.dart';
@@ -19,6 +20,7 @@ class BtnCreateBill extends StatelessWidget with DialogHelper {
       onPressed: () {
         showXBottomSheet(
           context,
+          key: GlobalAppKey.selectBillTypeDialogKey,
           body: const OperationCreateDialog(),
         ).then(
           (value) {

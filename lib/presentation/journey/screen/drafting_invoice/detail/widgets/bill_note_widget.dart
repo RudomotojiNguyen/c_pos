@@ -58,46 +58,6 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   ///
   /// WIDGET
   ///
-  // Widget _suggestWarrantyNote(BuildContext ctx) {
-  //   return XBaseButton(
-  //     onPressed: () {
-  //       showXBottomSheet(
-  //         ctx,
-  //         body: SuggestNotesDialog(
-  //           callBack: (Map<int, String> result) {
-  //             String joinResult = _draftingInvoiceBloc.state.warrantyNote ?? '';
-  //             joinResult += '\n';
-  //             joinResult += result.values.join('\n');
-
-  //             _draftingInvoiceBloc.add(
-  //               UpdateNoteEvent(
-  //                 warrantyNote: joinResult,
-  //                 saleNote: _draftingInvoiceBloc.state.saleNote,
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     },
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.end,
-  //       children: [
-  //         Assets.svg.ai.svg(
-  //           width: 18.sp,
-  //           height: 18.sp,
-  //         ),
-  //         BoxSpacer.s8,
-  //         Text(
-  //           'Gợi ý ghi chú BH',
-  //           style: AppFont.t.s().copyWith(
-  //                 fontWeight: FontWeight.normal,
-  //                 fontSize: 10.sp,
-  //               ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _billNotes() {
     return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState, String?>(
@@ -208,6 +168,7 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   void onPressedEdit(BuildContext ctx) {
     showXBottomSheet(
       ctx,
+      key: GlobalAppKey.noteDetailDialogKey,
       maxHeight: 0.7.sh,
       body: ModifyNoteDialog(
         saleNote: _draftingInvoiceBloc.state.saleNote,

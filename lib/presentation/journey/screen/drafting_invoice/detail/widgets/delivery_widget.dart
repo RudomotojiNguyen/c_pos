@@ -143,6 +143,7 @@ class _DeliveryWidgetState extends State<DeliveryWidget>
   void onPressedEdit(BuildContext ctx) {
     showXBottomSheet(
       ctx,
+      key: GlobalAppKey.inputDeliveryDialogKey,
       body: DeliveryDialog(
         onResult: (int customerFee, int shippingCompanyFee) {
           _draftingInvoiceBloc.add(

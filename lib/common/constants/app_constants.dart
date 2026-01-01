@@ -50,6 +50,23 @@ class GlobalAppKey {
   static const groupProductChildrenDetailDialogKey =
       ValueKey('groupProductChildrenDetailDialogKey');
   static const scanDialogKey = ValueKey('scanDialogKey');
+  static const commissionDetailDialogKey =
+      ValueKey('commissionDetailDialogKey');
+  static const noteDetailDialogKey = ValueKey('noteDetailDialogKey');
+  static const customerDetailDialogKey = ValueKey('customerDetailDialogKey');
+  static const inputDeliveryDialogKey = ValueKey('inputDeliveryDialogKey');
+  static const selectEmployeeDialogKey = ValueKey('selectEmployeeDialogKey');
+  static const otpFormDialogKey = ValueKey('otpFormDialogKey');
+  static const selectProductDialogKey = ValueKey('selectProductDialogKey');
+  static const formProductTradeInDialogKey =
+      ValueKey('formProductTradeInDialogKey');
+  static const selectVoucherDialogKey = ValueKey('selectVoucherDialogKey');
+  static const discountByHandDialogKey = ValueKey('discountByHandDialogKey');
+  static const repurchasePriceDialogKey = ValueKey('repurchasePriceDialogKey');
+  static const discountDialogKey = ValueKey('discountDialogKey');
+  static const stockDialogKey = ValueKey('stockDialogKey');
+  static const formCreateRequestExchangeStoreKey =
+      ValueKey('formCreateRequestExchangeStoreKey');
 }
 
 enum TextStyleEnum {

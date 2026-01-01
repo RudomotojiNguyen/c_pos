@@ -46,7 +46,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
         return XContainer(
           margin: EdgeInsets.only(top: 16.sp),
           iconTitle:
-              Icon(Icons.person, size: 18.sp, color: AppColors.neutral3Color),
+              Icon(Icons.person, size: 24.sp, color: AppColors.neutral3Color),
           containerType: ContainerType.expand,
           initiallyExpanded: false,
           title: 'Thông tin nhân viên',
@@ -194,6 +194,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectSaler(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -208,6 +209,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectTechincal(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -222,6 +224,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectCdpk(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -236,6 +239,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectCashier(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -250,6 +254,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectManager(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -264,6 +269,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectAssistant(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -278,6 +284,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectReceptionist(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,
@@ -292,6 +299,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
   void _onSelectDelivery(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectEmployeeDialogKey,
       maxHeight: 0.7.sh,
       body: SearchEmployeeDialog(
         employees: employees,

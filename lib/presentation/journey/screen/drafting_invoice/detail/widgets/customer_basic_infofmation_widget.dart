@@ -114,6 +114,7 @@ class _CustomerBillInformationWidgetState
   void onPressedEdit(CustomerTable? customer) {
     showXBottomSheet(
       context,
+      key: GlobalAppKey.customerDetailDialogKey,
       body: UpdateCustomerInformationDialog(
         cartType: _draftingInvoiceBloc.state.cartType,
         initCustomerDetail: customer?.convertToModel,

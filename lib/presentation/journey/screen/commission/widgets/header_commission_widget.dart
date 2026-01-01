@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../common/configs/box.dart';
 import 'package:c_pos/data/models/models.dart';
+import '../../../../../common/constants/app_constants.dart';
 import '../../../../mixins/mixins.dart';
 import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
@@ -86,6 +87,7 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
                     }
                     showXBottomSheet(
                       context,
+                      key: GlobalAppKey.commissionDetailDialogKey,
                       body: CommissionDetailDialog(data: widget.listBonus),
                     );
                   },
@@ -103,6 +105,7 @@ class _HeaderCommissionWidgetState extends State<HeaderCommissionWidget>
                     }
                     showXBottomSheet(
                       context,
+                      key: GlobalAppKey.commissionDetailDialogKey,
                       body: CommissionDetailDialog(data: widget.listMinus),
                     );
                   },

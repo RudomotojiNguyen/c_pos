@@ -144,6 +144,7 @@ class _ProductChildrenDialogState extends State<ProductChildrenDialog>
   }) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectProductDialogKey,
       maxHeight: 0.7.sh,
       body: SearchProductDialog(
         productType: XItemType.main,

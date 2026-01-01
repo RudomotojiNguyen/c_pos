@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../common/configs/box.dart';
+import '../../../../../common/constants/app_constants.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../../common/extensions/extension.dart';
 import 'package:c_pos/data/models/models.dart';
@@ -117,6 +118,7 @@ class _CommissionItemDetailState extends State<CommissionItemDetail>
 
     showXBottomSheet(
       context,
+      key: GlobalAppKey.commissionDetailDialogKey,
       body: ConditionDetailDialog(affiliateBloc: _affiliateBloc),
     );
   }

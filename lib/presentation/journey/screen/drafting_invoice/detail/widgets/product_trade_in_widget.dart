@@ -94,6 +94,7 @@ class _ProductTradeInWidgetState extends State<ProductTradeInWidget>
   _onDialogProductInfo() {
     showXBottomSheet(
       context,
+      key: GlobalAppKey.formProductTradeInDialogKey,
       body: FormProductTradeInDialog(
         onResult: (ProductTable product) {
           _draftingInvoiceBloc.add(UpdateProductTradeInEvent(product));

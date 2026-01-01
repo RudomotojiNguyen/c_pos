@@ -112,6 +112,7 @@ class _ProductsBasicInformationWidgetState
   _onAddProduct(CartType cartType) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectProductDialogKey,
       maxHeight: 0.7.sh,
       body: SearchProductDialog(
         cartType: cartType,
@@ -151,7 +152,7 @@ class _ProductsBasicInformationWidgetState
   _onDiscountByHand(ProductTable product) {
     showXBottomSheet(
       context,
-      key: GlobalAppKey.productNoteDialogKey,
+      key: GlobalAppKey.discountByHandDialogKey,
       body: DiscountByHandDialog(
         maxAmountDiscount: product.calculatorTotalSellingPrice,
         initValue: product.discountByHand?.amount ?? 0,
@@ -189,6 +190,7 @@ class _ProductsBasicInformationWidgetState
   _onAddGift(ProductTable product) async {
     final res = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectProductDialogKey,
       body: SearchProductDialog(
         isNeedInStock: true,
         parentProductId: product.productId,
@@ -213,6 +215,7 @@ class _ProductsBasicInformationWidgetState
     if ({CartType.retail, CartType.updateBill}.contains(cartType)) {
       res = await showXBottomSheet(
         context,
+        key: GlobalAppKey.selectProductDialogKey,
         body: FilterProductDialog(
           parentProductId: product.productId,
           productType: XItemType.attach,
@@ -223,6 +226,7 @@ class _ProductsBasicInformationWidgetState
     if ({CartType.order, CartType.updateOrder}.contains(cartType)) {
       res = await showXBottomSheet(
         context,
+        key: GlobalAppKey.selectProductDialogKey,
         body: SearchProductDialog(
           isNeedInStock: true,
           parentProductId: product.productId,
@@ -265,7 +269,7 @@ class _ProductsBasicInformationWidgetState
   _onHandleEditRepurchasePrice(ProductTable product) {
     showXBottomSheet(
       context,
-      key: GlobalAppKey.productNoteDialogKey,
+      key: GlobalAppKey.repurchasePriceDialogKey,
       body: RepurchasePriceDialog(
         initValue: product.repurchasePrice ?? 0,
         onResult: (value) {
@@ -277,23 +281,6 @@ class _ProductsBasicInformationWidgetState
       ),
     );
   }
-
-  ///
-  /// handle attach imei
-  ///
-  // _onHandleAttachImei(ProductTable product) {
-  //   showXBottomSheet(
-  //     context,
-  //     key: GlobalAppKey.imeiAttachDialogKey,
-  //     body: ImeiAttachDialog(
-  //       imeiStr: product.externalImeiNo,
-  //       onPressedAttach: (imeiStr) {
-  //         _draftingInvoiceBloc.add(
-  //             UpdateAttachImeiEvent(imeiStr: imeiStr, productId: product.id));
-  //       },
-  //     ),
-  //   );
-  // }
 
   // xử lý action của sản phẩm cha
   _onHandleParentAction(
@@ -342,6 +329,7 @@ class _ProductsBasicInformationWidgetState
   _onAddProductCombo(ProductTable product) async {
     final prod = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectProductDialogKey,
       maxHeight: 0.5.sh,
       body: ProductChildrenDialog(product: product),
     );
@@ -367,6 +355,7 @@ class _ProductsBasicInformationWidgetState
   _onAddVoucher(ProductTable product) async {
     final voucher = await showXBottomSheet(
       context,
+      key: GlobalAppKey.selectVoucherDialogKey,
       maxHeight: 0.7.sh,
       body: VouchersDialog(
         productId: product.productId.toString(),

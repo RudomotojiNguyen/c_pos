@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../common/constants/app_constants.dart';
 import '../../../../../common/di/injection/injection.dart';
 import '../../../../mixins/dialog_mixins.dart';
 import '../../../../theme/themes.dart';
@@ -103,6 +104,7 @@ class _ChangeStoreScreenState extends XStateWidget<ChangeStoreScreen>
   _onCreateTicketExchageStore() {
     showXBottomSheet(
       context,
+      key: GlobalAppKey.formCreateRequestExchangeStoreKey,
       body: const FormCreateRequestExchangeStore(),
     );
   }
