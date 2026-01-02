@@ -1,5 +1,3 @@
-enum UpdateAppType { none, warning, force }
-
 enum ScreenSize { extraLarge, large, normal, small }
 
 enum BannerPosition {
@@ -13,8 +11,6 @@ enum BannerPosition {
   const BannerPosition(this.value);
 }
 
-enum AppAxis { row, column }
-
 enum ApplyChannel {
   all(1, 'Online & Offline'),
   online(2, 'Online'),
@@ -25,10 +21,6 @@ enum ApplyChannel {
 
   const ApplyChannel(this.value, this.title);
 }
-
-enum OperationType { add, minus }
-
-enum QuantitySelect { single, multiple }
 
 enum FilterParams {
   sortByOutstanding('sort_by_outstanding'),
@@ -49,7 +41,3 @@ enum SortBy {
 
   const SortBy(this.value);
 }
-
-enum Operation { add, remove }
-
-enum NavigateTo { detail, list }

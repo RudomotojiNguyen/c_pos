@@ -22,11 +22,6 @@ class _ImeiDetailScreenState extends XStateWidget<ImeiDetailScreen> {
   late List<TabData> tabs = [];
 
   @override
-  Color backgroundColor({Color? color}) {
-    return AppColors.white;
-  }
-
-  @override
   void initState() {
     tabs = [
       TabData(

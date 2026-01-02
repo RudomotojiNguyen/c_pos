@@ -8,7 +8,6 @@ import '../../../../../common/configs/box.dart';
 import '../../../../../common/enum/enum.dart';
 import '../../../../../common/extensions/extension.dart';
 import 'package:c_pos/data/models/models.dart';
-import '../../../../theme/themes.dart';
 import '../../../../widgets/widgets.dart';
 import '../../address/bloc/address_bloc.dart';
 import '../bloc/customer_bloc.dart';
@@ -48,11 +47,6 @@ class _CustomerDetailScreenState extends XStateWidget<CustomerDetailScreen> {
 
   final _kForm = GlobalKey<FormState>();
   CustomerModel? currentCustomer;
-
-  @override
-  Color backgroundColor({Color? color}) {
-    return AppColors.white;
-  }
 
   @override
   void initState() {

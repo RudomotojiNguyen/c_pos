@@ -24,14 +24,10 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
             stores: const [],
             storesOfUser: const [],
             userStoresCanChange: const [],
-            exchangeHistory: const [],
             pageInfo: PageInfoEntity())) {
     on<GetStoreEvent>(_onGetStore);
     on<GetUserStoreCanChangeEvent>(_onGetUserStoreCanChange);
     on<ChangeUserStoreEvent>(_onChangeUserStore);
-    on<GetExchangeHistoryEvent>(_onGetExchangeHistory);
-    on<GetMoreExchangeHistoryEvent>(_onGetMoreExchangeHistory);
-    on<CreateTicketExchangeEvent>(_onCreateTicketExchange);
     on<GetStoresByUserEvent>(_onGetStoresByUser);
   }
 
@@ -44,73 +40,6 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     } catch (e) {
       loggerHelper.logError(message: 'GetStoresByUserEvent', obj: e);
       emit(GetStoresByUserSuccess(state: state, storesOfUser: const []));
-    }
-  }
-
-  FutureOr<void> _onCreateTicketExchange(
-      CreateTicketExchangeEvent event, Emitter<StoreState> emit) async {
-    try {
-      XToast.loading();
-      final res = await storeServices.createSwitchStore(
-        employeeId: authBloc.state.getUserId,
-        currentStoreId: authBloc.state.getUserStoreId,
-        targetStoreId: event.targetStoreId,
-        description: event.description,
-      );
-      if (res) {
-        emit(CreateTicketExchangeSuccess(state: state));
-      } else {
-        XToast.showNegativeMessage(message: 'Tạo không thành công');
-      }
-    } catch (e) {
-      XToast.closeAllLoading();
-      XToast.showNegativeMessage(message: e.toString());
-      loggerHelper.logError(message: 'CreateTicketExchangeEvent', obj: e);
-    }
-  }
-
-  FutureOr<void> _onGetMoreExchangeHistory(
-      GetMoreExchangeHistoryEvent event, Emitter<StoreState> emit) async {
-    try {
-      if (state is GetExchangeHistoryLoadMore ||
-          !state.pageInfo.checkCanLoadMore) {
-        return;
-      }
-
-      emit(GetExchangeHistoryLoadMore(state: state));
-      int page = state.currentPage + 1;
-      List<HistoryChangeStoreModel> data = state.exchangeHistory;
-      final res = await storeServices.getHistoriesChangeStore(
-          page: page, pageSize: state.limit);
-
-      data.addAll(res);
-      emit(GetExchangeHistorySuccess(
-          state: state,
-          exchangeHistory: data,
-          pageInfo: state.pageInfo.copyWith(
-            page: page,
-            itemCount: res.length,
-          )));
-    } catch (e) {
-      loggerHelper.logError(message: 'GetMoreExchangeHistoryEvent', obj: e);
-    }
-  }
-
-  FutureOr<void> _onGetExchangeHistory(
-      GetExchangeHistoryEvent event, Emitter<StoreState> emit) async {
-    try {
-      emit(GetExchangeHistoryLoading(state: state));
-      final res = await storeServices.getHistoriesChangeStore(
-          page: state.currentPage, pageSize: state.limit);
-      emit(GetExchangeHistorySuccess(
-          state: state,
-          exchangeHistory: res,
-          pageInfo: state.pageInfo.copyWith(
-            page: 1,
-            itemCount: res.length,
-          )));
-    } catch (e) {
-      loggerHelper.logError(message: 'GetExchangeHistoryEvent', obj: e);
     }
   }
 

@@ -15,7 +15,6 @@ export 'discount_program_model.dart';
 export 'employee_model.dart';
 export 'enum_model.dart';
 export 'filter_bill_model.dart';
-export 'history_change_store_model.dart';
 export 'image_detail_model.dart';
 export 'imei_history_model.dart';
 export 'imei_transaction_model.dart';

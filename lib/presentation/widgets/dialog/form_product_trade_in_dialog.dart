@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
 import '../../../common/constants/app_constants.dart';
+import '../../../common/di/injection/injection.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
 import '../../../data/datasources/local_db/local_db.dart';
 import 'package:c_pos/data/models/models.dart';
+import '../../../data/services/services.dart';
 import '../../mixins/mixins.dart';
 import '../../theme/themes.dart';
 import '../widgets.dart';
@@ -29,10 +31,15 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
   Timer? _timer;
   final ValueNotifier<ProductTable?> _productController = ValueNotifier(null);
   final ValueNotifier<bool> isImeiExist = ValueNotifier(false);
+  final ValueNotifier<bool> _isLoadingProduct = ValueNotifier(false);
 
   String get getImeiStr => _imeiController.text.trim();
 
   final GlobalKey<FormState> _kForm = GlobalKey<FormState>();
+
+  final TradeInServices _tradeInServices = getIt.get<TradeInServices>();
+
+  Timer? _timerCheckImei;
 
   @override
   void initState() {
@@ -44,7 +51,9 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
     _imeiController.dispose();
     _productController.dispose();
     isImeiExist.dispose();
+    _isLoadingProduct.dispose();
     _timer?.cancel();
+    _timerCheckImei?.cancel();
     super.dispose();
   }
 
@@ -111,9 +120,7 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
       controller: _imeiController,
       autoFocus: true,
       isRequired: true,
-      onChanged: (value) {
-        isImeiExist.value = value.isNotNullOrEmpty;
-      },
+      onChanged: (value) => _onChangeImei(value),
       validator: (imeiResult) {
         if (imeiResult.isNullOrEmpty) {
           return 'Vui lòng nhập imei sản phẩm';
@@ -126,10 +133,8 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
             context,
             onResult: ({code, codes}) {
               if (code.isNotNullOrEmpty) {
-                _imeiController.text = code ?? '';
-                isImeiExist.value = true;
+                _onChangeImei(code ?? '');
               }
-              // dismissPopup(key: GlobalAppKey.scanDialogKey);
             },
           );
         },
@@ -145,97 +150,115 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
         valueListenable: isImeiExist,
         builder: (context, imeiExist, child) {
           return ValueListenableBuilder(
-            valueListenable: _productController,
-            child: XBaseButton(
-              disable: !imeiExist,
-              onPressed: () {
-                _onSearchProductTradeIn();
-              },
-              child: Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
-                decoration: BoxDecoration(
-                  color: !imeiExist
-                      ? AppColors.lightGreyColor
-                      : AppColors.pinkLightColor,
-                  borderRadius: BorderRadius.all(AppRadius.xxm),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Thêm sản phẩm',
-                      style: AppFont.t.s().copyWith(
+            valueListenable: _isLoadingProduct,
+            builder: (context, isLoading, _) {
+              if (isLoading) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.sp, vertical: 16.sp),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.all(AppRadius.xxm),
+                  ),
+                  child: const Center(
+                    child: XLoading(),
+                  ),
+                );
+              }
+              return ValueListenableBuilder(
+                valueListenable: _productController,
+                child: XBaseButton(
+                  disable: !imeiExist,
+                  onPressed: () {
+                    _onSearchProductTradeIn();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.sp, vertical: 16.sp),
+                    decoration: BoxDecoration(
+                      color: !imeiExist
+                          ? AppColors.lightGreyColor
+                          : AppColors.pinkLightColor,
+                      borderRadius: BorderRadius.all(AppRadius.xxm),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Thêm sản phẩm',
+                          style: AppFont.t.s().copyWith(
+                              color: !imeiExist
+                                  ? AppColors.disabledActionColor
+                                  : AppColors.primaryColor),
+                        ),
+                        BoxSpacer.s8,
+                        Icon(
+                          Icons.add,
                           color: !imeiExist
                               ? AppColors.disabledActionColor
-                              : AppColors.primaryColor),
-                    ),
-                    BoxSpacer.s8,
-                    Icon(
-                      Icons.add,
-                      color: !imeiExist
-                          ? AppColors.disabledActionColor
-                          : AppColors.primaryColor,
-                      size: 16.sp,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            builder: (context, value, child) {
-              if (value != null) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Sản phẩm định giá',
-                      style: AppFont.t.s(),
-                    ),
-                    BoxSpacer.s8,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: ProductItemDetailWidget(
-                            productName: value.getName,
-                            productImei: '',
-                            productImage: value.getImageThumbnail,
-                            sellingPrice: value.getSellingPrice,
-                            discountPrice: 0,
-                            padding: EdgeInsets.all(8.sp),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.all(AppRadius.l),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.shadowColor,
-                                  blurRadius: 8.sp,
-                                  offset: const Offset(
-                                    0,
-                                    1,
-                                  ), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        BoxSpacer.s16,
-                        XBaseButton(
-                          onPressed: () {
-                            _onSearchProductTradeIn();
-                          },
-                          child: Icon(Icons.edit,
-                              size: 18.sp, color: AppColors.iconColor),
+                              : AppColors.primaryColor,
+                          size: 16.sp,
                         ),
                       ],
                     ),
-                  ],
-                );
-              }
-              if (child != null) {
-                return child;
-              }
-              return BoxSpacer.blank;
+                  ),
+                ),
+                builder: (context, value, child) {
+                  if (value != null) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Sản phẩm định giá',
+                          style: AppFont.t.s(),
+                        ),
+                        BoxSpacer.s8,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ProductItemDetailWidget(
+                                productName: value.getName,
+                                productImei: '',
+                                productImage: value.getImageThumbnail,
+                                sellingPrice: value.getSellingPrice,
+                                discountPrice: 0,
+                                padding: EdgeInsets.all(8.sp),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.all(AppRadius.l),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.shadowColor,
+                                      blurRadius: 8.sp,
+                                      offset: const Offset(
+                                        0,
+                                        1,
+                                      ), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            BoxSpacer.s16,
+                            XBaseButton(
+                              onPressed: () {
+                                _onSearchProductTradeIn();
+                              },
+                              child: Icon(Icons.edit,
+                                  size: 18.sp, color: AppColors.iconColor),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                  if (child != null) {
+                    return child;
+                  }
+                  return BoxSpacer.blank;
+                },
+              );
             },
           );
         });
@@ -258,5 +281,34 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
         },
       ),
     );
+  }
+
+  _onChangeImei(String imei) {
+    isImeiExist.value = true;
+    _imeiController.text = imei;
+    _productController.value = null;
+
+    if (_timerCheckImei?.isActive ?? false) _timerCheckImei?.cancel();
+    _timerCheckImei =
+        Timer(const Duration(milliseconds: AppConstants.timeSearchValue), () {
+      if (imei.trim().isEmpty) {
+        return;
+      }
+      _isLoadingProduct.value = true;
+      _tradeInServices.getProductByImei(imei).then((value) {
+        final (isEstimateCost, isSoldByCompany, product) = value;
+        if (mounted) {
+          _isLoadingProduct.value = false;
+          if (product.id != null && product.id!.isNotEmpty) {
+            _productController.value =
+                product.convertToTable(itemType: XItemType.main);
+          }
+        }
+      }).catchError((error) {
+        if (mounted) {
+          _isLoadingProduct.value = false;
+        }
+      });
+    });
   }
 }

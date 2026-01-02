@@ -35,10 +35,6 @@ extension NumberExtensions on num {
   XDiscountType get getDiscountType =>
       XDiscountTypeExtension.map[this] ?? XDiscountType.none;
 
-  ExchangeStoreStatus get getExchangeStoreStatus =>
-      ExchangeStoreStatusExtension.mapExchangeStoreStatus[this] ??
-      ExchangeStoreStatus.none;
-
   ProductType get toProductType =>
       ProductTypeExtension.map[this] ?? ProductType.normal;
 

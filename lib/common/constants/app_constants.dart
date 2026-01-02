@@ -3,13 +3,6 @@ import 'package:c_pos/data/models/models.dart';
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const screenWidth = 1170.0;
-  static const screenHeight = 2532.0;
-  static const voucherWidth = 307;
-  static const voucherHeight = 112;
-  static const voucherGraphicSize = 92;
-  static const avatarSize = 512.0;
-  static const imageQuality = 30;
   static const dsnSentry =
       'https://178c08c15a654258607b889c5aee3c39@o440638.ingest.us.sentry.io/4508979448250368';
 
@@ -67,24 +60,6 @@ class GlobalAppKey {
   static const stockDialogKey = ValueKey('stockDialogKey');
   static const formCreateRequestExchangeStoreKey =
       ValueKey('formCreateRequestExchangeStoreKey');
-}
-
-enum TextStyleEnum {
-  displayLarge,
-  displayMedium,
-  displaySmall,
-  headlineLarge,
-  headlineMedium,
-  headlineSmall,
-  titleLarge,
-  titleMedium,
-  titleSmall,
-  bodyLarge,
-  bodyMedium,
-  bodySmall,
-  labelLarge,
-  labelMedium,
-  labelSmall,
 }
 
 class DataConstants {

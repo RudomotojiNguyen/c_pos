@@ -1,0 +1,96 @@
+Tìm thấy 464 file Dart trong lib/
+Đang phân tích...
+
+Tìm thấy:
+  - 838 classes
+  - 940 functions
+  - 1631 variables
+  - 51 enums
+  - 60 extensions
+
+Đang kiểm tra usage...
+
+
+============================================================
+KẾT QUẢ PHÂN TÍCH
+============================================================
+
+Tổng cộng: 754 thành phần có thể không được sử dụng
+
+📦 CLASSES (175):
+  - MainRunner (line 110) in main.dart
+  - AssetGenImage (line 230) in gen/assets.gen.dart
+  - ServicesModule (line 6) in common/di/modules/services_module.dart
+  - ApiModule (line 11) in common/di/modules/api_module.dart
+  - LocalDataSourceModule (line 10) in common/di/modules/local_datasource_module.dart
+  - BlocModule (line 27) in common/di/modules/bloc_module.dart
+  - CommonModule (line 8) in common/di/modules/common_module.dart
+  - ComponentsModule (line 8) in common/di/modules/components_module.dart
+  - BadRequestException (line 26) in common/network/exceptions/app_exception.dart
+  - MainAppState (line 24) in presentation/journey/app.dart
+  - _OrderDetailScreenState (line 30) in presentation/journey/screen/order/detail/order_detail_screen.dart
+  - _OrderListScreenState (line 17) in presentation/journey/screen/order/list/order_list_screen.dart
+  - _SearchOrderWidgetState (line 26) in presentation/journey/screen/order/list/widgets/search_order_widget.dart
+  - _OrderListWidgetState (line 23) in presentation/journey/screen/order/list/widgets/order_list_widget.dart
+  - _OrderModalFilterState (line 46) in presentation/journey/screen/order/list/widgets/order_modal_filter.dart
+  - _HomeScreenState (line 23) in presentation/journey/screen/home/home_screen.dart
+  - _SplashScreenState (line 20) in presentation/journey/screen/splash/splash_screen.dart
+  - _ProductRewardScreenState (line 32) in presentation/journey/screen/commission/product_reward/product_reward_screen.dart
+  - ProductRewardItem (line 3) in presentation/journey/screen/commission/product_reward/widgets/product_reward_item.dart
+  - _AffiliateCommissionScreenState (line 28) in presentation/journey/screen/commission/overview/affiliate_commission_screen.dart
+  ... và 155 class khác
+
+🔧 FUNCTIONS (500):
+  - formattedString() (line 12) in common/network/exceptions/app_exception.dart
+  - onRequest() (line 189) in common/network/interceptor/network_interceptor.dart
+  - isValidEmail() (line 1) in common/utils/validation_utils.dart
+  - isValidIdentifyNumber() (line 6) in common/utils/validation_utils.dart
+  - isValidUserName() (line 23) in common/utils/validation_utils.dart
+  - isValidUrl() (line 32) in common/utils/validation_utils.dart
+  - validateDOB() (line 37) in common/utils/validation_utils.dart
+  - checkIsNumber() (line 47) in common/utils/validation_utils.dart
+  - clearDatabase() (line 37) in common/utils/database_utils.dart
+  - isExpired() (line 9) in common/extensions/datetime_extensions.dart
+  - daysInMonth() (line 20) in common/extensions/datetime_extensions.dart
+  - firstDayOfMonth() (line 27) in common/extensions/datetime_extensions.dart
+  - getKeyPosition() (line 1) in common/extensions/map_extension.dart
+  - getNextKey() (line 5) in common/extensions/map_extension.dart
+  - isLastKey() (line 17) in common/extensions/map_extension.dart
+  - formatCountdownTimerInMinute() (line 5) in common/extensions/number_extensions.dart
+  - checkDifferenceTime() (line 27) in common/extensions/string_extensions.dart
+  - isBlank() (line 56) in common/extensions/string_extensions.dart
+  - isExpired() (line 93) in common/extensions/string_extensions.dart
+  - isURL() (line 139) in common/extensions/string_extensions.dart
+  ... và 480 function khác
+
+📝 VARIABLES (34):
+  - nunitoSans (line 13) in gen/fonts.gen.dart
+  - roboto (line 16) in gen/fonts.gen.dart
+  - sFProText (line 19) in gen/fonts.gen.dart
+  - rootScaffoldKey (line 33) in common/constants/app_constants.dart
+  - imeiAttachDialogKey (line 41) in common/constants/app_constants.dart
+  - formCreateRequestExchangeStoreKey (line 60) in common/constants/app_constants.dart
+  - decodedJwt (line 107) in common/network/interceptor/network_interceptor.dart
+  - expirationTimeEpoch (line 109) in common/network/interceptor/network_interceptor.dart
+  - marginOfErrorInMilliseconds (line 112) in common/network/interceptor/network_interceptor.dart
+  - addedMarginTime (line 114) in common/network/interceptor/network_interceptor.dart
+  - isAccessTokenValid (line 197) in common/network/interceptor/network_interceptor.dart
+  - _instance (line 4) in common/utils/navigator_service.dart
+  - nextMonth (line 21) in common/extensions/datetime_extensions.dart
+  - nextYear (line 22) in common/extensions/datetime_extensions.dart
+  - mimetype (line 70) in data/models/image_detail_model.dart
+  - storesData (line 64) in data/services/impl/store_services_impl.dart
+  - loggerNoStack (line 30) in presentation/mixins/logger_helper.dart
+  - connectionType (line 8) in presentation/common_bloc/network/internet_state.dart
+  - random (line 442) in presentation/utils/utils.dart
+  - coreToken (line 188) in presentation/journey/router.dart
+  ... và 14 variable khác
+
+============================================================
+Lưu ý:
+  - Một số thành phần có thể được sử dụng thông qua:
+    * Dynamic calls (reflection)
+    * Code generation
+    * External libraries
+    * Override methods (build, initState, etc.)
+  - Hãy kiểm tra kỹ trước khi xóa!

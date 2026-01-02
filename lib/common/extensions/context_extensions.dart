@@ -5,7 +5,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../presentation/theme/themes.dart';
 import '../configs/configurations.dart';
 import '../constants/enum.dart';
 
@@ -79,12 +78,6 @@ extension ContextExtensions on BuildContext {
 
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
-  ThemeData get theme => Theme.of(this);
-
-  EdgeInsets get viewInsets => mediaQuery.viewInsets;
-
-  EdgeInsets get viewPadding => mediaQuery.viewPadding;
-
   /// ----------- Screen size ----------- ///
 
   bool get isMobile => deviceWidth < 768;
@@ -98,11 +91,6 @@ extension ContextExtensions on BuildContext {
   double get toastWidth => mediaQuery.size.width * (isMobile ? 0.9 : 0.65);
 
   /// ----------- color ----------- ///
-
-  Color get notificationBackgroundColor =>
-      isDark ? AppColors.white : Colors.white;
-
-  Color get errorColor => AppColors.errorColor;
 
   List<BoxShadow>? get boxShadow => [
         BoxShadow(

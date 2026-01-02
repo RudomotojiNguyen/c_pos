@@ -5,7 +5,6 @@ import '../../../data/datasources/local_data/local_data.dart';
 import '../../../data/services/services.dart';
 import '../../../presentation/journey/screen/address/bloc/address_bloc.dart';
 import '../../../presentation/journey/screen/bill/list/bloc/bill_bloc.dart';
-import '../../../presentation/journey/screen/category/bloc/category_bloc.dart';
 import '../../../presentation/journey/screen/commission/bloc/affiliate_bloc.dart';
 import '../../../presentation/journey/screen/coupon/bloc/coupon_bloc.dart';
 import '../../../presentation/journey/screen/customer/bloc/customer_bloc.dart';
@@ -23,7 +22,6 @@ import '../../../presentation/journey/screen/stock/bloc/stock_bloc.dart';
 import '../../../presentation/journey/screen/store/bloc/store_bloc.dart';
 import '../../../presentation/journey/screen/trade_in/bloc/trade_in_bloc.dart';
 import '../../../presentation/journey/screen/voucher/bloc/voucher_bloc.dart';
-import '../../../presentation/journey/screen/warranty/bloc/warranty_bloc.dart';
 import '../../base/di_module.dart';
 
 class BlocModule extends DIModule {
@@ -55,8 +53,6 @@ class BlocModule extends DIModule {
       ..registerFactory(() => StockBloc(
           productServices: getIt.get<ProductServices>(),
           stockServices: getIt.get<StockServices>()))
-      ..registerLazySingleton(
-          () => CategoryBloc(categoryServices: getIt.get<CategoryServices>()))
       ..registerLazySingleton(() => DraftingInvoiceBloc(
             draftingStorage: getIt.get<DraftingStorage>(),
             productServices: getIt.get<ProductServices>(),
@@ -67,7 +63,6 @@ class BlocModule extends DIModule {
       ..registerLazySingleton(() =>
           DraftingInvoicesBloc(draftingStorage: getIt.get<DraftingStorage>()))
       ..registerLazySingleton(() => EmployeeBloc(getIt.get<EmployeeServices>()))
-      ..registerFactory(() => WarrantyBloc(getIt.get<WarrantyServices>()))
       ..registerFactory(() => CouponBloc(
           authBloc: getIt.get<AuthBloc>(),
           couponServices: getIt.get<CouponServices>()))

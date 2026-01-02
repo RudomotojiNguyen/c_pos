@@ -25,7 +25,6 @@ import 'screen/login/login_screen.dart';
 import 'screen/main/main_screen.dart';
 import 'screen/order/detail/order_detail_screen.dart';
 import 'screen/order/list/order_list_screen.dart';
-import 'screen/product/product_screen.dart';
 import 'screen/stock/manage_stock/search_stock_screen.dart';
 import 'screen/splash/splash_screen.dart';
 import 'screen/trade_in/trade_in_detail/trade_in_detail_screen.dart';
@@ -111,12 +110,6 @@ class MainRouter {
                   return const OrderListScreen();
                 }
               },
-            ),
-            GoRoute(
-              path: RouteName.productDetail,
-              name: RouteName.productDetail,
-              builder: (BuildContext context, GoRouterState state) =>
-                  const ProductDetailScreen(),
             ),
             GoRoute(
               path: RouteName.customer,

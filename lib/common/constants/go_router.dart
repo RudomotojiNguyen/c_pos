@@ -6,7 +6,6 @@ class RouteName {
   static const String orders = 'orders';
   static const String affiliateCommission = 'affiliateCommission';
   static const String productReward = 'productReward';
-  static const String productDetail = 'productDetail';
   static const String customer = 'customer';
   static const String customerUpdate = 'customerUpdate';
   static const String imeiHistory = 'imeiHistory';

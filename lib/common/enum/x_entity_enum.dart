@@ -7,7 +7,6 @@ enum XEntityEnum {
   stockSlips,
   evaluationTrade,
   importTradeIn,
-  ticket,
 }
 
 extension XEntityEnumExtension on XEntityEnum {
@@ -20,7 +19,6 @@ extension XEntityEnumExtension on XEntityEnum {
     XEntityEnum.stockSlips: 'stock-slips',
     XEntityEnum.evaluationTrade: 'evaluation-trade',
     XEntityEnum.importTradeIn: 'import-trade-in',
-    XEntityEnum.ticket: 'ticket',
   };
 
   String get getValue => map[this] ?? '';

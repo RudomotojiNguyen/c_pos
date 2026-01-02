@@ -46,14 +46,6 @@ abstract class StoreApi {
   Future<BaseResponse> changeStatusAccessOfStore(
       @Body() Map<String, dynamic> params);
 
-  /// lấy lịch sử chuyển cửa hàng
-  ///
-  @GET('transfer-store-forms')
-  Future<BaseResponse> getHistoriesChangeStore({
-    @Query('page') required int page,
-    @Query('pageSize') required int pageSize,
-  });
-
   /// lấy danh sách cửa hàng theo user
   @GET('v1/stores/get-by-user')
   Future<BaseResponse> getStoresByUser();

@@ -14,7 +14,7 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor(),
+        backgroundColor: AppColors.primaryLightColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         appBar: buildAppBar(context),
         body: buildContentView(context),
@@ -24,8 +24,6 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
     );
   }
 
-  Color backgroundColor({Color? color}) => color ?? AppColors.primaryLightColor;
-
   PreferredSizeWidget? buildAppBar(BuildContext context) => null;
 
   Widget buildFloatingActionButton(BuildContext context) => Container();
@@ -33,8 +31,6 @@ abstract class XStateWidget<T extends StatefulWidget> extends State<T>
   Size get device => context.device;
 
   MediaQueryData get mediaQuery => context.mediaQuery;
-
-  ThemeData get theme => context.theme;
 
   bool get resizeToAvoidBottomInset => true;
 

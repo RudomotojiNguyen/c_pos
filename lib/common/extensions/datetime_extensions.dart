@@ -32,18 +32,6 @@ extension DatetimeExtensions on DateTime {
         : firstDay - 1; // Điều chỉnh cho T2 -> CN
   }
 
-  /// lấy buổi sáng/tối
-  XMomentTimeEnum get checkMomentTime {
-    final hour = this.hour;
-
-    // Buổi sáng (6h - 18h)
-    if (hour >= 6 && hour < 18) {
-      return XMomentTimeEnum.morning;
-    } else {
-      return XMomentTimeEnum.evening;
-    }
-  }
-
   TimeOfDay convertDateTimeToTimeOfDay() {
     return TimeOfDay(hour: hour, minute: minute);
   }

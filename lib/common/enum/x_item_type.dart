@@ -10,12 +10,6 @@ enum XItemType {
 }
 
 extension XItemTypeExtension on XItemType {
-  static const Map<int, XItemType> map = {
-    1: XItemType.main,
-    2: XItemType.gift,
-    3: XItemType.attach,
-  };
-
   int get getValueType => switch (this) {
         XItemType.gift => 2,
         XItemType.attach => 3,

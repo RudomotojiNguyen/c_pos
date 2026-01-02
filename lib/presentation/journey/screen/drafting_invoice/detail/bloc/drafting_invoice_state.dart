@@ -174,6 +174,11 @@ sealed class DraftingInvoiceState extends Equatable {
   double get discountOfPoint => (discountTotalBillByPoint?.isValidOTP ?? false)
       ? (discountTotalBillByPoint?.amountTransferFromPoint ?? 0)
       : 0;
+
+  /// kiểm tra đã có thông tin khách hay chưa
+  bool get isHasEnoughCustomerInfo =>
+      customer != null &&
+      customer?.getCustomerPhoneNumber?.isNotNullOrEmpty == true;
 }
 
 final class DraftingInvoiceInitial extends DraftingInvoiceState {

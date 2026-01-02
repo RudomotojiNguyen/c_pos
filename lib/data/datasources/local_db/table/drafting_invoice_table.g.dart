@@ -424,12 +424,14 @@ const _DraftingInvoiceTabletradeInTypeEnumValueMap = {
   'tradeIn': 1,
   'buyingOldItems': 2,
   'exchangeWarranty': 3,
+  'testDevice': 4,
 };
 const _DraftingInvoiceTabletradeInTypeValueEnumMap = {
   0: TradeInType.undefine,
   1: TradeInType.tradeIn,
   2: TradeInType.buyingOldItems,
   3: TradeInType.exchangeWarranty,
+  4: TradeInType.testDevice,
 };
 const _DraftingInvoiceTabletypeCartEnumValueMap = {
   'retail': 0,

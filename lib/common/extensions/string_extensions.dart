@@ -1,8 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 
 import '../../presentation/utils/utils.dart';
-import '../constants/notification_constants.dart';
 import '../../common/extensions/extension.dart';
 import '../enum/enum.dart';
 
@@ -198,13 +196,6 @@ extension StringValidator on String {
       'PNG',
     ];
     return listTypeImage.contains(this);
-  }
-}
-
-extension NotificationType on String {
-  NotificationCategory? get category {
-    return NotificationCategory.values
-        .firstWhereOrNull((element) => element.value == this);
   }
 }
 

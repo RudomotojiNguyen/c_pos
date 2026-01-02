@@ -7,5 +7,4 @@ export 'context_extensions.dart';
 export 'list_extensions.dart';
 export 'datetime_extensions.dart';
 export 'map_extension.dart';
-export 'notification_extensions.dart';
 export 'time_of_day_extension.dart';

@@ -66,17 +66,17 @@ class TradeInServicesImpl extends TradeInServices {
     return fileApi.getImageBase64(filename: fileName);
   }
 
-  // @override
-  // Future<(bool, bool, ProductModel)> getProductByImei(String imei) {
-  //   return tradeInApi.getProductByImei(imei: imei).then((value) {
-  //     bool isEstimateCost = value.data['isEstimateCost'] ?? false;
-  //     bool isSoldByCompany = value.data['isSoldByCompany'] ?? false;
-  //     ProductModel product = value.data['product'] != null
-  //         ? ProductModel.fromJson(value.data['product'])
-  //         : ProductModel(productType: ProductType.normal);
-  //     return (isEstimateCost, isSoldByCompany, product);
-  //   });
-  // }
+  @override
+  Future<(bool, bool, ProductModel)> getProductByImei(String imei) {
+    return tradeInApi.getProductByImei(imei: imei).then((value) {
+      bool isEstimateCost = value.data['isEstimateCost'] ?? false;
+      bool isSoldByCompany = value.data['isSoldByCompany'] ?? false;
+      ProductModel product = value.data['product'] != null
+          ? ProductModel.fromJson(value.data['product'])
+          : ProductModel(productType: ProductType.normal);
+      return (isEstimateCost, isSoldByCompany, product);
+    });
+  }
 
   @override
   Future<List<ProductModel>> getTradeInProductByName(String productName) {

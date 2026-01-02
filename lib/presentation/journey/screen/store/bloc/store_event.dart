@@ -15,18 +15,4 @@ final class ChangeUserStoreEvent extends StoreEvent {
   });
 }
 
-final class GetExchangeHistoryEvent extends StoreEvent {}
-
-final class GetMoreExchangeHistoryEvent extends StoreEvent {}
-
-final class CreateTicketExchangeEvent extends StoreEvent {
-  final int targetStoreId;
-  final String description;
-
-  CreateTicketExchangeEvent({
-    required this.targetStoreId,
-    required this.description,
-  });
-}
-
 final class GetStoresByUserEvent extends StoreEvent {}

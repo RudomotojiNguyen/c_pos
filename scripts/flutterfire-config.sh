@@ -1,6 +1,8 @@
 #!/bin/bash
 # Script to generate Firebase configuration files for different environments/flavors
 # Feel free to reuse and adapt this script for your own projects
+# Chuyển về thư mục gốc của project (thư mục cha của scripts)
+cd "$(dirname "$0")/.." || exit 1
 
 if [[ $# -eq 0 ]]; then
   echo "Error: No environment specified. Use 'dev', 'stag', or 'prod'."

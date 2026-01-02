@@ -41,10 +41,12 @@ class _BottomPriceWidgetState extends State<BottomPriceWidget>
       buildWhen: (previous, current) =>
           current is UpdateProductTradeInSuccess ||
           current is IsGettingDetail ||
-          current is GetCurrentDraftDataSuccess,
+          current is GetCurrentDraftDataSuccess ||
+          current is UpdateCustomerSuccess,
       builder: (context, state) {
         if ([CartType.tradeIn].contains(state.cartType) &&
-            state.product != null) {
+            state.product != null &&
+            state.isHasEnoughCustomerInfo) {
           return XButton(
             padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 32.sp),
             onPressed: _onShowDialogSubmitTradeInForm,

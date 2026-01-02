@@ -28,7 +28,7 @@ abstract class TradeInServices {
 
   Future<dynamic> getImageBase64(String fileName);
 
-  // Future<(bool, bool, ProductModel)> getProductByImei(String imei);
+  Future<(bool, bool, ProductModel)> getProductByImei(String imei);
 
   Future<List<ProductModel>> getTradeInProductByName(String productName);
 
