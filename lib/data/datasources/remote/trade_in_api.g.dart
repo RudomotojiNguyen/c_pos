@@ -195,7 +195,7 @@ class _TradeInApi implements TradeInApi {
     )
             .compose(
               _dio.options,
-              'tradeIn/mobile/check-imei?imei={imei}',
+              'v1/tradeIn/mobile/check-imei',
               queryParameters: queryParameters,
               data: _data,
             )

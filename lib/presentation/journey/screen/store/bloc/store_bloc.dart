@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:c_pos/common/extensions/extension.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,6 +74,14 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     try {
       final res = await storeServices.getStores();
       emit(GetStoreSuccess(state: state, stores: res));
+      if (res.isEmpty) return;
+
+      /// cập nhật thông tin cửa hàng hiện tại nếu có
+      final userCurrentStore = res.firstWhereOrNull(
+          (store) => store.id == authBloc.state.getUserStoreId);
+      if (userCurrentStore != null) {
+        authBloc.add(UpdateCurrentUserStoreEvent(store: userCurrentStore));
+      }
     } catch (e) {
       loggerHelper.logError(message: 'GetStore', obj: e);
     }

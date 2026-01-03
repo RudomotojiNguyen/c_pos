@@ -29,14 +29,14 @@ extension GenderExtension on XGenderType {
     }
   }
 
-  int get getValue {
+  int? get getValue {
     switch (this) {
       case XGenderType.male:
         return 1;
       case XGenderType.female:
         return 0;
       default:
-        return -1;
+        return null;
     }
   }
 }

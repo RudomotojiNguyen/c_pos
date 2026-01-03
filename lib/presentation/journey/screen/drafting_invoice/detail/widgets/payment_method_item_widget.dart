@@ -27,79 +27,86 @@ class PaymentMethodItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return XBaseButton(
-      onPressed: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(AppRadius.l),
-            border: Border.all(width: 0.5.sp, color: AppColors.neutral3Color)),
-        padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      children: [
+        Expanded(
+          child: XBaseButton(
+            onPressed: onPressed,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(AppRadius.l),
+                color: AppColors.lightGreyColor,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.sp),
+              child: Row(
                 children: [
-                  Text.rich(
-                    TextSpan(
-                        text: accountName,
-                        style: AppFont.t.s(14).w700,
-                        children: accountNumber.isNotNullOrEmpty
-                            ? [
-                                TextSpan(
-                                  text: ' (',
-                                  style: AppFont.t.s(14).w700.copyWith(
-                                        color: AppColors.disabledActionColor,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text.rich(
+                          TextSpan(
+                              text: accountName,
+                              style: AppFont.t.w700,
+                              children: accountNumber.isNotNullOrEmpty
+                                  ? [
+                                      TextSpan(
+                                        text: ' (',
+                                        style: AppFont.t.w700.copyWith(
+                                          color: AppColors.disabledActionColor,
+                                        ),
                                       ),
-                                ),
-                                TextSpan(
-                                  text: accountNumber,
-                                  style: AppFont.t.s(14).w700.copyWith(
-                                        color: AppColors.disabledActionColor,
+                                      TextSpan(
+                                        text: accountNumber,
+                                        style: AppFont.t.w700.copyWith(
+                                          color: AppColors.disabledActionColor,
+                                        ),
                                       ),
-                                ),
-                                TextSpan(
-                                  text: ')',
-                                  style: AppFont.t.s(14).w700.copyWith(
-                                        color: AppColors.disabledActionColor,
+                                      TextSpan(
+                                        text: ')',
+                                        style: AppFont.t.w700.copyWith(
+                                          color: AppColors.disabledActionColor,
+                                        ),
                                       ),
-                                ),
-                              ]
-                            : []),
+                                    ]
+                                  : []),
+                        ),
+                        if (methodDeposit != MethodDeposit.none) ...[
+                          Text.rich(
+                            TextSpan(
+                              text: methodDeposit.getTitle,
+                              style: AppFont.t.w500.neutral3,
+                            ),
+                          ),
+                        ],
+                        if (amount > 0) ...[
+                          BoxSpacer.s8,
+                          Text(
+                            amount.formatCurrency,
+                            textAlign: TextAlign.end,
+                            style: AppFont.t.w900.primaryColor,
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
-                  if (methodDeposit != MethodDeposit.none) ...[
-                    Text.rich(
-                      TextSpan(
-                        text: methodDeposit.getTitle,
-                        style: AppFont.t.s(14).w500.neutral3,
-                      ),
-                    ),
-                  ],
-                  if (amount > 0) ...[
-                    BoxSpacer.s8,
-                    Text(
-                      amount.formatCurrency,
-                      textAlign: TextAlign.end,
-                      style: AppFont.t.s(16).w900.primaryColor,
-                    ),
-                  ],
                 ],
               ),
             ),
-            if (onRemove != null) ...[
-              BoxSpacer.s8,
-              XBaseButton(
-                onPressed: onRemove,
-                child: Icon(
-                  Icons.delete_sweep_rounded,
-                  color: AppColors.iconColor,
-                  size: 24.sp,
-                ),
-              ),
-            ],
-          ],
+          ),
         ),
-      ),
+        if (onRemove != null) ...[
+          BoxSpacer.s16,
+          XBaseButton(
+            onPressed: onRemove,
+            child: Icon(
+              Icons.remove_circle,
+              color: AppColors.iconColor,
+              size: 18.sp,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

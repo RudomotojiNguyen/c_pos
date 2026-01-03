@@ -112,10 +112,8 @@ class _DeliveryWidgetState extends State<DeliveryWidget>
             ),
             XBaseButton(
               onPressed: onRemove,
-              child: Assets.svg.remove.svg(
-                width: 24.sp,
-                height: 24.sp,
-              ),
+              child: Icon(Icons.remove_circle,
+                  color: AppColors.iconColor, size: 18.sp),
             ),
           ],
         ),

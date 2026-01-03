@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/presentation/journey/screen/login/bloc/auth_bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,8 @@ import '../../../../common/constants/app_constants.dart';
 import '../../../../common/di/injection/injection.dart';
 import '../../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
+import '../../../../data/datasources/local_data/local_storage.dart';
+import '../../../../data/models/company_model.dart';
 import '../../../../data/services/services.dart';
 import '../../../mixins/logger_helper.dart';
 
@@ -18,16 +21,23 @@ part 'global_core_state.dart';
 
 class GlobalCoreBloc extends Bloc<GlobalCoreEvent, GlobalCoreState> {
   final OrderServices orderServices;
+  final CompanyServices companyServices;
+  final AuthBloc authBloc;
+  final LocalStorage localStorage;
 
   final LoggerHelper _loggerHelper = LoggerHelper();
 
   GlobalCoreBloc({
     required this.orderServices,
+    required this.companyServices,
+    required this.authBloc,
+    required this.localStorage,
   }) : super(const GlobalCoreInitial(
           orderStatus: [],
           cancelStatus: [],
           orderSource: [],
           orderType: [],
+          companies: [],
         )) {
     /// Xử lý sự kiện lấy trạng thái đơn hàng
     on<GetOrderStatusEvent>(_onGetOrderStatus);
@@ -37,6 +47,50 @@ class GlobalCoreBloc extends Bloc<GlobalCoreEvent, GlobalCoreState> {
 
     /// Xử lý sự kiện lấy loại đơn
     on<GetOrderTypeEvent>(_onGetOrderType);
+
+    /// Xử lý sự kiện lấy danh sách công ty
+    on<GetUserCompaniesEvent>(_onGetUserCompanies);
+  }
+
+  FutureOr<void> _onGetUserCompanies(
+      GetUserCompaniesEvent event, Emitter<GlobalCoreState> emit) async {
+    try {
+      final res = await companyServices.getCompanies();
+      emit(GetUserCompaniesSuccess(
+        state: state,
+        companies: res,
+      ));
+      if (res.isEmpty) return;
+
+      /// todo: lấy thành công thì cập nhật authbloc
+
+      final companyId = await localStorage.getCompanyId();
+
+      /// nếu có company id thì cập nhật authbloc
+      if (companyId.isNotNullOrEmpty) {
+        final company =
+            res.firstWhereOrNull((company) => company.id == companyId?.toInt());
+        if (company != null) {
+          authBloc.add(UpdateCurrentUserCompanyEvent(company: company));
+          return;
+        }
+      }
+
+      /// nếu không có company id thì cập nhật authbloc
+      final userCurrentCompany = res.firstWhereOrNull(
+          (company) => company.id == authBloc.state.getUserCompanyId);
+
+      if (userCurrentCompany != null) {
+        authBloc
+            .add(UpdateCurrentUserCompanyEvent(company: userCurrentCompany));
+        return;
+      } else {
+        authBloc.add(UpdateCurrentUserCompanyEvent(company: res.first));
+        return;
+      }
+    } catch (e) {
+      _loggerHelper.logError(message: 'GetUserCompaniesEvent', obj: e);
+    }
   }
 
   FutureOr<void> _onGetOrderType(

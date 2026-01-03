@@ -118,6 +118,7 @@ abstract class DraftingStorage {
     required int cartId,
     String? saleNote,
     String? warrantyNote,
+    String? customerNote,
   });
 
   /// cập nhật imei sản phẩm trong giỏ hàng

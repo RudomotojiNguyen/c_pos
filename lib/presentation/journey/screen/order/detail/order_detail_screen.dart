@@ -11,7 +11,6 @@ import '../../../../../common/constants/go_router.dart';
 import '../../../../../common/extensions/extension.dart';
 import '../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../data/services/services.dart';
-import '../../../../theme/app_radius.dart';
 import '../../../../theme/colors.dart';
 import '../../../../widgets/detail/employee_detail_widget.dart';
 import '../../../../widgets/widgets.dart';
@@ -153,42 +152,40 @@ class _OrderDetailScreenState extends XStateWidget<OrderDetailScreen> {
           if (orderDetail.getOrderStatus != StatusEnum.success) {
             return XBaseButton(
               baseButtonType: BaseButtonType.tapOperation,
-              secondaryWidgetBuilder: (closeOverlay) => Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.all(AppRadius.l),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    XBaseButton(
-                      onPressed: () async {
-                        await closeOverlay();
-                        _convertToCartTable(
-                          typeCart: CartType.updateOrder,
-                          orderDetail: orderDetail,
-                        );
-                      },
-                      child: Text(
-                        'Cập nhật đơn',
-                        style: AppFont.t.s(11),
-                      ),
+              secondaryWidgetBuilder: (closeOverlay) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  XBaseButton(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 4.sp, horizontal: 12.sp),
+                    onPressed: () async {
+                      await closeOverlay();
+                      _convertToCartTable(
+                        typeCart: CartType.updateOrder,
+                        orderDetail: orderDetail,
+                      );
+                    },
+                    child: Text(
+                      'Cập nhật đơn',
+                      style: AppFont.t.s(11),
                     ),
-                    XBaseButton(
-                      onPressed: () async {
-                        await closeOverlay();
-                        _convertToCartTable(
-                          typeCart: CartType.retail,
-                          orderDetail: orderDetail,
-                        );
-                      },
-                      child: Text(
-                        'Tạo hóa đơn',
-                        style: AppFont.t.s(11),
-                      ),
+                  ),
+                  XBaseButton(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 4.sp, horizontal: 12.sp),
+                    onPressed: () async {
+                      await closeOverlay();
+                      _convertToCartTable(
+                        typeCart: CartType.retail,
+                        orderDetail: orderDetail,
+                      );
+                    },
+                    child: Text(
+                      'Tạo hóa đơn',
+                      style: AppFont.t.s(11),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               child: Icon(
                 Icons.more_vert,

@@ -458,8 +458,9 @@ final class IsLoadingDetailState extends DraftingInvoiceState {
 final class UpdateBillNoteSuccess extends DraftingInvoiceState {
   UpdateBillNoteSuccess({
     required DraftingInvoiceState state,
-    required super.saleNote,
-    required super.warrantyNote,
+    super.saleNote,
+    super.warrantyNote,
+    super.customerNote,
   }) : super(
           currentDraftId: state.currentDraftId,
           employeeSubDetail: state.employeeSubDetail,
@@ -467,7 +468,6 @@ final class UpdateBillNoteSuccess extends DraftingInvoiceState {
           billId: state.billId,
           billNumber: state.billNumber,
           orderId: state.orderId,
-          customerNote: state.customerNote,
           isDefaultInfo: state.isDefaultInfo,
           vatChecked: state.vatChecked,
           isCountPoint: state.isCountPoint,

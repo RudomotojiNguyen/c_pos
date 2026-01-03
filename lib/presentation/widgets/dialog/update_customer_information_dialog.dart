@@ -118,7 +118,10 @@ class _UpdateCustomerInformationDialogState
                     selector: (state) => state.isLoading,
                     builder: (context, state) {
                       if (state) {
-                        return const XLoading();
+                        return SizedBox(
+                            width: 20.sp,
+                            height: 20.sp,
+                            child: const XLoading());
                       }
                       return Icon(
                         Icons.search,
@@ -156,7 +159,6 @@ class _UpdateCustomerInformationDialogState
             BoxSpacer.s8,
             XBasicDropDown<XGenderType>(
               labelText: 'Giới tính',
-              isRequired: true,
               hintText: 'Giới tính',
               expandedHeaderPadding: EdgeInsets.zero,
               items: const [
@@ -188,12 +190,6 @@ class _UpdateCustomerInformationDialogState
                   gender: value,
                   appellation: value,
                 );
-              },
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Chọn giới tính';
               },
             ),
             if ({

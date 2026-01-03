@@ -118,11 +118,13 @@ class _AffiliateCommissionScreenState
         }
 
         if (state is IsLoading) {
-          return const Column(
+          return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: XLoading()),
+              Center(
+                  child: SizedBox(
+                      width: 20.sp, height: 20.sp, child: const XLoading())),
             ],
           );
         }

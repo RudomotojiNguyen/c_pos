@@ -10,15 +10,15 @@ final class GetCashAccountsEvent extends PaymentEvent {
 }
 
 final class GetTransferAccountsEvent extends PaymentEvent {
-  final CartType cartType;
+  final int? storeId;
 
-  GetTransferAccountsEvent({required this.cartType});
+  GetTransferAccountsEvent({required this.storeId});
 }
 
 final class GetCreditAccountsEvent extends PaymentEvent {
-  final CartType cartType;
+  final int? storeId;
 
-  GetCreditAccountsEvent({required this.cartType});
+  GetCreditAccountsEvent({required this.storeId});
 }
 
 final class GetInstallmentAccountsEvent extends PaymentEvent {}

@@ -45,13 +45,11 @@ class _PaymentApi implements PaymentApi {
   Future<BaseResponse> getAccountants({
     required type,
     required storeId,
-    required moduleType,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'type': type,
       r'storeId': storeId,
-      r'moduleType': moduleType,
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;

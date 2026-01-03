@@ -199,10 +199,13 @@ class NetworkInterceptor extends InterceptorsWrapper with DialogHelper {
       final isAccessTokenValid = await _isAccessTokenValid;
 
       if (isAccessTokenValid) {
+        final companyId = getIt.get<AuthBloc>().state.userCompany?.id;
+
         options.headers.addAll(await _buildHeaders());
         options.headers['device-type'] = deviceType;
         options.headers['version'] = version;
         options.headers['environment'] = environment;
+        options.headers['company-id'] = companyId;
 
         if (options.method == 'post'.toUpperCase()) {
           options.baseUrl = baseWriteUrl;

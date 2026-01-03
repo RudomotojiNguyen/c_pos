@@ -33,7 +33,7 @@ extension TradeInTypeExtension on TradeInType {
       case TradeInType.exchangeWarranty:
         return 'Khách đổi bảo hành';
       case TradeInType.testDevice:
-        return 'Kiểm Thử thiết bị';
+        return 'Kiểm Thử tra máy';
       default:
         return '';
     }

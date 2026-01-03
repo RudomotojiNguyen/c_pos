@@ -57,7 +57,7 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.sp),
-      padding: EdgeInsets.symmetric(horizontal: 16.sp),
+      padding: EdgeInsets.symmetric(horizontal: 8.sp),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.all(AppRadius.xxxl),

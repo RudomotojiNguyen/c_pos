@@ -45,9 +45,8 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _billNotes(),
+              _internalNotes(),
               _warrantyNotes(),
-              // BoxSpacer.s16,
-              // _suggestWarrantyNote(context),
             ],
           ),
         );
@@ -59,10 +58,11 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
   /// WIDGET
   ///
 
+  /// ghi chú chăm sóc khách hàng
   Widget _billNotes() {
     return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState, String?>(
       bloc: _draftingInvoiceBloc,
-      selector: (state) => state.saleNote,
+      selector: (state) => state.customerNote,
       builder: (context, state) {
         if (state.isNullOrEmpty) {
           return BoxSpacer.blank;
@@ -79,8 +79,9 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
               onRemove: () {
                 _draftingInvoiceBloc.add(
                   UpdateNoteEvent(
-                    saleNote: null,
+                    saleNote: _draftingInvoiceBloc.state.saleNote,
                     warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
+                    customerNote: null,
                   ),
                 );
               },
@@ -91,6 +92,40 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
     );
   }
 
+  /// ghi chú nội bộ
+  Widget _internalNotes() {
+    return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState, String?>(
+      bloc: _draftingInvoiceBloc,
+      selector: (state) => state.saleNote,
+      builder: (context, state) {
+        if (state.isNullOrEmpty) {
+          return BoxSpacer.blank;
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BoxSpacer.s16,
+            _detail(
+              title: 'Nội bộ',
+              value: state!,
+              onRemove: () {
+                _draftingInvoiceBloc.add(
+                  UpdateNoteEvent(
+                    saleNote: null,
+                    warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
+                    customerNote: _draftingInvoiceBloc.state.customerNote,
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// ghi chú bảo hành
   Widget _warrantyNotes() {
     return BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState, String?>(
       bloc: _draftingInvoiceBloc,
@@ -112,6 +147,7 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
                   UpdateNoteEvent(
                     saleNote: _draftingInvoiceBloc.state.saleNote,
                     warrantyNote: null,
+                    customerNote: _draftingInvoiceBloc.state.customerNote,
                   ),
                 );
               },
@@ -138,10 +174,8 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
             ),
             XBaseButton(
               onPressed: onRemove,
-              child: Assets.svg.remove.svg(
-                width: 24.sp,
-                height: 24.sp,
-              ),
+              child: Icon(Icons.remove_circle,
+                  color: AppColors.iconColor, size: 18.sp),
             ),
           ],
         ),
@@ -173,12 +207,14 @@ class _BillNoteWidgetState extends State<BillNoteWidget> with DialogHelper {
       body: ModifyNoteDialog(
         saleNote: _draftingInvoiceBloc.state.saleNote,
         warrantyNote: _draftingInvoiceBloc.state.warrantyNote,
-        callBackResult: (sale, warranty) {
+        customerNote: _draftingInvoiceBloc.state.customerNote,
+        callBackResult: (sale, warranty, customer) {
           Navigator.pop(ctx);
           _draftingInvoiceBloc.add(
             UpdateNoteEvent(
               saleNote: sale.isNotEmpty ? sale : null,
               warrantyNote: warranty.isNotEmpty ? warranty : null,
+              customerNote: customer.isNotEmpty ? customer : null,
             ),
           );
         },

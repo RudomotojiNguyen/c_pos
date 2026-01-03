@@ -23,3 +23,15 @@ class ChangePasswordEvent extends AuthEvent {
 
   ChangePasswordEvent({required this.password, required this.newPassword});
 }
+
+class UpdateCurrentUserStoreEvent extends AuthEvent {
+  final StoreModel store;
+
+  UpdateCurrentUserStoreEvent({required this.store});
+}
+
+class UpdateCurrentUserCompanyEvent extends AuthEvent {
+  final CompanyModel company;
+
+  UpdateCurrentUserCompanyEvent({required this.company});
+}

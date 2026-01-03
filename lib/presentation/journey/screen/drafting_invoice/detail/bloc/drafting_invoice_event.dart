@@ -56,8 +56,9 @@ final class SetDiscountTotalBillInfoEvent extends DraftingInvoiceEvent {
 final class UpdateNoteEvent extends DraftingInvoiceEvent {
   final String? saleNote;
   final String? warrantyNote;
+  final String? customerNote;
 
-  UpdateNoteEvent({this.saleNote, this.warrantyNote});
+  UpdateNoteEvent({this.saleNote, this.warrantyNote, this.customerNote});
 }
 
 ///

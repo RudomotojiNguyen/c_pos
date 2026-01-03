@@ -168,8 +168,9 @@ mixin DialogHelper {
     bool enableDrag = true,
     bool isDismissible = true,
     required Widget body,
-    EdgeInsetsGeometry? padding,
-    EdgeInsetsGeometry? margin,
+    EdgeInsets? padding,
+    EdgeInsets? margin,
+    BorderRadiusGeometry? borderRadius,
     Color? bgColor,
     double? maxHeight,
   }) async {
@@ -215,14 +216,15 @@ mixin DialogHelper {
                 ),
                 padding: (padding ??
                     EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp)),
-                margin: margin ??
-                    EdgeInsets.symmetric(
-                      horizontal: 16.sp,
-                      vertical: 16.sp,
-                    ).copyWith(bottom: keyboardHeight),
+                margin: (margin ??
+                        EdgeInsets.symmetric(
+                          horizontal: 16.sp,
+                          vertical: 16.sp,
+                        ))
+                    .copyWith(bottom: keyboardHeight),
                 decoration: BoxDecoration(
                   color: bgColor ?? AppColors.white,
-                  borderRadius: BorderRadius.all(AppRadius.xxl),
+                  borderRadius: borderRadius ?? BorderRadius.all(AppRadius.xxl),
                 ),
                 child: body,
               ),

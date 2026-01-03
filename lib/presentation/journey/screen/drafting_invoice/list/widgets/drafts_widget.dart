@@ -27,7 +27,11 @@ class _DraftsWidgetState extends State<DraftsWidget> {
       bloc: _draftingInvoicesBloc,
       builder: (context, state) {
         if (state is GetDraftingInvoicesLoading) {
-          return const XLoading();
+          return SizedBox(
+            width: 20.sp,
+            height: 20.sp,
+            child: const XLoading(),
+          );
         }
 
         if (state.draftingInvoiceList.isEmpty ||

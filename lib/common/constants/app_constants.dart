@@ -18,7 +18,7 @@ class AppConstants {
   static CustomerModel defaultCustomer = CustomerModel(
     id: -1,
     // tài khoản mặc định để là -1 để ẩn những thứ cẩn ẩn
-    phoneNo: '0123456789',
+    phoneNo: '1900633471',
     fullName: 'Khách hàng mặc định',
     appellation: XGenderType.male.getValue,
     gender: XGenderType.male,
@@ -28,6 +28,7 @@ class AppConstants {
 class CacheKeys {
   static const token = 'app_token';
   static const refreshToken = 'refresh_token';
+  static const companyId = 'company_id';
 }
 
 class GlobalAppKey {

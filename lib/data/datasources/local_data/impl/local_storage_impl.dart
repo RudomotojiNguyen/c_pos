@@ -62,4 +62,19 @@ class LocalStorageImpl extends LocalStorage {
   Future<void> setRefreshToken({String? token}) {
     return secureStorage.write(key: CacheKeys.refreshToken, value: token);
   }
+
+  @override
+  Future<void> deleteCompanyId() {
+    return secureStorage.delete(key: CacheKeys.companyId);
+  }
+
+  @override
+  Future<String?> getCompanyId() {
+    return secureStorage.read(key: CacheKeys.companyId);
+  }
+
+  @override
+  Future<void> setCompanyId({String? companyId}) {
+    return secureStorage.write(key: CacheKeys.companyId, value: companyId);
+  }
 }

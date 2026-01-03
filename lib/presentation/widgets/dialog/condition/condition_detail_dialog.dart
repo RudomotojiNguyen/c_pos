@@ -40,7 +40,11 @@ class _ConditionDetailDialogState extends State<ConditionDetailDialog> {
               current is GetCommissionDetailSuccess,
           builder: (context, state) {
             if (state is GetCommissionDetailLoading) {
-              return const XLoading();
+              return SizedBox(
+                width: 20.sp,
+                height: 20.sp,
+                child: const XLoading(),
+              );
             }
 
             CommissionDetailModel? detail =

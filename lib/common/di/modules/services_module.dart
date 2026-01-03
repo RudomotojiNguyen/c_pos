@@ -38,6 +38,8 @@ class ServicesModule extends DIModule {
           () => AddressServicesImpl(addressApi: getIt.get<AddressApi>()))
       ..registerLazySingleton<VoucherServices>(
           () => VoucherServicesImpl(voucherApi: getIt.get<VoucherApi>()))
+      ..registerLazySingleton<CompanyServices>(
+          () => CompanyServicesImpl(companyApi: getIt.get<CompanyApi>()))
       ..registerLazySingleton<TradeInServices>(() => TradeInServicesImpl(
           tradeInApi: getIt.get<TradeInApi>(), fileApi: getIt.get<FileApi>()));
   }

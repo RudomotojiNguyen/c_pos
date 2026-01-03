@@ -16,3 +16,4 @@ export 'trade_in_api.dart';
 export 'user_api.dart';
 export 'voucher_api.dart';
 export 'warranty_api.dart';
+export 'company_api.dart';

@@ -8,3 +8,5 @@ final class GetOrderStatusEvent extends GlobalCoreEvent {}
 final class GetOrderSourceEvent extends GlobalCoreEvent {}
 
 final class GetOrderTypeEvent extends GlobalCoreEvent {}
+
+final class GetUserCompaniesEvent extends GlobalCoreEvent {}

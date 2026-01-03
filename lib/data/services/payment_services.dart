@@ -19,7 +19,6 @@ abstract class PaymentServices {
   Future<List<AccountantModel>> getAccountants({
     required int type,
     required int storeId,
-    required int moduleType,
   });
 
   /// lấy tài khoản trả góp

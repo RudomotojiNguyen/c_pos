@@ -26,7 +26,7 @@ class PaymentMethodDetailWidget extends StatelessWidget {
         BoxSpacer.s8,
         Text(
           title,
-          style: AppFont.t.s(16).w600,
+          style: AppFont.t.s(14).w600,
         ),
         BoxSpacer.s2,
         _groupDetail(context),

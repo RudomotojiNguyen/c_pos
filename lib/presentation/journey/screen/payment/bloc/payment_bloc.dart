@@ -64,8 +64,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(IsLoading(state: state, isLoading: true));
       final res = await paymentServices.getAccountants(
         type: PaymentType.transfer.getValue,
-        storeId: authBloc.state.userInfo!.getStoreId,
-        moduleType: event.cartType.getModuleType,
+        storeId: event.storeId ?? 0,
       );
       emit(UpdateTransferAccountant(state: state, transferAccountants: res));
     } catch (e) {
@@ -81,8 +80,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(IsLoading(state: state, isLoading: true));
       final res = await paymentServices.getAccountants(
         type: PaymentType.credit.getValue,
-        storeId: authBloc.state.userInfo!.getStoreId,
-        moduleType: event.cartType.getModuleType,
+        storeId: event.storeId ?? 0,
       );
       emit(UpdateCreditAccountant(state: state, creditAccountants: res));
     } catch (e) {

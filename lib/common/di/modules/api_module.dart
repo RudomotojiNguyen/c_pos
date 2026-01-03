@@ -16,7 +16,7 @@ class ApiModule extends DIModule {
     final dio = await DioClient.setup(
       interceptor: getIt.get<NetworkInterceptor>(),
       baseUrl: coreConfiguration.baseReadUrl,
-      isProduct: coreConfiguration.isProduct,
+      isDioLog: coreConfiguration.isDioLog,
     );
 
     getIt
@@ -38,6 +38,7 @@ class ApiModule extends DIModule {
       ..registerLazySingleton(() => AddressApi(dio))
       ..registerLazySingleton(() => TradeInApi(dio))
       ..registerLazySingleton(() => VoucherApi(dio))
+      ..registerLazySingleton(() => CompanyApi(dio))
       ..registerLazySingleton(() => FileApi(dio));
   }
 }

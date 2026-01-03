@@ -162,7 +162,7 @@ class ProductModel {
     productWebCategory = json['productWebCategory'];
     warrantyAddress = json['warrantyAddress'];
     warrantyPhone = json['warrantyPhone'];
-    warrantyMonthNo = json['warrantyMonthNo'];
+    warrantyMonthNo = json['warrantyMonthNo']?.toString();
     warrantyDescription = json['warrantyDescription'];
     originalPrice = Utils.toDouble(json['originalPrice']);
     sellingPrice = Utils.toDouble(json['sellingPrice'] ?? 0);

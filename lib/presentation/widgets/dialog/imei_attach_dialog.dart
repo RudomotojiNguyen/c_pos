@@ -51,7 +51,7 @@ class _ImeiAttachDialogState extends State<ImeiAttachDialog> with DialogHelper {
   Widget inputImei() {
     return XTextField(
       labelText: '',
-      hintText: 'Nhập imei sản phẩm',
+      hintText: 'Nhập IEMI sản phẩm',
       controller: _imeiController,
       autoFocus: true,
       suffixWidget: XBaseButton(

@@ -113,6 +113,12 @@ class _TradeInProgramCreteriaGroupOpitionState
           size: 18.sp,
           color: AppColors.primaryColor,
         );
+      } else {
+        return Icon(
+          Icons.square_outlined,
+          size: 18.sp,
+          color: AppColors.iconColor,
+        );
       }
     }
     if (widget.typeSelect == TypeSelect.single) {
@@ -121,6 +127,12 @@ class _TradeInProgramCreteriaGroupOpitionState
           Icons.check_circle,
           size: 18.sp,
           color: AppColors.primaryColor,
+        );
+      } else {
+        return Icon(
+          Icons.circle_outlined,
+          size: 18.sp,
+          color: AppColors.iconColor,
         );
       }
     }

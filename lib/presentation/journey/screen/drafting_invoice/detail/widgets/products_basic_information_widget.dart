@@ -49,14 +49,14 @@ class _ProductsBasicInformationWidgetState
           iconTitle: Icon(Icons.shopping_bag,
               size: 18.sp, color: AppColors.neutral3Color),
           title: 'Sản phẩm',
-          rightIcon: XBaseButton(
-            onPressed: () => _onAddProduct(cartType),
-            child: Icon(
-              Icons.add_circle_rounded,
-              color: AppColors.primaryColor,
-              size: 24.sp,
-            ),
-          ),
+          // rightIcon: XBaseButton(
+          //   onPressed: () => _onAddProduct(cartType),
+          //   child: Icon(
+          //     Icons.add_circle_rounded,
+          //     color: AppColors.primaryColor,
+          //     size: 24.sp,
+          //   ),
+          // ),
           child: BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
                   List<ProductTable>?>(
               bloc: _draftingInvoiceBloc,
@@ -65,43 +65,69 @@ class _ProductsBasicInformationWidgetState
                 if (state?.isEmpty ?? true) {
                   return Container(
                     margin: EdgeInsets.only(top: 16.sp),
-                    child: Text(
-                      'Hãy thêm sản phẩm để tiếp tục',
-                      style: AppFont.t.s(),
+                    child: Column(
+                      children: [
+                        const EmptyDataWidget(),
+                        BoxSpacer.s16,
+                        _renderAddProductButton(cartType)
+                      ],
                     ),
                   );
                 }
 
-                return XGridView(
-                  type: XGridViewType.masonry,
-                  itemCount: state!.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 8.sp),
-                  crossAxisCount: context.isSmallScreen ? 1 : 2,
-                  crossAxisSpacing: 16.sp,
-                  mainAxisSpacing: 16.sp,
-                  itemBuilder: (context, index) {
-                    final ProductTable product = state[index];
-                    return ProductCartItemWidget(
-                      product: product,
-                      gifts: product.getGifts,
-                      attaches: product.getAttaches,
-                      productsCombo: product.productChildCombo ?? [],
-                      cartType: cartType,
-                      callBackChildAction: _onHandleChildAction,
-                      callBackParentAction: ({required action, quantity}) =>
-                          _onHandleParentAction(
-                        action: action,
-                        product: product,
-                        quantity: quantity,
-                      ),
-                    );
-                  },
+                return Column(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    XGridView(
+                      type: XGridViewType.masonry,
+                      itemCount: state!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(horizontal: 8.sp),
+                      crossAxisCount: context.isSmallScreen ? 1 : 2,
+                      crossAxisSpacing: 16.sp,
+                      mainAxisSpacing: 16.sp,
+                      itemBuilder: (context, index) {
+                        final ProductTable product = state[index];
+                        return ProductCartItemWidget(
+                          product: product,
+                          gifts: product.getGifts,
+                          attaches: product.getAttaches,
+                          productsCombo: product.productChildCombo ?? [],
+                          cartType: cartType,
+                          callBackChildAction: _onHandleChildAction,
+                          callBackParentAction: ({required action, quantity}) =>
+                              _onHandleParentAction(
+                            action: action,
+                            product: product,
+                            quantity: quantity,
+                          ),
+                        );
+                      },
+                    ),
+                    BoxSpacer.s16,
+                    _renderAddProductButton(cartType)
+                  ],
                 );
               }),
         );
       },
+    );
+  }
+
+  _renderAddProductButton(CartType cartType) {
+    return XButton(
+      onPressed: () => _onAddProduct(cartType),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.add, size: 18.sp, color: AppColors.white),
+          BoxSpacer.s8,
+          Text('Thêm sản phẩm', style: AppFont.t.w700.white),
+        ],
+      ),
     );
   }
 
@@ -113,7 +139,9 @@ class _ProductsBasicInformationWidgetState
     final res = await showXBottomSheet(
       context,
       key: GlobalAppKey.selectProductDialogKey,
-      maxHeight: 0.7.sh,
+      margin: EdgeInsets.zero,
+      borderRadius:
+          BorderRadius.only(topLeft: AppRadius.xxl, topRight: AppRadius.xxl),
       body: SearchProductDialog(
         cartType: cartType,
         isNeedInStock: true,
@@ -190,6 +218,9 @@ class _ProductsBasicInformationWidgetState
   _onAddGift(ProductTable product) async {
     final res = await showXBottomSheet(
       context,
+      margin: EdgeInsets.zero,
+      borderRadius:
+          BorderRadius.only(topLeft: AppRadius.xxl, topRight: AppRadius.xxl),
       key: GlobalAppKey.selectProductDialogKey,
       body: SearchProductDialog(
         isNeedInStock: true,
@@ -216,6 +247,9 @@ class _ProductsBasicInformationWidgetState
       res = await showXBottomSheet(
         context,
         key: GlobalAppKey.selectProductDialogKey,
+        margin: EdgeInsets.zero,
+        borderRadius:
+            BorderRadius.only(topLeft: AppRadius.xxl, topRight: AppRadius.xxl),
         body: FilterProductDialog(
           parentProductId: product.productId,
           productType: XItemType.attach,
@@ -227,6 +261,9 @@ class _ProductsBasicInformationWidgetState
       res = await showXBottomSheet(
         context,
         key: GlobalAppKey.selectProductDialogKey,
+        margin: EdgeInsets.zero,
+        borderRadius:
+            BorderRadius.only(topLeft: AppRadius.xxl, topRight: AppRadius.xxl),
         body: SearchProductDialog(
           isNeedInStock: true,
           parentProductId: product.productId,

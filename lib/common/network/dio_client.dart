@@ -9,7 +9,7 @@ class DioClient {
   static FutureOr<Dio> setup({
     required NetworkInterceptor interceptor,
     required String baseUrl,
-    required bool isProduct,
+    required bool isDioLog,
   }) async {
     final options = BaseOptions(
       headers: <String, dynamic>{
@@ -36,7 +36,7 @@ class DioClient {
     // }
 
     /// Print Log if current is not release mode
-    if (!isProduct) {
+    if (isDioLog) {
       dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,

@@ -86,8 +86,9 @@ class Configurations {
 
   String get version => _version;
 
-  bool get isProduct => true;
-  // bool get isProduct => _env == XEnvironment.prod;
+  bool get isProduct => _env == XEnvironment.prod;
+
+  bool get isDioLog => false;
 
   bool get isAnalyticAndCrashlytic => false;
 

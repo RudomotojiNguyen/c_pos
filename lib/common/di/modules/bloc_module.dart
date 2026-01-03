@@ -38,8 +38,11 @@ class BlocModule extends DIModule {
           storeServices: getIt.get<StoreServices>(),
           authBloc: getIt.get<AuthBloc>()))
       ..registerLazySingleton(() => SettingBloc())
-      ..registerLazySingleton(
-          () => GlobalCoreBloc(orderServices: getIt.get<OrderServices>()))
+      ..registerLazySingleton(() => GlobalCoreBloc(
+          orderServices: getIt.get<OrderServices>(),
+          companyServices: getIt.get<CompanyServices>(),
+          authBloc: getIt.get<AuthBloc>(),
+          localStorage: getIt.get<LocalStorage>()))
       ..registerFactory(
           () => AffiliateBloc(getIt.get<AffiliateCommissionServices>()))
       ..registerFactory(() => BillBloc(

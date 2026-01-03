@@ -58,7 +58,7 @@ class StoreModel {
 
   int get getStoreId => id ?? -1;
 
-  String get getStoreName => storeName ?? '';
+  String get getStoreName => name ?? storeName ?? '';
 
   String get getAddress => address ?? '';
 

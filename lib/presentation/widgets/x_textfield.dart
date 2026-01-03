@@ -79,6 +79,7 @@ class XTextField<T> extends StatefulWidget {
 
   final String? value;
   final Function()? onPress;
+  final BorderRadius? borderRadius;
 
   const XTextField({
     super.key,
@@ -129,6 +130,7 @@ class XTextField<T> extends StatefulWidget {
     this.time,
     this.value,
     this.onPress,
+    this.borderRadius,
   });
 
   @override
@@ -159,7 +161,8 @@ class XTextFieldState<T> extends State<XTextField<T>>
   final LinkedOverlayController _overlayController = LinkedOverlayController();
 
   /// get state
-  BorderRadius get getBorderRadius => BorderRadius.all(AppRadius.xxl);
+  BorderRadius get getBorderRadius =>
+      widget.borderRadius ?? BorderRadius.all(AppRadius.xxl);
 
   @override
   void initState() {

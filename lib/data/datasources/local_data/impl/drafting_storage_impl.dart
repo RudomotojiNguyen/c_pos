@@ -520,6 +520,7 @@ class DraftingStorageImpl extends DraftingStorage {
     required int cartId,
     String? saleNote,
     String? warrantyNote,
+    String? customerNote,
   }) async {
     DraftingInvoiceTable? currentDraft = await getCart(cartId);
     if (currentDraft == null) return null;
@@ -527,6 +528,7 @@ class DraftingStorageImpl extends DraftingStorage {
     await isar.writeTxn(() async {
       currentDraft.saleNote = saleNote;
       currentDraft.warrantyNote = warrantyNote;
+      currentDraft.customerNote = customerNote;
       // Lưu lại giỏ hàng với phương thức thanh toán mới
       await isar.draftingInvoiceTables.put(currentDraft);
     });

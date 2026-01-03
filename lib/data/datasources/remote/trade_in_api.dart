@@ -66,6 +66,6 @@ abstract class TradeInApi {
 
   /// Tìm sp theo Imei
   ///
-  @GET('tradeIn/mobile/check-imei?imei={imei}')
+  @GET('v1/tradeIn/mobile/check-imei')
   Future<BaseResponse> getProductByImei({@Query('imei') required String imei});
 }

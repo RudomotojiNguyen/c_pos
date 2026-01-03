@@ -7,10 +7,8 @@ class PaymentServicesImpl implements PaymentServices {
 
   @override
   Future<List<AccountantModel>> getAccountants(
-      {required int type, required int storeId, required int moduleType}) {
-    return paymentApi
-        .getAccountants(type: type, storeId: storeId, moduleType: moduleType)
-        .then(
+      {required int type, required int storeId}) {
+    return paymentApi.getAccountants(type: type, storeId: storeId).then(
       (value) {
         List<AccountantModel> data = [];
 

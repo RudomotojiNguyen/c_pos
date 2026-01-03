@@ -10,9 +10,6 @@ class PaymentMethodOfBillWidget extends StatefulWidget {
 
 class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     with DialogHelper {
-  static final GlobalKey<XBaseButtonState> baseButtonKey =
-      GlobalKey<XBaseButtonState>();
-
   final DraftingInvoiceBloc _draftingInvoiceBloc =
       getIt.get<DraftingInvoiceBloc>();
   final PaymentBloc _paymentBloc = getIt.get<PaymentBloc>();
@@ -55,15 +52,13 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
               Icon(Icons.wallet, size: 18.sp, color: AppColors.neutral3Color),
           title: 'Phương thức thanh toán',
           rightIcon: XBaseButton(
-            key: baseButtonKey,
             baseButtonType: BaseButtonType.tapOperation,
-            // secondaryWidget: _widgetAddMethod(),
             secondaryWidgetBuilder: (closeOverlay) =>
                 _widgetAddMethod(closeOverlay),
             child: Icon(
               Icons.add_circle_rounded,
-              color: AppColors.primaryColor,
-              size: 24.sp,
+              color: AppColors.iconColor,
+              size: 18.sp,
             ),
           ),
           child: Column(
@@ -74,7 +69,6 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
               _payByCash(),
               _payByCredit(),
               _payByTransfer(),
-              // _payByInstallment(),
             ],
           ),
         );
@@ -331,8 +325,8 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     _paymentBloc.add(GetCashAccountsEvent(storeId: storeId));
 
     /// todo: check
-    // _paymentBloc.add(GetTransferAccountsEvent(cartType: cartType));
-    // _paymentBloc.add(GetCreditAccountsEvent(cartType: cartType));
+    _paymentBloc.add(GetTransferAccountsEvent(storeId: storeId));
+    _paymentBloc.add(GetCreditAccountsEvent(storeId: storeId));
 
     _paymentBloc.add(GetInstallmentAccountsEvent());
     _paymentBloc.add(GetPaymentEnumEvent());
@@ -343,7 +337,6 @@ class _PaymentMethodOfBillWidgetState extends State<PaymentMethodOfBillWidget>
     required PaymentType paymentType,
     PaymentMethodTable? paymentMethod,
   }) {
-    baseButtonKey.currentState?.removeOverlay();
     showXBottomSheet(
       context,
       key: GlobalAppKey.methodDialogKey,

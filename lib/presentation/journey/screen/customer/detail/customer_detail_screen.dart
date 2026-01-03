@@ -87,12 +87,12 @@ class _CustomerDetailScreenState extends XStateWidget<CustomerDetailScreen> {
           current is GetCustomerDetailSuccess || current is UpdateIsLoading,
       builder: (context, state) {
         if (state is UpdateIsLoading) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                XLoading(),
+                SizedBox(width: 20.sp, height: 20.sp, child: const XLoading()),
               ],
             ),
           );

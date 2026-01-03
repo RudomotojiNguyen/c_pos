@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../data/datasources/local_data/local_data.dart';
 import '../../../../../data/models/auth_model.dart';
+import '../../../../../data/models/company_model.dart';
+import '../../../../../data/models/store_model.dart';
 import '../../../../../data/services/services.dart';
 import '../../../../mixins/logger_helper.dart';
 import '../../../../widgets/widgets.dart';
@@ -42,6 +44,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     /// thay đổi mật khẩu
     on<ChangePasswordEvent>(_onChangePassword);
+
+    /// cập nhật thông tin cửa hàng hiện tại
+    on<UpdateCurrentUserStoreEvent>(_onUpdateCurrentUserStore);
+
+    /// cập nhật thông tin công ty hiện tại
+    on<UpdateCurrentUserCompanyEvent>(_onUpdateCurrentUserCompany);
+  }
+
+  FutureOr<void> _onUpdateCurrentUserStore(
+      UpdateCurrentUserStoreEvent event, Emitter<AuthState> emit) async {
+    emit(UpdateCurrentUserStoreSuccess(
+        state: state, currentUserStore: event.store));
+  }
+
+  FutureOr<void> _onUpdateCurrentUserCompany(
+      UpdateCurrentUserCompanyEvent event, Emitter<AuthState> emit) async {
+    await localStorage.setCompanyId(companyId: event.company.id?.toString());
+    emit(UpdateCurrentUserCompanySuccess(
+        state: state, userCompany: event.company));
   }
 
   FutureOr<void> _onChangePassword(
@@ -71,9 +92,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         final auth = AuthModel(
           userId: user.userId,
-          // storeId: user.storeId,
-          // storeName: user.storeName,
-          // employeeId: user.employeeId,
           isActive: user.isActive,
           accessToken: token,
           employee: EmployeeModel(
@@ -129,6 +147,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final user = await userStorage.getUser();
       await Future.wait([
         localStorage.deleteAccessToken(),
+        localStorage.deleteCompanyId(),
         userStorage.deleteUser(user),
         localStorage.deleteRefreshToken(),
         draftingStorage.clearCart(),

@@ -22,4 +22,11 @@ abstract class LocalStorage {
   Future<void> deleteRefreshToken();
 
   Future<void> setRefreshToken({String? token});
+
+  /// company id
+  Future<String?> getCompanyId();
+
+  Future<void> setCompanyId({String? companyId});
+
+  Future<void> deleteCompanyId();
 }

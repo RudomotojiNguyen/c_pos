@@ -82,7 +82,7 @@ class _SearchProductDialogState extends State<SearchProductDialog> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: 280.sp,
+          width: 320.sp,
           child: BlocBuilder<SearchProductBloc, SearchProductState>(
             bloc: _searchProductBloc,
             buildWhen: (previous, current) =>

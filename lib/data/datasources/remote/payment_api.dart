@@ -19,7 +19,6 @@ abstract class PaymentApi {
   Future<BaseResponse> getAccountants({
     @Query('type') required int type,
     @Query('storeId') required int storeId,
-    @Query('moduleType') required int moduleType,
   });
 
   /// lấy tài khoản tiền mặt thanh toán

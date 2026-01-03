@@ -56,16 +56,11 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
         if (state == null) {
           return XBaseButton(
             onPressed: onPressedEdit,
-            child: Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
+            child:
+                Icon(Icons.add_circle, size: 18.sp, color: AppColors.iconColor),
           );
         }
-        return XBaseButton(
-          onPressed: clearDiscount,
-          child: Assets.svg.remove.svg(
-            width: 24.sp,
-            height: 24.sp,
-          ),
-        );
+        return BoxSpacer.blank;
       },
     );
   }
@@ -78,26 +73,30 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
         if (state == null) {
           return BoxSpacer.blank;
         }
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
-          decoration: BoxDecoration(
-            color: AppColors.lightGreyColor,
-            borderRadius: BorderRadius.all(AppRadius.l),
-          ),
-          child: Row(
-            children: [
-              _contentDiscount(
-                discountAmount: state,
-                couponCode: _draftingInvoiceBloc.state.couponDiscountCode,
-              ),
-              BoxSpacer.s16,
-              XBaseButton(
+        return Row(
+          children: [
+            Expanded(
+              child: XBaseButton(
                 onPressed: onPressedEdit,
-                child:
-                    Icon(Icons.edit, size: 18.sp, color: AppColors.iconColor),
+                padding:
+                    EdgeInsets.symmetric(vertical: 16.sp, horizontal: 16.sp),
+                decoration: BoxDecoration(
+                  color: AppColors.lightGreyColor,
+                  borderRadius: BorderRadius.all(AppRadius.l),
+                ),
+                child: _contentDiscount(
+                  discountAmount: state,
+                  couponCode: _draftingInvoiceBloc.state.couponDiscountCode,
+                ),
               ),
-            ],
-          ),
+            ),
+            BoxSpacer.s16,
+            XBaseButton(
+              onPressed: clearDiscount,
+              child: Icon(Icons.remove_circle,
+                  size: 18.sp, color: AppColors.iconColor),
+            ),
+          ],
         );
       },
     );
@@ -163,6 +162,7 @@ class _PromotionWidgetState extends State<PromotionWidget> with DialogHelper {
         products: state.products ?? [],
         couponCode: state.couponDiscountCode,
         discountAmount: state.discountTotalBill,
+        maxAmountDiscount: state.totalPriceNoneDiscount,
         callBack: (String? couponCode, double? discountAmount) {
           _draftingInvoiceBloc.add(
             SetDiscountTotalBillInfoEvent(

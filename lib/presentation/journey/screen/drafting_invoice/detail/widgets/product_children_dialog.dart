@@ -145,7 +145,9 @@ class _ProductChildrenDialogState extends State<ProductChildrenDialog>
     final res = await showXBottomSheet(
       context,
       key: GlobalAppKey.selectProductDialogKey,
-      maxHeight: 0.7.sh,
+      margin: EdgeInsets.zero,
+      borderRadius:
+          BorderRadius.only(topLeft: AppRadius.xxl, topRight: AppRadius.xxl),
       body: SearchProductDialog(
         productType: XItemType.main,
         cartType: CartType.retail,

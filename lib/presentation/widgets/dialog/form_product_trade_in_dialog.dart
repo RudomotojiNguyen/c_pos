@@ -16,9 +16,11 @@ import '../../theme/themes.dart';
 import '../widgets.dart';
 
 class FormProductTradeInDialog extends StatefulWidget {
-  const FormProductTradeInDialog({super.key, required this.onResult});
+  const FormProductTradeInDialog(
+      {super.key, required this.onResult, this.productTradeIn});
 
   final Function(ProductTable product) onResult;
+  final ProductTable? productTradeIn;
 
   @override
   State<FormProductTradeInDialog> createState() =>
@@ -44,6 +46,11 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
   @override
   void initState() {
     super.initState();
+    if (widget.productTradeIn != null) {
+      isImeiExist.value = true;
+      _imeiController.text = widget.productTradeIn!.getImei;
+      _productController.value = widget.productTradeIn;
+    }
   }
 
   @override
@@ -96,7 +103,7 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
               }
               if (getImeiStr.isNullOrEmpty) {
                 XToast.showNegativeMessage(
-                    message: 'Vui lòng nhập imei sản phẩm');
+                    message: 'Vui lòng nhập IEMI sản phẩm');
                 return;
               }
               value.imei = ProductImeiModel(imeiNo: getImeiStr);
@@ -116,14 +123,14 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
   Widget _inputImei() {
     return XTextField(
       labelText: '',
-      hintText: 'Nhập imei sản phẩm',
+      hintText: 'Nhập IEMI sản phẩm',
       controller: _imeiController,
       autoFocus: true,
       isRequired: true,
       onChanged: (value) => _onChangeImei(value),
       validator: (imeiResult) {
         if (imeiResult.isNullOrEmpty) {
-          return 'Vui lòng nhập imei sản phẩm';
+          return 'Vui lòng nhập IEMI sản phẩm';
         }
         return null;
       },
@@ -160,8 +167,9 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
                     color: AppColors.white,
                     borderRadius: BorderRadius.all(AppRadius.xxm),
                   ),
-                  child: const Center(
-                    child: XLoading(),
+                  child: Center(
+                    child: SizedBox(
+                        width: 20.sp, height: 20.sp, child: const XLoading()),
                   ),
                 );
               }
@@ -276,8 +284,7 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
       body: SearchProductTradeInDialog(
         searchStr: searchStr,
         onResult: (ProductModel product) {
-          _productController.value =
-              product.convertToTable(itemType: XItemType.main);
+          _onSelectProduct(product);
         },
       ),
     );
@@ -286,7 +293,7 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
   _onChangeImei(String imei) {
     isImeiExist.value = true;
     _imeiController.text = imei;
-    _productController.value = null;
+    _onSelectProduct(null);
 
     if (_timerCheckImei?.isActive ?? false) _timerCheckImei?.cancel();
     _timerCheckImei =
@@ -297,18 +304,17 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
       _isLoadingProduct.value = true;
       _tradeInServices.getProductByImei(imei).then((value) {
         final (isEstimateCost, isSoldByCompany, product) = value;
-        if (mounted) {
-          _isLoadingProduct.value = false;
-          if (product.id != null && product.id!.isNotEmpty) {
-            _productController.value =
-                product.convertToTable(itemType: XItemType.main);
-          }
-        }
+        _isLoadingProduct.value = false;
+
+        _onSelectProduct(product);
       }).catchError((error) {
-        if (mounted) {
-          _isLoadingProduct.value = false;
-        }
+        _isLoadingProduct.value = false;
       });
     });
+  }
+
+  _onSelectProduct(ProductModel? product) {
+    _productController.value =
+        product?.convertToTable(itemType: XItemType.main);
   }
 }

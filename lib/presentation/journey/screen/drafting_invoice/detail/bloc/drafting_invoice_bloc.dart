@@ -1044,6 +1044,7 @@ class DraftingInvoiceBloc
         cartId: currentDraftId,
         saleNote: event.saleNote,
         warrantyNote: event.warrantyNote,
+        customerNote: event.customerNote,
       );
 
       if (res != null) {
@@ -1052,6 +1053,7 @@ class DraftingInvoiceBloc
             state: state,
             warrantyNote: res.warrantyNote,
             saleNote: res.saleNote,
+            customerNote: res.customerNote,
           ),
         );
       }
