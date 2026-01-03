@@ -271,6 +271,7 @@ class ProductItemSearchDialog extends StatelessWidget {
     required this.productCode,
     required this.productImage,
     required this.productPrice,
+    this.discountValue,
     this.onPressed,
     this.onRemove,
     required this.isNeedInStock,
@@ -283,6 +284,7 @@ class ProductItemSearchDialog extends StatelessWidget {
   final String productCode;
   final String productImage;
   final double productPrice;
+  final double? discountValue;
   final Function()? onPressed;
   final Function()? onRemove;
   final bool isNeedInStock;
@@ -357,10 +359,11 @@ class ProductItemSearchDialog extends StatelessWidget {
           ),
           if (!isDisable) ...[
             BoxSpacer.s4,
-            Text(
-              productPrice.formatCurrency,
-              style: AppFont.t.s().primaryColor,
-            ),
+            // Text(
+            //   productPrice.formatCurrency,
+            //   style: AppFont.t.s().primaryColor,
+            // ),
+            _renderPrice(),
           ],
           if (isDisable) ...[
             BoxSpacer.s4,
@@ -373,6 +376,35 @@ class ProductItemSearchDialog extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+
+  Widget _renderPrice() {
+    double firstPrice = productPrice;
+    double secondPrice = discountValue ?? 0;
+
+    if (secondPrice > 0 && secondPrice <= firstPrice) {
+      secondPrice = firstPrice - secondPrice;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            secondPrice.formatCurrency,
+            style: AppFont.t.s().primaryColor,
+          ),
+          Text(
+            firstPrice.formatCurrency,
+            style: AppFont.t.s().neutral3.lineThrough,
+          ),
+        ],
+      );
+    }
+
+    return Text(
+      firstPrice.formatCurrency,
+      style: AppFont.t.s().neutral3,
     );
   }
 

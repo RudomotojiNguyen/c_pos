@@ -83,6 +83,7 @@ class _ProductCartItemWidgetState extends State<ProductCartItemWidget> {
       XProductOperationAction.note,
       XProductOperationAction.remove,
       XProductOperationAction.discountByHand,
+      XProductOperationAction.addProductWarranty,
     ];
     if (widget.product.productType == ProductType.imei) {
       /// thêm imei

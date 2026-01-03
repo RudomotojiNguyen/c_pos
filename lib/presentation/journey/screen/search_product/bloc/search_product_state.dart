@@ -70,3 +70,15 @@ final class GetProductsSuccess extends SearchProductState {
           searchValue: searchText ?? state.searchValue,
         );
 }
+
+final class GetWarrantyProductsSuccess extends SearchProductState {
+  final List<ProductModel> productsWarranty;
+  GetWarrantyProductsSuccess(
+      {required SearchProductState state, required this.productsWarranty})
+      : super(
+          searchType: state.searchType,
+          products: state.products,
+          pageInfo: state.pageInfo,
+          searchValue: state.searchValue,
+        );
+}

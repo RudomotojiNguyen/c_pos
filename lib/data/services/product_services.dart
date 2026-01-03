@@ -92,4 +92,8 @@ abstract class ProductServices {
     required String productId,
     int? storeId,
   });
+
+  Future<List<ProductModel>> getWarrantyProductForSale({
+    required String productId,
+  });
 }

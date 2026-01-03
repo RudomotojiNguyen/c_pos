@@ -165,4 +165,9 @@ abstract class ProductApi {
     @Query('referenceType') int? referenceType,
     @Query('referenceId') String? referenceId,
   });
+
+  /// sản phẩm gói bảo hành
+  @GET('v1/product-promotion/warranty')
+  Future<BaseResponse> getWarrantyProductForSale(
+      {@Query('productId') required String productId});
 }

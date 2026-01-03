@@ -357,4 +357,20 @@ class ProductServicesImpl implements ProductServices {
 
     return data;
   }
+
+  @override
+  Future<List<ProductModel>> getWarrantyProductForSale({
+    required String productId,
+  }) async {
+    final res =
+        await productApi.getWarrantyProductForSale(productId: productId);
+
+    List<ProductModel> data = [];
+
+    for (var item in res.data) {
+      data.add(ProductModel.fromJson(item));
+    }
+
+    return data;
+  }
 }

@@ -293,7 +293,15 @@ class ProductModel {
 
   int get getStockQuantity => totalQuantityInStock ?? 0;
 
-  double get getDiscountPrice => discountPrice ?? 0;
+  double get getDiscountPrice {
+    if (discountPrice != null && discountPrice! > 0) {
+      return discountPrice!;
+    }
+    if (discountValue != null && discountValue! > 0) {
+      return discountValue!;
+    }
+    return 0;
+  }
 
   double get getDiscountAmount {
     if ((discountAmount ?? 0) <= 0) {

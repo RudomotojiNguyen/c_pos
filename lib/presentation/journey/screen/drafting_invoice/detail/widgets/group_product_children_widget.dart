@@ -104,7 +104,7 @@ class GroupProductChildrenDetailDialog extends StatelessWidget {
           productImage: product.getImageThumbnail,
           sellingPrice: product.getSellingPrice,
           barCode: product.getBarCode,
-          discountPrice: product.getDiscountPrice,
+          discountPrice: product.discountValue ?? product.getDiscountPrice,
           quantity: product.getQuantity,
           baseButtonType: BaseButtonType.tapOperation,
           decorationChildIsOverlay: BoxDecoration(

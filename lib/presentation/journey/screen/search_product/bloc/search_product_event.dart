@@ -58,3 +58,11 @@ final class LoadMoreProductsEvent extends SearchProductEvent {
     this.referenceId,
   });
 }
+
+final class SearchWarrantyProductsEvent extends SearchProductEvent {
+  final String? parentProductId;
+
+  SearchWarrantyProductsEvent({
+    this.parentProductId,
+  });
+}

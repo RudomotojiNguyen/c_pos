@@ -49,6 +49,28 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
 
     /// lấy thêm thông tin sản phẩm
     on<LoadMoreProductsEvent>(_onLoadMoreProducts);
+
+    /// tìm kiếm sản phẩm bảo hành
+    on<SearchWarrantyProductsEvent>(_onSearchWarrantyProducts);
+  }
+
+  FutureOr<void> _onSearchWarrantyProducts(SearchWarrantyProductsEvent event,
+      Emitter<SearchProductState> emit) async {
+    try {
+      emit(SearchLoading(state: state));
+      List<ProductModel> productsWarranty = await productServices
+          .getWarrantyProductForSale(productId: event.parentProductId ?? '');
+      emit(GetWarrantyProductsSuccess(
+        state: state,
+        productsWarranty: productsWarranty,
+      ));
+    } catch (e) {
+      _loggerHelper.logError(message: 'SearchWarrantyProductsEvent', obj: e);
+      emit(GetWarrantyProductsSuccess(
+        state: state,
+        productsWarranty: const [],
+      ));
+    }
   }
 
   FutureOr<void> _onChangeSearchType(

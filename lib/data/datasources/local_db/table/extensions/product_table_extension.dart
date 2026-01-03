@@ -51,6 +51,9 @@ extension ProductTableExtension on ProductTable {
     if (discountPrice != null && discountPrice! > 0) {
       return discountPrice!;
     }
+    if (discountValue != null && discountValue! > 0) {
+      return discountValue!;
+    }
     if (discountType == XDiscountType.amount.value) {
       result = discountAmount;
     }

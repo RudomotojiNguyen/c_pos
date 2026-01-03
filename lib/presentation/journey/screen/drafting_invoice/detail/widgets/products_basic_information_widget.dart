@@ -49,14 +49,6 @@ class _ProductsBasicInformationWidgetState
           iconTitle: Icon(Icons.shopping_bag,
               size: 18.sp, color: AppColors.neutral3Color),
           title: 'Sản phẩm',
-          // rightIcon: XBaseButton(
-          //   onPressed: () => _onAddProduct(cartType),
-          //   child: Icon(
-          //     Icons.add_circle_rounded,
-          //     color: AppColors.primaryColor,
-          //     size: 24.sp,
-          //   ),
-          // ),
           child: BlocSelector<DraftingInvoiceBloc, DraftingInvoiceState,
                   List<ProductTable>?>(
               bloc: _draftingInvoiceBloc,
@@ -76,7 +68,6 @@ class _ProductsBasicInformationWidgetState
                 }
 
                 return Column(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     XGridView(
                       type: XGridViewType.masonry,
@@ -358,8 +349,29 @@ class _ProductsBasicInformationWidgetState
       case XProductOperationAction.addProductCombo:
         _onAddProductCombo(product);
         break;
+      case XProductOperationAction.addProductWarranty:
+        _onAddProductWarranty(product);
+        break;
       default:
         break;
+    }
+  }
+
+  _onAddProductWarranty(ProductTable product) async {
+    final res = await showXBottomSheet(
+      context,
+      key: GlobalAppKey.selectProductDialogKey,
+      margin: EdgeInsets.zero,
+      borderRadius:
+          BorderRadius.only(topLeft: AppRadius.xxl, topRight: AppRadius.xxl),
+      body: SearchProductWarantyDialog(parentProductId: product.productId),
+    );
+
+    if (res != null) {
+      _draftingInvoiceBloc.add(AddProductAttachEvent(
+        product: res,
+        parentProductId: product.id,
+      ));
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../common/constants/app_constants.dart';
 import '../../common/utils/validation_utils.dart';
 import 'widgets.dart';
 
@@ -74,7 +75,7 @@ class XImage extends StatelessWidget with ValidationHelper {
         width: size.width,
         height: size.height,
       ),
-      errorWidget: errorWidget,
+      errorWidget: errorWidget ?? _buildErrorImage,
     );
   }
 
@@ -126,5 +127,22 @@ class XImage extends StatelessWidget with ValidationHelper {
     //   width: size.width,
     //   height: size.height,
     // );
+  }
+
+  Widget _buildErrorImage(
+    BuildContext context,
+    String url,
+    Object error,
+  ) {
+    return CachedNetworkImage(
+      fit: fit ?? BoxFit.cover,
+      imageUrl: AppConstants.defaultImage,
+      width: width ?? size.width,
+      height: height ?? size.height,
+      placeholder: (_, __) => XPlaceHolder(
+        width: size.width,
+        height: size.height,
+      ),
+    );
   }
 }

@@ -125,6 +125,7 @@ class _FilterProductDialogState extends State<FilterProductDialog> {
                       productName: product.getName,
                       productCode: product.getBarCode,
                       productImage: product.getImageThumbnail,
+                      discountValue: product.getDiscountPrice,
                       productPrice: widget.referenceId.isNotNullOrEmpty
                           ? product.getListedPrice
                           : product.getSellingPrice,

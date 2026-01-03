@@ -25,6 +25,7 @@ enum XProductOperationAction {
   voucher, // thêm voucher
   removeVoucher, // xóa voucher
   addProductCombo, // thêm sản phẩm combo
+  addProductWarranty, // thêm sản phẩm bảo hành
 }
 
 extension XProductOperationActionExtension on XProductOperationAction {
@@ -64,6 +65,8 @@ extension XProductOperationActionExtension on XProductOperationAction {
         return 'Voucher';
       case XProductOperationAction.addProductCombo:
         return 'Thêm sản phẩm con';
+      case XProductOperationAction.addProductWarranty:
+        return 'Thêm gói bảo hành';
       default:
         return '';
     }
@@ -143,6 +146,12 @@ extension XProductOperationActionExtension on XProductOperationAction {
       case XProductOperationAction.addProductCombo:
         return Icon(
           Icons.add_outlined,
+          color: AppColors.iconColor,
+          size: 20.sp,
+        );
+      case XProductOperationAction.addProductWarranty:
+        return Icon(
+          Icons.health_and_safety_outlined,
           color: AppColors.iconColor,
           size: 20.sp,
         );

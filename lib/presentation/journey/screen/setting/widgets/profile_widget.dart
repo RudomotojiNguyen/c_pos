@@ -52,23 +52,32 @@ class _ProfileWidgetState extends State<ProfileWidget> with DialogHelper {
       selector: (state) => state.userCompany,
       builder: (context, state) {
         if (state == null) return BoxSpacer.blank;
-        return XBaseButton(
-          onPressed: () => _buildUserCompanyOverlay(context, state),
-          padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(AppRadius.l),
-            border: Border.all(color: AppColors.neutral3Color, width: 1.sp),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(state.getName, style: AppFont.t.s(10)),
-              Icon(Icons.arrow_drop_down,
-                  size: 12.sp, color: AppColors.iconColor),
-            ],
-          ),
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.business, size: 12.sp, color: AppColors.iconColor),
+            BoxSpacer.s8,
+            XBaseButton(
+              onPressed: () => _buildUserCompanyOverlay(context, state),
+              padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(AppRadius.l),
+                border: Border.all(color: AppColors.neutral3Color, width: 1.sp),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(state.getName, style: AppFont.t.s(10)),
+                  Icon(Icons.arrow_drop_down,
+                      size: 12.sp, color: AppColors.iconColor),
+                ],
+              ),
+            ),
+          ],
         );
       },
     );
