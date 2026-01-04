@@ -24,12 +24,4 @@ abstract class CouponApi {
     @Query('size') required int size,
     @Query('customerId') int? customerId,
   });
-
-  /// lấy thông tin giảm giá
-  ///
-  @GET('discount-programs/by-product/{id}/{storeId}')
-  Future<BaseResponse> getProductDiscount({
-    @Path() required String id,
-    @Path() required int storeId,
-  });
 }

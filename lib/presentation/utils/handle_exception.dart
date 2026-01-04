@@ -11,6 +11,9 @@ mixin HandleException {
     debugPrint('>>>>> HandleException: ${e.toString()}');
     if (e is String) {
       XToast.showNegativeMessage(message: e.toString());
+    } else if (e is DioException) {
+      XToast.showNegativeMessage(
+          message: e.response?.data['message'] ?? 'Lỗi không xác định');
     } else if (e is FetchDataException) {
       XToast.showNegativeMessage(message: e.message);
     } else if (e is DioException && e is SocketException) {

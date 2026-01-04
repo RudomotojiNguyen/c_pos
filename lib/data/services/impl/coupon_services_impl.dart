@@ -28,14 +28,6 @@ class CouponServicesImpl implements CouponServices {
   }
 
   @override
-  Future<DiscountProgramModel> getProductDiscount(
-      {required String id, required int storeId}) {
-    return couponApi.getProductDiscount(id: id, storeId: storeId).then(
-          (value) => DiscountProgramModel.fromJson(value.data),
-        );
-  }
-
-  @override
   Future<List<CouponModel>> searchCoupon(
       {required List<ProductTable> products,
       int? storeId,

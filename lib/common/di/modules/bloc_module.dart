@@ -65,6 +65,7 @@ class BlocModule extends DIModule {
             billServices: getIt.get<BillServices>(),
             orderServices: getIt.get<OrderServices>(),
             tradeInServices: getIt.get<TradeInServices>(),
+            programServices: getIt.get<ProgramServices>(),
           ))
       ..registerLazySingleton(() =>
           DraftingInvoicesBloc(draftingStorage: getIt.get<DraftingStorage>()))

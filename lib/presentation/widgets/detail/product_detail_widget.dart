@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/configs/box.dart';
-import '../../../common/enum/enum.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../mixins/mixins.dart';
 import '../../theme/themes.dart';
-import '../../utils/utils.dart';
 import '../widgets.dart';
 
 class ProductDetailWidget extends StatefulWidget {
@@ -44,36 +42,25 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final ProductModel product = widget.products[index];
-                List<XProductOperationAction> productOperationActions = [
-                  // XProductOperationAction.detail,
-                  XProductOperationAction.copyData,
-                ];
 
                 return ProductItemDetailWidget(
                   productName: product.getName,
                   productImei: product.imeiNo ?? '',
                   productImage: product.getImageThumbnail,
-                  sellingPrice: product.getSellingPrice,
+                  sellingPrice: product.sellingPrice ?? 0,
                   discountPrice: product.getDiscountPrice,
                   reason: product.reasonName,
                   quantity: product.quantity ?? 0,
                   attachs: product.attachs ?? [],
                   gifts: product.gifts ?? [],
                   productsCombo: product.productsCombo ?? [],
-                  baseButtonType: BaseButtonType.tapOperation,
+                  baseButtonType: BaseButtonType.basic,
                   decorationChildIsOverlay: BoxDecoration(
                     borderRadius: BorderRadius.all(AppRadius.l),
                     color: AppColors.white,
                   ),
                   paddingChildIsOverlay:
                       EdgeInsets.symmetric(vertical: 8.sp, horizontal: 8.sp),
-                  productOperationActions: productOperationActions,
-                  onPressed: ({action}) =>
-                      _onHandleParrentAction(action: action, product: product),
-                  onPressedChild: ({required action, required productChild}) =>
-                      _onHandleChildAction(
-                          action: action, productChild: productChild),
-                  baseButtonTypeChild: BaseButtonType.tapOperation,
                   decorationChildIsOverlayChild: BoxDecoration(
                     borderRadius: BorderRadius.all(AppRadius.l),
                     color: AppColors.white,
@@ -89,34 +76,5 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
         ],
       ),
     );
-  }
-
-  _onHandleChildAction(
-      {required XProductOperationAction action,
-      required ProductModel productChild}) {
-    // if (action == XProductOperationAction.detail) {
-    //   _router.pushNamed(
-    //     context,
-    //     routeName: RouteName.productDetail,
-    //     queryParameters: {'productId': productChild.id.toString()},
-    //   );
-    // }
-    if (action == XProductOperationAction.copyData) {
-      Utils.copyToClipboard(context, text: productChild.getDataCopy);
-    }
-  }
-
-  _onHandleParrentAction(
-      {XProductOperationAction? action, required ProductModel product}) {
-    // if (action == XProductOperationAction.detail) {
-    //   _router.pushNamed(
-    //     context,
-    //     routeName: RouteName.productDetail,
-    //     queryParameters: {'productId': product.id.toString()},
-    //   );
-    // }
-    if (action == XProductOperationAction.copyData) {
-      Utils.copyToClipboard(context, text: product.getDataCopy);
-    }
   }
 }

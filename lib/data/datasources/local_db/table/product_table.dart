@@ -77,9 +77,14 @@ class ProductTable {
   String?
       flexibleComboItemId; //id của các item bên trong sp combo không phải sp thêm vào
   int? productInComboQuantity;
+
+  ///
   int? discountProgramId;
   int discountType = 1;
   double discountAmount = 0;
+  String? discountProgramName;
+
+  ///
   double? discountPrice;
 
   ///Giảm giá bằng tay
@@ -205,6 +210,7 @@ class ProductTable {
     this.totalQuantityInStore,
     this.discountProgramId,
     this.discountPrice,
+    this.discountProgramName,
     this.discountByHandStr,
     this.warrantyPackageId,
     this.repurchasePrice,

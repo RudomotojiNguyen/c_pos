@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:c_pos/common/extensions/extension.dart';
 import 'package:c_pos/presentation/mixins/logger_helper.dart';
 import 'package:c_pos/presentation/widgets/widgets.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -14,15 +13,18 @@ import '../../../../../../data/datasources/local_db/local_db.dart';
 import 'package:c_pos/data/models/models.dart';
 import '../../../../../../data/models/employee_sub_detail_model.dart';
 import '../../../../../../data/services/services.dart';
+import '../../../../../utils/handle_exception.dart';
 import '../../../../../utils/utils.dart';
 
 part 'drafting_invoice_event.dart';
 part 'drafting_invoice_state.dart';
 
 class DraftingInvoiceBloc
-    extends Bloc<DraftingInvoiceEvent, DraftingInvoiceState> {
+    extends Bloc<DraftingInvoiceEvent, DraftingInvoiceState>
+    with HandleException {
   final ProductServices productServices;
   final TradeInServices tradeInServices;
+  final ProgramServices programServices;
   final BillServices billServices;
   final OrderServices orderServices;
 
@@ -36,6 +38,7 @@ class DraftingInvoiceBloc
     required this.billServices,
     required this.orderServices,
     required this.tradeInServices,
+    required this.programServices,
   }) : super(DraftingInvoiceInitial(
           totalPriceNoneDiscount: 0,
           totalDiscountPriceOfBillItem: 0,
@@ -438,11 +441,46 @@ class DraftingInvoiceBloc
             message: 'AddProductFromSearchToCartEvent', obj: e);
       }
 
+      /// gọi api kiểm tra lại chương trình chiết khấu
+      String productId = event.product.id ?? '';
+
+      /// lấy id cửa hàng hiện tại
+      int storeId = state.currentStore?.id ?? 0;
+
+      /// lấy danh sách id sản phẩm trong đơn
+      List<String> productIds = [];
+      for (var product in state.products ?? []) {
+        productIds.add(product.productId ?? '');
+      }
+
+      try {
+        DiscountProgramModel? programDiscount =
+            await programServices.checkProgramDiscount(
+          productId: productId,
+          storeId: storeId,
+          productIds: productIds,
+        );
+
+        if (programDiscount != null) {
+          product
+            ..discountProgramId = programDiscount.id
+            ..discountType = programDiscount.discountType ?? 1
+            ..discountAmount = programDiscount.discountAmount ?? 0
+            ..discountProgramName = programDiscount.name;
+        }
+      } catch (e) {
+        _loggerHelper.logError(
+          message: 'AddProductFromSearchToCartEvent',
+          obj: e,
+        );
+      }
+
+      /// format lại quà tặng
       List<ProductTable> gifts = resGifts
           .map((e) => e.convertToTable(itemType: XItemType.gift))
           .toList();
 
-      // gọi tới service storage để lưu product
+      /// gọi tới service storage để lưu product
       final res = await _addItemToCart(
         product: product,
         cartId: state.currentDraftId!,
@@ -607,14 +645,9 @@ class DraftingInvoiceBloc
       } else {
         emit(CreateFailed(state: state));
       }
-    } on DioException catch (e) {
-      emit(CreateFailed(state: state));
-      BaseResponse response = BaseResponse.fromErrorJson(e.response!.data);
-      XToast.showNegativeMessage(
-          message: response.message ?? 'Lỗi không xác định');
     } catch (e) {
+      handleResponseException(e, key: 'SubmitTradeInBillEvent');
       emit(CreateFailed(state: state));
-      XToast.showNegativeMessage(message: e.toString());
     } finally {
       XToast.closeAllLoading();
     }
@@ -999,9 +1032,8 @@ class DraftingInvoiceBloc
         draftingStorage.removeCartById(cart.id);
       }
     } catch (e) {
+      handleResponseException(e, key: 'SubmitDraftEvent');
       emit(CreateFailed(state: state));
-      XToast.showNegativeMessage(message: e.toString());
-      _loggerHelper.logError(message: 'SubmitDraftEvent', obj: e);
     } finally {
       XToast.closeAllLoading();
     }

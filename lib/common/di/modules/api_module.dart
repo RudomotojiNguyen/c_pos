@@ -39,6 +39,7 @@ class ApiModule extends DIModule {
       ..registerLazySingleton(() => TradeInApi(dio))
       ..registerLazySingleton(() => VoucherApi(dio))
       ..registerLazySingleton(() => CompanyApi(dio))
+      ..registerLazySingleton(() => ProgramApi(dio))
       ..registerLazySingleton(() => FileApi(dio));
   }
 }
