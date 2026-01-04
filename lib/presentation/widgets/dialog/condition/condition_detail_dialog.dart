@@ -40,17 +40,18 @@ class _ConditionDetailDialogState extends State<ConditionDetailDialog> {
               current is GetCommissionDetailSuccess,
           builder: (context, state) {
             if (state is GetCommissionDetailLoading) {
-              return SizedBox(
-                width: 20.sp,
-                height: 20.sp,
-                child: const XLoading(),
+              return const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  XLoading(),
+                ],
               );
             }
 
             CommissionDetailModel? detail =
                 state is GetCommissionDetailSuccess ? state.detail : null;
 
-            // ignore: unnecessary_null_comparison
             if (detail == null) {
               return const EmptyDataWidget(emptyMessage: 'Không có dữ liệu');
             }

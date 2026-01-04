@@ -164,6 +164,10 @@ class XTextFieldState<T> extends State<XTextField<T>>
   BorderRadius get getBorderRadius =>
       widget.borderRadius ?? BorderRadius.all(AppRadius.xxl);
 
+  Color get getInputColor =>
+      widget.backgroundColor ??
+      (widget.isEditMode ? AppColors.white : AppColors.disabledColor);
+
   @override
   void initState() {
     super.initState();
@@ -384,7 +388,7 @@ class XTextFieldState<T> extends State<XTextField<T>>
             width: 1.sp,
             color: AppColors.dividerColor.withValues(alpha: .5),
           ),
-          color: AppColors.white,
+          color: getInputColor,
         ),
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 16.sp),
@@ -575,6 +579,7 @@ class XTextFieldState<T> extends State<XTextField<T>>
         padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 8.sp),
         decoration: BoxDecoration(
           borderRadius: getBorderRadius,
+          color: getInputColor,
           border: Border.all(
             width: 1.sp,
             color: AppColors.dividerColor,
@@ -603,9 +608,8 @@ class XTextFieldState<T> extends State<XTextField<T>>
       decoration: widget.inputDecoration ?? _getDecoration(context),
       obscureText: widget.obsureText,
       textAlign: widget.textAlign,
-      style: widget.style ?? AppFont.t.s(12),
+      style: widget.style ?? AppFont.t,
       onFieldSubmitted: widget.onSubmitted,
-      // onSubmitted: widget.onSubmitted,
       minLines: widget.minLines,
       validator: widget.validator,
       autocorrect: false,
@@ -666,8 +670,7 @@ class XTextFieldState<T> extends State<XTextField<T>>
       hintStyle: getHintStyle,
       errorText: widget.errorText,
       errorMaxLines: 3,
-      fillColor:
-          widget.isEditMode ? AppColors.transparent : AppColors.disabledColor,
+      fillColor: getInputColor,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
     );
@@ -684,12 +687,11 @@ class XTextFieldState<T> extends State<XTextField<T>>
       alignLabelWithHint: true,
       contentPadding: EdgeInsets.zero,
       filled: true,
-      // labelText: widget.isEditMode ? widget.labelText : null,
       hintText: widget.hintText,
       hintStyle: getHintStyle,
       errorText: widget.errorText,
       errorMaxLines: 3,
-      fillColor: widget.backgroundColor,
+      fillColor: getInputColor,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
     );
@@ -730,7 +732,7 @@ class XTextFieldState<T> extends State<XTextField<T>>
       errorMaxLines: 3,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
-      fillColor: widget.backgroundColor,
+      fillColor: getInputColor,
     );
   }
 
@@ -765,66 +767,11 @@ class XTextFieldState<T> extends State<XTextField<T>>
       hintStyle: getHintStyle,
       errorText: widget.errorText,
       errorMaxLines: 3,
-      fillColor: widget.backgroundColor,
+      fillColor: getInputColor,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
     );
   }
-
-  // OverlayEntry _createOverlayEntry() {
-  //   RenderBox renderBox = context.findRenderObject() as RenderBox;
-  //   var size = renderBox.size;
-
-  //   return OverlayEntry(
-  //     builder: (context) => Positioned(
-  //       width: size.width,
-  //       child: CompositedTransformFollower(
-  //         link: _layerLink,
-  //         showWhenUnlinked: false,
-  //         offset: Offset(0.0, size.height + 5.sp),
-  //         child: Material(
-  //           elevation: 1.0,
-  //           color: AppColors.white,
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.all(AppRadius.l),
-  //           ),
-  //           child: ValueListenableBuilder<List<T>?>(
-  //             valueListenable: items,
-  //             builder: (context, value, _) {
-  //               if (value?.isEmpty ?? true) {
-  //                 return BoxSpacer.blank;
-  //               }
-  //               return ConstrainedBox(
-  //                 constraints: BoxConstraints(
-  //                   maxHeight: 300.sp,
-  //                 ),
-  //                 child: ListView.separated(
-  //                   padding: EdgeInsets.zero.copyWith(
-  //                     top: 8.sp,
-  //                     bottom: 8.sp,
-  //                     left: 8.sp,
-  //                     right: 8.sp,
-  //                   ),
-  //                   physics: const BouncingScrollPhysics(),
-  //                   shrinkWrap: true,
-  //                   itemBuilder: (context, index) {
-  //                     final T item = value![index];
-  //                     return XBaseButton(
-  //                       onPressed: () => onSelectData(item),
-  //                       child: widget.itemSearchBuilder!(context, index, item),
-  //                     );
-  //                   },
-  //                   separatorBuilder: (context, index) => BoxSpacer.s8,
-  //                   itemCount: value?.length ?? 0,
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   ///--- method ---///
   void onSelectData(T dataSelected) {

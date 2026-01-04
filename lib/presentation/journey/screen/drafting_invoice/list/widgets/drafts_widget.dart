@@ -27,10 +27,12 @@ class _DraftsWidgetState extends State<DraftsWidget> {
       bloc: _draftingInvoicesBloc,
       builder: (context, state) {
         if (state is GetDraftingInvoicesLoading) {
-          return SizedBox(
-            width: 20.sp,
-            height: 20.sp,
-            child: const XLoading(),
+          return const Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              XLoading(),
+            ],
           );
         }
 

@@ -88,13 +88,18 @@ class XBasicDropDown<T> extends StatelessWidget {
   CustomDropdownDecoration? getDecoration(BuildContext ctx) =>
       decoration ??
       CustomDropdownDecoration(
+        closedBorderRadius: BorderRadius.all(AppRadius.xxl),
+        closedBorder: Border.all(color: AppColors.white),
+        closedFillColor: AppColors.white,
         searchFieldDecoration: SearchFieldDecoration(
-            textStyle: AppFont.t.s(12),
-            prefixIcon: Icon(
-              Icons.search,
-              size: 16.sp,
-              color: AppColors.neutralColor,
-            )),
+          textStyle: AppFont.t,
+          prefixIcon: Icon(
+            Icons.search,
+            size: 16.sp,
+            color: AppColors.neutralColor,
+          ),
+          fillColor: AppColors.white,
+        ),
       );
 
   CustomDropdownDisabledDecoration? get getDisabledDecoration =>

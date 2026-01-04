@@ -25,6 +25,11 @@ class DraftingStorageImpl extends DraftingStorage {
   }
 
   @override
+  Future<int> countTotalDraft() async {
+    return await isar.draftingInvoiceTables.count();
+  }
+
+  @override
   Future<List<DraftingInvoiceTable>> getCarts() async {
     try {
       final carts = await isar.draftingInvoiceTables

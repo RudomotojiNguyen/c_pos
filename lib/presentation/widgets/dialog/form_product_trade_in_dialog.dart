@@ -77,7 +77,6 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
             const HeaderDialog(title: 'Thông tin sản phẩm'),
             BoxSpacer.s16,
             _inputImei(),
-            // _productOfCompany(),
             BoxSpacer.s16,
             _productTradeIn(),
             BoxSpacer.s32,
@@ -167,9 +166,8 @@ class _FormProductTradeInDialogState extends State<FormProductTradeInDialog>
                     color: AppColors.white,
                     borderRadius: BorderRadius.all(AppRadius.xxm),
                   ),
-                  child: Center(
-                    child: SizedBox(
-                        width: 20.sp, height: 20.sp, child: const XLoading()),
+                  child: const Center(
+                    child: XLoading(),
                   ),
                 );
               }

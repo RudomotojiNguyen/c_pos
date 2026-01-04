@@ -60,26 +60,29 @@ class _CustomerBillInformationWidgetState
             title: state == null || state.gender == XGenderType.none
                 ? 'Khách hàng'
                 : 'Khách ${state.gender.getTitle}',
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                BoxSpacer.s4,
-                if (state == null || state.isNullCustomer) ...[
-                  BoxSpacer.s8,
-                  Text.rich(
-                    TextSpan(
-                      text: 'Thêm thông tin khách hàng để tiếp tục',
-                      style: AppFont.t.s(14).copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.neutral3Color,
-                          ),
+            child: XBaseButton(
+              onPressed: () => onPressedEdit(state),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  BoxSpacer.s4,
+                  if (state == null || state.isNullCustomer) ...[
+                    BoxSpacer.s8,
+                    Text.rich(
+                      TextSpan(
+                        text: 'Thêm thông tin khách hàng để tiếp tục',
+                        style: AppFont.t.s(14).copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.neutral3Color,
+                            ),
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ] else ...[
-                  _customerDetail(state),
+                  ] else ...[
+                    _customerDetail(state),
+                  ],
                 ],
-              ],
+              ),
             ),
           );
         },

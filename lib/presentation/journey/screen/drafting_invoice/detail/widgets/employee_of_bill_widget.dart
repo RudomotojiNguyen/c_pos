@@ -89,14 +89,6 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
                     ),
                     const XDivider(),
                     _renderEmployeeInfo(
-                      employee: employeeSubDetail.cdpk,
-                      title: 'Nhân viên CDPK',
-                      onPressed: () async {
-                        _onSelectCdpk(employees);
-                      },
-                    ),
-                    const XDivider(),
-                    _renderEmployeeInfo(
                       employee: employeeSubDetail.cashier,
                       title: 'Nhân viên thu ngân',
                       onPressed: () async {
@@ -106,7 +98,7 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
                     const XDivider(),
                     _renderEmployeeInfo(
                       employee: employeeSubDetail.manager,
-                      title: 'Nhân viên quản lý',
+                      title: 'Quản lý cửa hàng',
                       onPressed: () async {
                         _onSelectManager(employees);
                       },
@@ -114,17 +106,9 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
                     const XDivider(),
                     _renderEmployeeInfo(
                       employee: employeeSubDetail.assistant,
-                      title: 'Nhân viên trợ lý',
+                      title: 'Trợ lý cửa hàng',
                       onPressed: () async {
                         _onSelectAssistant(employees);
-                      },
-                    ),
-                    const XDivider(),
-                    _renderEmployeeInfo(
-                      employee: employeeSubDetail.receptionist,
-                      title: 'Nhân viên tiếp đón',
-                      onPressed: () async {
-                        _onSelectReceptionist(employees);
                       },
                     ),
                     const XDivider(),
@@ -221,20 +205,20 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
     }
   }
 
-  void _onSelectCdpk(List<EmployeeModel> employees) async {
-    final res = await showXBottomSheet(
-      context,
-      key: GlobalAppKey.selectEmployeeDialogKey,
-      maxHeight: 0.7.sh,
-      body: SearchEmployeeDialog(
-        employees: employees,
-      ),
-    );
+  // void _onSelectCdpk(List<EmployeeModel> employees) async {
+  //   final res = await showXBottomSheet(
+  //     context,
+  //     key: GlobalAppKey.selectEmployeeDialogKey,
+  //     maxHeight: 0.7.sh,
+  //     body: SearchEmployeeDialog(
+  //       employees: employees,
+  //     ),
+  //   );
 
-    if (res != null) {
-      _draftingInvoiceBloc.add(UpdateCdpkOfBillEvent(employee: res));
-    }
-  }
+  //   if (res != null) {
+  //     _draftingInvoiceBloc.add(UpdateCdpkOfBillEvent(employee: res));
+  //   }
+  // }
 
   void _onSelectCashier(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(
@@ -281,20 +265,20 @@ class _EmployeeOfBillWidgetState extends State<EmployeeOfBillWidget>
     }
   }
 
-  void _onSelectReceptionist(List<EmployeeModel> employees) async {
-    final res = await showXBottomSheet(
-      context,
-      key: GlobalAppKey.selectEmployeeDialogKey,
-      maxHeight: 0.7.sh,
-      body: SearchEmployeeDialog(
-        employees: employees,
-      ),
-    );
+  // void _onSelectReceptionist(List<EmployeeModel> employees) async {
+  //   final res = await showXBottomSheet(
+  //     context,
+  //     key: GlobalAppKey.selectEmployeeDialogKey,
+  //     maxHeight: 0.7.sh,
+  //     body: SearchEmployeeDialog(
+  //       employees: employees,
+  //     ),
+  //   );
 
-    if (res != null) {
-      _draftingInvoiceBloc.add(UpdateReceptionistOfBillEvent(employee: res));
-    }
-  }
+  //   if (res != null) {
+  //     _draftingInvoiceBloc.add(UpdateReceptionistOfBillEvent(employee: res));
+  //   }
+  // }
 
   void _onSelectDelivery(List<EmployeeModel> employees) async {
     final res = await showXBottomSheet(

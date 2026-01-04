@@ -1,3 +1,4 @@
+import 'package:c_pos/data/datasources/local_data/local_data.dart';
 import 'package:c_pos/presentation/mixins/mixins.dart';
 import 'package:c_pos/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends State<ProfileWidget> with DialogHelper {
   final AuthBloc _authBloc = getIt.get<AuthBloc>();
+  final DraftingStorage _draftingStorage = getIt.get<DraftingStorage>();
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +151,21 @@ class _ProfileWidgetState extends State<ProfileWidget> with DialogHelper {
     );
 
     if (res != null) {
-      _authBloc.add(UpdateCurrentUserCompanyEvent(company: res));
+      /// kiểm tra xem có đơn nháp không
+      final count = await _draftingStorage.countTotalDraft();
+      if (count > 0) {
+        /// nếu có đơn nháp thì hiện thông báo xóa đơn nháp
+        await showConfirmDialog(context,
+            contentWarning:
+                'Đổi công ty sẽ xóa tất cả đơn nháp hiện có. Bạn có muốn tiếp tục?',
+            onAccept: () async {
+          await _draftingStorage.clearCart();
+          _authBloc.add(UpdateCurrentUserCompanyEvent(company: res));
+        });
+      } else {
+        /// nếu không có đơn nháp thì cập nhật công ty
+        _authBloc.add(UpdateCurrentUserCompanyEvent(company: res));
+      }
     }
   }
 }

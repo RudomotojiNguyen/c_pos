@@ -114,9 +114,9 @@ class _OrderSubDetailWidgetState extends State<OrderSubDetailWidget> {
                   _orderType(),
                   BoxSpacer.s16,
                   _orderStatus(),
+                  BoxSpacer.s16,
+                  _orderSource(),
                 ],
-                BoxSpacer.s16,
-                _orderSource(),
               ],
             ),
           );

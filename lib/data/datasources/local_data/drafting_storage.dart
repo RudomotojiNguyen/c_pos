@@ -12,6 +12,9 @@ import '../local_db/local_db.dart';
 part 'impl/drafting_storage_impl.dart';
 
 abstract class DraftingStorage {
+  /// đếm số đơn nháp
+  Future<int> countTotalDraft();
+
   /// init đơn nháp
   Future<void> initDraftingLocalDb(Isar isar);
 

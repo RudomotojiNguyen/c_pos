@@ -285,14 +285,14 @@ class NetworkInterceptor extends InterceptorsWrapper with DialogHelper {
                 response.data['message'] ?? 'Tài khoản không còn hiệu lực');
         getIt.get<AuthBloc>().add(LogoutEvent());
         break;
-      case 500:
-        // XToast.showNegativeMessage(
-        //     message: response.data['message'] ?? 'Lỗi hệ thống');
-        throw DioException(
-          requestOptions: response.requestOptions,
-          type: DioExceptionType.unknown,
-          response: response,
-        );
+      // case 500:
+      //   XToast.showNegativeMessage(
+      //       message: response.data['message'] ?? 'Lỗi hệ thống');
+      // throw DioException(
+      //   requestOptions: response.requestOptions,
+      //   type: DioExceptionType.unknown,
+      //   response: response,
+      // );
       case 900:
         showWidgetDialog(
           key: GlobalAppKey.updateDialogKey,

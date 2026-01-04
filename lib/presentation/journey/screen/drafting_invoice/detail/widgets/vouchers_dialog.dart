@@ -99,10 +99,12 @@ class _VouchersDialogState extends State<VouchersDialog> {
       },
       builder: (context, state) {
         if (state is GetVoucherLoading) {
-          return SizedBox(
-            width: 20.sp,
-            height: 20.sp,
-            child: const XLoading(),
+          return const Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              XLoading(),
+            ],
           );
         }
         if (state is UpdateVouchersError) {
