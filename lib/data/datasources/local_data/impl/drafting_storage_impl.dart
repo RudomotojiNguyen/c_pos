@@ -284,9 +284,10 @@ class DraftingStorageImpl extends DraftingStorage {
   }
 
   @override
-  Future<int?> createNewCart({required CartType typeCart}) async {
+  Future<int?> createNewCart(
+      {required CartType typeCart, CustomerTable? customer}) async {
     // Tạo khách hàng mới
-    final newCustomer = CustomerTable();
+    final newCustomer = customer ?? CustomerTable();
 
     // Lấy thông tin người dùng
     final AuthModel? userInfo = getIt<AuthBloc>().state.userInfo;

@@ -28,7 +28,8 @@ abstract class DraftingStorage {
   Future<DraftingInvoiceTable?> getCart(int cartId);
 
   /// tạo đơn mới theo type được truyền vào
-  Future<int?> createNewCart({required CartType typeCart});
+  Future<int?> createNewCart(
+      {required CartType typeCart, CustomerTable? customer});
 
   /// cập nhật cửa hàng lên đơn
   Future<DraftingInvoiceTable?> updateCurrentStore({

@@ -1,21 +1,13 @@
+import 'package:c_pos/common/enum/enum.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:isar/isar.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'common/configs/configurations.dart';
 import 'common/constants/app_constants.dart';
 import 'common/di/injection/injection.dart';
-import 'common/utils/database_utils.dart';
-import 'data/datasources/local_data/local_data.dart';
-import 'data/datasources/local_db/local_db.dart';
-import 'presentation/common_bloc/supervisor_bloc.dart';
 import 'presentation/journey/app.dart';
-import 'presentation/utils/utils.dart';
 import 'presentation/widgets/widgets.dart';
 
 import 'firebase_options.dart' as prod;
@@ -26,68 +18,20 @@ Future<void> main() async {
   /// khởi tạo binding
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Determine which Firebase options to use based on the flavor
-  final firebaseOptions = switch (appFlavor) {
-    'prod' => prod.DefaultFirebaseOptions.currentPlatform,
-    'stag' => stg.DefaultFirebaseOptions.currentPlatform,
-    'dev' => dev.DefaultFirebaseOptions.currentPlatform,
-    _ => throw UnsupportedError('Invalid flavor: $appFlavor'),
-  };
-
-  /// khởi tạo firebase
-  await Firebase.initializeApp(options: firebaseOptions);
-
   /// khởi tạo các dependency injection và set môi trường
   await Injection.inject();
 
   Configurations configurations = getIt.get<Configurations>();
 
-  if (!kIsWeb) {
-    /// nếu không phải web th khởi tạo DB
-    await DatabaseUtil.initDatabase();
-  }
+  /// Determine which Firebase options to use based on the flavor
+  final firebaseOptions = switch (configurations.getEnvironment) {
+    XEnvironment.prod => prod.DefaultFirebaseOptions.currentPlatform,
+    XEnvironment.stag => stg.DefaultFirebaseOptions.currentPlatform,
+    XEnvironment.dev => dev.DefaultFirebaseOptions.currentPlatform,
+  };
 
-  await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
-  );
-
-  if (configurations.isProduct) {
-    /// nếu là production thì message không in ra
-    debugPrint = (String? message, {int? wrapWidth}) {};
-
-    /// lắng nghe lỗi bằng firebase crashlytic
-    // getIt.get<CrashlyticsServices>().listeningCrash();
-  }
-
-  ///set thiết bị luôn ở chế độ dọc
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  if (!configurations.isProduct) {
-    ///nếu không phải là production thì log data khi call bloc
-    Bloc.observer = SupervisorBloc();
-  }
-
-  /// khởi tạo isar để lưu trữ user
-  try {
-    final dir = await Utils.getAppDocumentDirectory();
-    Isar isar = await Isar.open(
-      [
-        UserTableSchema,
-        CustomerTableSchema,
-        DraftingInvoiceTableSchema,
-        ProductTableSchema,
-        PaymentMethodTableSchema,
-      ],
-      directory: dir,
-    );
-
-    /// lấy và set địa chỉ lưu trữ
-    await getIt.get<UserStorage>().initUserLocalDb(isar);
-    await getIt.get<DraftingStorage>().initDraftingLocalDb(isar);
-  } catch (e) {
-    debugPrint(e.toString());
-  }
+  /// khởi tạo firebase
+  await Firebase.initializeApp(options: firebaseOptions);
 
   if (configurations.isProduct) {
     await SentryFlutter.init(

@@ -212,8 +212,9 @@ final class AddProductAttachEvent extends DraftingInvoiceEvent {
 
 final class CreateNewDraftingInvoiceEvent extends DraftingInvoiceEvent {
   final CartType typeCart;
+  final CustomerTable? customer;
 
-  CreateNewDraftingInvoiceEvent({required this.typeCart});
+  CreateNewDraftingInvoiceEvent({required this.typeCart, this.customer});
 }
 
 final class UpdateCurrentStoreEvent extends DraftingInvoiceEvent {

@@ -1,8 +1,10 @@
 import 'package:c_pos/common/di/injection/injection.dart';
 import 'package:c_pos/presentation/journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 import '../../../data/datasources/local_data/local_data.dart';
 import '../../../data/services/services.dart';
+import '../../../presentation/common_bloc/network/internet_bloc.dart';
 import '../../../presentation/journey/screen/address/bloc/address_bloc.dart';
 import '../../../presentation/journey/screen/bill/list/bloc/bill_bloc.dart';
 import '../../../presentation/journey/screen/commission/bloc/affiliate_bloc.dart';
@@ -28,6 +30,7 @@ class BlocModule extends DIModule {
   @override
   Future<void> provides() async {
     getIt
+      ..registerLazySingleton(() => InternetBloc(Connectivity()))
       ..registerLazySingleton(() => AuthBloc(
           authServices: getIt.get<AuthServices>(),
           localStorage: getIt.get<LocalStorage>(),

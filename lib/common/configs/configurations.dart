@@ -24,6 +24,11 @@ class Configurations {
   String? _deepLink;
   String deviceType = '2';
 
+  Future<void> init() async {
+    await setConfigurationValues();
+    await setUrlConfig();
+  }
+
   Future<void> setConfigurationValues() async {
     switch (appFlavor) {
       case 'prod':
@@ -75,6 +80,8 @@ class Configurations {
     _baseWriteUrl = data['baseUrlWrite'] ?? '';
     _s3BaseUrl = data['s3BaseUrl'] ?? '';
   }
+
+  XEnvironment get getEnvironment => _env;
 
   setDeepLink(String? value) => _deepLink = value;
 

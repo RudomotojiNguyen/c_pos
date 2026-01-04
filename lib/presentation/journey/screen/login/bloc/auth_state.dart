@@ -22,7 +22,7 @@ sealed class AuthState extends Equatable {
   String get getUserStoreName => userInfo?.getStoreName ?? '';
 
   /// lưu lại sau
-  int get getUserCompanyId => userCompany?.id ?? -1;
+  int? get getUserCompanyId => userCompany?.id;
 }
 
 final class AuthInitial extends AuthState {}

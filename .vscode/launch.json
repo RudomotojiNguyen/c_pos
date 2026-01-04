@@ -1,35 +1,50 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "prod",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--flavor",
-                "prod"
-            ]
-        },
-        {
-            "name": "stag",
-            "request": "launch", 
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--flavor",
-                "stag"
-            ]
-        },
-        {
-            "name": "dev",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--flavor",
-                "dev"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "prod",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "prod"]
+    },
+    {
+      "name": "stag",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "stag"]
+    },
+    {
+      "name": "dev",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "dev"]
+    },
+    {
+      "name": "prod (web)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "args": ["--dart-define=APP_FLAVOR=prod"]
+    },
+    {
+      "name": "stag (web)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "args": ["--dart-define=APP_FLAVOR=stag"]
+    },
+    {
+      "name": "dev (web)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "args": ["--dart-define=APP_FLAVOR=dev"]
+    }
+  ]
 }

@@ -6,12 +6,15 @@ import '../../../common/constants/go_router.dart';
 import '../../../common/di/injection/injection.dart';
 import '../../../common/enum/enum.dart';
 import '../../../common/extensions/extension.dart';
+import '../../../data/datasources/local_db/local_db.dart';
 import '../../journey/router.dart';
 import '../../journey/screen/drafting_invoice/detail/bloc/drafting_invoice_bloc.dart';
 import '../button/x_button.dart';
 
 class OperationCreateDialog extends StatefulWidget {
-  const OperationCreateDialog({super.key});
+  const OperationCreateDialog({super.key, this.customer});
+
+  final CustomerTable? customer;
 
   @override
   State<OperationCreateDialog> createState() => _OperationCreateDialogState();
@@ -44,8 +47,8 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
               title: CartType.order.getTitle,
               icon: CartType.order.getIcon(),
               onPressed: () async {
-                _draftingInvoiceBloc.add(
-                    CreateNewDraftingInvoiceEvent(typeCart: CartType.order));
+                _draftingInvoiceBloc.add(CreateNewDraftingInvoiceEvent(
+                    typeCart: CartType.order, customer: widget.customer));
               },
             ),
             BoxSpacer.s2,
@@ -53,8 +56,8 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
               title: CartType.retail.getTitle,
               icon: CartType.retail.getIcon(),
               onPressed: () async {
-                _draftingInvoiceBloc.add(
-                    CreateNewDraftingInvoiceEvent(typeCart: CartType.retail));
+                _draftingInvoiceBloc.add(CreateNewDraftingInvoiceEvent(
+                    typeCart: CartType.retail, customer: widget.customer));
               },
             ),
             BoxSpacer.s2,
@@ -62,8 +65,8 @@ class _OperationCreateDialogState extends State<OperationCreateDialog> {
               title: CartType.tradeIn.getTitle,
               icon: CartType.tradeIn.getIcon(),
               onPressed: () async {
-                _draftingInvoiceBloc.add(
-                    CreateNewDraftingInvoiceEvent(typeCart: CartType.tradeIn));
+                _draftingInvoiceBloc.add(CreateNewDraftingInvoiceEvent(
+                    typeCart: CartType.tradeIn, customer: widget.customer));
               },
             ),
           ],

@@ -406,8 +406,8 @@ class DraftingInvoiceBloc
       Emitter<DraftingInvoiceState> emit) async {
     try {
       XToast.loading();
-      final result =
-          await draftingStorage.createNewCart(typeCart: event.typeCart);
+      final result = await draftingStorage.createNewCart(
+          typeCart: event.typeCart, customer: event.customer);
       if (result != null) {
         emit(DraftingInvoiceCreated(state: state, currentDraftId: result));
       } else {

@@ -62,7 +62,7 @@ class XToast {
     toastification.show(
       type: toastificationType,
       style: ToastificationStyle.fillColored,
-      autoCloseDuration: const Duration(seconds: 5),
+      autoCloseDuration: const Duration(seconds: 3),
       title: title.isNotNullOrEmpty ? Text(title!) : null,
       description: RichText(text: TextSpan(text: description)),
       alignment: Alignment.topRight,

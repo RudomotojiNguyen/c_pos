@@ -137,7 +137,9 @@ class _CustomerInfoState extends State<CustomerInfo> with DialogHelper {
             showXBottomSheet(
               context,
               key: GlobalAppKey.selectBillTypeDialogKey,
-              body: const OperationCreateDialog(),
+              body: OperationCreateDialog(
+                customer: widget.customer.convertToTable,
+              ),
             );
           },
         ),

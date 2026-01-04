@@ -199,7 +199,7 @@ class NetworkInterceptor extends InterceptorsWrapper with DialogHelper {
       final isAccessTokenValid = await _isAccessTokenValid;
 
       if (isAccessTokenValid) {
-        final companyId = getIt.get<AuthBloc>().state.userCompany?.id;
+        final companyId = getIt.get<AuthBloc>().state.getUserCompanyId;
 
         options.headers.addAll(await _buildHeaders());
         options.headers['device-type'] = deviceType;
@@ -286,8 +286,8 @@ class NetworkInterceptor extends InterceptorsWrapper with DialogHelper {
         getIt.get<AuthBloc>().add(LogoutEvent());
         break;
       case 500:
-        XToast.showNegativeMessage(
-            message: response.data['message'] ?? 'Lỗi hệ thống');
+        // XToast.showNegativeMessage(
+        //     message: response.data['message'] ?? 'Lỗi hệ thống');
         throw DioException(
           requestOptions: response.requestOptions,
           type: DioExceptionType.unknown,

@@ -7,7 +7,7 @@ import '../../common/network/exceptions/app_exception.dart';
 import '../widgets/widgets.dart';
 
 mixin HandleException {
-  void handleResponseException(dynamic e) {
+  void handleResponseException(dynamic e, {String? key}) {
     debugPrint('>>>>> HandleException: ${e.toString()}');
     if (e is String) {
       XToast.showNegativeMessage(message: e.toString());
